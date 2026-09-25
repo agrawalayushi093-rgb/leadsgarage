@@ -30,6 +30,11 @@ export default function Home() {
         <Hero onOpenContact={handleOpenContact} />
         <ServicesShowcase onOpenContact={handleOpenContact} />
         <WhyChooseUs onOpenContact={handleOpenContact} />
+        <QualityControl />
+        <AudienceSegments onOpenContact={handleOpenContact} />
+        <EcosystemNetwork />
+        <LeadershipTeam />
+        <DashboardCTA onOpenContact={handleOpenContact} />
       </main>
 
       <Footer onOpenContact={handleOpenContact} />
