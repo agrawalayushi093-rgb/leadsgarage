@@ -31,21 +31,21 @@ export default function WhyChooseUs({ onOpenContact }) {
   ];
 
   return (
-    <section id="solutions" className="pt-16 sm:pt-20 lg:pt-24 pb-4 sm:pb-6 bg-[#FDFBF7] relative">
+    <section id="solutions" className="pt-12 sm:pt-16 lg:pt-20 pb-16 lg:pb-24 bg-[#FDFBF7] relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Title */}
-        <div className="text-center max-w-5xl mx-auto mb-10 sm:mb-14">
+        {/* Sticky Header: Remains 100% visible at the top while slides/cards stack underneath */}
+        <div className="sticky top-16 sm:top-20 z-40 bg-[#FDFBF7]/95 backdrop-blur-md pt-4 pb-6 text-center max-w-5xl mx-auto transition-all">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-5xl font-black text-slate-900 tracking-tight sm:whitespace-nowrap">
             Why Leading Brands Choose LeadsGarage
           </h2>
-          <p className="text-base sm:text-lg text-slate-600 font-medium mt-3">
+          <p className="text-sm sm:text-base md:text-lg text-slate-600 font-medium mt-2">
             Powerful solutions. Smarter strategies. Measurable growth for your business.
           </p>
         </div>
 
-        {/* Stacking Cards Scroll Container */}
-        <div className="relative space-y-6 sm:space-y-8 pb-4 sm:pb-6">
+        {/* Stacking Cards Container: Cards stack cleanly below the sticky heading */}
+        <div className="relative space-y-6 sm:space-y-8 pt-4 pb-12">
           {cards.map((card, idx) => (
             <motion.div
               key={card.id}
@@ -55,7 +55,7 @@ export default function WhyChooseUs({ onOpenContact }) {
               transition={{ duration: 0.5, delay: idx * 0.05 }}
               className="sticky w-full flex justify-center cursor-pointer group"
               style={{
-                top: `calc(90px + ${idx * 24}px)`,
+                top: `calc(190px + ${idx * 20}px)`,
                 zIndex: idx + 10
               }}
               onClick={onOpenContact}
@@ -64,7 +64,7 @@ export default function WhyChooseUs({ onOpenContact }) {
                 <img
                   src={card.image}
                   alt={card.title}
-                  className="w-full h-auto object-contain mix-blend-multiply"
+                  className="w-full h-auto object-contain mix-blend-multiply drop-shadow-md"
                 />
               </div>
             </motion.div>
