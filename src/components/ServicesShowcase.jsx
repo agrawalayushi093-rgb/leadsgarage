@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ServicesShowcase({ onOpenContact }) {
   const [activeStep, setActiveStep] = useState(0);
@@ -20,25 +21,25 @@ export default function ServicesShowcase({ onOpenContact }) {
     {
       id: 'list-management',
       title: 'List Management',
-      subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
+      subtitle: 'Clean, verified, and well-managed lists that improve reach, Inbox deliverability, and ROI.',
       cardImage: '/image/Home/section2/list_management.png',
     },
     {
       id: 'crm',
       title: 'CRM Consultation',
-      subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
+      subtitle: 'Streamline customer journeys with tailored CRM strategies, platform setup, and workflow automation.',
       cardImage: '/image/Home/section2/crm.png',
     },
     {
       id: 'web-dev',
       title: 'Web Development',
-      subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
+      subtitle: 'High-performing websites, landing pages, and web tools built to convert visitors and scale your business.',
       cardImage: '/image/Home/section2/web_development.png',
     },
     {
       id: 'smm',
       title: 'SMM',
-      subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
+      subtitle: 'Engage and grow your brand audience through targeted social media marketing and performance ad campaigns.',
       cardImage: '/image/Home/section2/smm.png',
     },
   ];
@@ -79,25 +80,29 @@ export default function ServicesShowcase({ onOpenContact }) {
       {/* Sticky Container */}
       <div className="sticky top-24 lg:top-28 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main Card Box matching media_1790185457639.png & media_1790185457646.png 1:1 */}
-        <div className="bg-[#FFFDF9] rounded-[2.5rem] lg:rounded-[3rem] px-6 sm:px-10 lg:px-12 py-4 sm:py-6 lg:py-8 border border-slate-100 shadow-xl relative overflow-hidden">
+        {/* Main Card Box matching Figma 1:1 */}
+        <div className="bg-[#FFFDF9] rounded-[2.5rem] lg:rounded-[3rem] px-6 sm:px-10 lg:px-12 py-6 sm:py-8 lg:py-10 border border-slate-100 shadow-xl relative overflow-hidden">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
-            {/* Left Column: 3D Image Graphic */}
-            <div className="lg:col-span-6 relative flex justify-center lg:justify-start">
-              
-              <div className="relative w-full max-w-md h-auto max-h-[320px] sm:max-h-[360px] rounded-3xl flex items-center justify-center">
-                
-                {/* 3D Colored Graphic Asset */}
-                <img
-                  src={currentService.cardImage}
-                  alt={currentService.title}
-                  className="w-full h-auto max-h-[320px] sm:max-h-[360px] object-contain object-center drop-shadow-xl"
-                />
-
-              </div>
-
+            {/* Left Column: 3D Image Graphic with Smooth Motion Transition */}
+            <div className="lg:col-span-6 relative flex justify-center lg:justify-start min-h-[280px] sm:min-h-[340px] items-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentService.id}
+                  initial={{ opacity: 0, scale: 0.92, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className="relative w-full max-w-md flex items-center justify-center"
+                >
+                  <img
+                    src={currentService.cardImage}
+                    alt={currentService.title}
+                    className="w-full h-auto max-h-[300px] sm:max-h-[360px] object-contain object-center drop-shadow-xl"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Middle Column: Vertical 6-Dot Step Timeline matching screenshots */}
@@ -120,9 +125,12 @@ export default function ServicesShowcase({ onOpenContact }) {
                     >
                       {isActive ? (
                         /* Active Green Dot matching screenshot */
-                        <div className="w-5 h-5 rounded-full bg-[#10B981] ring-4 ring-emerald-100 shadow-md flex items-center justify-center transition-all duration-300">
+                        <motion.div
+                          layoutId="activeGreenDot"
+                          className="w-5 h-5 rounded-full bg-[#10B981] ring-4 ring-emerald-100 shadow-md flex items-center justify-center transition-all duration-300"
+                        >
                           <div className="w-2 h-2 rounded-full bg-white"></div>
-                        </div>
+                        </motion.div>
                       ) : (
                         /* Hollow Grey Circle matching screenshot */
                         <div className="w-4 h-4 rounded-full bg-white border-2 border-slate-300 transition-all duration-300 hover:border-slate-400 hover:scale-110"></div>
@@ -142,10 +150,32 @@ export default function ServicesShowcase({ onOpenContact }) {
                 Do For You?
               </h2>
 
-              <p className="text-sm sm:text-base text-slate-600 font-medium mt-3 leading-relaxed">
-                One Partner. Multiple Solutions. <br />
-                Built Around Your Goals.
-              </p>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentService.id}
+                  initial={{ opacity: 0, x: 15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -15 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-2"
+                >
+                  <span className="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold border border-blue-100">
+                    {currentService.title}
+                  </span>
+
+                  <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+                    {currentService.subtitle}
+                  </p>
+
+                  <button
+                    onClick={onOpenContact}
+                    className="mt-3 inline-flex items-center gap-2 text-xs font-extrabold text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                  >
+                    <span>Learn More About {currentService.title}</span>
+                    <span>&rarr;</span>
+                  </button>
+                </motion.div>
+              </AnimatePresence>
 
             </div>
 
@@ -173,3 +203,4 @@ export default function ServicesShowcase({ onOpenContact }) {
     </section>
   );
 }
+

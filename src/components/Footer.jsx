@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, MapPin, Mail, Phone, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { ArrowRight, MapPin, Mail, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 export default function Footer({ onOpenContact }) {
   const columns = [
@@ -9,18 +9,18 @@ export default function Footer({ onOpenContact }) {
         { name: 'Brands', href: '#audience' },
         { name: 'Publisher', href: '#audience' },
         { name: 'Lead Buyer', href: '#audience' },
-      ]
+      ],
     },
     {
       title: 'Solutions',
       links: [
         { name: 'Affiliate Marketing', href: '#services' },
         { name: 'Email & SMS', href: '#services' },
-        { name: 'List Management', href: '#services' },
+        { name: 'List management', href: '#services' },
         { name: 'CRM Consultation', href: '#services' },
-        { name: 'Web Dev', href: '#services' },
+        { name: 'Web Dev.', href: '#services' },
         { name: 'SMM', href: '#services' },
-      ]
+      ],
     },
     {
       title: 'Industry',
@@ -31,8 +31,8 @@ export default function Footer({ onOpenContact }) {
         { name: 'Home Service', href: '#solutions' },
         { name: 'Nutra', href: '#solutions' },
         { name: 'E-Comm', href: '#solutions' },
-        { name: 'i-Game', href: '#solutions' },
-      ]
+        { name: 'I-Game', href: '#solutions' },
+      ],
     },
     {
       title: 'Company',
@@ -43,104 +43,154 @@ export default function Footer({ onOpenContact }) {
         { name: 'Term & Condition', href: '#' },
         { name: 'Privacy Policy', href: '#' },
         { name: 'CA Privacy Right', href: '#' },
-      ]
+      ],
     },
   ];
 
   return (
-    <footer className="bg-white text-slate-700 pt-16 pb-12 border-t border-slate-200/80 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Top 5 Column Footer Grid Matching Figma */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 pb-12 border-b border-slate-100">
-          
-          {columns.map((col) => (
-            <div key={col.title} className="space-y-4">
-              <h4 className="text-sm font-extrabold text-slate-900 tracking-tight uppercase">
-                {col.title}
-              </h4>
-              <ul className="space-y-2.5">
-                {col.links.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      className="text-xs font-semibold text-slate-600 hover:text-blue-600 transition-colors"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+    <footer className="footer-section relative w-full overflow-hidden pt-48 sm:pt-64 lg:pt-[22rem] pb-16 lg:pb-24">
+      
+      {/* 1. First Instance of Image: Top Showcase Gallery Artwork */}
+      <div className="absolute top-0 inset-x-0 h-[70%] pointer-events-none z-0 overflow-hidden">
+        <img
+          src="/image/Home/footer/Group 40027.png"
+          alt="Showcase Gallery & Earth Horizon Background Top"
+          className="w-full h-full object-cover object-top"
+        />
+      </div>
 
-          {/* Column 5: Contact Info */}
-          <div className="space-y-4 col-span-2 md:col-span-1">
-            <h4 className="text-sm font-extrabold text-slate-900 tracking-tight uppercase">
-              Location & Contact
-            </h4>
-            <div className="space-y-3 text-xs font-semibold text-slate-600">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-                <span>123 Digital Ave, Tech City, TC 12345</span>
+      {/* 2. Second Instance of Image: Bottom Horizon Extension (Seamlessly Blended) */}
+      <div className="absolute bottom-0 inset-x-0 h-[65%] pointer-events-none z-0 overflow-hidden">
+        <img
+          src="/image/Home/footer/Group 40027.png"
+          alt="Showcase Gallery & Earth Horizon Background Bottom"
+          className="w-full h-full object-cover object-bottom"
+          style={{
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 30%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 30%, black 100%)',
+          }}
+        />
+      </div>
+
+      {/* 3. Shadow Overlay for Depth */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-15 mix-blend-multiply">
+        <img
+          src="/image/Home/footer/Rectangle 2344.png"
+          alt="Shadow Overlay"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* 3. Floating White Footer Card */}
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
+        <div className="bg-white/95 backdrop-blur-sm rounded-[2.5rem] p-8 sm:p-10 lg:p-12 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)] border border-slate-100">
+          
+          {/* 5 Columns Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 pb-10">
+            {columns.map((col) => (
+              <div key={col.title} className="space-y-4">
+                <h4 className="text-xs font-extrabold text-slate-900 tracking-wide uppercase">
+                  {col.title}
+                </h4>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link.name} className="flex items-start gap-1.5">
+                      <span className="text-slate-400 text-xs font-bold select-none">•</span>
+                      <a
+                        href={link.href}
+                        className="text-xs font-medium text-slate-600 hover:text-[#00E599] transition-colors"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-blue-600 shrink-0" />
-                <a href="mailto:Support@Leadsgarage.com" className="hover:text-blue-600 transition-colors">
-                  Support@Leadsgarage
-                </a>
+            ))}
+
+            {/* Column 5: Address & Contact */}
+            <div className="space-y-4 col-span-2 md:col-span-1">
+              <div className="space-y-4 text-xs font-medium text-slate-600 pt-1">
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                    <MapPin className="w-3.5 h-3.5 text-slate-600" />
+                  </div>
+                  <span className="text-xs leading-relaxed text-slate-600 font-medium">
+                    123 Digital Ave, Tech City, TC 12345
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                    <Mail className="w-3.5 h-3.5 text-slate-600" />
+                  </div>
+                  <a
+                    href="mailto:Support@Leadsgarage"
+                    className="text-xs font-medium text-slate-600 hover:text-[#00E599] transition-colors"
+                  >
+                    Support@Leadsgarage
+                  </a>
+                </div>
               </div>
+            </div>
+          </div>
+
+          {/* Separator Line */}
+          <div className="border-t border-slate-100 my-6"></div>
+
+          {/* Bottom Row */}
+          <div className="pt-2 flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* Left: SVG Logo & Copyright */}
+            <div className="flex flex-col gap-1.5 text-center md:text-left items-center md:items-start">
+              <a href="#" className="inline-block">
+                <img
+                  src="/image/Home/footer/Leads_Garage_Logo.svg"
+                  alt="Leads Garage Logo"
+                  className="h-7 w-auto object-contain"
+                />
+              </a>
+              <span className="text-[11px] font-normal text-slate-400">
+                &copy; 2026 Leads Garage. All rights reserved.
+              </span>
+            </div>
+
+            {/* Center: Social Buttons */}
+            <div className="flex items-center gap-3">
+              {[
+                { icon: Facebook, label: 'Facebook' },
+                { icon: Twitter, label: 'Twitter' },
+                { icon: Linkedin, label: 'LinkedIn' },
+                { icon: Instagram, label: 'Instagram' },
+              ].map((item, idx) => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={idx}
+                    href="#"
+                    className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:text-[#00E599] hover:border-[#00E599] transition-all"
+                    aria-label={item.label}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                  </a>
+                );
+              })}
+            </div>
+
+            {/* Right: Contact Us Button */}
+            <div>
+              <button
+                onClick={onOpenContact}
+                className="inline-flex items-center gap-3 pl-6 pr-2 py-2 rounded-full font-bold text-xs text-slate-900 bg-[#00E599] hover:bg-[#00D68F] shadow-md transition-all transform hover:scale-105 cursor-pointer"
+              >
+                <span>Contact Us</span>
+                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-slate-900 shadow-sm">
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </button>
             </div>
           </div>
 
         </div>
-
-        {/* Bottom Bar matching Figma Logo, Copyright, Socials, and Green Contact Us Pill */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          
-          {/* Logo & Copyright */}
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <a href="#" className="flex items-center gap-2 group">
-              <img 
-                src="/image/leads-garage.png" 
-                alt="Leads Garage" 
-                className="h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
-              />
-            </a>
-            <span className="text-xs font-medium text-slate-400">
-              © 2026 Leads Garage. All rights reserved.
-            </span>
-          </div>
-
-          {/* Social Icons */}
-          <div className="flex items-center gap-4 text-slate-400">
-            <a href="#" className="hover:text-blue-600 transition-colors" aria-label="Facebook">
-              <Facebook className="w-4 h-4" />
-            </a>
-            <a href="#" className="hover:text-blue-600 transition-colors" aria-label="Twitter">
-              <Twitter className="w-4 h-4" />
-            </a>
-            <a href="#" className="hover:text-blue-600 transition-colors" aria-label="LinkedIn">
-              <Linkedin className="w-4 h-4" />
-            </a>
-            <a href="#" className="hover:text-blue-600 transition-colors" aria-label="Instagram">
-              <Instagram className="w-4 h-4" />
-            </a>
-          </div>
-
-          {/* Green Contact Us Pill Button matching Figma */}
-          <div>
-            <button
-              onClick={onOpenContact}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-xs text-white bg-emerald-500 hover:bg-emerald-600 shadow-md transition-all cursor-pointer"
-            >
-              <span>Contact Us</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-        </div>
-
       </div>
     </footer>
   );

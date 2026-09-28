@@ -31,11 +31,11 @@ export default function WhyChooseUs({ onOpenContact }) {
   ];
 
   return (
-    <section id="solutions" className="py-16 sm:py-20 lg:py-24 bg-[#FDFBF7] relative">
+    <section id="solutions" className="pt-16 sm:pt-20 lg:pt-24 pb-4 sm:pb-6 bg-[#FDFBF7] relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Title */}
-        <div className="text-center max-w-5xl mx-auto mb-12 sm:mb-16">
+        <div className="text-center max-w-5xl mx-auto mb-10 sm:mb-14">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-5xl font-black text-slate-900 tracking-tight sm:whitespace-nowrap">
             Why Leading Brands Choose LeadsGarage
           </h2>
@@ -45,7 +45,7 @@ export default function WhyChooseUs({ onOpenContact }) {
         </div>
 
         {/* Stacking Cards Scroll Container */}
-        <div className="relative space-y-8 sm:space-y-12 pb-16">
+        <div className="relative space-y-6 sm:space-y-8 pb-4 sm:pb-6">
           {cards.map((card, idx) => (
             <motion.div
               key={card.id}

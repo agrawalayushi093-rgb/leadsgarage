@@ -1,177 +1,306 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ShieldCheck, CheckCircle2, Smartphone, Lock, AlertTriangle, Cpu, Globe, Eye } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ShieldCheck, CheckCircle2, TrendingUp, Check } from 'lucide-react';
 
 export default function QualityControl() {
-  const [activeTab, setActiveTab] = useState(2); // Center dot active
+  const [activeTab, setActiveTab] = useState(2); // Center dot active default
 
   const tabs = [
-    { title: 'Bot Protection', desc: 'Real-time bot & fraud detection' },
-    { title: 'Contextual Guard', desc: 'Brand safety and content filtering' },
-    { title: 'Quality Control', desc: '100% Verified clean traffic' },
-    { title: 'Geo Compliance', desc: 'Location and ISP verification' },
-    { title: 'MFA Protection', desc: 'Domain arbitrage protection' },
+    { 
+      id: 'bot', 
+      title: 'Bot Protection', 
+      desc: 'Real-time bot & invalid traffic (IVT) detection filtering non-human impressions before delivery.'
+    },
+    { 
+      id: 'contextual', 
+      title: 'Contextual Guard', 
+      desc: 'Smart placement verification ensuring your campaigns run on brand-safe and high-intent media.'
+    },
+    { 
+      id: 'quality', 
+      title: 'Quality Control', 
+      desc: 'Premium placements with every impression protected from bots, unsafe content, and domain-arbitrage traffic.'
+    },
+    { 
+      id: 'geo', 
+      title: 'Geo Compliance', 
+      desc: 'Strict IP, ISP, and geo-fencing compliance to ensure your leads originate from targeted geographic regions.'
+    },
+    { 
+      id: 'mfa', 
+      title: 'MFA Protection', 
+      desc: 'Made-For-Arbitrage (MFA) site filter shielding budget from low-engagement automated content sites.'
+    },
   ];
 
-  return (
-    <section id="quality" className="py-20 lg:py-28 bg-[#FDFBF7] relative overflow-hidden">
-      
-      {/* Background radial highlight */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-100/50 rounded-full blur-3xl pointer-events-none"></div>
+  const currentTab = tabs[activeTab];
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+  return (
+    <section id="quality" className="pt-4 sm:pt-6 lg:pt-8 pb-20 lg:pb-28 bg-[#FDFBF7] relative overflow-hidden">
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
+        {/* Main Section Heading */}
+        <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
             Why We Deliver Better Results
           </h2>
           
-          {/* 5-Dot Navigation Carousel Matching Figma */}
-          <div className="flex items-center justify-center gap-2.5 mt-6 mb-8">
-            {tabs.map((tab, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveTab(idx)}
-                className={`transition-all duration-300 rounded-full ${
-                  activeTab === idx 
-                    ? 'w-10 h-3 bg-emerald-500 shadow-md' 
-                    : 'w-3 h-3 bg-slate-300 hover:bg-slate-400'
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
+          {/* Horizontal Dashed Line with 5 Center Dots Matching Screenshot 1:1 */}
+          <div className="relative flex items-center justify-center my-8">
+            <div className="absolute inset-0 flex items-center pointer-events-none">
+              <div className="w-full border-t border-dashed border-slate-300"></div>
+            </div>
+            
+            <div className="relative z-10 bg-[#FDFBF7] px-6 flex items-center gap-3">
+              {tabs.map((tab, idx) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(idx)}
+                  className={`transition-all duration-300 rounded-full cursor-pointer focus:outline-none ${
+                    activeTab === idx 
+                      ? 'w-4 h-4 bg-[#10B981] ring-4 ring-emerald-100 shadow-md scale-110' 
+                      : 'w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                  aria-label={`Go to ${tab.title}`}
+                />
+              ))}
+            </div>
           </div>
 
-          <span className="text-xs font-bold tracking-widest text-emerald-600 uppercase bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-100">
-            {tabs[activeTab].title}
-          </span>
+          {/* Sub Title & Description */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentTab.id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-2 mb-12"
+            >
+              <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
+                {currentTab.title}
+              </h3>
 
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">
-            100% Clean Traffic Guarantee
-          </h3>
-
-          <p className="text-base text-slate-600 font-medium max-w-xl mx-auto mt-2">
-            Premium placements with every impression protected from bots, unsafe content, and domain-arbitrage traffic.
-          </p>
+              <p className="text-sm sm:text-base text-slate-600 font-medium max-w-lg mx-auto leading-relaxed">
+                {currentTab.desc}
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* 3 Mobile Phone Mockups Showcase matching Figma layout */}
-        <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-6 lg:gap-8">
+        {/* 5 Phone Cards Fan-Out Carousel Matching Screenshot 1:1 */}
+        <div className="mt-8 relative flex items-center justify-center min-h-[460px] sm:min-h-[520px] overflow-hidden py-4">
           
-          {/* Left Phone Mockup */}
+          {/* Phone 1: Far Left Outer Outline (Faded Silhouette) */}
+          <div className="hidden xl:block absolute left-[2%] top-1/2 -translate-y-1/2 w-64 h-[380px] rounded-[2.8rem] border-2 border-slate-200/60 bg-white/40 backdrop-blur-[2px] opacity-40 transform -rotate-6 scale-90 z-0 pointer-events-none"></div>
+
+          {/* Phone 2: Mid Left Blue Card */}
           <motion.div
-            initial={{ opacity: 0, x: -30, scale: 0.9 }}
-            whileInView={{ opacity: 1, x: 0, scale: 0.95 }}
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="w-full max-w-xs bg-gradient-to-b from-blue-600 to-indigo-700 rounded-[2.5rem] p-4 text-white shadow-xl border-4 border-slate-200 hidden md:block"
+            className="hidden md:block absolute left-[12%] lg:left-[16%] top-1/2 -translate-y-1/2 w-72 lg:w-80 bg-gradient-to-b from-[#0A62F0] to-[#004ACC] rounded-[2.5rem] p-5 text-white shadow-2xl border border-white/20 transform -translate-x-6 scale-95 z-10"
           >
-            <div className="bg-slate-900/40 backdrop-blur-md rounded-[2rem] p-5 border border-white/20">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] uppercase font-bold text-blue-200">Targeting Engine</span>
-                <span className="text-xs font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-full">
-                  +34% Propensity
-                </span>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-xl bg-[#10B981] flex items-center justify-center shadow-md">
+                <TrendingUp className="w-5 h-5 text-white" />
               </div>
-              <div className="space-y-3">
-                <div className="p-3 rounded-xl bg-white/10 text-xs">
-                  <span className="block text-slate-300 font-medium text-[10px]">IVT Filtering</span>
-                  <span className="font-bold text-emerald-400">100% Clean</span>
+              <div>
+                <span className="text-xs font-black text-white block">+34%</span>
+                <span className="text-[10px] text-blue-100 font-medium block -mt-1">Propensity Score</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {/* Inner Box 1 */}
+              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-3 border border-white/20">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-white">Targeting Engine</span>
+                  <span className="text-[9px] font-black text-white bg-[#10B981] px-2 py-0.5 rounded-full">LIVE</span>
                 </div>
-                <div className="p-3 rounded-xl bg-white/10 text-xs">
-                  <span className="block text-slate-300 font-medium text-[10px]">Contextual Guard</span>
-                  <span className="font-bold text-blue-300">Active</span>
+                <div className="flex items-center gap-2">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=80" alt="Avatar" className="w-5 h-5 rounded-full object-cover" />
+                  <span className="text-xs font-bold text-blue-100">Tech Seekers</span>
                 </div>
               </div>
-              <div className="mt-6 text-center text-[11px] font-bold text-blue-200 border-t border-white/10 pt-3">
-                Leads <span className="text-white">Garage</span>
+
+              {/* Inner Box 2 */}
+              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-white">Targeting Engine</span>
+                  <span className="text-[9px] font-black text-white bg-[#10B981] px-2 py-0.5 rounded-full">LIVE</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=80" alt="Avatar" className="w-5 h-5 rounded-full object-cover" />
+                    <div>
+                      <span className="font-bold text-white block text-[11px]">Tech Seekers</span>
+                      <span className="text-[9px] text-blue-200 block -mt-0.5">LTV: High &bull; Match 98%</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-xs border-t border-white/10 pt-1.5">
+                  <div className="flex items-center gap-2">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=80" alt="Avatar" className="w-5 h-5 rounded-full object-cover" />
+                    <div>
+                      <span className="font-bold text-white block text-[11px]">Early Adopters</span>
+                      <span className="text-[9px] text-blue-200 block -mt-0.5">LTV: Med &bull; Match 91%</span>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            <div className="mt-5 text-center text-xs font-black tracking-wide text-white border-t border-white/15 pt-3">
+              Leads <span className="text-[#00E599]">Garage</span>
             </div>
           </motion.div>
 
-          {/* Center Main Elevated Phone (Verified 100% Clean) */}
+          {/* Phone 3: Center Elevated Main Card (1:1 Matching Screenshot) */}
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
             whileInView={{ opacity: 1, y: 0, scale: 1.05 }}
             viewport={{ once: true }}
-            className="w-full max-w-sm bg-gradient-to-b from-blue-700 via-blue-600 to-indigo-800 rounded-[3rem] p-6 text-white shadow-2xl border-4 border-white ring-8 ring-blue-500/20 relative z-20"
+            className="relative z-30 w-full max-w-sm sm:w-80 lg:w-96 bg-gradient-to-b from-[#005AE6] via-[#0A62F0] to-[#0045BC] rounded-[3rem] p-6 lg:p-7 text-white shadow-[0_25px_60px_-15px_rgba(10,98,240,0.4)] border-4 border-white ring-8 ring-blue-500/10"
           >
-            <div className="bg-slate-900/60 backdrop-blur-md rounded-[2.2rem] p-6 border border-white/20">
+            {/* Top Shield Header */}
+            <div className="flex flex-col items-center text-center mb-6">
+              <div className="w-14 h-14 rounded-full bg-[#10B981] flex items-center justify-center text-white shadow-lg mb-3">
+                <ShieldCheck className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl lg:text-2xl font-black text-white tracking-tight">Verified</h4>
+              <span className="text-xs font-bold text-blue-100 mt-0.5">
+                100% Clean
+              </span>
+            </div>
+
+            {/* Inner Glass Box Matching Screenshot */}
+            <div className="bg-white/15 backdrop-blur-xl rounded-[2rem] p-5 border border-white/20 shadow-inner">
               
-              {/* Shield Icon Header */}
-              <div className="flex flex-col items-center text-center mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center text-slate-900 shadow-lg mb-3">
-                  <ShieldCheck className="w-8 h-8 text-white" />
-                </div>
-                <h4 className="text-xl font-black text-white">Verified</h4>
-                <span className="text-sm font-bold text-emerald-300 bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-400/30 mt-1">
-                  100% Clean
+              {/* Brand Safety Header Row */}
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/15">
+                <span className="text-sm font-extrabold text-white">Brand Safety</span>
+                <span className="text-[10px] font-black text-white bg-[#10B981] px-3 py-1 rounded-full uppercase tracking-wider">
+                  SECURE
                 </span>
               </div>
 
-              {/* Status List Matching Figma Screen */}
-              <div className="space-y-2.5">
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/10 text-xs border border-white/10">
-                  <span className="font-bold text-blue-100">Brand Safety</span>
-                  <span className="font-extrabold text-emerald-300 bg-emerald-500/30 px-2 py-0.5 rounded-md text-[10px]">SECURE</span>
-                </div>
-                
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/10 text-xs border border-white/10">
-                  <span className="font-bold text-blue-100">IVT Filtering</span>
-                  <span className="font-extrabold text-emerald-300 bg-emerald-500/30 px-2 py-0.5 rounded-md text-[10px]">100%</span>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/10 text-xs border border-white/10">
-                  <span className="font-bold text-blue-100">Contextual Guard</span>
-                  <span className="font-extrabold text-emerald-300 bg-emerald-500/30 px-2 py-0.5 rounded-md text-[10px]">ACTIVE</span>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/10 text-xs border border-white/10">
-                  <span className="font-bold text-blue-100">Geo Compliance</span>
-                  <span className="font-extrabold text-emerald-300 bg-emerald-500/30 px-2 py-0.5 rounded-md text-[10px]">PASSED</span>
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white/10 text-xs border border-white/10">
-                  <span className="font-bold text-blue-100">MFA Blocker</span>
-                  <span className="font-extrabold text-emerald-300 bg-emerald-500/30 px-2 py-0.5 rounded-md text-[10px]">ACTIVE</span>
-                </div>
-              </div>
-
-              <div className="mt-6 text-center text-xs font-black text-white border-t border-white/15 pt-4 tracking-wider">
-                Leads <span className="text-cyan-400">Garage</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Phone Mockup */}
-          <motion.div
-            initial={{ opacity: 0, x: 30, scale: 0.9 }}
-            whileInView={{ opacity: 1, x: 0, scale: 0.95 }}
-            viewport={{ once: true }}
-            className="w-full max-w-xs bg-gradient-to-b from-blue-600 to-indigo-700 rounded-[2.5rem] p-4 text-white shadow-xl border-4 border-slate-200 hidden md:block"
-          >
-            <div className="bg-slate-900/40 backdrop-blur-md rounded-[2rem] p-5 border border-white/20">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] uppercase font-bold text-blue-200">Conversion Engine</span>
-                <span className="text-xs font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-full">
-                  +34% Propensity
-                </span>
-              </div>
+              {/* Verified Checklist Items 1:1 */}
               <div className="space-y-3">
-                <div className="p-3 rounded-xl bg-white/10 text-xs">
-                  <span className="block text-slate-300 font-medium text-[10px]">MFA Blocker</span>
-                  <span className="font-bold text-emerald-400">Protected</span>
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border border-emerald-300 flex items-center justify-center text-emerald-300">
+                      <Check className="w-3 h-3" />
+                    </div>
+                    <span className="font-semibold text-blue-100">IVT Filtering</span>
+                  </div>
+                  <span className="font-bold text-[#00E599]">100%</span>
                 </div>
-                <div className="p-3 rounded-xl bg-white/10 text-xs">
-                  <span className="block text-slate-300 font-medium text-[10px]">Geo Compliance</span>
-                  <span className="font-bold text-blue-300">Passed</span>
+
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border border-emerald-300 flex items-center justify-center text-emerald-300">
+                      <Check className="w-3 h-3" />
+                    </div>
+                    <span className="font-semibold text-blue-100">Contextual Guard</span>
+                  </div>
+                  <span className="font-bold text-[#00E599]">Active</span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border border-emerald-300 flex items-center justify-center text-emerald-300">
+                      <Check className="w-3 h-3" />
+                    </div>
+                    <span className="font-semibold text-blue-100">Geo Compliance</span>
+                  </div>
+                  <span className="font-bold text-[#00E599]">Passed</span>
+                </div>
+
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border border-emerald-300 flex items-center justify-center text-emerald-300">
+                      <Check className="w-3 h-3" />
+                    </div>
+                    <span className="font-semibold text-blue-100">MFA Blocker</span>
+                  </div>
+                  <span className="font-bold text-[#00E599]">Active</span>
                 </div>
               </div>
-              <div className="mt-6 text-center text-[11px] font-bold text-blue-200 border-t border-white/10 pt-3">
-                Leads <span className="text-white">Garage</span>
-              </div>
+
+            </div>
+
+            {/* Bottom Brand Logo */}
+            <div className="mt-6 text-center text-sm font-black tracking-wide text-white border-t border-white/15 pt-4">
+              Leads <span className="text-[#00E599]">Garage</span>
             </div>
           </motion.div>
+
+          {/* Phone 4: Mid Right Blue Card */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="hidden md:block absolute right-[12%] lg:right-[16%] top-1/2 -translate-y-1/2 w-72 lg:w-80 bg-gradient-to-b from-[#0A62F0] to-[#004ACC] rounded-[2.5rem] p-5 text-white shadow-2xl border border-white/20 transform translate-x-6 scale-95 z-10"
+          >
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-xl bg-[#10B981] flex items-center justify-center shadow-md">
+                <TrendingUp className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <span className="text-xs font-black text-white block">+34%</span>
+                <span className="text-[10px] text-blue-100 font-medium block -mt-1">Propensity Score</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              {/* Inner Box 1 */}
+              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-3 border border-white/20">
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[11px] font-bold text-white">Targeting Engine</span>
+                  <span className="text-[9px] font-black text-white bg-[#10B981] px-2 py-0.5 rounded-full">LIVE</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=80" alt="Avatar" className="w-5 h-5 rounded-full object-cover" />
+                  <span className="text-xs font-bold text-blue-100">Tech Seekers</span>
+                </div>
+              </div>
+
+              {/* Inner Box 2 */}
+              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-3 border border-white/20 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-white">Targeting Engine</span>
+                  <span className="text-[9px] font-black text-white bg-[#10B981] px-2 py-0.5 rounded-full">LIVE</span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=80" alt="Avatar" className="w-5 h-5 rounded-full object-cover" />
+                    <div>
+                      <span className="font-bold text-white block text-[11px]">Tech Seekers</span>
+                      <span className="text-[9px] text-blue-200 block -mt-0.5">LTV: High &bull; Match 98%</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-xs border-t border-white/10 pt-1.5">
+                  <div className="flex items-center gap-2">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=80" alt="Avatar" className="w-5 h-5 rounded-full object-cover" />
+                    <div>
+                      <span className="font-bold text-white block text-[11px]">Early Adopters</span>
+                      <span className="text-[9px] text-blue-200 block -mt-0.5">LTV: Med &bull; Match 91%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 text-center text-xs font-black tracking-wide text-white border-t border-white/15 pt-3">
+              Leads <span className="text-[#00E599]">Garage</span>
+            </div>
+          </motion.div>
+
+          {/* Phone 5: Far Right Outer Outline (Faded Silhouette) */}
+          <div className="hidden xl:block absolute right-[2%] top-1/2 -translate-y-1/2 w-64 h-[380px] rounded-[2.8rem] border-2 border-slate-200/60 bg-white/40 backdrop-blur-[2px] opacity-40 transform rotate-6 scale-90 z-0 pointer-events-none"></div>
 
         </div>
 
@@ -179,3 +308,5 @@ export default function QualityControl() {
     </section>
   );
 }
+
+
