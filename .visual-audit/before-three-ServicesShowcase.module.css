@@ -1,0 +1,18 @@
+/* Only the List Management desktop composition; keep the shared layout intact. */
+@media (min-width: 1024px) {
+  :global(#services) .listManagement > div:first-child img {
+    position: relative;
+    left: calc(-4 * var(--figma-unit));
+    width: calc(553 * var(--figma-unit));
+    max-width: none;
+    height: auto;
+  }
+
+  :global(#services) .listManagement > :global(.service-caption) {
+    width: calc(406 * var(--figma-unit));
+    left: calc(84 * var(--figma-unit));
+    bottom: calc(-82 * var(--figma-unit));
+    padding-inline: calc(44 * var(--figma-unit));
+  }
+}
+

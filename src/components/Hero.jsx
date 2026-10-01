@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 
-export default function Hero({ onOpenContact }) {
+export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto-play slider timer (5 seconds)
+  // Allow time to read each slide; respect reduced-motion preferences.
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % 4);
-    }, 5000);
+    }, 15000);
     return () => clearInterval(timer);
   }, []);
 
@@ -19,7 +20,7 @@ export default function Hero({ onOpenContact }) {
       bgColor: 'bg-[#1D4ED8]',
       titlePrefix: 'Get Ready to',
       titleHighlight: 'Grow Business',
-      titleHighlightColor: 'text-[#86EFAC]', // Mint Green
+      titleHighlightColor: 'text-[#9DFFB2]', // Mint Green
       subtitle: 'Fuel your digital success with a team dedicated to delivering real results.',
       stats: [
         { number: '1.5M+', label: 'Leads Generated' },
@@ -30,8 +31,8 @@ export default function Hero({ onOpenContact }) {
       leftCardImage: '/image/Home/herosection/image 95.png',
       rightCardImage: '/image/Home/herosection/image 97.png',
       topLeftGraphic: null,
-      topRightGraphic: '/image/Home/herosection/Frame 1000004732.png',
-      bottomLeftGraphic: '/image/Home/herosection/image 74.png',
+      topRightGraphic: '/image/Home/herosection/image 82.png',
+      bottomLeftGraphic: '/image/Home/herosection/image 115.png',
       bottomRightGraphic: null,
       showTopBadge: true
     },
@@ -52,9 +53,9 @@ export default function Hero({ onOpenContact }) {
       leftCardImage: '/image/Home/herosection/Group 40114.png',
       rightCardImage: '/image/Home/herosection/Group 40112.png',
       topLeftGraphic: '/image/Home/herosection/image 7.png',
-      topRightGraphic: '/image/Home/herosection/email.png',
+      topRightGraphic: '/image/Home/herosection/image 118.png',
       bottomLeftGraphic: null,
-      bottomRightGraphic: '/image/Home/herosection/image 98.png',
+      bottomRightGraphic: '/image/Home/herosection/image 126.png',
       showTopBadge: false
     },
     {
@@ -73,7 +74,7 @@ export default function Hero({ onOpenContact }) {
       ],
       leftCardImage: '/image/Home/herosection/image 95.png',
       rightCardImage: '/image/Home/herosection/Group 40102.png',
-      topLeftGraphic: '/image/Home/herosection/image 85.png',
+      topLeftGraphic: '/image/Home/herosection/image 124.png',
       topRightGraphic: null,
       bottomLeftGraphic: null,
       bottomRightGraphic: '/image/Home/herosection/Group 40100.png',
@@ -95,10 +96,10 @@ export default function Hero({ onOpenContact }) {
       ],
       leftCardImage: '/image/Home/herosection/image 95.png',
       rightCardImage: '/image/Home/herosection/Group 40102.png',
-      topLeftGraphic: '/image/Home/herosection/image 7.png',
-      topRightGraphic: '/image/Home/herosection/Group 40101.png',
+      topLeftGraphic: '/image/Home/herosection/image 121.png',
+      topRightGraphic: '/image/Home/herosection/image 122.png',
       bottomLeftGraphic: null,
-      bottomRightGraphic: '/image/Home/herosection/email.png',
+      bottomRightGraphic: '/image/Home/herosection/image 123.png',
       showTopBadge: false
     },
   ];
@@ -106,25 +107,26 @@ export default function Hero({ onOpenContact }) {
   const activeSlide = slides[currentSlide];
 
   return (
-    <section id="hero" className="relative pt-24 lg:pt-28 pb-16 lg:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="max-w-7xl mx-auto relative">
+    <section id="hero" className="relative pt-24 lg:pt-28 pb-12 lg:pb-20 px-2 sm:px-4 lg:px-6 overflow-hidden w-full">
+      <div className="w-full max-w-[1440px] mx-auto relative">
         
         {/* Main Hero Card Container */}
         <div 
-          className={`rounded-[2.5rem] lg:rounded-[3rem] p-6 sm:p-10 lg:p-14 text-white relative shadow-2xl overflow-hidden min-h-[560px] flex flex-col justify-between ${activeSlide.bgColor} bg-cover bg-center bg-no-repeat transition-all duration-500`}
+          className={`hero-panel rounded-[2.5rem] lg:rounded-[3rem] p-6 sm:p-10 lg:p-14 text-white relative shadow-2xl overflow-hidden min-h-[640px] sm:min-h-[700px] lg:min-h-[82vh] flex flex-col justify-between ${activeSlide.bgColor} bg-cover bg-center bg-no-repeat transition-all duration-500`}
+          data-slide={currentSlide}
           style={{ backgroundImage: `url(${activeSlide.bgImage})` }}
         >
 
           {/* Top Center Pill Badge (Slide 1) */}
           {activeSlide.showTopBadge && (
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 z-30">
-              <button 
-                onClick={onOpenContact}
-                className="bg-[#0A1C3E] text-white px-6 py-1.5 rounded-b-2xl text-xs font-bold border-b border-x border-white/20 shadow-md flex items-center gap-1.5 cursor-pointer"
+            <div className="hero-badge absolute top-0 left-1/2 -translate-x-1/2 z-30">
+              <a 
+                href="#audience"
+                className="bg-[#0A1C3E] text-white px-6 py-1.5 rounded-b-2xl text-xs font-bold border-b border-x border-white/20 shadow-md flex items-center gap-1.5 cursor-pointer inline-flex"
               >
                 <span>Connect with our Specialist</span>
                 <ArrowRight className="w-3.5 h-3.5 text-cyan-300" />
-              </button>
+              </a>
             </div>
           )}
 
@@ -149,7 +151,7 @@ export default function Hero({ onOpenContact }) {
             <img
               src={activeSlide.topLeftGraphic}
               alt="Top Left 3D Graphic"
-              className="absolute top-8 left-16 sm:left-24 w-24 sm:w-32 object-contain pointer-events-none z-10 hidden lg:block"
+              className="hero-top-left-graphic absolute top-8 left-16 sm:left-24 w-24 sm:w-32 object-contain pointer-events-none z-10 hidden lg:block"
             />
           )}
 
@@ -157,7 +159,7 @@ export default function Hero({ onOpenContact }) {
             <img
               src={activeSlide.topRightGraphic}
               alt="Top Right 3D Graphic"
-              className="absolute top-12 right-12 sm:right-16 w-28 sm:w-36 object-contain pointer-events-none z-10 hidden lg:block"
+              className="hero-top-graphic absolute top-12 right-12 sm:right-16 w-28 sm:w-36 object-contain pointer-events-none z-10 hidden lg:block"
             />
           )}
 
@@ -165,7 +167,7 @@ export default function Hero({ onOpenContact }) {
             <img
               src={activeSlide.bottomLeftGraphic}
               alt="Bottom Left 3D Graphic"
-              className="absolute bottom-6 left-8 sm:left-12 w-28 sm:w-36 object-contain pointer-events-none z-20 hidden lg:block"
+              className="hero-bottom-graphic absolute bottom-6 left-8 sm:left-12 w-28 sm:w-36 object-contain pointer-events-none z-20 hidden lg:block"
             />
           )}
 
@@ -173,12 +175,12 @@ export default function Hero({ onOpenContact }) {
             <img
               src={activeSlide.bottomRightGraphic}
               alt="Bottom Right 3D Graphic"
-              className="absolute bottom-10 right-10 sm:right-16 w-28 sm:w-36 object-contain pointer-events-none z-10 hidden lg:block"
+              className="hero-bottom-right-graphic absolute bottom-10 right-10 sm:right-16 w-28 sm:w-36 object-contain pointer-events-none z-10 hidden lg:block"
             />
           )}
 
           {/* Main Grid Content */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-6 pl-4 sm:pl-8">
+          <div className="hero-grid relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-6 pl-4 sm:pl-8">
             
             {/* Left Card Image */}
             <div className="hidden lg:block lg:col-span-3 relative">
@@ -235,14 +237,14 @@ export default function Hero({ onOpenContact }) {
         </div>
 
         {/* Bottom Overlapping CTA Capsule */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-30">
+        <div className="hero-cta absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-30">
           <div className="bg-white rounded-full p-2 shadow-2xl border border-slate-100 flex items-center gap-3">
-            <button
-              onClick={onOpenContact}
-              className="px-8 py-3 rounded-full font-bold text-sm text-white bg-[#0B1936] hover:bg-blue-700 shadow-md transition-colors cursor-pointer"
+            <a
+              href="#services"
+              className="px-8 py-3 rounded-full font-bold text-sm text-white bg-[#0B1936] hover:bg-blue-700 shadow-md transition-colors cursor-pointer inline-block"
             >
               Get Started
-            </button>
+            </a>
             
             <a
               href="#services"

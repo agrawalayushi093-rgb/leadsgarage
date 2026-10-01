@@ -1,0 +1,871 @@
+/* =========================================================
+   3D Multi-Plane Z-Axis Experience & Design System
+   Physics: 20x10 -> 14x6 -> 16x8 with Multi-Plane Z-Depth
+   ========================================================= */
+
+:root {
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --theme-accent: #34d399;
+}
+
+body[data-active="0"] { --theme-accent: #34d399; }
+body[data-active="1"] { --theme-accent: #facc15; }
+body[data-active="2"] { --theme-accent: #38bdf8; }
+body[data-active="3"] { --theme-accent: #4ade80; }
+body[data-active="4"] { --theme-accent: #f43f5e; }
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #05080f;
+  color: #ffffff;
+  font-family: var(--font-family);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================================
+   Top Progress Bar & Header
+   ========================================================= */
+.top-progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+}
+
+.top-progress-bar {
+  width: 20%;
+  height: 100%;
+  background: var(--theme-accent);
+  box-shadow: 0 0 10px var(--theme-accent);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s ease;
+}
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(5, 8, 15, 0.7) 0%, transparent 100%);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+}
+
+.badge-3d {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #cbd5e1;
+}
+
+.header-center {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-badge {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  pointer-events: auto;
+}
+
+/* =========================================================
+   Side Navigation Indicator Dots
+   ========================================================= */
+.side-navigation {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 100;
+}
+
+.nav-indicator {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px;
+  outline: none;
+}
+
+.indicator-pill {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.indicator-title {
+  position: absolute;
+  right: 28px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 10px;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translate3d(8px, 0, 0);
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.nav-indicator:hover .indicator-title {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.nav-indicator.active .indicator-pill {
+  height: 24px;
+  background: var(--theme-accent);
+  box-shadow: 0 0 10px var(--theme-accent);
+}
+
+/* =========================================================
+   3D HERO STAGE & MULTI-PLANE VIEWPORT
+   ========================================================= */
+.hero-stage-container {
+  width: 95vw;
+  max-width: 1260px;
+  height: 86vh;
+  min-height: 620px;
+  perspective: 1400px; /* Crucial for deep Z-axis 3D */
+  perspective-origin: 50% 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.hero-card-3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  overflow: visible; /* Allows 3D elements to float out of the card in Z-space */
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Individual 3D Section Layer */
+.section-3d {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  transform-style: preserve-3d;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.section-3d.active {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.section-3d.exiting {
+  visibility: visible;
+  pointer-events: none;
+}
+
+/* Full Color Surfaces Matching Screenshots */
+.bg-surface {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 40px;
+  box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.6);
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+}
+
+.bg-blue {
+  background: linear-gradient(135deg, #1d52f0 0%, #1541cb 50%, #0d2f9d 100%);
+}
+.bg-purple {
+  background: linear-gradient(135deg, #7925e6 0%, #631abf 50%, #470f8f 100%);
+}
+.bg-teal {
+  background: linear-gradient(135deg, #00aab7 0%, #008f9c 50%, #006c77 100%);
+}
+.bg-green {
+  background: linear-gradient(135deg, #00b964 0%, #009d54 50%, #007940 100%);
+}
+.bg-coral {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 50%, #9f1239 100%);
+}
+
+/* =========================================================
+   3D MULTI-PLANE CORNER & FLOATING ELEMENTS
+   ========================================================= */
+.element-3d {
+  position: absolute;
+  transform-style: preserve-3d;
+  pointer-events: auto;
+  will-change: transform, opacity, filter;
+  opacity: 0;
+}
+
+/* 1. Left Photo Card (Z-Plane = 100px) */
+.card-plane-left {
+  top: 9%;
+  left: 5%;
+  z-index: 30;
+}
+
+/* 2. Right Photo Card (Z-Plane = 150px) */
+.card-plane-right {
+  bottom: 8%;
+  right: 5%;
+  z-index: 35;
+}
+
+/* 3. Bottom-Left 3D Icon (Z-Plane = 220px, Foreground) */
+.icon-plane-bl {
+  bottom: 12%;
+  left: 6%;
+  z-index: 40;
+}
+
+/* 4. Top-Right 3D Icon (Z-Plane = 60px, Background) */
+.icon-plane-tr {
+  top: 9%;
+  right: 8%;
+  z-index: 25;
+}
+
+/* =========================================================
+   PHOTO CARD STYLING (Matching the uploaded images)
+   ========================================================= */
+.photo-card-wrap {
+  transform-style: preserve-3d;
+}
+
+.photo-card {
+  width: 235px;
+  height: 315px;
+  border-radius: 24px;
+  border: 6px solid #ffffff;
+  background: #ffffff;
+  box-shadow:
+    0 30px 60px -10px rgba(0, 0, 0, 0.45),
+    0 12px 24px -5px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.card-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+/* Fallback silhouettes if network images are offline */
+.fallback-silhouette {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  border-radius: 18px;
+}
+.woman-blue { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+.man-suit { background: linear-gradient(135deg, #0f172a, #1e293b); }
+.woman-purple { background: linear-gradient(135deg, #4c1d95, #7c3aed); }
+.man-purple { background: linear-gradient(135deg, #3b0764, #6b21a8); }
+.woman-teal { background: linear-gradient(135deg, #164e63, #0891b2); }
+.woman-laptop { background: linear-gradient(135deg, #0e7490, #22d3ee); }
+.woman-green { background: linear-gradient(135deg, #064e3b, #10b981); }
+.woman-coral { background: linear-gradient(135deg, #881337, #f43f5e); }
+
+.fallback-woman .fallback-silhouette,
+.fallback-man .fallback-silhouette,
+.fallback-woman-purple .fallback-silhouette,
+.fallback-man-purple .fallback-silhouette,
+.fallback-woman-teal .fallback-silhouette,
+.fallback-woman-laptop .fallback-silhouette,
+.fallback-woman-green .fallback-silhouette,
+.fallback-woman-coral .fallback-silhouette {
+  display: flex;
+}
+
+/* White Card Bottom Badge */
+.card-bottom-badge {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  padding: 10px 12px;
+  margin: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  color: #0f172a;
+  text-align: left;
+}
+
+.badge-headline {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.social-icons-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.soc-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  background: #f1f5f9;
+}
+.soc-icon.instagram { background: #fdf2f8; }
+.soc-icon.youtube { background: #fef2f2; }
+.soc-icon.tiktok { background: #f0fdf4; }
+.soc-icon.link { background: #eff6ff; }
+
+.badge-subtext {
+  font-size: 0.65rem;
+  color: #64748b;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+/* Publisher Pill on Right Cards */
+.publisher-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin-bottom: 6px;
+}
+
+.stat-bold {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.stat-dim {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* =========================================================
+   3D FLOATING ICONS (Megaphone, Coins, Crowd, Mail, Target)
+   ========================================================= */
+.icon-3d-wrap {
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.45));
+  transition: transform 0.4s ease;
+}
+
+.megaphone-3d svg { width: 130px; height: 130px; }
+.coins-3d svg { width: 110px; height: 110px; }
+.crowd-3d svg { width: 120px; height: 100px; }
+.mail-3d svg { width: 110px; height: 90px; }
+.target-3d svg { width: 110px; height: 110px; }
+.browser-3d svg { width: 130px; height: 90px; }
+.media-play-3d svg { width: 120px; height: 90px; }
+.rocket-3d svg { width: 105px; height: 105px; }
+.trophy-3d svg { width: 105px; height: 105px; }
+
+/* =========================================================
+   3D Z-AXIS FLUID ENTRANCE & EXIT ANIMATIONS
+   (Not on one plane — distinct Z-depth trajectories)
+   ========================================================= */
+
+/* 1. LEFT CARD: Enters from Z = -450px, Overshoots to Z = 140px, Settles at Z = 100px */
+@keyframes zSpringLeftCard {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(-180%, -120%, -450px) rotateY(38deg) rotateX(-18deg) rotateZ(-16deg) scale3d(0.5, 0.5, 1);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  48% {
+    opacity: 1;
+    filter: blur(0px);
+    /* 14x6 Inward Overshoot past target + Z-plane surge */
+    transform: translate3d(36px, 26px, 140px) rotateY(4deg) rotateX(-2deg) rotateZ(-2deg) scale3d(1.06, 1.06, 1);
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+  76% {
+    transform: translate3d(-6px, -4px, 88px) rotateY(16deg) rotateX(-7deg) rotateZ(-8deg) scale3d(0.985, 0.985, 1);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  100% {
+    /* 16x8 Rest on Z = 100px plane */
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 100px) rotateY(14deg) rotateX(-6deg) rotateZ(-7deg) scale3d(1, 1, 1);
+  }
+}
+
+/* 2. RIGHT CARD: Enters from Z = -550px, Overshoots to Z = 190px, Settles at Z = 150px */
+@keyframes zSpringRightCard {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(180%, -120%, -550px) rotateY(-40deg) rotateX(20deg) rotateZ(18deg) scale3d(0.5, 0.5, 1);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  48% {
+    opacity: 1;
+    filter: blur(0px);
+    /* 14x6 Inward Overshoot + Z-plane surge */
+    transform: translate3d(-36px, 26px, 190px) rotateY(-4deg) rotateX(2deg) rotateZ(2deg) scale3d(1.06, 1.06, 1);
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+  76% {
+    transform: translate3d(6px, -4px, 138px) rotateY(-16deg) rotateX(7deg) rotateZ(9deg) scale3d(0.985, 0.985, 1);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  100% {
+    /* 16x8 Rest on Z = 150px plane */
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 150px) rotateY(-14deg) rotateX(6deg) rotateZ(8deg) scale3d(1, 1, 1);
+  }
+}
+
+/* 3. FOREGROUND 3D ICON (BL): Enters from Z = -350px, Overshoots to Z = 270px, Settles at Z = 220px */
+@keyframes zSpringIconBL {
+  0% {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translate3d(-160%, 140%, -350px) rotateY(20deg) rotateZ(-30deg) scale3d(0.3, 0.3, 1);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  48% {
+    opacity: 1;
+    filter: blur(0px);
+    /* Inward Overshoot + Foreground Z Surge */
+    transform: translate3d(32px, -28px, 270px) rotateY(2deg) rotateZ(2deg) scale3d(1.12, 1.12, 1);
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+  76% {
+    transform: translate3d(-5px, 4px, 205px) rotateY(12deg) rotateZ(8deg) scale3d(0.97, 0.97, 1);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 220px) rotateY(10deg) rotateX(-8deg) rotateZ(6deg) scale3d(1, 1, 1);
+  }
+}
+
+/* 4. BACKGROUND 3D ICON (TR): Enters from Z = -400px, Overshoots to Z = 100px, Settles at Z = 60px */
+@keyframes zSpringIconTR {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(160%, -140%, -400px) rotateY(-20deg) scale3d(0.35, 0.35, 1);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  48% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(-32px, 28px, 100px) rotateY(-2deg) scale3d(1.08, 1.08, 1);
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+  76% {
+    transform: translate3d(5px, -4px, 52px) scale3d(0.98, 0.98, 1);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translate3d(0, 0, 60px) rotateY(-8deg) rotateX(6deg) scale3d(1, 1, 1);
+  }
+}
+
+/* =========================================================
+   3D Z-AXIS FLUID EXIT ANIMATIONS (Glide into deep Z space)
+   ========================================================= */
+@keyframes zExitCardLeft {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 100px) rotateY(14deg) rotateX(-6deg) rotateZ(-7deg) scale3d(1, 1, 1);
+  }
+  24% {
+    transform: translate3d(15px, 10px, 120px) rotateY(10deg) scale3d(1.03, 1.03, 1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(-150%, -100%, -450px) rotateY(35deg) scale3d(0.45, 0.45, 1);
+  }
+}
+
+@keyframes zExitCardRight {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 150px) rotateY(-14deg) rotateX(6deg) rotateZ(8deg) scale3d(1, 1, 1);
+  }
+  24% {
+    transform: translate3d(-15px, 10px, 170px) rotateY(-10deg) scale3d(1.03, 1.03, 1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(150%, -100%, -500px) rotateY(-35deg) scale3d(0.45, 0.45, 1);
+  }
+}
+
+@keyframes zExitIconBL {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 220px) scale3d(1, 1, 1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(-140%, 120%, -350px) scale3d(0.3, 0.3, 1);
+  }
+}
+
+@keyframes zExitIconTR {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 60px) scale3d(1, 1, 1);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(140%, -120%, -400px) scale3d(0.3, 0.3, 1);
+  }
+}
+
+/* Applying 3D Entrance Animations with staggered timing */
+.section-3d.active .card-plane-left {
+  animation: zSpringLeftCard 1.1s both 0.03s;
+}
+.section-3d.active .card-plane-right {
+  animation: zSpringRightCard 1.1s both 0.12s;
+}
+.section-3d.active .icon-plane-bl {
+  animation: zSpringIconBL 1.1s both 0.08s;
+}
+.section-3d.active .icon-plane-tr {
+  animation: zSpringIconTR 1.1s both 0.15s;
+}
+
+/* Applying 3D Exit Animations */
+.section-3d.exiting .card-plane-left {
+  animation: zExitCardLeft 0.5s cubic-bezier(0.32, 0, 0.67, 0) both 0.02s;
+}
+.section-3d.exiting .card-plane-right {
+  animation: zExitCardRight 0.5s cubic-bezier(0.32, 0, 0.67, 0) both 0.05s;
+}
+.section-3d.exiting .icon-plane-bl {
+  animation: zExitIconBL 0.45s cubic-bezier(0.32, 0, 0.67, 0) both;
+}
+.section-3d.exiting .icon-plane-tr {
+  animation: zExitIconTR 0.45s cubic-bezier(0.32, 0, 0.67, 0) both;
+}
+
+/* Ambient 3D Hovering Drift */
+.section-3d.active .card-plane-left .photo-card-wrap {
+  animation: floatCardLeft 5.5s ease-in-out infinite alternate;
+  animation-delay: 1.2s;
+}
+.section-3d.active .card-plane-right .photo-card-wrap {
+  animation: floatCardRight 5.2s ease-in-out infinite alternate;
+  animation-delay: 1.5s;
+}
+
+@keyframes floatCardLeft {
+  0% { transform: translate3d(0, 0, 0) rotateZ(0deg); }
+  50% { transform: translate3d(0, -8px, 15px) rotateZ(1deg); }
+  100% { transform: translate3d(0, 5px, -10px) rotateZ(-1deg); }
+}
+
+@keyframes floatCardRight {
+  0% { transform: translate3d(0, 0, 0) rotateZ(0deg); }
+  50% { transform: translate3d(0, 8px, -15px) rotateZ(-1deg); }
+  100% { transform: translate3d(0, -6px, 10px) rotateZ(1deg); }
+}
+
+/* =========================================================
+   CENTER CONTENT (Z-Plane = 20px)
+   ========================================================= */
+.center-content-3d {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -46%, 20px) scale3d(0.96, 0.96, 1);
+  text-align: center;
+  max-width: 680px;
+  padding: 0 20px;
+  pointer-events: auto;
+  opacity: 0;
+  filter: blur(6px);
+  z-index: 10;
+  transform-style: preserve-3d;
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-3d.active .center-content-3d {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translate3d(-50%, -50%, 20px) scale3d(1, 1, 1);
+  transition-delay: 0.12s;
+}
+
+.section-3d.exiting .center-content-3d {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translate3d(-50%, -54%, 0px) scale3d(0.95, 0.95, 1);
+  transition:
+    opacity 0.4s cubic-bezier(0.3, 0, 0.2, 1),
+    transform 0.4s cubic-bezier(0.3, 0, 0.2, 1),
+    filter 0.4s cubic-bezier(0.3, 0, 0.2, 1);
+}
+
+.main-title {
+  font-size: clamp(2.8rem, 5.5vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  margin-bottom: 18px;
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.title-highlight {
+  display: inline-block;
+  font-weight: 900;
+}
+.highlight-mint {
+  background: linear-gradient(135deg, #a7f3d0 0%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.highlight-gold {
+  background: linear-gradient(135deg, #fef08a 0%, #facc15 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.highlight-white {
+  color: #ffffff;
+}
+
+.main-subtext {
+  font-size: clamp(0.98rem, 1.8vw, 1.18rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 30px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Stats Row */
+.stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3.5vw, 44px);
+  margin-bottom: 32px;
+  transform: translate3d(0, 0, 30px);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-num {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.stat-lbl {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: -0.01em;
+}
+
+/* CTA Pill Buttons */
+.cta-actions {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  gap: 4px;
+  transform: translate3d(0, 0, 40px);
+}
+
+.btn-dark-pill {
+  padding: 13px 30px;
+  border-radius: 999px;
+  background: #091224;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.btn-dark-pill:hover {
+  transform: translateY(-1px);
+  background: #030814;
+}
+
+.btn-light-pill {
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: transparent;
+  color: #091224;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s ease;
+}
+.btn-light-pill:hover {
+  transform: translateX(2px);
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN (Tablets & Phones)
+   ========================================================= */
+@media (max-width: 1024px) {
+  .hero-stage-container {
+    width: 96vw;
+    height: 90vh;
+  }
+  .photo-card {
+    width: 190px;
+    height: 260px;
+  }
+  .card-plane-left { top: 6%; left: 3%; }
+  .card-plane-right { bottom: 6%; right: 3%; }
+  .icon-plane-bl { bottom: 8%; left: 4%; }
+  .icon-plane-tr { top: 6%; right: 5%; }
+  .megaphone-3d svg, .coins-3d svg { width: 95px; height: 95px; }
+}
+
+@media (max-width: 768px) {
+  .main-header { padding: 16px 20px; }
+  .header-center { display: none; }
+  .hero-stage-container {
+    height: 92vh;
+    border-radius: 28px;
+  }
+  .hero-card-3d, .bg-surface, .section-3d {
+    border-radius: 28px;
+  }
+  .photo-card {
+    width: 140px;
+    height: 190px;
+    border-width: 4px;
+  }
+  .card-bottom-badge {
+    padding: 6px 8px;
+    margin: 4px;
+  }
+  .badge-headline { font-size: 0.72rem; margin-bottom: 2px; }
+  .social-icons-row { display: none; }
+  .badge-subtext { display: none; }
+  .publisher-stat-pill { padding: 2px 4px; margin-bottom: 0; }
+  .stat-bold { font-size: 0.72rem; }
+  .stat-dim { display: none; }
+  .main-title { font-size: 2.2rem; }
+  .main-subtext { font-size: 0.88rem; margin-bottom: 20px; }
+  .stats-row { gap: 14px; margin-bottom: 22px; }
+  .stat-num { font-size: 1.25rem; }
+  .stat-lbl { font-size: 0.65rem; }
+  .side-navigation { right: 10px; }
+}

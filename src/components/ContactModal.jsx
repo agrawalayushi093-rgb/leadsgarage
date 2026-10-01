@@ -36,11 +36,12 @@ export default function ContactModal({ isOpen, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.2 }}
-          className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 sm:p-8 overflow-hidden z-10"
+          role="dialog" aria-modal="true" aria-label="Contact Leads Garage" className="max-h-[calc(100dvh-2rem)] overflow-y-auto relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 sm:p-8 z-10"
         >
           {/* Close button */}
           <button
             onClick={onClose}
+            aria-label="Close contact form"
             className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />

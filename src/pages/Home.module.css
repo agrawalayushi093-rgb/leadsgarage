@@ -1,0 +1,26 @@
+/* Fade only the decorative layers at the team/showcase boundary. */
+.backgroundMerge :global(#team) > div:first-child {
+  mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - clamp(80px, 14vw, 270px)), transparent 100%);
+}
+
+.backgroundMerge :global(#showcase) img {
+  /* Retain the existing bottom fade; reveal the sky gradually from cream. */
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .12) 4%, rgba(0, 0, 0, .5) 11%, #000 23%, #000 82%, transparent 100%);
+}
+
+/* Reduce only the breathing space below the team content. */
+.backgroundMerge :global(#team) {
+  padding-bottom: calc(70 * var(--figma-unit));
+}
+@media (max-width: 1023px) {
+  .backgroundMerge :global(#team) { padding-bottom: 40px; }
+}
+
+/* The artwork includes empty sky above its cards: overlap that decorative area. */
+.backgroundMerge :global(.closing-section) {
+  position: relative;
+  margin-top: calc(-200 * var(--figma-unit));
+}
+.backgroundMerge :global(#team) > div:last-child {
+  z-index: 20;
+}

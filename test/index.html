@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Payop — Global Payments Built for Gaming</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Rubik:wght@800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body data-active="0" data-direction="forward">
+
+  <!-- ======================================================== -->
+  <!-- REUSABLE SVG SYMBOL SPRITE                               -->
+  <!-- ======================================================== -->
+  <svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Gaming Icons -->
+      <symbol id="icon-invader" viewBox="0 0 16 16">
+        <path fill="#4fa4ff" d="M3 1h1v1H3zm9 0h1v1h-1zm-8 1h1v1H4zm7 0h1v1h-1zM3 3h10v1H3zm-1 1h3v1H2zm4 0h4v1H6zm5 0h3v1h-3zM1 5h14v1H1zm0 1h2v1H1zm3 0h8v1H4zm9 0h2v1h-2zM1 7h2v1H1zm3 0h1v1H4zm7 0h1v1h-1zm2 0h2v1h-2zM3 8h2v1H3zm3 0h4v1H6zm5 0h2v1h-2zM2 9h2v1H2zm10 0h2v1h-2zM1 10h2v1H1zm12 0h2v1h-2z"/>
+      </symbol>
+
+      <symbol id="icon-controller" viewBox="0 0 130 95">
+        <defs>
+          <radialGradient id="padG" cx="30%" cy="20%" r="80%">
+            <stop offset="0%" stop-color="#80c0ff"/>
+            <stop offset="55%" stop-color="#2a77f3"/>
+            <stop offset="100%" stop-color="#0c43a8"/>
+          </radialGradient>
+        </defs>
+        <path d="M28 22 C42 17, 88 17, 102 22 C118 26, 126 58, 115 80 C108 92, 94 88, 86 68 C80 56, 50 56, 44 68 C36 88, 22 92, 15 80 C4 58, 12 26, 28 22 Z" fill="url(#padG)" stroke="#a3d1ff" stroke-width="2.5"/>
+        <rect x="30" y="38" width="7" height="20" rx="2.5" fill="#d9ebff"/>
+        <rect x="23.5" y="44.5" width="20" height="7" rx="2.5" fill="#d9ebff"/>
+        <circle cx="94" cy="40" r="4.5" fill="#ffffff" opacity="0.95"/>
+        <circle cx="103" cy="48" r="4.5" fill="#ffffff" opacity="0.95"/>
+        <circle cx="85" cy="48" r="4.5" fill="#ffffff" opacity="0.95"/>
+        <circle cx="94" cy="56" r="4.5" fill="#ffffff" opacity="0.95"/>
+      </symbol>
+
+      <symbol id="icon-crystal" viewBox="0 0 100 120">
+        <polygon points="50,8 88,32 50,50 12,32" fill="#e0f2fe" stroke="#ffffff" stroke-width="1.8"/>
+        <polygon points="12,32 50,50 50,112 12,92" fill="#38bdf8" opacity="0.96"/>
+        <polygon points="50,50 88,32 88,92 50,112" fill="#0369a1" opacity="0.9"/>
+      </symbol>
+
+      <symbol id="icon-star" viewBox="0 0 100 100">
+        <defs>
+          <linearGradient id="starG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="45%" stop-color="#93c5fd"/>
+            <stop offset="100%" stop-color="#3b82f6"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 8 L63 34 L92 38 L71 58 L76 87 L50 73 L24 87 L29 58 L8 38 L37 34 Z" fill="url(#starG)" stroke="#dbeafe" stroke-width="3"/>
+        <ellipse cx="44" cy="51" rx="2.5" ry="5.5" fill="#082f49"/>
+        <ellipse cx="56" cy="51" rx="2.5" ry="5.5" fill="#082f49"/>
+        <circle cx="43.2" cy="49" r="1.2" fill="#ffffff"/>
+        <circle cx="55.2" cy="49" r="1.2" fill="#ffffff"/>
+      </symbol>
+
+      <!-- iGaming Icons -->
+      <symbol id="icon-spade" viewBox="0 0 100 100">
+        <defs>
+          <radialGradient id="spadeGrad2" cx="38%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#b8ffd7"/>
+            <stop offset="55%" stop-color="#22c55e"/>
+            <stop offset="100%" stop-color="#065f46"/>
+          </radialGradient>
+        </defs>
+        <path d="M50 10 C50 10 16 46 16 66 C16 79 26 87 38 83 C43 81 46 75 46 75 L45 90 L38 92 L38 95 L62 95 L62 92 L55 90 L54 75 C54 75 57 81 62 83 C74 87 84 79 84 66 C84 46 50 10 50 10 Z" fill="url(#spadeGrad2)" stroke="#a7f3d0" stroke-width="2"/>
+        <path d="M50 18 C50 18 24 50 24 64 C24 72 30 77 38 73 C41 71 44 67 46 61 C48 48 50 32 50 18 Z" fill="#ffffff" opacity="0.3"/>
+      </symbol>
+
+      <symbol id="icon-dice" viewBox="0 0 100 100">
+        <polygon points="50,14 86,32 50,50 14,32" fill="#a7f3d0" stroke="#ffffff" stroke-width="1.5"/>
+        <polygon points="14,32 50,50 50,90 14,72" fill="#10b981" stroke="#6ee7b7" stroke-width="1.5"/>
+        <polygon points="50,50 86,32 86,72 50,90" fill="#047857" stroke="#6ee7b7" stroke-width="1.5"/>
+        <circle cx="50,32" r="3" fill="#064e3b"/>
+        <circle cx="28,50" r="2.8" fill="#064e3b"/>
+        <circle cx="72,52" r="2.8" fill="#a7f3d0"/>
+      </symbol>
+
+      <symbol id="icon-chip" viewBox="0 0 110 110">
+        <circle cx="55" cy="55" r="48" fill="#10b981" stroke="#a7f3d0" stroke-width="4"/>
+        <circle cx="55" cy="55" r="39" stroke="#ffffff" stroke-width="3" stroke-dasharray="8 6" opacity="0.85"/>
+        <circle cx="55" cy="55" r="26" fill="#047857" stroke="#064e3b" stroke-width="2"/>
+        <path d="M55 42 L55 68 M42 55 L68 55" stroke="#a7f3d0" stroke-width="3" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="icon-card" viewBox="0 0 40 40">
+        <circle cx="20" cy="14" r="7" fill="#047857"/>
+        <circle cx="13" cy="24" r="7" fill="#047857"/>
+        <circle cx="27" cy="24" r="7" fill="#047857"/>
+        <path d="M19 23 L21 23 L23 35 L17 35 Z" fill="#047857"/>
+      </symbol>
+
+      <!-- Payouts Icons -->
+      <symbol id="icon-bolt" viewBox="0 0 100 100">
+        <path d="M55 8 L24 50 L46 50 L38 92 L76 42 L52 42 Z" fill="#c084fc" stroke="#f3e8ff" stroke-width="3"/>
+      </symbol>
+      <symbol id="icon-globe" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="42" stroke="#a855f7" stroke-width="3" fill="#3b0764"/>
+        <ellipse cx="50" cy="50" rx="18" ry="42" stroke="#e9d5ff" stroke-width="2"/>
+        <path d="M8 50h84M15 28h70M15 72h70" stroke="#a855f7" stroke-width="2"/>
+      </symbol>
+      <symbol id="icon-crypto" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" fill="#6b21a8" stroke="#c084fc" stroke-width="3"/>
+        <path d="M50 20 L68 50 L50 60 L32 50 Z" fill="#f3e8ff"/>
+        <path d="M50 60 L68 50 L50 78 L32 50 Z" fill="#a855f7"/>
+      </symbol>
+      <symbol id="icon-vault" viewBox="0 0 100 100">
+        <rect x="15" y="24" width="70" height="52" rx="10" fill="#581c87" stroke="#c084fc" stroke-width="3"/>
+        <rect x="15" y="36" width="70" height="12" fill="#3b0764"/>
+        <circle cx="70" cy="58" r="6" fill="#e9d5ff"/>
+      </symbol>
+
+      <!-- Security Icons -->
+      <symbol id="icon-shield" viewBox="0 0 100 100">
+        <path d="M50 12 C68 20 80 24 80 40 C80 64 60 82 50 86 C40 82 20 64 20 40 C20 24 32 20 50 12 Z" fill="#78350f" stroke="#fbbf24" stroke-width="3.5"/>
+        <path d="M36 46 L46 56 L64 38" stroke="#fef3c7" stroke-width="5" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="icon-radar" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" stroke="#f59e0b" stroke-width="3" fill="#451a03"/>
+        <circle cx="50" cy="50" r="22" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 4"/>
+        <path d="M50 50 L72 32" stroke="#fef3c7" stroke-width="4" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="icon-lock" viewBox="0 0 100 100">
+        <rect x="25" y="40" width="50" height="42" rx="8" fill="#92400e" stroke="#fbbf24" stroke-width="3"/>
+        <path d="M35 40v-14a15 15 0 0 1 30 0v14" stroke="#fef3c7" stroke-width="5"/>
+        <circle cx="50" cy="58" r="5" fill="#fef3c7"/>
+      </symbol>
+      <symbol id="icon-seal" viewBox="0 0 100 100">
+        <polygon points="50,10 62,24 80,24 84,40 98,50 84,60 80,76 62,76 50,90 38,76 20,76 16,60 2,50 16,40 20,24 38,24" fill="#b45309" stroke="#fcd34d" stroke-width="3"/>
+        <circle cx="50" cy="50" r="12" fill="#fef3c7"/>
+      </symbol>
+
+      <!-- Developer Icons -->
+      <symbol id="icon-code" viewBox="0 0 100 100">
+        <rect x="15" y="15" width="70" height="70" rx="14" fill="#083344" stroke="#22d3ee" stroke-width="3.5"/>
+        <path d="M34 40 L22 50 L34 60 M66 40 L78 50 L66 60 M56 32 L44 68" stroke="#a5f3fc" stroke-width="4.5" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="icon-cloud" viewBox="0 0 100 100">
+        <polygon points="50,12 85,30 50,48 15,30" fill="#0e7490" stroke="#67e8f9" stroke-width="2.5"/>
+        <polygon points="15,30 50,48 50,88 15,70" fill="#155e75" stroke="#67e8f9" stroke-width="2.5"/>
+        <polygon points="50,48 85,30 85,70 50,88" fill="#164e63" stroke="#67e8f9" stroke-width="2.5"/>
+      </symbol>
+      <symbol id="icon-webhook" viewBox="0 0 100 100">
+        <path d="M25 32h50a8 8 0 0 1 8 8v20a8 8 0 0 1-8 8H25a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8z" fill="#155e75" stroke="#22d3ee" stroke-width="3"/>
+        <circle cx="34" cy="50" r="5" fill="#67e8f9"/>
+        <circle cx="50" cy="50" r="5" fill="#67e8f9"/>
+        <circle cx="66" cy="50" r="5" fill="#a5f3fc"/>
+      </symbol>
+      <symbol id="icon-cli" viewBox="0 0 100 100">
+        <rect x="14" y="20" width="72" height="60" rx="10" fill="#082f49" stroke="#38bdf8" stroke-width="3"/>
+        <path d="M28 42 L38 50 L28 58 M46 64h18" stroke="#38bdf8" stroke-width="4.5" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Top Progress Line -->
+  <div class="ios-progress-track">
+    <div class="ios-progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Header Controls -->
+  <header class="ios-header">
+    <div class="header-left">
+      <span class="brand-title">PAYOP</span>
+      <span class="badge-ios">Full Page Motion</span>
+    </div>
+    <div class="header-center">
+      <span class="step-indicator" id="stepIndicator">01 / 05 · Gaming Payments</span>
+    </div>
+    <div class="header-right">
+      <div class="nav-direction-buttons">
+        <button id="btnPrev" class="btn-dir" title="Scroll Up (Previous Section)" aria-label="Previous Section">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
+        <button id="btnNext" class="btn-dir" title="Scroll Down (Next Section)" aria-label="Next Section">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+      <div class="pill-hint">
+        <span>Scroll / Swipe</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left Edge Vertical Capsule Slider Track -->
+  <aside class="left-capsule-nav" aria-label="Slide Indicator">
+    <div class="capsule-track">
+      <div class="capsule-thumb" id="capsuleThumb"></div>
+      <button class="capsule-tick active" data-index="0" title="Section 1: Gaming"></button>
+      <button class="capsule-tick" data-index="1" title="Section 2: iGaming"></button>
+      <button class="capsule-tick" data-index="2" title="Section 3: Payouts"></button>
+      <button class="capsule-tick" data-index="3" title="Section 4: Security"></button>
+      <button class="capsule-tick" data-index="4" title="Section 5: Developers"></button>
+    </div>
+  </aside>
+
+  <!-- Side Navigation Dots -->
+  <nav class="side-nav" aria-label="Section Navigation">
+    <button class="nav-dot active" data-index="0" aria-label="Section 1: Gaming">
+      <span class="dot-pill"></span>
+      <span class="dot-label">01 Gaming</span>
+    </button>
+    <button class="nav-dot" data-index="1" aria-label="Section 2: iGaming">
+      <span class="dot-pill"></span>
+      <span class="dot-label">02 iGaming</span>
+    </button>
+    <button class="nav-dot" data-index="2" aria-label="Section 3: Payouts">
+      <span class="dot-pill"></span>
+      <span class="dot-label">03 Payouts</span>
+    </button>
+    <button class="nav-dot" data-index="3" aria-label="Section 4: Security">
+      <span class="dot-pill"></span>
+      <span class="dot-label">04 Security</span>
+    </button>
+    <button class="nav-dot" data-index="4" aria-label="Section 5: Developers">
+      <span class="dot-pill"></span>
+      <span class="dot-label">05 Developers</span>
+    </button>
+  </nav>
+
+  <!-- Ambient Dynamic 3D Backlight -->
+  <div class="ambient-glow" id="ambientGlow"></div>
+
+  <!-- Full-Page Star Field -->
+  <div class="fullpage-stars" aria-hidden="true">
+    <span class="star s1">✦</span>
+    <span class="star s2">✦</span>
+    <span class="star s3">✦</span>
+    <span class="star s4">✦</span>
+    <span class="star s5">✦</span>
+    <span class="star s6">✦</span>
+    <span class="star s7">✦</span>
+    <span class="star s8">✦</span>
+  </div>
+
+  <!-- Top Announcement Badge (Full Page) -->
+  <div class="top-announcement">
+    <span class="announcement-pill">
+      Payop in Forex Expo 2025 in Dubai
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </span>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- SINGLE PERSISTENT CENTER CONTENT (Smooth Fade In/Out)    -->
+  <!-- ======================================================== -->
+  <div class="hero-center-content" id="centerContent">
+    <h1 class="hero-title">
+      Global<br>
+      payments<br>
+      built for<br>
+      <span class="sticker-word sticker-gaming" id="heroSticker">Gaming</span>
+    </h1>
+    <p class="hero-desc" id="heroDesc">
+      Payop gives you 500+ global payment methods, real fraud protection,
+      and instant payouts — all without getting blocked or ignored.
+    </p>
+    <div class="cta-pill-bar">
+      <button class="btn-cta-dark">Open an Account</button>
+      <button class="btn-cta-light">Talk to us</button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- FULLPAGE 3D PERSPECTIVE STAGE                            -->
+  <!-- ======================================================== -->
+  <main class="stage-viewport" id="stageViewport">
+
+    <!-- SECTION 01: GAMING -->
+    <section class="section-layer active theme-blue" data-section="0" style="--imgTopL: 22%; --imgTopR: 42%;">
+      <!-- 4 Corners (Extreme Travel) -->
+      <div class="corner-element top-left">
+        <div class="element-shadow"></div>
+        <div class="floating-inner invader-3d">
+          <svg class="svg-corner-icon"><use href="#icon-invader"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="element-shadow shadow-wide"></div>
+        <div class="floating-inner controller-3d-wrap">
+          <svg class="svg-corner-icon icon-controller"><use href="#icon-controller"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner crystal-3d-wrap">
+          <svg class="svg-corner-icon icon-crystal"><use href="#icon-crystal"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="element-shadow shadow-star"></div>
+        <div class="floating-inner star-3d-wrap">
+          <svg class="svg-corner-icon icon-star"><use href="#icon-star"/></svg>
+        </div>
+      </div>
+
+      <!-- 2 Photos (Popout at Staggered Heights: Left higher 22%, Right lower 42%) -->
+      <div class="photo-element mid-left">
+        <div class="photo-card card-tilt-left">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80" alt="Gamer" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-gamer-guy"><span class="fallback-emoji">🎧</span><span class="fallback-label">Gamer</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-element mid-right">
+        <div class="photo-card card-tilt-right">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Streamer" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-creator-girl"><span class="fallback-emoji">✌️</span><span class="fallback-label">Streamer</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: iGAMING -->
+    <section class="section-layer theme-emerald" data-section="1" style="--imgTopL: 42%; --imgTopR: 22%;">
+      <!-- 4 Corners -->
+      <div class="corner-element top-left">
+        <div class="element-shadow"></div>
+        <div class="floating-inner spade-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-spade"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="element-shadow shadow-wide"></div>
+        <div class="floating-inner chips-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-chip"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner dice-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-dice"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner card-3d-wrap">
+          <div class="glass-playing-card">
+            <div class="card-corner-label">A</div>
+            <div class="card-suit-center">
+              <svg viewBox="0 0 40 40" width="38" height="38"><use href="#icon-card"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 Photos (Popout at Staggered Heights: Left lower 42%, Right higher 22%) -->
+      <div class="photo-element mid-left">
+        <div class="photo-card card-teal-glass">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" alt="VIP Player" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-teal-guy"><span class="fallback-emoji">🧢</span><span class="fallback-label">VIP Player</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-element mid-right">
+        <div class="photo-card card-darkteal-glass">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="High Roller" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-teal-girl"><span class="fallback-emoji">💎</span><span class="fallback-label">High Roller</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 03: PAYOUTS -->
+    <section class="section-layer theme-purple" data-section="2" style="--imgTopL: 24%; --imgTopR: 44%;">
+      <div class="corner-element top-left">
+        <div class="element-shadow"></div>
+        <div class="floating-inner bolt-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-bolt"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="element-shadow shadow-wide"></div>
+        <div class="floating-inner globe-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-globe"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner crypto-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-crypto"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner vault-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-vault"/></svg>
+        </div>
+      </div>
+
+      <div class="photo-element mid-left">
+        <div class="photo-card card-purple-glass">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80" alt="Fintech" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-purple-guy"><span class="fallback-emoji">⚡</span><span class="fallback-label">Fintech</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-element mid-right">
+        <div class="photo-card card-purple-glass">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80" alt="Treasury" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-purple-girl"><span class="fallback-emoji">🌐</span><span class="fallback-label">Treasury</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: SECURITY -->
+    <section class="section-layer theme-amber" data-section="3" style="--imgTopL: 44%; --imgTopR: 24%;">
+      <div class="corner-element top-left">
+        <div class="element-shadow"></div>
+        <div class="floating-inner shield-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-shield"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="element-shadow shadow-wide"></div>
+        <div class="floating-inner lock-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-lock"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner radar-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-radar"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner seal-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-seal"/></svg>
+        </div>
+      </div>
+
+      <div class="photo-element mid-left">
+        <div class="photo-card card-amber-glass">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80" alt="SecOps" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-amber-guy"><span class="fallback-emoji">🛡️</span><span class="fallback-label">SecOps</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-element mid-right">
+        <div class="photo-card card-amber-glass">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Risk Lead" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-amber-girl"><span class="fallback-emoji">🔍</span><span class="fallback-label">Risk Lead</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 05: DEVELOPERS -->
+    <section class="section-layer theme-cyan" data-section="4" style="--imgTopL: 26%; --imgTopR: 40%;">
+      <div class="corner-element top-left">
+        <div class="element-shadow"></div>
+        <div class="floating-inner code-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-code"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="element-shadow shadow-wide"></div>
+        <div class="floating-inner webhook-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-webhook"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner cloud-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-cloud"/></svg>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="element-shadow"></div>
+        <div class="floating-inner cli-3d-wrap">
+          <svg class="svg-corner-icon"><use href="#icon-cli"/></svg>
+        </div>
+      </div>
+
+      <div class="photo-element mid-left">
+        <div class="photo-card card-cyan-glass">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80" alt="Engineer" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-cyan-guy"><span class="fallback-emoji">💻</span><span class="fallback-label">Engineer</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="photo-element mid-right">
+        <div class="photo-card card-cyan-glass">
+          <div class="photo-frame">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80" alt="Architect" class="photo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="photo-fallback bg-cyan-girl"><span class="fallback-emoji">🚀</span><span class="fallback-label">Architect</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

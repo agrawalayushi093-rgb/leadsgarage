@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Get Ready — 3D Multi-Plane Z-Axis Experience</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-active="0">
+
+  <!-- iOS-Style Top Progress Bar -->
+  <div class="top-progress-track">
+    <div class="top-progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Header Bar -->
+  <header class="main-header">
+    <div class="header-left">
+      <span class="logo">GROWTH</span>
+      <span class="badge-3d">3D Multi-Plane Z-Axis</span>
+    </div>
+    <div class="header-center">
+      <span class="section-tag-live" id="liveSectionTag">01 / 05 · Grow Business</span>
+    </div>
+    <div class="header-right">
+      <span class="scroll-badge">Scroll / Swipe to navigate</span>
+    </div>
+  </header>
+
+  <!-- Side Navigation Dots -->
+  <nav class="side-navigation" aria-label="Section Selector">
+    <button class="nav-indicator active" data-index="0" aria-label="01 Blue">
+      <span class="indicator-pill"></span>
+      <span class="indicator-title">01 Grow Business</span>
+    </button>
+    <button class="nav-indicator" data-index="1" aria-label="02 Purple">
+      <span class="indicator-pill"></span>
+      <span class="indicator-title">02 Scale with us</span>
+    </button>
+    <button class="nav-indicator" data-index="2" aria-label="03 Teal">
+      <span class="indicator-pill"></span>
+      <span class="indicator-title">03 Expand</span>
+    </button>
+    <button class="nav-indicator" data-index="3" aria-label="04 Green">
+      <span class="indicator-pill"></span>
+      <span class="indicator-title">04 Monetize</span>
+    </button>
+    <button class="nav-indicator" data-index="4" aria-label="05 Coral">
+      <span class="indicator-pill"></span>
+      <span class="indicator-title">05 Elevate</span>
+    </button>
+  </nav>
+
+  <!-- ======================================================== -->
+  <!-- 3D HERO STAGE: Contains the 3D Z-Axis layers            -->
+  <!-- ======================================================== -->
+  <main class="hero-stage-container" id="heroStageContainer">
+    <div class="hero-card-3d" id="heroCard3D">
+
+      <!-- ==================================================== -->
+      <!-- SECTION 01: BLUE ("Get Ready to Grow Business")      -->
+      <!-- ==================================================== -->
+      <section class="section-3d active" data-section="0">
+        <!-- Background Color Surface -->
+        <div class="bg-surface bg-blue"></div>
+
+        <!-- 3D Z-PLANE 2: Left Photo Card (Z = 100px) -->
+        <div class="element-3d card-plane-left top-left" data-corner="tl">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=480&q=80" alt="Publish Anywhere" class="card-photo" onerror="this.parentElement.classList.add('fallback-woman');" />
+              <div class="fallback-silhouette woman-blue">
+                <span>📱</span>
+              </div>
+              <div class="card-bottom-badge">
+                <span class="badge-headline">Publish Anywhere</span>
+                <div class="social-icons-row">
+                  <span class="soc-icon instagram">📷</span>
+                  <span class="soc-icon youtube">▶️</span>
+                  <span class="soc-icon tiktok">🎵</span>
+                  <span class="soc-icon link">🔗</span>
+                </div>
+                <p class="badge-subtext">Share content across all platforms in just a few clicks.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 4: Bottom-Left Floating 3D Megaphone (Z = 220px) -->
+        <div class="element-3d icon-plane-bl bottom-left" data-corner="bl">
+          <div class="icon-3d-wrap megaphone-3d">
+            <svg viewBox="0 0 120 120" fill="none">
+              <defs>
+                <linearGradient id="megaBlue" x1="20" y1="20" x2="100" y2="100">
+                  <stop stop-color="#60a5fa"/>
+                  <stop offset="1" stop-color="#1d4ed8"/>
+                </linearGradient>
+                <linearGradient id="megaCone" x1="30" y1="10" x2="90" y2="70">
+                  <stop stop-color="#ffffff"/>
+                  <stop offset="1" stop-color="#93c5fd"/>
+                </linearGradient>
+              </defs>
+              <!-- Cone -->
+              <polygon points="40,35 90,15 90,85 40,65" fill="url(#megaCone)"/>
+              <ellipse cx="90" cy="50" rx="10" ry="35" fill="#3b82f6"/>
+              <!-- Base & handle -->
+              <rect x="24" y="38" width="16" height="24" rx="4" fill="url(#megaBlue)"/>
+              <path d="M42 65 L46 88 L34 94 L30 71 Z" fill="#1e3a8a"/>
+              <!-- Sound waves -->
+              <path d="M102 35 C108 42, 108 58, 102 65" stroke="#93c5fd" stroke-width="4" stroke-linecap="round"/>
+              <path d="M110 25 C120 38, 120 62, 110 75" stroke="#bfdbfe" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 1: Top-Right Floating 3D Avatar Group (Z = 60px) -->
+        <div class="element-3d icon-plane-tr top-right" data-corner="tr">
+          <div class="icon-3d-wrap crowd-3d">
+            <svg viewBox="0 0 120 100" fill="none">
+              <circle cx="60" cy="30" r="16" fill="#3b82f6"/>
+              <circle cx="34" cy="40" r="13" fill="#2563eb"/>
+              <circle cx="86" cy="40" r="13" fill="#2563eb"/>
+              <circle cx="16" cy="50" r="10" fill="#1d4ed8"/>
+              <circle cx="104" cy="50" r="10" fill="#1d4ed8"/>
+              <circle cx="38" cy="74" r="14" fill="#60a5fa" stroke="#ffffff" stroke-width="2.5"/>
+              <path d="M38 67v14M31 74h14" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 3: Right Photo Card (Z = 150px) -->
+        <div class="element-3d card-plane-right mid-right" data-corner="br">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=480&q=80" alt="Grow Together" class="card-photo" onerror="this.parentElement.classList.add('fallback-man');" />
+              <div class="fallback-silhouette man-suit">
+                <span>💻</span>
+              </div>
+              <div class="card-bottom-badge">
+                <span class="badge-headline">Grow Together</span>
+                <div class="publisher-stat-pill">
+                  <span class="stat-icon-yellow">👥</span>
+                  <span class="stat-bold">50K+</span>
+                  <span class="stat-dim">Active Publishers</span>
+                </div>
+                <p class="badge-subtext">Join a thriving community of creators, brands and partners.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 0: Central Text & Stats -->
+        <div class="center-content-3d">
+          <h1 class="main-title">
+            Get Ready to<br>
+            <span class="title-highlight highlight-mint">Grow Business</span>
+          </h1>
+          <p class="main-subtext">Fuel your digital success with a team dedicated to delivering real results.</p>
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-num">1.5M+</span>
+              <span class="stat-lbl">Leads Generated</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">95%</span>
+              <span class="stat-lbl">Client Satisfaction</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">85%</span>
+              <span class="stat-lbl">Conversion Rate</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">24/7</span>
+              <span class="stat-lbl">Monitoring</span>
+            </div>
+          </div>
+          <div class="cta-actions">
+            <button class="btn-dark-pill">Get Started</button>
+            <button class="btn-light-pill">Explore &rsaquo;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SECTION 02: PURPLE ("Get Ready to Scale with us")    -->
+      <!-- ==================================================== -->
+      <section class="section-3d" data-section="1">
+        <div class="bg-surface bg-purple"></div>
+
+        <!-- 3D Z-PLANE 4: Top-Left Floating Dollar Coins (Z = 220px) -->
+        <div class="element-3d icon-plane-bl top-left" data-corner="tl">
+          <div class="icon-3d-wrap coins-3d">
+            <svg viewBox="0 0 100 100" fill="none">
+              <!-- Stack of purple coins -->
+              <ellipse cx="40" cy="55" rx="28" ry="14" fill="#6b21a8"/>
+              <ellipse cx="40" cy="45" rx="28" ry="14" fill="#7e22ce"/>
+              <ellipse cx="40" cy="35" rx="28" ry="14" fill="#a855f7" stroke="#e9d5ff" stroke-width="2"/>
+              <ellipse cx="68" cy="52" rx="24" ry="12" fill="#581c87"/>
+              <ellipse cx="68" cy="44" rx="24" ry="12" fill="#9333ea" stroke="#f3e8ff" stroke-width="2"/>
+              <text x="63" y="49" fill="#ffffff" font-weight="900" font-size="14" font-family="sans-serif">$</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 2: Bottom-Left Photo Card (Z = 100px) -->
+        <div class="element-3d card-plane-left bottom-left" data-corner="bl">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=480&q=80" alt="Scale Affiliates" class="card-photo" onerror="this.parentElement.classList.add('fallback-woman-purple');" />
+              <div class="fallback-silhouette woman-purple">
+                <span>📱</span>
+              </div>
+              <div class="card-bottom-badge">
+                <div class="publisher-stat-pill">
+                  <span class="stat-icon-purple">👥</span>
+                  <span class="stat-bold">500K+</span>
+                  <span class="stat-dim">Active Affiliates</span>
+                </div>
+                <p class="badge-subtext">A growing community worldwide.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 1: Top-Right Floating Mail Envelope (Z = 60px) -->
+        <div class="element-3d icon-plane-tr top-right" data-corner="tr">
+          <div class="icon-3d-wrap mail-3d">
+            <svg viewBox="0 0 110 90" fill="none">
+              <rect x="25" y="10" width="60" height="40" rx="6" fill="#ffffff" stroke="#c084fc" stroke-width="2"/>
+              <line x1="35" y1="22" x2="65" y2="22" stroke="#9333ea" stroke-width="3" stroke-linecap="round"/>
+              <line x1="35" y1="32" x2="75" y2="32" stroke="#c084fc" stroke-width="3" stroke-linecap="round"/>
+              <!-- Envelope body -->
+              <polygon points="10,35 100,35 88,80 22,80" fill="#7e22ce"/>
+              <polygon points="10,35 55,62 100,35" fill="#a855f7" stroke="#e9d5ff" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 3: Right Photo Card (Z = 150px) -->
+        <div class="element-3d card-plane-right mid-right" data-corner="br">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=480&q=80" alt="Partner Brands" class="card-photo" onerror="this.parentElement.classList.add('fallback-man-purple');" />
+              <div class="fallback-silhouette man-purple">
+                <span>👓</span>
+              </div>
+              <div class="card-bottom-badge">
+                <div class="publisher-stat-pill">
+                  <span class="stat-icon-purple">🤝</span>
+                  <span class="stat-bold">10K+</span>
+                  <span class="stat-dim">Partner Brands</span>
+                </div>
+                <p class="badge-subtext">Trusted by global businesses.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 0: Central Text & Stats -->
+        <div class="center-content-3d">
+          <h1 class="main-title">
+            Get Ready to<br>
+            <span class="title-highlight highlight-gold">Scale with us</span>
+          </h1>
+          <p class="main-subtext">Fuel your digital success with a team dedicated to delivering real results.</p>
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-num">1.5M+</span>
+              <span class="stat-lbl">Leads Generated</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">85%</span>
+              <span class="stat-lbl">Conversion Rate</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">24/7</span>
+              <span class="stat-lbl">Monitoring</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">95%</span>
+              <span class="stat-lbl">Client Satisfaction</span>
+            </div>
+          </div>
+          <div class="cta-actions">
+            <button class="btn-dark-pill">Get Started</button>
+            <button class="btn-light-pill">Explore &rsaquo;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SECTION 03: TEAL ("Get Ready to Expand")             -->
+      <!-- ==================================================== -->
+      <section class="section-3d" data-section="2">
+        <div class="bg-surface bg-teal"></div>
+
+        <!-- 3D Z-PLANE 4: Top-Left 3D Bullseye Target (Z = 220px) -->
+        <div class="element-3d icon-plane-bl top-left" data-corner="tl">
+          <div class="icon-3d-wrap target-3d">
+            <svg viewBox="0 0 100 100" fill="none">
+              <circle cx="50" cy="50" r="42" fill="#0891b2" stroke="#67e8f9" stroke-width="4"/>
+              <circle cx="50" cy="50" r="30" fill="#06b6d4" stroke="#cffafe" stroke-width="4"/>
+              <circle cx="50" cy="50" r="18" fill="#155e75" stroke="#ffffff" stroke-width="3"/>
+              <circle cx="50" cy="50" r="7" fill="#ffffff"/>
+              <!-- Dart -->
+              <line x1="72" y1="28" x2="52" y2="48" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+              <polygon points="72,28 85,15 90,20 77,33" fill="#a5f3fc"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 2: Left Photo Card (Z = 100px) -->
+        <div class="element-3d card-plane-left mid-left" data-corner="ml">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=480&q=80" alt="Publish Anywhere" class="card-photo" onerror="this.parentElement.classList.add('fallback-woman-teal');" />
+              <div class="fallback-silhouette woman-teal">
+                <span>📱</span>
+              </div>
+              <div class="card-bottom-badge">
+                <span class="badge-headline">Publish Anywhere</span>
+                <div class="social-icons-row">
+                  <span class="soc-icon instagram">📷</span>
+                  <span class="soc-icon youtube">▶️</span>
+                  <span class="soc-icon tiktok">🎵</span>
+                  <span class="soc-icon link">🔗</span>
+                </div>
+                <p class="badge-subtext">Share content across all platforms in just a few clicks.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 3: Right Photo Card (Z = 150px) -->
+        <div class="element-3d card-plane-right top-right" data-corner="tr">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=480&q=80" alt="Monetize Content" class="card-photo" onerror="this.parentElement.classList.add('fallback-woman-laptop');" />
+              <div class="fallback-silhouette woman-laptop">
+                <span>💻</span>
+              </div>
+              <div class="card-bottom-badge">
+                <span class="badge-headline">Monetize Your Content</span>
+                <div class="publisher-stat-pill pill-teal">
+                  <span class="stat-icon-teal">📈</span>
+                  <span class="stat-bold">Higher</span>
+                  <span class="stat-dim">Earning Potential</span>
+                </div>
+                <p class="badge-subtext">Turn your audience into real opportunities.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 1: Bottom-Right 3D Browser Window (Z = 60px) -->
+        <div class="element-3d icon-plane-tr bottom-right" data-corner="br">
+          <div class="icon-3d-wrap browser-3d">
+            <svg viewBox="0 0 120 80" fill="none">
+              <rect x="5" y="5" width="110" height="70" rx="10" fill="#083344" stroke="#67e8f9" stroke-width="2"/>
+              <circle cx="16" cy="16" r="3" fill="#67e8f9"/>
+              <circle cx="26" cy="16" r="3" fill="#67e8f9"/>
+              <circle cx="36" cy="16" r="3" fill="#67e8f9"/>
+              <circle cx="60" cy="44" r="14" fill="#0e7490" stroke="#a5f3fc" stroke-width="2"/>
+              <path d="M78 52l12 12-4 2-3-7z" fill="#ffffff"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 0: Central Text & Stats -->
+        <div class="center-content-3d">
+          <h1 class="main-title">
+            Get Ready to<br>
+            <span class="title-highlight highlight-white">Expand</span>
+          </h1>
+          <p class="main-subtext">Fuel your digital success with a team dedicated to delivering real results.</p>
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-num">1.5M+</span>
+              <span class="stat-lbl">Leads Generated</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">85%</span>
+              <span class="stat-lbl">Conversion Rate</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">24/7</span>
+              <span class="stat-lbl">Monitoring</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">95%</span>
+              <span class="stat-lbl">Client Satisfaction</span>
+            </div>
+          </div>
+          <div class="cta-actions">
+            <button class="btn-dark-pill">Get Started</button>
+            <button class="btn-light-pill">Explore &rsaquo;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SECTION 04: GREEN ("Get Ready to Monetize")          -->
+      <!-- ==================================================== -->
+      <section class="section-3d" data-section="3">
+        <div class="bg-surface bg-green"></div>
+
+        <!-- 3D Z-PLANE 4: Top-Left 3D Dollar Coins (Z = 220px) -->
+        <div class="element-3d icon-plane-bl top-left" data-corner="tl">
+          <div class="icon-3d-wrap coins-3d">
+            <svg viewBox="0 0 100 100" fill="none">
+              <ellipse cx="40" cy="55" rx="28" ry="14" fill="#065f46"/>
+              <ellipse cx="40" cy="45" rx="28" ry="14" fill="#047857"/>
+              <ellipse cx="40" cy="35" rx="28" ry="14" fill="#10b981" stroke="#a7f3d0" stroke-width="2"/>
+              <ellipse cx="68" cy="52" rx="24" ry="12" fill="#064e3b"/>
+              <ellipse cx="68" cy="44" rx="24" ry="12" fill="#34d399" stroke="#d1fae5" stroke-width="2"/>
+              <text x="63" y="49" fill="#064e3b" font-weight="900" font-size="14" font-family="sans-serif">$</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 2: Bottom-Left Photo Card (Z = 100px) -->
+        <div class="element-3d card-plane-left bottom-left" data-corner="bl">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=480&q=80" alt="Publish Anywhere" class="card-photo" onerror="this.parentElement.classList.add('fallback-woman-green');" />
+              <div class="fallback-silhouette woman-green">
+                <span>📱</span>
+              </div>
+              <div class="card-bottom-badge">
+                <span class="badge-headline">Publish Anywhere</span>
+                <div class="social-icons-row">
+                  <span class="soc-icon instagram">📷</span>
+                  <span class="soc-icon youtube">▶️</span>
+                  <span class="soc-icon tiktok">🎵</span>
+                  <span class="soc-icon link">🔗</span>
+                </div>
+                <p class="badge-subtext">Share content across all platforms in just a few clicks.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 3: Top-Right Photo Card (Z = 150px) -->
+        <div class="element-3d card-plane-right top-right" data-corner="tr">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=480&q=80" alt="Monetize Content" class="card-photo" onerror="this.parentElement.classList.add('fallback-woman-laptop');" />
+              <div class="fallback-silhouette woman-laptop">
+                <span>💻</span>
+              </div>
+              <div class="card-bottom-badge">
+                <span class="badge-headline">Monetize Your Content</span>
+                <div class="publisher-stat-pill pill-green">
+                  <span class="stat-icon-green">📈</span>
+                  <span class="stat-bold">Higher</span>
+                  <span class="stat-dim">Earning Potential</span>
+                </div>
+                <p class="badge-subtext">Turn your audience into real opportunities.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 1: Bottom-Right 3D Media Button & Mail (Z = 60px) -->
+        <div class="element-3d icon-plane-tr bottom-right" data-corner="br">
+          <div class="icon-3d-wrap media-play-3d">
+            <svg viewBox="0 0 110 80" fill="none">
+              <rect x="10" y="10" width="80" height="60" rx="16" fill="#047857" stroke="#34d399" stroke-width="2"/>
+              <polygon points="40,25 65,40 40,55" fill="#a7f3d0"/>
+              <!-- Eye badge -->
+              <circle cx="85" cy="55" r="16" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+              <ellipse cx="85" cy="55" rx="9" ry="5.5" fill="#ffffff"/>
+              <circle cx="85" cy="55" r="3.5" fill="#064e3b"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 0: Central Text & Stats -->
+        <div class="center-content-3d">
+          <h1 class="main-title">
+            Get Ready to<br>
+            <span class="title-highlight highlight-white">Monetize</span>
+          </h1>
+          <p class="main-subtext">Fuel your digital success with a team dedicated to delivering real results.</p>
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-num">1.5M+</span>
+              <span class="stat-lbl">Leads Generated</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">85%</span>
+              <span class="stat-lbl">Conversion Rate</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">24/7</span>
+              <span class="stat-lbl">Monitoring</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">95%</span>
+              <span class="stat-lbl">Client Satisfaction</span>
+            </div>
+          </div>
+          <div class="cta-actions">
+            <button class="btn-dark-pill">Get Started</button>
+            <button class="btn-light-pill">Explore &rsaquo;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- SECTION 05: CORAL ("Get Ready to Elevate")           -->
+      <!-- ==================================================== -->
+      <section class="section-3d" data-section="4">
+        <div class="bg-surface bg-coral"></div>
+
+        <!-- 3D Z-PLANE 4: Top-Left 3D Rocket (Z = 220px) -->
+        <div class="element-3d icon-plane-bl top-left" data-corner="tl">
+          <div class="icon-3d-wrap rocket-3d">
+            <svg viewBox="0 0 100 100" fill="none">
+              <!-- Rocket body -->
+              <path d="M40 20 C50 10 60 10 70 20 C75 35 75 55 65 70 L45 70 C35 55 35 35 40 20 Z" fill="#ffffff" stroke="#fda4af" stroke-width="2"/>
+              <ellipse cx="55" cy="38" rx="7" ry="7" fill="#f43f5e"/>
+              <polygon points="36,55 24,70 42,68" fill="#e11d48"/>
+              <polygon points="74,55 86,70 68,68" fill="#e11d48"/>
+              <!-- Thrust flame -->
+              <polygon points="48,70 55,88 62,70" fill="#fbbf24"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 2: Left Photo Card (Z = 100px) -->
+        <div class="element-3d card-plane-left mid-left" data-corner="ml">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=480&q=80" alt="Create Everywhere" class="card-photo" onerror="this.parentElement.classList.add('fallback-woman-coral');" />
+              <div class="fallback-silhouette woman-coral">
+                <span>🎙️</span>
+              </div>
+              <div class="card-bottom-badge">
+                <span class="badge-headline">Create Everywhere</span>
+                <div class="publisher-stat-pill pill-coral">
+                  <span class="stat-icon-coral">🚀</span>
+                  <span class="stat-bold">Global</span>
+                  <span class="stat-dim">Reach & Scale</span>
+                </div>
+                <p class="badge-subtext">Unlock millions of viewers worldwide.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 3: Right Photo Card (Z = 150px) -->
+        <div class="element-3d card-plane-right mid-right" data-corner="br">
+          <div class="photo-card-wrap">
+            <div class="photo-card">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=480&q=80" alt="Global Campaigns" class="card-photo" onerror="this.parentElement.classList.add('fallback-man-suit');" />
+              <div class="fallback-silhouette man-suit">
+                <span>🏆</span>
+              </div>
+              <div class="card-bottom-badge">
+                <span class="badge-headline">Scale With Confidence</span>
+                <div class="publisher-stat-pill pill-coral">
+                  <span class="stat-icon-coral">⭐</span>
+                  <span class="stat-bold">100K+</span>
+                  <span class="stat-dim">Global Campaigns</span>
+                </div>
+                <p class="badge-subtext">Trusted by industry leaders and top creators.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 1: Top-Right 3D Trophy (Z = 60px) -->
+        <div class="element-3d icon-plane-tr top-right" data-corner="tr">
+          <div class="icon-3d-wrap trophy-3d">
+            <svg viewBox="0 0 100 100" fill="none">
+              <polygon points="30,20 70,20 62,55 38,55" fill="#facc15" stroke="#fef08a" stroke-width="2"/>
+              <path d="M30 25 C18 28 20 45 35 48" stroke="#facc15" stroke-width="3" fill="none"/>
+              <path d="M70 25 C82 28 80 45 65 48" stroke="#facc15" stroke-width="3" fill="none"/>
+              <rect x="46" y="55" width="8" height="15" fill="#ca8a04"/>
+              <rect x="36" y="70" width="28" height="8" rx="2" fill="#a16207"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 3D Z-PLANE 0: Central Text & Stats -->
+        <div class="center-content-3d">
+          <h1 class="main-title">
+            Get Ready to<br>
+            <span class="title-highlight highlight-gold">Elevate</span>
+          </h1>
+          <p class="main-subtext">Fuel your digital success with a team dedicated to delivering real results.</p>
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-num">2.4M+</span>
+              <span class="stat-lbl">Leads Generated</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">98%</span>
+              <span class="stat-lbl">Client Satisfaction</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">89%</span>
+              <span class="stat-lbl">Conversion Rate</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">24/7</span>
+              <span class="stat-lbl">Monitoring</span>
+            </div>
+          </div>
+          <div class="cta-actions">
+            <button class="btn-dark-pill">Get Started</button>
+            <button class="btn-light-pill">Explore &rsaquo;</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

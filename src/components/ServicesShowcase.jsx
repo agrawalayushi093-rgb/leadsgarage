@@ -1,206 +1,143 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
+import styles from './ServicesShowcase.module.css';
 
-export default function ServicesShowcase({ onOpenContact }) {
-  const [activeStep, setActiveStep] = useState(0);
-  const containerRef = useRef(null);
-
+export default function ServicesShowcase() {
   const services = [
     {
       id: 'affiliate',
       title: 'Affiliate Marketing',
       subtitle: 'Performance-driven affiliate programs that help you acquire quality customers and scale faster.',
-      cardImage: '/image/Home/section2/affiliate_marketing.png',
+      bgImage: '/image/Home/section2/am1.png',
+      activeDotIndex: 0,
     },
     {
       id: 'email-sms',
       title: 'Email & SMS',
       subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
-      cardImage: '/image/Home/section2/email_sms.png',
+      bgImage: '/image/Home/section2/email.png',
+      activeDotIndex: 1,
     },
     {
       id: 'list-management',
       title: 'List Management',
-      subtitle: 'Clean, verified, and well-managed lists that improve reach, Inbox deliverability, and ROI.',
-      cardImage: '/image/Home/section2/list_management.png',
+      subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
+      bgImage: '/image/Home/section2/list management.png',
+      activeDotIndex: 2,
     },
     {
       id: 'crm',
       title: 'CRM Consultation',
-      subtitle: 'Streamline customer journeys with tailored CRM strategies, platform setup, and workflow automation.',
-      cardImage: '/image/Home/section2/crm.png',
+      subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
+      bgImage: '/image/Home/section2/crm1.png',
+      activeDotIndex: 3,
     },
     {
       id: 'web-dev',
       title: 'Web Development',
-      subtitle: 'High-performing websites, landing pages, and web tools built to convert visitors and scale your business.',
-      cardImage: '/image/Home/section2/web_development.png',
+      subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
+      bgImage: '/image/Home/section2/webdevelopment.png',
+      activeDotIndex: 4,
     },
     {
       id: 'smm',
       title: 'SMM',
-      subtitle: 'Engage and grow your brand audience through targeted social media marketing and performance ad campaigns.',
-      cardImage: '/image/Home/section2/smm.png',
+      subtitle: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.',
+      bgImage: '/image/Home/section2/smm1.png',
+      activeDotIndex: 5,
     },
   ];
 
-  // Scroll listener to step through dots as page scrolls
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      const totalScrollable = rect.height - windowHeight;
-      if (totalScrollable <= 0) return;
-
-      const currentScroll = -rect.top;
-      const progress = Math.min(Math.max(currentScroll / totalScrollable, 0), 0.999);
-      const step = Math.floor(progress * services.length);
-
-      setActiveStep(step);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [services.length]);
-
-  const currentService = services[activeStep];
-
   return (
     <section 
-      ref={containerRef}
       id="services" 
-      className="relative bg-[#FDFBF7] h-[250vh] pt-12 pb-24 bg-repeat bg-center"
+      className="relative bg-[#FDFBF7] py-16 sm:py-20 lg:py-24 bg-repeat bg-center w-full overflow-hidden"
       style={{ 
         backgroundImage: "url('/image/Home/section2/background.png')",
         backgroundSize: '600px auto'
       }}
     >
-      {/* Sticky Container */}
-      <div className="sticky top-24 lg:top-28 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Main Card Box matching Figma 1:1 */}
-        <div className="bg-[#FFFDF9] rounded-[2.5rem] lg:rounded-[3rem] px-6 sm:px-10 lg:px-12 py-6 sm:py-8 lg:py-10 border border-slate-100 shadow-xl relative overflow-hidden">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-            
-            {/* Left Column: 3D Image Graphic with Smooth Motion Transition */}
-            <div className="lg:col-span-6 relative flex justify-center lg:justify-start min-h-[280px] sm:min-h-[340px] items-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentService.id}
-                  initial={{ opacity: 0, scale: 0.92, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
-                  className="relative w-full max-w-md flex items-center justify-center"
-                >
-                  <img
-                    src={currentService.cardImage}
-                    alt={currentService.title}
-                    className="w-full h-auto max-h-[300px] sm:max-h-[360px] object-contain object-center drop-shadow-xl"
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Middle Column: Vertical 6-Dot Step Timeline matching screenshots */}
-            <div className="hidden lg:flex lg:col-span-1 flex-col items-center justify-center relative py-6">
+      <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 lg:space-y-20">
+        {services.map((service, index) => (
+          <motion.div
+            key={service.id}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="service-card w-full bg-[#FFFDF9] rounded-[2.5rem] lg:rounded-[3rem] px-6 sm:px-10 lg:px-14 py-8 sm:py-12 lg:py-14 border border-slate-100 shadow-xl relative overflow-hidden transition-shadow"
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
               
-              {/* Vertical Dashed Line */}
-              <div className="absolute top-4 bottom-4 w-[2px] border-l-2 border-dashed border-slate-300"></div>
+              {/* Left Column: Artwork Image + Overlaid White Service Card */}
+              <div className="lg:col-span-6 relative flex justify-center items-center py-2 sm:py-4">
+                <div className={`service-art relative flex items-center justify-center w-full max-w-[480px] ${({ 'list-management': styles.listManagement, crm: styles.crmConsultation, 'web-dev': styles.webDevelopment, smm: styles.smm })[service.id] || ''}`}>
+                  {/* 1. Large Artwork Image */}
+                  <div className="relative w-full aspect-square sm:w-[420px] sm:h-[420px] rounded-[2.2rem] overflow-hidden shadow-2xl transform -rotate-[2deg] hover:rotate-0 transition-transform duration-300">
+                    <img
+                      src={service.bgImage}
+                      alt={service.title}
+                      className="w-full h-full object-cover select-none"
+                    />
+                  </div>
 
-              {/* 6 Circular Dots */}
-              <div className="relative z-10 flex flex-col items-center justify-between space-y-6">
-                {services.map((service, idx) => {
-                  const isActive = idx === activeStep;
+                  {/* 2. White Card Overlaid Exactly Like Reference */}
+                  <div className="service-caption absolute bottom-2 sm:bottom-4 left-4 sm:left-6 z-20 w-[85%] sm:w-[80%] max-w-[340px] bg-white rounded-[1.8rem] p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-slate-100">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 leading-tight mb-2">
+                      {service.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
+                      {service.subtitle}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-                  return (
-                    <button
-                      key={service.id}
-                      onClick={() => setActiveStep(idx)}
-                      className="group relative flex items-center justify-center focus:outline-none cursor-pointer"
-                      aria-label={`Go to ${service.title}`}
-                    >
-                      {isActive ? (
-                        /* Active Green Dot matching screenshot */
-                        <motion.div
-                          layoutId="activeGreenDot"
-                          className="w-5 h-5 rounded-full bg-[#10B981] ring-4 ring-emerald-100 shadow-md flex items-center justify-center transition-all duration-300"
-                        >
-                          <div className="w-2 h-2 rounded-full bg-white"></div>
-                        </motion.div>
-                      ) : (
-                        /* Hollow Grey Circle matching screenshot */
-                        <div className="w-4 h-4 rounded-full bg-white border-2 border-slate-300 transition-all duration-300 hover:border-slate-400 hover:scale-110"></div>
-                      )}
-                    </button>
-                  );
-                })}
+              {/* Center Column: Delicate Vertical Dashed Line Divider with 6 Node Dots */}
+              <div className="hidden lg:flex lg:col-span-1 flex-col items-center justify-center relative py-6 min-h-[320px]">
+                {/* Vertical Dashed Line */}
+                <div className="absolute top-4 bottom-4 w-[2px] border-l-2 border-dashed border-slate-300" />
+
+                {/* 6 Circular Node Dots matching reference 1:1 */}
+                <div className="relative z-10 flex flex-col items-center justify-between space-y-6">
+                  {[0, 1, 2, 3, 4, 5].map((dotIdx) => {
+                    const isActive = dotIdx === service.activeDotIndex;
+
+                    return (
+                      <div
+                        key={dotIdx}
+                        className="flex items-center justify-center"
+                      >
+                        {isActive ? (
+                          <div className="w-4 h-4 rounded-full bg-[#10B981] ring-4 ring-emerald-100 shadow-md" />
+                        ) : (
+                          <div className="w-3 h-3 rounded-full bg-white border-2 border-slate-300" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Right Column: Heading & Subtitle matching reference 1:1 */}
+              <div className="lg:col-span-5 flex flex-col justify-center space-y-4 pl-0 lg:pl-6 text-center lg:text-left">
+                {/* Heading */}
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0A1C3E] tracking-tight leading-[1.12]">
+                  What We Can <br className="hidden sm:inline" />
+                  Do For You?
+                </h2>
+
+                {/* Supporting Subtitle Text */}
+                <div className="space-y-1 text-slate-600 font-normal text-sm sm:text-base lg:text-lg leading-relaxed">
+                  <p>One Partner. Multiple Solutions.</p>
+                  <p>Built Around Your Goals.</p>
+                </div>
               </div>
 
             </div>
-
-            {/* Right Column: Title & Subtitle matching screenshots 1:1 */}
-            <div className="lg:col-span-5 flex flex-col justify-center space-y-4 pl-0 lg:pl-6">
-              
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0B1936] tracking-tight leading-[1.12]">
-                What We Can <br />
-                Do For You?
-              </h2>
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentService.id}
-                  initial={{ opacity: 0, x: 15 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -15 }}
-                  transition={{ duration: 0.3 }}
-                  className="space-y-2"
-                >
-                  <span className="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold border border-blue-100">
-                    {currentService.title}
-                  </span>
-
-                  <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
-                    {currentService.subtitle}
-                  </p>
-
-                  <button
-                    onClick={onOpenContact}
-                    className="mt-3 inline-flex items-center gap-2 text-xs font-extrabold text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
-                  >
-                    <span>Learn More About {currentService.title}</span>
-                    <span>&rarr;</span>
-                  </button>
-                </motion.div>
-              </AnimatePresence>
-
-            </div>
-
-          </div>
-
-          {/* Mobile Step Dots Switcher */}
-          <div className="flex lg:hidden items-center justify-center gap-2 pt-6 border-t border-slate-100 mt-6">
-            {services.map((s, idx) => (
-              <button
-                key={s.id}
-                onClick={() => setActiveStep(idx)}
-                className={`transition-all rounded-full ${
-                  activeStep === idx 
-                    ? 'w-8 h-2.5 bg-[#10B981]' 
-                    : 'w-2.5 h-2.5 bg-slate-300'
-                }`}
-                aria-label={`Step ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-        </div>
-
+          </motion.div>
+        ))}
       </div>
     </section>
   );
 }
-

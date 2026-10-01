@@ -1,0 +1,67 @@
+/* Only the List Management desktop composition; keep the shared layout intact. */
+@media (min-width: 1024px) {
+  :global(#services) .listManagement > div:first-child img {
+    position: relative;
+    left: calc(-4 * var(--figma-unit));
+    width: calc(553 * var(--figma-unit));
+    max-width: none;
+    height: auto;
+  }
+
+  :global(#services) .listManagement > :global(.service-caption) {
+    width: calc(406 * var(--figma-unit));
+    left: calc(84 * var(--figma-unit));
+    bottom: calc(-82 * var(--figma-unit));
+    padding-inline: calc(44 * var(--figma-unit));
+  }
+}
+
+
+/* Individual reference compositions; no shared service or mobile overrides. */
+@media (min-width: 1024px) {
+  :global(#services) .crmConsultation > div:first-child img {
+    width: calc(563 * var(--figma-unit));
+    max-width: none;
+    height: auto;
+  }
+  :global(#services) .crmConsultation > :global(.service-caption) {
+    width: calc(406 * var(--figma-unit));
+    left: calc(60 * var(--figma-unit));
+    bottom: calc(-80 * var(--figma-unit));
+    padding: calc(40 * var(--figma-unit)) calc(44 * var(--figma-unit));
+  }
+  :global(#services) .crmConsultation > :global(.service-caption) h3 {
+    font-size: calc(44 * var(--figma-unit));
+    line-height: .95;
+  }
+  :global(#services) .crmConsultation > :global(.service-caption) p {
+    margin-top: calc(16 * var(--figma-unit));
+  }
+
+  :global(#services) .webDevelopment > div:first-child img {
+    width: calc(553 * var(--figma-unit));
+    max-width: none;
+    height: auto;
+  }
+  :global(#services) .webDevelopment > :global(.service-caption) {
+    width: calc(406 * var(--figma-unit));
+    left: calc(84 * var(--figma-unit));
+    bottom: calc(-89 * var(--figma-unit));
+    padding-inline: calc(44 * var(--figma-unit));
+  }
+
+  :global(#services) .smm > div:first-child img {
+    width: calc(562 * var(--figma-unit));
+    max-width: none;
+    height: auto;
+  }
+  :global(#services) .smm > :global(.service-caption) {
+    width: calc(406 * var(--figma-unit));
+    left: calc(55 * var(--figma-unit));
+    bottom: calc(-42 * var(--figma-unit));
+    padding-inline: calc(44 * var(--figma-unit));
+  }
+  :global(#services) .smm > :global(.service-caption) p {
+    margin-top: calc(12 * var(--figma-unit));
+  }
+}

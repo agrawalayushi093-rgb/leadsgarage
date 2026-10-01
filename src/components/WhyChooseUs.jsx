@@ -1,71 +1,93 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export default function WhyChooseUs({ onOpenContact }) {
+export default function WhyChooseUs() {
   const cards = [
     {
       id: 'call-transfers',
       title: 'Instant Call Transfers',
+      description: 'Connect callers instantly with your agents and close more deals, faster.',
       image: '/image/Home/section3/Group 40062.png'
     },
     {
       id: 'lead-delivery',
       title: 'Real-Time Lead Delivery',
+      description: "We deliver leads the moment they're generated, so you never miss an opportunity.",
       image: '/image/Home/section3/Group 39954.png'
     },
     {
       id: 'link-out',
       title: 'High-Intent Link-Out Traffic',
+      description: "Drive qualified, high-intent traffic that's ready to take action.",
       image: '/image/Home/section3/Group 40094.png'
     },
     {
       id: 'smart-list',
       title: 'Smart List Management',
+      description: 'Clean, verified, and well-managed lists that improve reach and deliverability.',
       image: '/image/Home/section3/Group 40063.png'
     },
     {
       id: 'geo-targeted',
       title: 'Geo-Targeted Customer Acquisition',
+      description: 'Reach the right audience in the right location for higher conversions and better ROI.',
       image: '/image/Home/section3/Group 39956.png'
     }
   ];
 
   return (
-    <section id="solutions" className="pt-12 sm:pt-16 lg:pt-20 pb-16 lg:pb-24 bg-[#FDFBF7] relative">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="solutions" className="why-section relative w-full bg-transparent py-10 sm:py-14 lg:py-20">
+      <div className="w-full max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
         
-        {/* Sticky Header: Remains 100% visible at the top while slides/cards stack underneath */}
-        <div className="sticky top-16 sm:top-20 z-40 bg-[#FDFBF7]/95 backdrop-blur-md pt-4 pb-6 text-center max-w-5xl mx-auto transition-all">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-5xl font-black text-slate-900 tracking-tight sm:whitespace-nowrap">
+        {/* Sticky Header - Pins to top while cards stack underneath */}
+        <div className="why-heading sticky top-0 z-50 bg-transparent backdrop-blur-md pt-6 pb-6 mb-8 text-center max-w-5xl mx-auto flex flex-col items-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[46px] xl:text-[52px] font-black text-[#222225] tracking-tight whitespace-nowrap">
             Why Leading Brands Choose LeadsGarage
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-slate-600 font-medium mt-2">
+          <p className="text-sm sm:text-base md:text-[17px] text-[#55555C] font-normal mt-3 max-w-3xl mx-auto tracking-normal">
             Powerful solutions. Smarter strategies. Measurable growth for your business.
           </p>
         </div>
 
-        {/* Stacking Cards Container: Cards stack cleanly below the sticky heading */}
-        <div className="relative space-y-6 sm:space-y-8 pt-4 pb-12">
+        {/* Cards Stage with Sticky Stacking Scroll Effect */}
+        <div className="cards-stage relative space-y-12 sm:space-y-16 pb-24 w-full">
           {cards.map((card, idx) => (
             <motion.div
               key={card.id}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: idx * 0.05 }}
-              className="sticky w-full flex justify-center cursor-pointer group"
+              viewport={{ once: true, margin: '-20px' }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className={`card card-${idx + 1} sticky w-full flex justify-center group`}
               style={{
-                top: `calc(190px + ${idx * 20}px)`,
+                top: `calc(150px + ${idx * 28}px)`,
                 zIndex: idx + 10
               }}
-              onClick={onOpenContact}
             >
-              <div className="w-full relative transition-transform duration-300 group-hover:scale-[1.01]">
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="w-full h-auto object-contain mix-blend-multiply drop-shadow-md"
-                />
+              <div className="solution-surface w-full relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-none bg-transparent">
+                <div className="solution-art w-full overflow-hidden rounded-2xl sm:rounded-3xl">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-auto object-contain block transform scale-[1.035] origin-top-left transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                </div>
+                <div className="solution-copy">
+                  <h3 className={`solution-title solution-title-${card.id}`}>
+                    {card.id === 'call-transfers' ? <>Instant Call<span className="desktop-break"><br /></span> Transfers</> :
+                      card.id === 'lead-delivery' ? <>Real-Time<span className="desktop-break"><br /></span> Lead Delivery</> :
+                      card.id === 'link-out' ? <>High-Intent<span className="desktop-break"><br /></span> Link-Out Traffic</> :
+                      card.id === 'smart-list' ? <>Smart List<span className="desktop-break"><br /></span> Management</> :
+                      <>Geo-Targeted<span className="desktop-break"><br /></span> Customer Acquisition</>}
+                  </h3>
+                  <p className={`solution-description solution-description-${card.id}`}>
+                    {card.id === 'call-transfers' ? <>Connect callers instantly with your agents<span className="desktop-break"><br /></span> and close more deals, faster.</> :
+                      card.id === 'lead-delivery' ? <>We deliver leads the moment they're<span className="desktop-break"><br /></span> generated, so you never miss an opportunity.</> :
+                      card.id === 'link-out' ? <>Drive qualified, high-intent traffic<span className="desktop-break"><br /></span> that's ready to take action.</> :
+                      card.id === 'smart-list' ? <>Clean, verified, and well-managed lists<span className="desktop-break"><br /></span> that improve reach and deliverability.</> :
+                      <>Reach the right audience in the right location<span className="desktop-break"><br /></span> for higher conversions and better ROI.</>}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -75,3 +97,6 @@ export default function WhyChooseUs({ onOpenContact }) {
     </section>
   );
 }
+
+
+

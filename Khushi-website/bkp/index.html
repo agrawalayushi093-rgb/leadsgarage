@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Payop — Fluid iOS Experience</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-active="0">
+
+  <!-- iOS Top Dynamic Bar & Progress -->
+  <div class="ios-progress-track">
+    <div class="ios-progress-bar" id="progressBar"></div>
+  </div>
+
+  <header class="ios-header">
+    <div class="header-left">
+      <span class="brand-title">PAYOP</span>
+      <span class="badge-ios">Fluid Motion</span>
+    </div>
+    <div class="header-center">
+      <span class="step-indicator" id="stepIndicator">01 / 05 · iGaming Infrastructure</span>
+    </div>
+    <div class="header-right">
+      <div class="pill-hint">
+        <span>Swipe / Scroll</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Side Dot Navigation -->
+  <nav class="side-nav" aria-label="Section Navigation">
+    <button class="nav-dot active" data-index="0" aria-label="Section 1">
+      <span class="dot-pill"></span>
+      <span class="dot-label">01 iGaming</span>
+    </button>
+    <button class="nav-dot" data-index="1" aria-label="Section 2">
+      <span class="dot-pill"></span>
+      <span class="dot-label">02 Esports</span>
+    </button>
+    <button class="nav-dot" data-index="2" aria-label="Section 3">
+      <span class="dot-pill"></span>
+      <span class="dot-label">03 Payouts</span>
+    </button>
+    <button class="nav-dot" data-index="3" aria-label="Section 4">
+      <span class="dot-pill"></span>
+      <span class="dot-label">04 Shield</span>
+    </button>
+    <button class="nav-dot" data-index="4" aria-label="Section 5">
+      <span class="dot-pill"></span>
+      <span class="dot-label">05 Developer</span>
+    </button>
+  </nav>
+
+  <!-- Ambient Dynamic Colored Glow Sphere -->
+  <div class="ambient-glow" id="ambientGlow"></div>
+
+  <!-- ======================================================== -->
+  <!-- MAIN STAGE (Fixed Viewport for fluid transitions)        -->
+  <!-- ======================================================== -->
+  <main class="stage-viewport" id="stageViewport">
+
+    <!-- SECTION 01: iGaming -->
+    <section class="section-layer active" data-section="0">
+      <div class="corner-element top-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-green">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path d="M20 5 C20 5 6 19 6 26 C6 32 10 36 16 34 C19 33 20 30 20 30 L19 36 L15 37 L25 37 L21 36 L20 30 C20 30 21 33 24 34 C30 36 34 32 34 26 C34 19 20 5 20 5 Z" fill="#34d399"/>
+              <circle cx="16" cy="18" r="3" fill="#ffffff" opacity="0.4"/>
+            </svg>
+          </div>
+          <span class="card-caption">3D Spade</span>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-green">
+            <svg viewBox="0 0 40 40" fill="none">
+              <polygon points="20,6 34,14 20,22 6,14" fill="#6ee7b7"/>
+              <polygon points="6,14 20,22 20,36 6,28" fill="#10b981"/>
+              <polygon points="20,22 34,14 34,28 20,36" fill="#047857"/>
+              <circle cx="20" cy="14" r="1.8" fill="#064e3b"/>
+              <circle cx="13" cy="25" r="1.5" fill="#a7f3d0"/>
+              <circle cx="27" cy="25" r="1.5" fill="#a7f3d0"/>
+            </svg>
+          </div>
+          <span class="card-caption">Lucky Dice</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-green">
+            <svg viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="16" fill="#059669" stroke="#6ee7b7" stroke-width="2"/>
+              <circle cx="20" cy="20" r="12" stroke="#ffffff" stroke-dasharray="3 3" opacity="0.8"/>
+              <circle cx="20" cy="20" r="7" fill="#34d399"/>
+            </svg>
+          </div>
+          <span class="card-caption">Casino Chip</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-green">
+            <svg viewBox="0 0 40 40" fill="none">
+              <rect x="9" y="5" width="22" height="30" rx="5" fill="#064e3b" stroke="#34d399" stroke-width="1.8"/>
+              <text x="12" y="16" fill="#a7f3d0" font-weight="900" font-size="11" font-family="sans-serif">A</text>
+              <circle cx="20" cy="20" r="4.5" fill="#34d399"/>
+              <path d="M18.5 22h3l-1.5 5z" fill="#34d399"/>
+            </svg>
+          </div>
+          <span class="card-caption">VIP Card</span>
+        </div>
+      </div>
+
+      <div class="center-content">
+        <div class="category-pill pill-emerald">01 · iGaming Payments</div>
+        <h1 class="hero-heading">Global payments built for <span class="gradient-text gradient-green">iGaming</span></h1>
+        <p class="hero-body">500+ localized deposit methods, real fraud protection, and instant casino cashouts with zero checkout drop-off.</p>
+        <div class="cta-row">
+          <button class="btn-ios-primary">Open an Account</button>
+          <button class="btn-ios-ghost">Talk to us</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: Esports -->
+    <section class="section-layer" data-section="1">
+      <div class="corner-element top-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-blue">
+            <svg viewBox="0 0 40 40" fill="#60a5fa">
+              <path d="M12 10h3v3h-3zM25 10h3v3h-3zM14 13h12v3H14zM10 16h20v4H10zM8 20h24v6H8zM12 26h3v3h-3zM25 26h3v3h-3z"/>
+            </svg>
+          </div>
+          <span class="card-caption">Retro Sprite</span>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-blue">
+            <svg viewBox="0 0 40 40" fill="none">
+              <polygon points="20,5 32,15 20,20 8,15" fill="#93c5fd"/>
+              <polygon points="8,15 20,20 20,35 8,26" fill="#2563eb"/>
+              <polygon points="20,20 32,15 32,26 20,35" fill="#1d4ed8"/>
+            </svg>
+          </div>
+          <span class="card-caption">Cyan Crystal</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-blue">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path d="M10 14 C14 12, 26 12, 30 14 C35 16, 36 27, 33 34 C31 37, 28 35, 25 30 C23 26, 17 26, 15 30 C12 35, 9 37, 7 34 C4 27, 5 16, 10 14 Z" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.8"/>
+              <circle cx="27" cy="21" r="1.8" fill="#ffffff"/>
+              <circle cx="31" cy="24" r="1.8" fill="#ffffff"/>
+              <rect x="11" y="21" width="3" height="6" rx="1" fill="#bfdbfe"/>
+              <rect x="9.5" y="22.5" width="6" height="3" rx="1" fill="#bfdbfe"/>
+            </svg>
+          </div>
+          <span class="card-caption">Pro Gamepad</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-blue">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path d="M20 5 L24 14 L34 16 L27 23 L28 33 L20 28 L12 33 L13 23 L6 16 L16 14 Z" fill="#3b82f6" stroke="#bfdbfe" stroke-width="1.8"/>
+              <ellipse cx="18" cy="20" rx="1" ry="2" fill="#0f172a"/>
+              <ellipse cx="22" cy="20" rx="1" ry="2" fill="#0f172a"/>
+            </svg>
+          </div>
+          <span class="card-caption">Power Star</span>
+        </div>
+      </div>
+
+      <div class="center-content">
+        <div class="category-pill pill-blue">02 · Digital Gaming</div>
+        <h1 class="hero-heading">Engineered for <span class="gradient-text gradient-blue">Esports</span> & Steam</h1>
+        <p class="hero-body">Sub-second microtransactions, dynamic wallet top-ups, and global prize distributions engineered for frictionless play.</p>
+        <div class="cta-row">
+          <button class="btn-ios-primary">Explore Gaming APIs</button>
+          <button class="btn-ios-ghost">Integration Specs</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 03: Payouts -->
+    <section class="section-layer" data-section="2">
+      <div class="corner-element top-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-purple">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path d="M22 3 L10 20 L18 20 L15 37 L30 17 L20 17 Z" fill="#c084fc" stroke="#f3e8ff" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <span class="card-caption">Fast Lightning</span>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-purple">
+            <svg viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="15" fill="#581c87" stroke="#c084fc" stroke-width="1.8"/>
+              <path d="M20 10 L27 20 L20 24 L13 20 Z" fill="#f3e8ff"/>
+              <path d="M20 24 L27 20 L20 30 L13 20 Z" fill="#a855f7"/>
+            </svg>
+          </div>
+          <span class="card-caption">Crypto Rail</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-purple">
+            <svg viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="15" stroke="#a855f7" stroke-width="1.8" fill="#3b0764"/>
+              <ellipse cx="20" cy="20" rx="7" ry="15" stroke="#e9d5ff" stroke-width="1.4"/>
+              <path d="M5 20h30M8 12h24M8 28h24" stroke="#a855f7" stroke-width="1.4"/>
+            </svg>
+          </div>
+          <span class="card-caption">Global Mesh</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-purple">
+            <svg viewBox="0 0 40 40" fill="none">
+              <rect x="7" y="10" width="26" height="20" rx="4" fill="#6b21a8" stroke="#c084fc" stroke-width="1.8"/>
+              <rect x="7" y="15" width="26" height="5" fill="#3b0764"/>
+              <circle cx="28" cy="24" r="2.5" fill="#f3e8ff"/>
+            </svg>
+          </div>
+          <span class="card-caption">Smart Vault</span>
+        </div>
+      </div>
+
+      <div class="center-content">
+        <div class="category-pill pill-purple">03 · Instant Liquidity</div>
+        <h1 class="hero-heading">Instant <span class="gradient-text gradient-purple">Payouts</span> in 140+ Currencies</h1>
+        <p class="hero-body">Direct SEPA Instant, Faster Payments, Pix, and crypto settlement rails without manual processing delays.</p>
+        <div class="cta-row">
+          <button class="btn-ios-primary">View Payout Rails</button>
+          <button class="btn-ios-ghost">Check Latency</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: AI Shield -->
+    <section class="section-layer" data-section="3">
+      <div class="corner-element top-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-amber">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path d="M20 5 C27 8 32 10 32 17 C32 27 24 34 20 35 C16 34 8 27 8 17 C8 10 13 8 20 5 Z" fill="#78350f" stroke="#fbbf24" stroke-width="1.8"/>
+              <path d="M15 19l4 4 7-7" stroke="#fef3c7" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="card-caption">AI Shield</span>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-amber">
+            <svg viewBox="0 0 40 40" fill="none">
+              <circle cx="20" cy="20" r="15" stroke="#f59e0b" stroke-width="1.8" fill="#451a03"/>
+              <circle cx="20" cy="20" r="8" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="2 2"/>
+              <path d="M20 20 L28 14" stroke="#fef3c7" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="card-caption">Threat Radar</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-amber">
+            <svg viewBox="0 0 40 40" fill="none">
+              <rect x="11" y="16" width="18" height="16" rx="4" fill="#92400e" stroke="#fbbf24" stroke-width="1.8"/>
+              <path d="M15 16v-5a5 5 0 0 1 10 0v5" stroke="#fef3c7" stroke-width="1.8"/>
+              <circle cx="20" cy="24" r="2" fill="#fef3c7"/>
+            </svg>
+          </div>
+          <span class="card-caption">Biometric Auth</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-amber">
+            <svg viewBox="0 0 40 40" fill="none">
+              <polygon points="20,5 25,10 32,10 34,17 39,20 34,23 32,30 25,30 20,35 15,30 8,30 6,23 1,20 6,17 8,10 15,10" fill="#b45309" stroke="#fcd34d" stroke-width="1.4"/>
+              <circle cx="20" cy="20" r="5" fill="#fef3c7"/>
+            </svg>
+          </div>
+          <span class="card-caption">Audit Seal</span>
+        </div>
+      </div>
+
+      <div class="center-content">
+        <div class="category-pill pill-amber">04 · Risk Intelligence</div>
+        <h1 class="hero-heading">Zero-Chargeback <span class="gradient-text gradient-amber">Security</span> Shield</h1>
+        <p class="hero-body">Proprietary AI device fingerprinting and velocity tracking that block bad actors without adding friction for real players.</p>
+        <div class="cta-row">
+          <button class="btn-ios-primary">Explore Fraud Specs</button>
+          <button class="btn-ios-ghost">Security Whitepaper</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 05: Developer API -->
+    <section class="section-layer" data-section="4">
+      <div class="corner-element top-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-cyan">
+            <svg viewBox="0 0 40 40" fill="none">
+              <rect x="7" y="7" width="26" height="26" rx="5" fill="#083344" stroke="#22d3ee" stroke-width="1.8"/>
+              <path d="M14 17l-4 3 4 3M26 17l4 3-4 3M22 13l-4 14" stroke="#a5f3fc" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="card-caption">REST APIs</span>
+        </div>
+      </div>
+
+      <div class="corner-element top-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-cyan">
+            <svg viewBox="0 0 40 40" fill="none">
+              <polygon points="20,5 32,12 20,19 8,12" fill="#0e7490" stroke="#67e8f9" stroke-width="1.4"/>
+              <polygon points="8,12 20,19 20,33 8,26" fill="#155e75" stroke="#67e8f9" stroke-width="1.4"/>
+              <polygon points="20,19 32,12 32,26 20,33" fill="#164e63" stroke="#67e8f9" stroke-width="1.4"/>
+            </svg>
+          </div>
+          <span class="card-caption">Cloud Microservice</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-left">
+        <div class="ios-card">
+          <div class="icon-circle icon-cyan">
+            <svg viewBox="0 0 40 40" fill="none">
+              <path d="M11 13h18a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3v-7a3 3 0 0 1 3-3z" fill="#155e75" stroke="#22d3ee" stroke-width="1.8"/>
+              <circle cx="15" cy="20" r="2" fill="#67e8f9"/>
+              <circle cx="21" cy="20" r="2" fill="#67e8f9"/>
+              <circle cx="27" cy="20" r="2" fill="#a5f3fc"/>
+            </svg>
+          </div>
+          <span class="card-caption">Webhooks</span>
+        </div>
+      </div>
+
+      <div class="corner-element bottom-right">
+        <div class="ios-card">
+          <div class="icon-circle icon-cyan">
+            <svg viewBox="0 0 40 40" fill="none">
+              <rect x="7" y="8" width="26" height="24" rx="4" fill="#082f49" stroke="#38bdf8" stroke-width="1.8"/>
+              <path d="M12 17l3 3-3 3M19 23h6" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="card-caption">CLI & SDK</span>
+        </div>
+      </div>
+
+      <div class="center-content">
+        <div class="category-pill pill-cyan">05 · Modern Integration</div>
+        <h1 class="hero-heading">Developer-First <span class="gradient-text gradient-cyan">APIs</span> & Webhooks</h1>
+        <p class="hero-body">Clean REST APIs, idempotent webhooks, and drop-in SDKs. Integrate your global cashier in under an afternoon.</p>
+        <div class="cta-row">
+          <button class="btn-ios-primary">Read API Docs</button>
+          <button class="btn-ios-ghost">Get API Keys</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
