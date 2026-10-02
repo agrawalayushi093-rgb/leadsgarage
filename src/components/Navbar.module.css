@@ -1,0 +1,56 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-radius: 0;
+  transition: top 300ms ease, left 300ms ease, right 300ms ease, border-radius 300ms ease;
+}
+
+.header > nav {
+  border-radius: inherit;
+}
+
+.floating {
+  top: 16px;
+  left: 24px;
+  right: 24px;
+  border-radius: 16px;
+}
+
+@media (min-width: 1101px) {
+  .header {
+    --nav-compact-width: min(88%, 1240px);
+    --nav-edge-padding: var(--page-gutter);
+    left: 50%;
+    right: auto;
+    top: calc(16px * var(--nav-progress));
+    width: calc(100% - (100% - var(--nav-compact-width)) * var(--nav-progress));
+    transform: translateX(-50%);
+    border-radius: calc(80px * var(--nav-progress));
+    transition: none;
+  }
+
+  .header.header > nav > div {
+    padding-inline: calc(var(--nav-edge-padding) + (24px - var(--nav-edge-padding)) * var(--nav-progress));
+  }
+}
+
+@media (min-width: 1101px) and (max-width: 1440px) {
+  .header {
+    --nav-edge-padding: 4%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .floating {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header { transition: none; }
+}

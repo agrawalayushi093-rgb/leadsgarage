@@ -1,0 +1,22 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.item {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100%;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+@media (max-width: 1023px) {
+  .stack { gap: 22px; }
+}
+
+@media (max-width: 639px) {
+  .stack { gap: 18px; }
+}

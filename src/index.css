@@ -6,7 +6,7 @@ html,
 body {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   margin: 0;
   padding: 0;
   background-color: #FDFBF7;
@@ -53,6 +53,7 @@ section { scroll-margin-top: 90px; }
 .site-header nav { background: white; padding: 0; box-shadow: none; }
 .site-header nav > div { max-width: 1920px; padding: 0 var(--page-gutter); height: clamp(80px, 7.34375vw, 141px); }
 .site-header nav a img { width: clamp(160px, 10.8333vw, 208px); height: auto; }
+.site-header-spacer { height: clamp(80px, 7.34375vw, 141px); }
 .site-header nav > div > div:nth-child(2) { gap: clamp(16px, 1.302vw, 25px); }
 .site-header nav > div > div:nth-child(2) > div > a { font-family: Inter, sans-serif; font-size: clamp(14px,.8333vw,16px); font-weight: 400; color: #292929; gap: 12px; }
 .site-header .nav-actions { gap: 16px; }
@@ -221,7 +222,7 @@ section { scroll-margin-top: 90px; }
 #audience > div { max-width: 1540px; padding: 0; }
 #audience > div > div:first-child { max-width: none; margin-bottom: calc(88 * var(--figma-unit)); }
 #audience p { font-family: Inter,sans-serif; font-size: max(14px,calc(20 * var(--figma-unit))); color: black; }
-#audience .grid { max-width: calc(1272 * var(--figma-unit)); gap: calc(68 * var(--figma-unit)); }
+#audience .grid { max-width: calc(1272 * var(--figma-unit)); gap: calc(68 * var(--figma-unit)); margin-inline: auto; }
 #audience .grid > div { min-height: calc(624 * var(--figma-unit)); padding: calc(65 * var(--figma-unit)) calc(54 * var(--figma-unit)) 0; border-radius: calc(28 * var(--figma-unit)); background: linear-gradient(#5875d5,#2142bc); box-shadow: inset 0 -4px 0 #7189ed; }
 #audience .grid span, #audience .grid h3 { font-family: Inter,sans-serif; font-size: calc(58 * var(--figma-unit)); line-height: 1.22; letter-spacing: -.02em; }
 #audience .grid span { font-weight: 300; color: white; }

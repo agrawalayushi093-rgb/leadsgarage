@@ -1,8 +1,13 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import styles from './ServicesShowcase.module.css';
 
 export default function ServicesShowcase() {
+  const sectionRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [progress, setProgress] = useState(0);
+
   const services = [
     {
       id: 'affiliate',
@@ -48,35 +53,108 @@ export default function ServicesShowcase() {
     },
   ];
 
+  // Scroll Progress Tracking for Pinning & Service Sync
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start 80px', 'end end']
+  });
+
+  // Sync scroll position with active service index with safety checks
+  useEffect(() => {
+    if (!scrollYProgress) return;
+    return scrollYProgress.on('change', (latest) => {
+      if (typeof latest !== 'number' || isNaN(latest)) return;
+      const serviceCount = services.length;
+      const computedIndex = Math.min(
+        serviceCount - 1,
+        Math.max(0, Math.floor(latest * serviceCount))
+      );
+      if (!isNaN(computedIndex)) {
+        setActiveIndex(computedIndex);
+      }
+    });
+  }, [scrollYProgress, services.length]);
+
+  // Autoplay & Progress Ring Animation (Pauses on Hover)
+  useEffect(() => {
+    const cycleDuration = 3500; // 3.5 seconds per service
+    const intervalTime = 40;
+    const step = (intervalTime / cycleDuration) * 100;
+
+    const timer = setInterval(() => {
+      if (!isHovered) {
+        setProgress((prevProgress) => {
+          if (prevProgress >= 100) {
+            setActiveIndex((prevIdx) => (prevIdx + 1) % services.length);
+            return 0;
+          }
+          return prevProgress + step;
+        });
+      }
+    }, intervalTime);
+
+    return () => clearInterval(timer);
+  }, [isHovered, services.length]);
+
+  // Reset dot progress ring when active service changes
+  useEffect(() => {
+    setProgress(0);
+  }, [activeIndex]);
+
+  // Safe active index & service resolution (prevents any undefined render crashes)
+  const safeIndex = (typeof activeIndex === 'number' && !isNaN(activeIndex))
+    ? Math.min(services.length - 1, Math.max(0, activeIndex))
+    : 0;
+
+  const currentService = services[safeIndex] || services[0];
+
   return (
     <section 
-      id="services" 
-      className="relative bg-[#FDFBF7] py-16 sm:py-20 lg:py-24 bg-repeat bg-center w-full overflow-hidden"
+      id="services"
+      ref={sectionRef} 
+      className="relative bg-[#FDFBF7] bg-repeat bg-center w-full"
       style={{ 
         backgroundImage: "url('/image/Home/section2/background.png')",
-        backgroundSize: '600px auto'
+        backgroundSize: '600px auto',
+        height: '450vh'
       }}
     >
-      <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 lg:space-y-20">
-        {services.map((service, index) => (
-          <motion.div
-            key={service.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="service-card w-full bg-[#FFFDF9] rounded-[2.5rem] lg:rounded-[3rem] px-6 sm:px-10 lg:px-14 py-8 sm:py-12 lg:py-14 border border-slate-100 shadow-xl relative overflow-hidden transition-shadow"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-              
-              {/* Left Column: Artwork Image + Overlaid White Service Card */}
-              <div className="lg:col-span-6 relative flex justify-center items-center py-2 sm:py-4">
-                <div className={`service-art relative flex items-center justify-center w-full max-w-[480px] ${({ 'list-management': styles.listManagement, crm: styles.crmConsultation, 'web-dev': styles.webDevelopment, smm: styles.smm })[service.id] || ''}`}>
+      <div 
+        className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 py-4"
+        style={{
+          position: 'sticky',
+          top: '80px',
+          zIndex: 30
+        }}
+      >
+        <motion.div
+          key="master-card"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="service-card w-full bg-[#FFFDF9] rounded-[2.5rem] lg:rounded-[3rem] px-6 sm:px-10 lg:px-14 py-8 sm:py-12 lg:py-14 border border-slate-100 shadow-xl relative overflow-hidden transition-all duration-300"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            
+            {/* Left Column: Artwork Image + Overlaid White Service Card with Motion Transition */}
+            <div className="lg:col-span-6 relative flex justify-center items-center py-2 sm:py-4 min-h-[380px] sm:min-h-[440px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentService.id}
+                  initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: -15 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className={`service-art relative flex items-center justify-center w-full max-w-[480px] ${({ 'list-management': styles.listManagement, crm: styles.crmConsultation, 'web-dev': styles.webDevelopment, smm: styles.smm })[currentService.id] || ''}`}
+                >
                   {/* 1. Large Artwork Image */}
                   <div className="relative w-full aspect-square sm:w-[420px] sm:h-[420px] rounded-[2.2rem] overflow-hidden shadow-2xl transform -rotate-[2deg] hover:rotate-0 transition-transform duration-300">
                     <img
-                      src={service.bgImage}
-                      alt={service.title}
+                      src={currentService.bgImage}
+                      alt={currentService.title}
                       className="w-full h-full object-cover select-none"
                     />
                   </div>
@@ -84,59 +162,121 @@ export default function ServicesShowcase() {
                   {/* 2. White Card Overlaid Exactly Like Reference */}
                   <div className="service-caption absolute bottom-2 sm:bottom-4 left-4 sm:left-6 z-20 w-[85%] sm:w-[80%] max-w-[340px] bg-white rounded-[1.8rem] p-5 sm:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-slate-100">
                     <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 leading-tight mb-2">
-                      {service.title}
+                      {currentService.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
-                      {service.subtitle}
+                      {currentService.subtitle}
                     </p>
                   </div>
-                </div>
-              </div>
-
-              {/* Center Column: Delicate Vertical Dashed Line Divider with 6 Node Dots */}
-              <div className="hidden lg:flex lg:col-span-1 flex-col items-center justify-center relative py-6 min-h-[320px]">
-                {/* Vertical Dashed Line */}
-                <div className="absolute top-4 bottom-4 w-[2px] border-l-2 border-dashed border-slate-300" />
-
-                {/* 6 Circular Node Dots matching reference 1:1 */}
-                <div className="relative z-10 flex flex-col items-center justify-between space-y-6">
-                  {[0, 1, 2, 3, 4, 5].map((dotIdx) => {
-                    const isActive = dotIdx === service.activeDotIndex;
-
-                    return (
-                      <div
-                        key={dotIdx}
-                        className="flex items-center justify-center"
-                      >
-                        {isActive ? (
-                          <div className="w-4 h-4 rounded-full bg-[#10B981] ring-4 ring-emerald-100 shadow-md" />
-                        ) : (
-                          <div className="w-3 h-3 rounded-full bg-white border-2 border-slate-300" />
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Right Column: Heading & Subtitle matching reference 1:1 */}
-              <div className="lg:col-span-5 flex flex-col justify-center space-y-4 pl-0 lg:pl-6 text-center lg:text-left">
-                {/* Heading */}
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0A1C3E] tracking-tight leading-[1.12]">
-                  What We Can <br className="hidden sm:inline" />
-                  Do For You?
-                </h2>
-
-                {/* Supporting Subtitle Text */}
-                <div className="space-y-1 text-slate-600 font-normal text-sm sm:text-base lg:text-lg leading-relaxed">
-                  <p>One Partner. Multiple Solutions.</p>
-                  <p>Built Around Your Goals.</p>
-                </div>
-              </div>
-
+                </motion.div>
+              </AnimatePresence>
             </div>
-          </motion.div>
-        ))}
+
+            {/* Center Column: Delicate Vertical Dashed Line Divider with 6 Interactive Node Dots */}
+            <div className="hidden lg:flex lg:col-span-1 flex-col items-center justify-center relative py-6 min-h-[320px]">
+              {/* Vertical Dashed Line */}
+              <div className="absolute top-4 bottom-4 w-[2px] border-l-2 border-dashed border-slate-300" />
+
+              {/* 6 Circular Node Dots matching reference 1:1 with Progress Fill Animation */}
+              <div className="relative z-10 flex flex-col items-center justify-between space-y-6">
+                {services.map((service, dotIdx) => {
+                  const isCompleted = dotIdx < safeIndex;
+                  const isActive = dotIdx === safeIndex;
+
+                  return (
+                    <button
+                      key={service.id}
+                      onClick={() => {
+                        setActiveIndex(dotIdx);
+                        setProgress(0);
+                      }}
+                      className="flex items-center justify-center relative focus:outline-none group/dot cursor-pointer"
+                      title={service.title}
+                      aria-label={`Go to ${service.title}`}
+                    >
+                      {isActive ? (
+                        <div className="relative flex items-center justify-center">
+                          {/* Animated SVG Progress Ring */}
+                          <svg className="w-6 h-6 -rotate-90 transform" viewBox="0 0 24 24">
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="9"
+                              stroke="#E2E8F0"
+                              strokeWidth="2.5"
+                              fill="none"
+                            />
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="9"
+                              stroke="#10B981"
+                              strokeWidth="2.5"
+                              fill="none"
+                              strokeDasharray="56.54"
+                              strokeDashoffset={56.54 - (56.54 * Math.min(progress, 100)) / 100}
+                              strokeLinecap="round"
+                              className="transition-all duration-75 ease-linear"
+                            />
+                          </svg>
+                          <div className="absolute w-3 h-3 rounded-full bg-[#10B981] shadow-md" />
+                        </div>
+                      ) : isCompleted ? (
+                        <div className="w-3.5 h-3.5 rounded-full bg-[#10B981] shadow-sm transition-all duration-300" />
+                      ) : (
+                        <div className="w-3.5 h-3.5 rounded-full bg-white border-2 border-slate-300 group-hover/dot:border-emerald-400 transition-colors" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Right Column: Heading & Subtitle matching reference 1:1 */}
+            <div className="lg:col-span-5 flex flex-col justify-center space-y-4 pl-0 lg:pl-6 text-center lg:text-left">
+              {/* Heading */}
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0A1C3E] tracking-tight leading-[1.12]">
+                What We Can <br className="hidden sm:inline" />
+                Do For You?
+              </h2>
+
+              {/* Supporting Subtitle Text */}
+              <div className="space-y-1 text-slate-600 font-normal text-sm sm:text-base lg:text-lg leading-relaxed">
+                <p>One Partner. Multiple Solutions.</p>
+                <p>Built Around Your Goals.</p>
+              </div>
+
+              {/* Mobile Dots Bar for Mobile & Tablet screens */}
+              <div className="flex lg:hidden justify-center items-center gap-3 pt-4">
+                {services.map((service, dotIdx) => {
+                  const isCompleted = dotIdx < safeIndex;
+                  const isActive = dotIdx === safeIndex;
+
+                  return (
+                    <button
+                      key={service.id}
+                      onClick={() => {
+                        setActiveIndex(dotIdx);
+                        setProgress(0);
+                      }}
+                      className="p-1 focus:outline-none"
+                      aria-label={`Go to ${service.title}`}
+                    >
+                      {isActive ? (
+                        <div className="w-6 h-2.5 rounded-full bg-[#10B981] transition-all duration-300" />
+                      ) : isCompleted ? (
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#10B981]/70 transition-all duration-300" />
+                      ) : (
+                        <div className="w-2.5 h-2.5 rounded-full bg-slate-300 transition-colors" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+          </div>
+        </motion.div>
       </div>
     </section>
   );

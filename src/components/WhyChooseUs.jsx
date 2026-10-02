@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import styles from './WhyChooseUs.module.css';
 
 export default function WhyChooseUs() {
   const cards = [
@@ -39,8 +39,8 @@ export default function WhyChooseUs() {
     <section id="solutions" className="why-section relative w-full bg-transparent py-10 sm:py-14 lg:py-20">
       <div className="w-full max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
         
-        {/* Sticky Header - Pins to top while cards stack underneath */}
-        <div className="why-heading sticky top-0 z-50 bg-transparent backdrop-blur-md pt-6 pb-6 mb-8 text-center max-w-5xl mx-auto flex flex-col items-center">
+        {/* Heading and cards share one scroll pin and release together. */}
+        <div className="why-heading z-50 bg-transparent backdrop-blur-md pt-6 pb-6 mb-8 text-center max-w-5xl mx-auto flex flex-col items-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[46px] xl:text-[52px] font-black text-[#222225] tracking-tight whitespace-nowrap">
             Why Leading Brands Choose LeadsGarage
           </h2>
@@ -49,20 +49,11 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        {/* Cards Stage with Sticky Stacking Scroll Effect */}
-        <div className="cards-stage relative space-y-12 sm:space-y-16 pb-24 w-full">
+        <div className={`cards-stage ${styles.stack} w-full`}>
           {cards.map((card, idx) => (
-            <motion.div
+            <div
               key={card.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-20px' }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className={`card card-${idx + 1} sticky w-full flex justify-center group`}
-              style={{
-                top: `calc(150px + ${idx * 28}px)`,
-                zIndex: idx + 10
-              }}
+              className={`card card-${idx + 1} ${styles.item} w-full flex justify-center group`}
             >
               <div className="solution-surface w-full relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-none bg-transparent">
                 <div className="solution-art w-full overflow-hidden rounded-2xl sm:rounded-3xl">
@@ -89,7 +80,7 @@ export default function WhyChooseUs() {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -97,6 +88,3 @@ export default function WhyChooseUs() {
     </section>
   );
 }
-
-
-
