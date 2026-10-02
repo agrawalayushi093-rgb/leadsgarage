@@ -1,22 +1,16 @@
+.stage {
+  width: 100%;
+}
+
 .stack {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+  position: relative;
+  width: 100%;
 }
 
 .item {
-  position: relative !important;
-  top: auto !important;
-  left: auto !important;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  margin: 0 !important;
-  transform: none !important;
-}
-
-@media (max-width: 1023px) {
-  .stack { gap: 22px; }
-}
-
-@media (max-width: 639px) {
-  .stack { gap: 18px; }
+  will-change: transform;
 }

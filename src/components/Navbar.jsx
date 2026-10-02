@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Navbar.module.css';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const isScrolled = scrollProgress > 50 / 180;
+  const { scrollY } = useScroll();
+  const scrollProgress = useTransform(scrollY, [0, 150], [0, 1]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
-
-  useEffect(() => {
-    const updateScrolled = () => setScrollProgress(Math.min(1, Math.max(0, window.scrollY / 180)));
-    updateScrolled();
-    window.addEventListener('scroll', updateScrolled, { passive: true });
-    return () => window.removeEventListener('scroll', updateScrolled);
-  }, []);
 
   const navItems = [
     { name: 'Home', href: '#hero' },
@@ -32,9 +25,9 @@ export default function Navbar() {
 
   return (
     <>
-    <header className={`site-header ${styles.header} ${isScrolled ? styles.floating : ''} bg-white`} style={{ '--nav-progress': scrollProgress }}>
+    <motion.header className={`site-header ${styles.header} bg-[#FDFBF7]`} style={{ '--nav-progress': scrollProgress }}>
       {/* Navigation Bar - Clean Background matching page */}
-      <nav className="bg-[#FDFBF7] pt-6 sm:pt-7 pb-4">
+      <nav className="bg-transparent pt-6 sm:pt-7 pb-4">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
 
           {/* GROUP 1 (LEFT): Brand Logo */}
@@ -188,7 +181,7 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
     <div className="site-header-spacer" aria-hidden="true" />
     </>
   );

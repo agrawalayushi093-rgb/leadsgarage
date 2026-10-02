@@ -1,12 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './ServicesShowcase.module.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function ServicesShowcase() {
   const sectionRef = useRef(null);
+  const cardRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  const [isInViewport, setIsInViewport] = useState(false);
+
+  const isAnimatingRef = useRef(false);
+  const activeIndexRef = useRef(0);
+  const wheelDeltaAccumulator = useRef(0);
+  const interactionTimerRef = useRef(null);
+
+  // Keep activeIndexRef synchronized with state
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   const services = [
     {
@@ -53,55 +71,197 @@ export default function ServicesShowcase() {
     },
   ];
 
-  // Scroll Progress Tracking for Pinning & Service Sync
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start 80px', 'end end']
-  });
+  // Controlled service transition function (Locks out rapid skipping)
+  const goToService = useCallback((nextIndex) => {
+    if (isAnimatingRef.current) return;
+    if (nextIndex < 0 || nextIndex >= services.length) return;
 
-  // Sync scroll position with active service index with safety checks
+    isAnimatingRef.current = true;
+    setIsUserInteracting(true);
+    setActiveIndex(nextIndex);
+    setProgress(100);
+
+    // Reset user interaction timer after idle period (resumes autoplay when idle)
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      setIsUserInteracting(false);
+    }, 4500);
+
+    // Lock transition for 0.75 seconds to ensure smooth 0.7s animation without skipping
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 750);
+  }, [services.length]);
+
+  // GSAP ScrollTrigger: Pin section during scroll interaction & track section viewport entry/exit for autoplay
   useEffect(() => {
-    if (!scrollYProgress) return;
-    return scrollYProgress.on('change', (latest) => {
-      if (typeof latest !== 'number' || isNaN(latest)) return;
-      const serviceCount = services.length;
-      const computedIndex = Math.min(
-        serviceCount - 1,
-        Math.max(0, Math.floor(latest * serviceCount))
-      );
-      if (!isNaN(computedIndex)) {
-        setActiveIndex(computedIndex);
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      // 1. Pin section trigger for interactive stepped card scrolling
+      ScrollTrigger.create({
+        id: 'services-pin',
+        trigger: section,
+        start: 'top top+=80',
+        end: '+=400',
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onToggle: (self) => {
+          if (!self.isActive) {
+            wheelDeltaAccumulator.current = 0;
+          }
+        },
+      });
+
+      // 2. Section Viewport Trigger: Autoplay starts ONLY when section enters viewport, pauses when leaving
+      ScrollTrigger.create({
+        id: 'services-viewport',
+        trigger: section,
+        start: 'top 85%',
+        end: 'bottom 15%',
+        onEnter: () => setIsInViewport(true),
+        onLeave: () => setIsInViewport(false),
+        onEnterBack: () => setIsInViewport(true),
+        onLeaveBack: () => setIsInViewport(false),
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [services.length]);
+
+  // Stepped Mouse Wheel Scroll Control: Prevents fast wheel from skipping cards + Immediate boundary release
+  useEffect(() => {
+    const sectionEl = sectionRef.current;
+    if (!sectionEl) return;
+
+    const handleWheel = (e) => {
+      const st = ScrollTrigger.getById('services-pin');
+      if (!st || !st.isActive) {
+        wheelDeltaAccumulator.current = 0;
+        return;
       }
-    });
-  }, [scrollYProgress, services.length]);
 
-  // Autoplay & Progress Ring Animation (Pauses on Hover)
+      const currentIdx = activeIndexRef.current;
+
+      // 1. Boundary Release DOWN: On last service card + scrolling DOWN -> DO NOT prevent default! Immediately exit pinned section!
+      if (currentIdx === services.length - 1 && e.deltaY > 0) {
+        return;
+      }
+
+      // 2. Boundary Release UP: On first service card + scrolling UP -> DO NOT prevent default! Immediately exit pinned section upward!
+      if (currentIdx === 0 && e.deltaY < 0) {
+        return;
+      }
+
+      // Intercept wheel scroll to step through services one by one
+      e.preventDefault();
+
+      if (isAnimatingRef.current) return;
+
+      wheelDeltaAccumulator.current += e.deltaY;
+      const threshold = 55; // Debounce threshold in px
+
+      if (wheelDeltaAccumulator.current >= threshold) {
+        wheelDeltaAccumulator.current = 0;
+        if (currentIdx < services.length - 1) {
+          goToService(currentIdx + 1);
+        }
+      } else if (wheelDeltaAccumulator.current <= -threshold) {
+        wheelDeltaAccumulator.current = 0;
+        if (currentIdx > 0) {
+          goToService(currentIdx - 1);
+        }
+      }
+    };
+
+    sectionEl.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      sectionEl.removeEventListener('wheel', handleWheel);
+    };
+  }, [services.length, goToService]);
+
+  // Touch / Mobile Swipe Handling (Stepped + Boundary Release)
   useEffect(() => {
-    const cycleDuration = 3500; // 3.5 seconds per service
+    const sectionEl = sectionRef.current;
+    if (!sectionEl) return;
+
+    let touchStartY = 0;
+
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e) => {
+      const st = ScrollTrigger.getById('services-pin');
+      if (!st || !st.isActive) return;
+
+      const touchCurrentY = e.touches[0].clientY;
+      const deltaY = touchStartY - touchCurrentY;
+      const currentIdx = activeIndexRef.current;
+
+      if (currentIdx === services.length - 1 && deltaY > 0) return;
+      if (currentIdx === 0 && deltaY < 0) return;
+
+      e.preventDefault();
+
+      if (isAnimatingRef.current) return;
+
+      if (Math.abs(deltaY) > 45) {
+        if (deltaY > 0 && currentIdx < services.length - 1) {
+          goToService(currentIdx + 1);
+          touchStartY = touchCurrentY;
+        } else if (deltaY < 0 && currentIdx > 0) {
+          goToService(currentIdx - 1);
+          touchStartY = touchCurrentY;
+        }
+      }
+    };
+
+    sectionEl.addEventListener('touchstart', handleTouchStart, { passive: true });
+    sectionEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+    return () => {
+      sectionEl.removeEventListener('touchstart', handleTouchStart);
+      sectionEl.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [services.length, goToService]);
+
+  // Autoplay Mode: Cycles cards automatically when idle AND section is in viewport (paused outside viewport)
+  useEffect(() => {
+    if (!isInViewport) return;
+
+    const cycleDuration = 3500; // 3.5 seconds per service card
     const intervalTime = 40;
     const step = (intervalTime / cycleDuration) * 100;
 
     const timer = setInterval(() => {
-      if (!isHovered) {
-        setProgress((prevProgress) => {
-          if (prevProgress >= 100) {
+      if (!isHovered && !isUserInteracting && !isAnimatingRef.current) {
+        setProgress((prev) => {
+          if (prev >= 100) {
             setActiveIndex((prevIdx) => (prevIdx + 1) % services.length);
             return 0;
           }
-          return prevProgress + step;
+          return prev + step;
         });
       }
     }, intervalTime);
 
     return () => clearInterval(timer);
-  }, [isHovered, services.length]);
+  }, [isInViewport, isHovered, isUserInteracting, services.length]);
 
-  // Reset dot progress ring when active service changes
+  // Reset progress ring when active service changes manually
   useEffect(() => {
-    setProgress(0);
-  }, [activeIndex]);
+    if (isUserInteracting) {
+      setProgress(100);
+    }
+  }, [activeIndex, isUserInteracting]);
 
-  // Safe active index & service resolution (prevents any undefined render crashes)
+  const handleDotClick = (index) => {
+    goToService(index);
+  };
+
   const safeIndex = (typeof activeIndex === 'number' && !isNaN(activeIndex))
     ? Math.min(services.length - 1, Math.max(0, activeIndex))
     : 0;
@@ -112,22 +272,17 @@ export default function ServicesShowcase() {
     <section 
       id="services"
       ref={sectionRef} 
-      className="relative bg-[#FDFBF7] bg-repeat bg-center w-full"
+      className="relative bg-[#FDFBF7] bg-repeat bg-center w-full py-4 my-0"
       style={{ 
         backgroundImage: "url('/image/Home/section2/background.png')",
         backgroundSize: '600px auto',
-        height: '450vh'
       }}
     >
       <div 
-        className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 py-4"
-        style={{
-          position: 'sticky',
-          top: '80px',
-          zIndex: 30
-        }}
+        className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 py-2"
       >
         <motion.div
+          ref={cardRef}
           key="master-card"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -144,14 +299,14 @@ export default function ServicesShowcase() {
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentService.id}
-                  initial={{ opacity: 0, scale: 0.95, y: 15 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -15 }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  initial={{ opacity: 0, scale: 0.96, y: 25, rotate: -2 }}
+                  animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 0.96, y: -25, rotate: 2 }}
+                  transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
                   className={`service-art relative flex items-center justify-center w-full max-w-[480px] ${({ 'list-management': styles.listManagement, crm: styles.crmConsultation, 'web-dev': styles.webDevelopment, smm: styles.smm })[currentService.id] || ''}`}
                 >
                   {/* 1. Large Artwork Image */}
-                  <div className="relative w-full aspect-square sm:w-[420px] sm:h-[420px] rounded-[2.2rem] overflow-hidden shadow-2xl transform -rotate-[2deg] hover:rotate-0 transition-transform duration-300">
+                  <div className="relative w-full aspect-square sm:w-[420px] sm:h-[420px] rounded-[2.2rem] overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-300">
                     <img
                       src={currentService.bgImage}
                       alt={currentService.title}
@@ -186,10 +341,7 @@ export default function ServicesShowcase() {
                   return (
                     <button
                       key={service.id}
-                      onClick={() => {
-                        setActiveIndex(dotIdx);
-                        setProgress(0);
-                      }}
+                      onClick={() => handleDotClick(dotIdx)}
                       className="flex items-center justify-center relative focus:outline-none group/dot cursor-pointer"
                       title={service.title}
                       aria-label={`Go to ${service.title}`}
@@ -255,10 +407,7 @@ export default function ServicesShowcase() {
                   return (
                     <button
                       key={service.id}
-                      onClick={() => {
-                        setActiveIndex(dotIdx);
-                        setProgress(0);
-                      }}
+                      onClick={() => handleDotClick(dotIdx)}
                       className="p-1 focus:outline-none"
                       aria-label={`Go to ${service.title}`}
                     >

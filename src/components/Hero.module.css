@@ -3,7 +3,7 @@
 :global(#hero).hero {
   width: 100%;
   padding: 0 max(16px, 2.5vw) clamp(64px, 4.7vw, 90px);
-  background: #fff;
+  background: transparent;
   overflow: visible;
 }
 

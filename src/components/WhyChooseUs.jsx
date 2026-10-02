@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './WhyChooseUs.module.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function WhyChooseUs() {
+  const sectionRef = useRef(null);
+  const cardsWrapperRef = useRef(null);
+  const cardRefs = useRef([]);
+  cardRefs.current = [];
+
+  const addToCardRefs = (el) => {
+    if (el && !cardRefs.current.includes(el)) {
+      cardRefs.current.push(el);
+    }
+  };
+
   const cards = [
     {
       id: 'call-transfers',
@@ -35,32 +50,110 @@ export default function WhyChooseUs() {
     }
   ];
 
+  // GSAP ScrollTrigger Pinned Stacking Card Animation with ~42px Stack Gap & Zero White Wrapper Strips
+  useEffect(() => {
+    const cardsWrapper = cardsWrapperRef.current;
+    if (!cardsWrapper || cardRefs.current.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      const cardsList = cardRefs.current;
+      const totalCards = cardsList.length;
+
+      // Responsive stack gap offset (42px desktop, 30px tablet, 18px mobile)
+      const getStackGap = () => {
+        if (window.innerWidth < 640) return 18;
+        if (window.innerWidth < 1024) return 30;
+        return 42;
+      };
+
+      const stackGap = getStackGap();
+
+      // Initial card positions:
+      // Card 0: yPercent: 0, y: 0, scale: 1, zIndex: 10
+      // Cards 1 to N-1: yPercent: 115, y: 0, scale: 1, zIndex: 10 + index * 10
+      cardsList.forEach((card, index) => {
+        if (index === 0) {
+          gsap.set(card, { yPercent: 0, y: 0, scale: 1, zIndex: 10 });
+        } else {
+          gsap.set(card, { yPercent: 115, y: 0, scale: 1, zIndex: 10 + index * 10 });
+        }
+      });
+
+      // Master GSAP Timeline linked to ScrollTrigger pinning
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: cardsWrapper,
+          start: 'top top+=110',
+          end: () => `+=${window.innerHeight * 0.7 * (totalCards - 1)}`,
+          scrub: 0.8,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        }
+      });
+
+      // Animate each incoming card to its stacked vertical offset (Card 1 -> 42px, Card 2 -> 84px, Card 3 -> 126px, Card 4 -> 168px)
+      for (let i = 1; i < totalCards; i++) {
+        const incomingCard = cardsList[i];
+        const targetY = i * stackGap;
+
+        // Incoming card slides up from below into its stacked position
+        tl.to(incomingCard, {
+          yPercent: 0,
+          y: targetY,
+          ease: 'none',
+          duration: 1,
+        });
+
+        // Previous cards remain visible at their stacked offsets with extremely subtle scale depth (1 -> 0.99 -> 0.98)
+        for (let j = 0; j < i; j++) {
+          const prevCard = cardsList[j];
+          const depthFromActive = i - j;
+          const targetScale = Math.max(0.97, 1 - depthFromActive * 0.01);
+          tl.to(prevCard, {
+            scale: targetScale,
+            ease: 'none',
+            duration: 1,
+          }, '<');
+        }
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [cards.length]);
+
   return (
-    <section id="solutions" className="why-section relative w-full bg-transparent py-10 sm:py-14 lg:py-20">
-      <div className="w-full max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
+    <section id="solutions" ref={sectionRef} className="why-section relative w-full bg-transparent py-4 sm:py-8">
+      <div className="why-rail w-full max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
+        <div className={styles.stage}>
         
-        {/* Heading and cards share one scroll pin and release together. */}
-        <div className="why-heading z-50 bg-transparent backdrop-blur-md pt-6 pb-6 mb-8 text-center max-w-5xl mx-auto flex flex-col items-center">
+        {/* Section Heading (Appears normally above cards stack) */}
+        <div className="why-heading relative z-10 pt-2 pb-4 mb-6 text-center max-w-5xl mx-auto flex flex-col items-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[46px] xl:text-[52px] font-black text-[#222225] tracking-tight whitespace-nowrap">
             Why Leading Brands Choose LeadsGarage
           </h2>
-          <p className="text-sm sm:text-base md:text-[17px] text-[#55555C] font-normal mt-3 max-w-3xl mx-auto tracking-normal">
+          <p className="text-sm sm:text-base md:text-[17px] text-[#55555C] font-normal mt-2 max-w-3xl mx-auto tracking-normal">
             Powerful solutions. Smarter strategies. Measurable growth for your business.
           </p>
         </div>
 
-        <div className={`cards-stage ${styles.stack} w-full`}>
+        {/* GSAP ScrollTrigger Pinned Stacking Cards Stage */}
+        <div 
+          ref={cardsWrapperRef} 
+          className={`cards-stage ${styles.stack} w-full relative min-h-[520px] sm:min-h-[660px] md:min-h-[720px] flex justify-center items-start my-4`}
+        >
           {cards.map((card, idx) => (
             <div
               key={card.id}
-              className={`card card-${idx + 1} ${styles.item} w-full flex justify-center group`}
+              ref={addToCardRefs}
+              className={`solution-card-wrapper card card-${idx + 1} ${styles.item} w-full flex justify-center p-0 m-0 bg-transparent border-0 shadow-none`}
             >
-              <div className="solution-surface w-full relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-none bg-transparent">
-                <div className="solution-art w-full overflow-hidden rounded-2xl sm:rounded-3xl">
+              <div className="solution-surface w-full relative bg-transparent border-0 shadow-none p-0 m-0 overflow-hidden flex justify-center items-center">
+                <div className="solution-art w-full overflow-hidden rounded-2xl sm:rounded-3xl p-0 m-0 bg-transparent border-0 shadow-none">
                   <img
                     src={card.image}
                     alt={card.title}
-                    className="w-full h-auto object-contain block transform scale-[1.035] origin-top-left transition-transform duration-500 group-hover:scale-[1.04]"
+                    className="w-full h-auto object-contain block transform scale-[1.01] origin-top-left transition-transform duration-500 group-hover:scale-[1.025] select-none"
                   />
                 </div>
                 <div className="solution-copy">
@@ -82,6 +175,7 @@ export default function WhyChooseUs() {
               </div>
             </div>
           ))}
+        </div>
         </div>
 
       </div>
