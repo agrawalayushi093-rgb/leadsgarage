@@ -31,7 +31,7 @@ export default function QualityControl() {
   const rightSlide = slides[rightSlideIndex];
 
   return (
-    <section id="quality" className="py-16 sm:py-20 lg:py-28 bg-transparent relative overflow-hidden w-full">
+    <section id="quality" className="pt-16 sm:pt-20 lg:pt-24 pb-0 bg-[#FDFBF7] relative overflow-hidden w-full">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Top Header */}

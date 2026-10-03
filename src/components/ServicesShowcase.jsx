@@ -272,7 +272,7 @@ export default function ServicesShowcase() {
     <section 
       id="services"
       ref={sectionRef} 
-      className="relative bg-[#FDFBF7] bg-repeat bg-center w-full py-4 my-0"
+      className="relative bg-[#FDFBF7] bg-repeat bg-center w-full pt-16 sm:pt-24 lg:pt-32 pb-8 sm:pb-12 lg:pb-16 my-0"
       style={{ 
         backgroundImage: "url('/image/Home/section2/background.png')",
         backgroundSize: '600px auto',

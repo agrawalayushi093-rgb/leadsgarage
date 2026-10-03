@@ -35,8 +35,11 @@ export default function AudienceSegments({ onOpenContact }) {
   return (
     <section
       id="audience"
-      className="py-16 sm:py-20 lg:py-28 bg-[#FDFBF7] relative overflow-hidden w-full flex flex-col items-center"
+      className="pt-8 sm:pt-12 lg:pt-16 pb-16 sm:pb-20 lg:pb-28 bg-[#FDFBF7] relative overflow-hidden w-full flex flex-col items-center"
     >
+      {/* Ambient Soft Blend Overlay */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-60 bg-gradient-to-b from-transparent via-amber-50/20 to-transparent" />
+
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
         
         {/* Section Header */}

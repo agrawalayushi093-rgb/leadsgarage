@@ -56,7 +56,7 @@ export default function LeadershipTeam() {
               className="leader-card group relative rounded-[2.5rem] p-5 sm:p-6 text-center transition-all duration-300 bg-transparent border border-transparent shadow-none hover:bg-white hover:border-slate-100 hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] hover:scale-[1.02] cursor-pointer"
             >
               {/* Photo Container */}
-              <div className="relative rounded-[2rem] overflow-hidden aspect-[4/4.5] bg-[#282A2D] mb-5 shadow-sm transition-transform duration-300 group-hover:scale-[1.01]">
+              <div className="portrait-container relative rounded-[2rem] overflow-hidden aspect-[4/4.5] bg-[#282A2D] mb-5 shadow-sm transition-transform duration-300 group-hover:scale-[1.01]">
                 <img
                   src={leader.image}
                   alt={leader.name}
