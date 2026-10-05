@@ -50,10 +50,7 @@ export default function WhyChooseUs() {
     }
   ];
 
-  // GSAP ScrollTrigger Stepped Pyramid Deck Stacking Animation:
-  // 1. Initial State: All cards sit SEPARATELY in vertical document sequence (Card 1, Card 2, Card 3, Card 4, Card 5) with generous gaps.
-  // 2. On Scroll: Wrapper pins, and each card slides UP from its separate position into the Stepped Pyramid Deck stack.
-  // 3. Stack Pyramid Look: Cards scale down from top-center (0.90 -> 0.925 -> 0.95 -> 0.975 -> 1.0) with 40px top bar offsets.
+  // GSAP ScrollTrigger Stepped Pyramid Deck Stacking Animation (Compact Zero-Gap Bounds):
   useEffect(() => {
     const cardsWrapper = cardsWrapperRef.current;
     if (!cardsWrapper || cardRefs.current.length === 0) return;
@@ -62,11 +59,17 @@ export default function WhyChooseUs() {
       const cardsList = cardRefs.current;
       const totalCards = cardsList.length;
 
-      cardsList.forEach((card) => {
+      // Set initial positions: Card 0 at yPercent 0, Cards 1..N-1 at yPercent 105 (below container boundary)
+      cardsList.forEach((card, index) => {
         gsap.set(card, {
           transformOrigin: 'top center',
           scale: 1,
         });
+        if (index === 0) {
+          gsap.set(card, { yPercent: 0, y: 0 });
+        } else {
+          gsap.set(card, { yPercent: 105, y: 0 });
+        }
       });
 
       const stackStep = window.innerWidth < 640 ? 24 : 40;
@@ -74,9 +77,9 @@ export default function WhyChooseUs() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: cardsWrapper,
-          start: 'top top+=120',
-          end: () => `+=${window.innerHeight * 0.85 * (totalCards - 1)}`,
-          scrub: 0.8,
+          start: 'top top+=130',
+          end: () => `+=${window.innerHeight * 0.5 * (totalCards - 1)}`,
+          scrub: 0.7,
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -85,12 +88,11 @@ export default function WhyChooseUs() {
 
       for (let i = 1; i < totalCards; i++) {
         const card = cardsList[i];
-        const cardHeight = card.offsetHeight || 600;
-        const gap = 60; // gap between separate cards in normal flow
-        const targetY = -1 * i * (cardHeight + gap - stackStep);
+        const targetY = i * stackStep;
 
-        // Slide card i UP into its stacked position
+        // Slide card i UP into position
         tl.to(card, {
+          yPercent: 0,
           y: targetY,
           ease: 'power1.inOut',
           duration: 1,
@@ -128,7 +130,7 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        {/* Sequential Cards Stage (Laid out separately in document flow, stacked on scroll) */}
+        {/* Compact Stepped Tiered Stacking Cards Stage */}
         <div 
           ref={cardsWrapperRef} 
           className={`cards-stage ${styles.stack} w-full relative my-2`}
