@@ -50,7 +50,10 @@ export default function WhyChooseUs() {
     }
   ];
 
-  // GSAP ScrollTrigger Pinned Stacking Card Animation with ~42px Stack Gap & Zero White Wrapper Strips
+  // GSAP ScrollTrigger Stepped Pyramid Deck Stacking Animation:
+  // 1. Initial State: All cards sit SEPARATELY in vertical document sequence (Card 1, Card 2, Card 3, Card 4, Card 5) with generous gaps.
+  // 2. On Scroll: Wrapper pins, and each card slides UP from its separate position into the Stepped Pyramid Deck stack.
+  // 3. Stack Pyramid Look: Cards scale down from top-center (0.90 -> 0.925 -> 0.95 -> 0.975 -> 1.0) with 40px top bar offsets.
   useEffect(() => {
     const cardsWrapper = cardsWrapperRef.current;
     if (!cardsWrapper || cardRefs.current.length === 0) return;
@@ -59,32 +62,20 @@ export default function WhyChooseUs() {
       const cardsList = cardRefs.current;
       const totalCards = cardsList.length;
 
-      // Responsive stack gap offset (42px desktop, 30px tablet, 18px mobile)
-      const getStackGap = () => {
-        if (window.innerWidth < 640) return 18;
-        if (window.innerWidth < 1024) return 30;
-        return 42;
-      };
-
-      const stackGap = getStackGap();
-
-      // Initial card positions:
-      // Card 0: yPercent: 0, y: 0, scale: 1, zIndex: 10
-      // Cards 1 to N-1: yPercent: 115, y: 0, scale: 1, zIndex: 10 + index * 10
-      cardsList.forEach((card, index) => {
-        if (index === 0) {
-          gsap.set(card, { yPercent: 0, y: 0, scale: 1, zIndex: 10 });
-        } else {
-          gsap.set(card, { yPercent: 115, y: 0, scale: 1, zIndex: 10 + index * 10 });
-        }
+      cardsList.forEach((card) => {
+        gsap.set(card, {
+          transformOrigin: 'top center',
+          scale: 1,
+        });
       });
 
-      // Master GSAP Timeline linked to ScrollTrigger pinning
+      const stackStep = window.innerWidth < 640 ? 24 : 40;
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: cardsWrapper,
-          start: 'top top+=110',
-          end: () => `+=${window.innerHeight * 0.7 * (totalCards - 1)}`,
+          start: 'top top+=120',
+          end: () => `+=${window.innerHeight * 0.85 * (totalCards - 1)}`,
           scrub: 0.8,
           pin: true,
           anticipatePin: 1,
@@ -92,27 +83,27 @@ export default function WhyChooseUs() {
         }
       });
 
-      // Animate each incoming card to its stacked vertical offset (Card 1 -> 42px, Card 2 -> 84px, Card 3 -> 126px, Card 4 -> 168px)
       for (let i = 1; i < totalCards; i++) {
-        const incomingCard = cardsList[i];
-        const targetY = i * stackGap;
+        const card = cardsList[i];
+        const cardHeight = card.offsetHeight || 600;
+        const gap = 60; // gap between separate cards in normal flow
+        const targetY = -1 * i * (cardHeight + gap - stackStep);
 
-        // Incoming card slides up from below into its stacked position
-        tl.to(incomingCard, {
-          yPercent: 0,
+        // Slide card i UP into its stacked position
+        tl.to(card, {
           y: targetY,
-          ease: 'none',
+          ease: 'power1.inOut',
           duration: 1,
         });
 
-        // Previous cards remain visible at their stacked offsets with extremely subtle scale depth (1 -> 0.99 -> 0.98)
+        // Scale down previous stacked cards for Stepped Pyramid Deck look (0.90 -> 0.925 -> 0.95 -> 0.975 -> 1.0)
         for (let j = 0; j < i; j++) {
           const prevCard = cardsList[j];
-          const depthFromActive = i - j;
-          const targetScale = Math.max(0.97, 1 - depthFromActive * 0.01);
+          const depth = i - j;
+          const targetScale = Math.max(0.88, 1 - depth * 0.024);
           tl.to(prevCard, {
             scale: targetScale,
-            ease: 'none',
+            ease: 'power1.inOut',
             duration: 1,
           }, '<');
         }
@@ -127,7 +118,7 @@ export default function WhyChooseUs() {
       <div className="why-rail w-full max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
         <div className={styles.stage}>
         
-        {/* Section Heading (Appears normally above cards stack) */}
+        {/* Section Heading */}
         <div className="why-heading relative z-10 pt-2 pb-4 mb-6 text-center max-w-5xl mx-auto flex flex-col items-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[46px] xl:text-[52px] font-black text-[#222225] tracking-tight whitespace-nowrap">
             Why Leading Brands Choose LeadsGarage
@@ -137,16 +128,19 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        {/* GSAP ScrollTrigger Pinned Stacking Cards Stage */}
+        {/* Sequential Cards Stage (Laid out separately in document flow, stacked on scroll) */}
         <div 
           ref={cardsWrapperRef} 
-          className={`cards-stage ${styles.stack} w-full relative min-h-[520px] sm:min-h-[660px] md:min-h-[720px] flex justify-center items-start my-4`}
+          className={`cards-stage ${styles.stack} w-full relative my-2`}
         >
           {cards.map((card, idx) => (
             <div
               key={card.id}
               ref={addToCardRefs}
               className={`solution-card-wrapper card card-${idx + 1} ${styles.item} w-full flex justify-center p-0 m-0 bg-transparent border-0 shadow-none`}
+              style={{
+                zIndex: (idx + 1) * 10,
+              }}
             >
               <div className="solution-surface w-full relative bg-transparent border-0 shadow-none p-0 m-0 overflow-hidden flex justify-center items-center">
                 <div className="solution-art w-full overflow-hidden rounded-2xl sm:rounded-3xl p-0 m-0 bg-transparent border-0 shadow-none">
