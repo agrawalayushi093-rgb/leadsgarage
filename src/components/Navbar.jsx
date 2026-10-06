@@ -104,7 +104,7 @@ export default function Navbar() {
           <button type="button" className={styles.mobileTrigger} aria-expanded={mobileDropdown === name} aria-controls={`mobile-${name}`} onClick={() => setMobileDropdown(current => current === name ? null : name)}>{name}<ChevronDown size={18} style={{ transform: mobileDropdown === name ? 'rotate(180deg)' : undefined }} /></button>
           {mobileDropdown === name && <div id={`mobile-${name}`} className={styles.mobileLinks}>{links(name)}</div>}
         </div>)}
-        <div className="pt-4 border-t border-slate-200 flex flex-col gap-3"><a href="#" onClick={close} className="w-full text-center py-2.5 text-xs font-bold text-slate-800 bg-white border border-slate-200 rounded-full">Login</a><a href="#" onClick={close} className="w-full text-center py-3 text-xs font-bold text-white bg-[#0A1C3E] rounded-full shadow-md">Let’s Connect</a></div>
+        <div className="pt-4 border-t border-slate-200 flex flex-col gap-3"><a href="#services" onClick={close} className="w-full text-center py-2.5 text-xs font-bold text-slate-800 bg-white border border-slate-200 rounded-full">Login</a><a href="#audience" onClick={close} className="w-full text-center py-3 text-xs font-bold text-white bg-[#0A1C3E] rounded-full shadow-md">Let’s Connect</a></div>
       </motion.div>}</AnimatePresence>
     </motion.header><div className="site-header-spacer" aria-hidden="true" />
   </>;

@@ -200,9 +200,9 @@ section { scroll-margin-top: 90px; }
 #quality > div > div:first-child > div:last-child { margin-bottom: 0; }
 #quality .quality-phones { width: min(100%,calc(1500 * var(--figma-unit))); max-width: 1500px; min-height: 0; aspect-ratio: 1500/750; padding: 0; margin-top: calc(60 * var(--figma-unit)); }
 #quality .quality-phones > div { transform: none !important; }
-#quality .quality-phones > div:first-child { width: 24.6%; left: 16%; opacity: .9; }
-#quality .quality-phones > div:nth-child(2) { width: 28.4667%; }
-#quality .quality-phones > div:last-child { width: 24.6%; right: 16%; opacity: .9; }
+#quality .quality-phones > .quality-phone-left { width: 24.6%; left: 16%; opacity: .9; }
+#quality .quality-phones > .quality-phone-center { width: 28.4667%; }
+#quality .quality-phones > .quality-phone-right { width: 24.6%; right: 16%; opacity: .9; }
 #quality .quality-phones img { filter: none; }
 #quality .quality-phones::before, #quality .quality-phones::after { content: ''; position: absolute; width: 27%; height: 76%; border: calc(10 * var(--figma-unit)) solid #efefec; border-radius: calc(42 * var(--figma-unit)); opacity: .25; background: white; top: 12%; }
 #quality .quality-phones::before { left: 0; } #quality .quality-phones::after { right: 0; }
@@ -307,3 +307,33 @@ section { scroll-margin-top: 90px; }
 @media(max-width:767px) { .footer-section { margin-top: -10vw; padding-bottom: 50px; } .footer-section .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } #network .network-people { left: 14%; top: 70%; } #network .absolute:nth-of-type(12) { right: 6%; top: 72%; } #network .absolute:nth-of-type(15) { right: 30%; top: 78%; } #network .absolute:nth-of-type(16) { right: 20%; top: 88%; } }
 html, body { overflow-x: clip; background: white; }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* Responsive safeguards for narrow phones, touch tablets and short laptops. */
+#services .service-card h2 { white-space: normal; }
+#audience .audience-cards h3 { overflow-wrap: anywhere; }
+@media (min-width: 640px) and (max-width: 1023px) {
+  #solutions .solution-copy { width: 43%; top: 24%; }
+  #solutions .solution-copy h3 { font-size: clamp(18px, 2.65vw, 22px); }
+}
+@media (max-width: 1100px) {
+  #mobile-navigation { max-height: calc(100dvh - 104px); overscroll-behavior: contain; }
+}
+@media (max-width: 1023px) {
+  #services .service-caption h3 { overflow-wrap: anywhere; }
+  #quality > div > div:first-child { max-width: 100%; }
+  #quality p { max-width: min(100%, 550px); }
+  #audience .audience-cards { min-height: 0; }
+}
+@media (max-width: 639px) {
+  #services .service-card > div > div:first-child { min-height: 300px; }
+  #services .service-card > div { gap: 68px; }
+  #services .service-caption h3 { font-size: clamp(20px, 6vw, 26px); }
+  #audience > div:last-child { padding-inline: 0; }
+  #audience .audience-cards > div { min-height: 0; }
+  .footer-section > div:last-child > div { padding: 32px 20px; }
+  .footer-section .grid { gap: 28px 18px; }
+  .footer-section li a { overflow-wrap: anywhere; }
+}
+@media (hover: none) {
+  #team .leader-card > div:last-child { max-height: 180px; opacity: 1; margin-top: 16px; }
+}

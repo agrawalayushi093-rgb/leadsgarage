@@ -296,6 +296,26 @@
   .panel .scene[data-slide="3"] .bottomRight { top: 405px; }
 }
 
+/* Keep corner artwork below the statistics at every touch breakpoint. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .panel[data-slide] .stats { top: 260px; }
+  .panel[data-slide] .leftCard, .panel[data-slide] .rightCard { top: 335px; }
+}
+@media (max-width: 1023px) {
+  .panel[data-slide] .scene .topLeft,
+  .panel[data-slide] .scene .topRight { top: 295px; }
+}
+@media (max-width: 480px) {
+  .panel[data-slide] .scene .topLeft,
+  .panel[data-slide] .scene .topRight { top: 285px; }
+  .number { font-size: clamp(18px, 6cqw, 21px); }
+  .label { line-height: 1.4; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .panel[data-slide] .scene .topLeft,
+  .panel[data-slide] .scene .topRight { top: 325px; }
+}
+
 
 
 

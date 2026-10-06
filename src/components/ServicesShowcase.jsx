@@ -100,6 +100,8 @@ export default function ServicesShowcase() {
 
     const ctx = gsap.context(() => {
       // 1. Pin section trigger for interactive stepped card scrolling
+      const media = gsap.matchMedia();
+      media.add('(min-width: 1024px) and (min-height: 720px) and (prefers-reduced-motion: no-preference)', () => {
       ScrollTrigger.create({
         id: 'services-pin',
         trigger: section,
@@ -114,6 +116,7 @@ export default function ServicesShowcase() {
             wheelDeltaAccumulator.current = 0;
           }
         },
+      });
       });
 
       // 2. Section Viewport Trigger: Autoplay starts ONLY when section enters viewport, pauses when leaving
@@ -138,6 +141,7 @@ export default function ServicesShowcase() {
     if (!sectionEl) return;
 
     const handleWheel = (e) => {
+      if (e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
       const st = ScrollTrigger.getById('services-pin');
       if (!st || !st.isActive) {
         wheelDeltaAccumulator.current = 0;
@@ -161,7 +165,8 @@ export default function ServicesShowcase() {
 
       if (isAnimatingRef.current) return;
 
-      wheelDeltaAccumulator.current += e.deltaY;
+      const wheelPixels = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
+      wheelDeltaAccumulator.current += wheelPixels;
       const threshold = 55; // Debounce threshold in px
 
       if (wheelDeltaAccumulator.current >= threshold) {

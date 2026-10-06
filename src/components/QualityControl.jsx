@@ -94,7 +94,7 @@ export default function QualityControl() {
               animate={{ opacity: 0.6, x: 0, scale: 0.95 }}
               exit={{ opacity: 0, x: -30, scale: 0.8 }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="absolute left-[4%] sm:left-[10%] md:left-[18%] lg:left-[22%] z-10 w-[180px] sm:w-[240px] md:w-[270px] transform -translate-x-1/2 hover:opacity-100 transition-opacity duration-300"
+              className="quality-phone-left absolute left-[4%] sm:left-[10%] md:left-[18%] lg:left-[22%] z-10 w-[180px] sm:w-[240px] md:w-[270px] transform -translate-x-1/2 hover:opacity-100 transition-opacity duration-300"
             >
               <img
                 src={leftSlide.src}
@@ -111,7 +111,7 @@ export default function QualityControl() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -15 }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="relative z-20 w-[210px] sm:w-[280px] md:w-[320px] transform hover:scale-[1.03] transition-all duration-300"
+              className="quality-phone-center relative z-20 w-[210px] sm:w-[280px] md:w-[320px] transform hover:scale-[1.03] transition-all duration-300"
             >
               <img
                 src={centerSlide.src}
@@ -128,7 +128,7 @@ export default function QualityControl() {
               animate={{ opacity: 0.6, x: 0, scale: 0.95 }}
               exit={{ opacity: 0, x: 30, scale: 0.8 }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="absolute right-[4%] sm:right-[10%] md:right-[18%] lg:right-[22%] z-10 w-[180px] sm:w-[240px] md:w-[270px] transform translate-x-1/2 hover:opacity-100 transition-opacity duration-300"
+              className="quality-phone-right absolute right-[4%] sm:right-[10%] md:right-[18%] lg:right-[22%] z-10 w-[180px] sm:w-[240px] md:w-[270px] transform translate-x-1/2 hover:opacity-100 transition-opacity duration-300"
             >
               <img
                 src={rightSlide.src}

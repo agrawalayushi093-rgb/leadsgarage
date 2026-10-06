@@ -56,6 +56,8 @@ export default function WhyChooseUs() {
       const media = gsap.matchMedia();
       media.add('(prefers-reduced-motion: no-preference)', () => {
         const cardsList = cardRefs.current;
+        // Measure permanent document-flow wrappers, never ScrollTrigger's generated spacers.
+        const cardFlows = cardsList.map(card => card.parentElement);
         const stackTop = () => window.innerWidth < 640 ? 96 : 110;
         const strip = () => window.innerWidth < 640 ? 28 : 40;
         const exitTravel = () => cardsList[cardsList.length - 1].offsetHeight + stackTop() + (cardsList.length - 1) * strip();
@@ -72,6 +74,9 @@ export default function WhyChooseUs() {
             end: () => `bottom top+=${exitTravel() + (index === cardsList.length - 1 ? coverTravel() : 0)}`,
             onRefreshInit: index === 0 ? reserveExitSpace : undefined,
             pin: true,
+            // Keep each card in the same compositing layer across entry and release.
+            pinType: 'transform',
+            anticipatePin: 1,
             pinSpacing: false,
             invalidateOnRefresh: true,
           });
@@ -83,9 +88,9 @@ export default function WhyChooseUs() {
             scale: 1 - (cardsList.length - 1 - index) * 0.03,
             ease: 'none',
             scrollTrigger: {
-              trigger: cardsList[index + 1].parentElement.parentElement,
+              trigger: cardFlows[index + 1],
               start: 'top bottom',
-              endTrigger: cardsList[cardsList.length - 1].parentElement.parentElement,
+              endTrigger: cardFlows[cardsList.length - 1],
               end: () => `top top+=${stackTop() + (cardsList.length - 1) * strip()}`,
               scrub: true,
               invalidateOnRefresh: true,
