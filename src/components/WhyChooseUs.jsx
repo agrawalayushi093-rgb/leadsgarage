@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function WhyChooseUs() {
   const sectionRef = useRef(null);
+  const cardsWrapperRef = useRef(null);
   const cardRefs = useRef([]);
   cardRefs.current = [];
 
@@ -49,29 +50,73 @@ export default function WhyChooseUs() {
     }
   ];
 
-  // Sequential Sticky Cards 3D Stepped Stacking:
-  // 1. In document layout: Cards sit separately in vertical sequence (one below another).
-  // 2. On Scroll: As each card comes UP from below, it slides over and pins, scaling previous cards down from top-center for a 3D stepped pyramid deck effect.
+  // GSAP ScrollTrigger Pinned Stacking Card Animation with ~42px Stack Gap & Zero White Wrapper Strips
   useEffect(() => {
+    const cardsWrapper = cardsWrapperRef.current;
+    if (!cardsWrapper || cardRefs.current.length === 0) return;
+
     const ctx = gsap.context(() => {
       const cardsList = cardRefs.current;
       const totalCards = cardsList.length;
 
+      // Responsive stack gap offset (42px desktop, 30px tablet, 18px mobile)
+      const getStackGap = () => {
+        if (window.innerWidth < 640) return 18;
+        if (window.innerWidth < 1024) return 30;
+        return 42;
+      };
+
+      const stackGap = getStackGap();
+
+      // Initial card positions:
+      // Card 0: yPercent: 0, y: 0, scale: 1, zIndex: 10
+      // Cards 1 to N-1: yPercent: 115, y: 0, scale: 1, zIndex: 10 + index * 10
       cardsList.forEach((card, index) => {
-        if (index < totalCards - 1) {
-          const nextCard = cardsList[index + 1];
-          gsap.to(card, {
-            scale: Math.max(0.90, 1 - (totalCards - index) * 0.02),
-            ease: 'none',
-            scrollTrigger: {
-              trigger: nextCard,
-              start: 'top top+=240',
-              end: 'top top+=120',
-              scrub: true,
-            }
-          });
+        if (index === 0) {
+          gsap.set(card, { yPercent: 0, y: 0, scale: 1, zIndex: 10 });
+        } else {
+          gsap.set(card, { yPercent: 115, y: 0, scale: 1, zIndex: 10 + index * 10 });
         }
       });
+
+      // Master GSAP Timeline linked to ScrollTrigger pinning
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: cardsWrapper,
+          start: 'top top+=110',
+          end: () => `+=${window.innerHeight * 0.7 * (totalCards - 1)}`,
+          scrub: 0.8,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        }
+      });
+
+      // Animate each incoming card to its stacked vertical offset (Card 1 -> 42px, Card 2 -> 84px, Card 3 -> 126px, Card 4 -> 168px)
+      for (let i = 1; i < totalCards; i++) {
+        const incomingCard = cardsList[i];
+        const targetY = i * stackGap;
+
+        // Incoming card slides up from below into its stacked position
+        tl.to(incomingCard, {
+          yPercent: 0,
+          y: targetY,
+          ease: 'none',
+          duration: 1,
+        });
+
+        // Previous cards remain visible at their stacked offsets with extremely subtle scale depth (1 -> 0.99 -> 0.98)
+        for (let j = 0; j < i; j++) {
+          const prevCard = cardsList[j];
+          const depthFromActive = i - j;
+          const targetScale = Math.max(0.97, 1 - depthFromActive * 0.01);
+          tl.to(prevCard, {
+            scale: targetScale,
+            ease: 'none',
+            duration: 1,
+          }, '<');
+        }
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -82,7 +127,7 @@ export default function WhyChooseUs() {
       <div className="why-rail w-full max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
         <div className={styles.stage}>
         
-        {/* Section Heading */}
+        {/* Section Heading (Appears normally above cards stack) */}
         <div className="why-heading relative z-10 pt-2 pb-4 mb-6 text-center max-w-5xl mx-auto flex flex-col items-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[46px] xl:text-[52px] font-black text-[#222225] tracking-tight whitespace-nowrap">
             Why Leading Brands Choose LeadsGarage
@@ -92,19 +137,16 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        {/* Sequential Sticky Stacking Cards Stage */}
+        {/* GSAP ScrollTrigger Pinned Stacking Cards Stage */}
         <div 
-          className={`cards-stage ${styles.stack} w-full relative my-2`}
+          ref={cardsWrapperRef} 
+          className={`cards-stage ${styles.stack} w-full relative min-h-[520px] sm:min-h-[660px] md:min-h-[720px] flex justify-center items-start my-4`}
         >
           {cards.map((card, idx) => (
             <div
               key={card.id}
               ref={addToCardRefs}
               className={`solution-card-wrapper card card-${idx + 1} ${styles.item} w-full flex justify-center p-0 m-0 bg-transparent border-0 shadow-none`}
-              style={{
-                top: `calc(clamp(85px, 11vh, 110px) + ${idx * 30}px)`,
-                zIndex: (idx + 1) * 10,
-              }}
             >
               <div className="solution-surface w-full relative bg-transparent border-0 shadow-none p-0 m-0 overflow-hidden flex justify-center items-center">
                 <div className="solution-art w-full overflow-hidden rounded-2xl sm:rounded-3xl p-0 m-0 bg-transparent border-0 shadow-none">
