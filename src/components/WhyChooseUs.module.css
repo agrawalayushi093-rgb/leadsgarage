@@ -5,16 +5,21 @@
 .stack {
   position: relative;
   width: 100%;
-  min-height: clamp(520px, 70vh, 760px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .item {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: sticky;
   width: 100%;
   will-change: transform;
   transform-origin: top center;
+  margin-bottom: clamp(60px, 8vh, 120px);
+}
+
+.item:last-child {
+  margin-bottom: clamp(40px, 6vh, 80px);
 }
 
 :global(#solutions) .solution-surface {

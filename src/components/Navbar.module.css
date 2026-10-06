@@ -1,11 +1,11 @@
 .header {
   --nav-progress: 0;
   --nav-initial-top: 0px;
-  --nav-compact-top: 16px;
+  --nav-compact-top: 14px;
   --nav-initial-height: clamp(80px, 7.34375vw, 141px);
-  --nav-compact-height: 60px;
+  --nav-compact-height: 74px;
   --nav-initial-width: 100%;
-  --nav-compact-width: min(1040px, calc(100% - 64px));
+  --nav-compact-width: min(1320px, calc(100% - 48px));
   --nav-initial-radius: 0px;
   --nav-compact-radius: 9999px;
   --nav-initial-px: var(--page-gutter);
@@ -20,7 +20,7 @@
   transform: translateX(-50%);
   z-index: 100;
   border-radius: calc(var(--nav-compact-radius) * var(--nav-progress));
-  background-color: rgba(253, 251, 247, calc(1 - var(--nav-progress) * 0.15));
+  background-color: rgba(253, 251, 247, calc(1 - var(--nav-progress) * 0.1));
   border-style: solid;
   border-width: 1px;
   border-color: rgba(226, 232, 240, calc(0.85 * var(--nav-progress)));
@@ -50,19 +50,19 @@
   justify-content: space-between;
 }
 
-/* Continuously scale logo & action buttons alongside navbar shrink */
+/* Maintain larger logo & action buttons on scroll */
 .header nav a img {
-  width: calc(clamp(160px, 10.8333vw, 208px) - (clamp(160px, 10.8333vw, 208px) - 148px) * var(--nav-progress));
+  width: calc(clamp(160px, 10.8333vw, 208px) - (clamp(160px, 10.8333vw, 208px) - 165px) * var(--nav-progress));
 }
 
 .header :global(.nav-actions) {
-  gap: calc(16px - 6px * var(--nav-progress));
+  gap: calc(16px - 4px * var(--nav-progress));
 }
 
 .header :global(.nav-actions) > a {
-  height: calc(clamp(44px, 2.969vw, 57px) - (clamp(44px, 2.969vw, 57px) - 36px) * var(--nav-progress)) !important;
-  padding-inline: calc(30px - 14px * var(--nav-progress)) !important;
-  font-size: calc(16px - 3px * var(--nav-progress)) !important;
+  height: calc(clamp(44px, 2.969vw, 57px) - (clamp(44px, 2.969vw, 57px) - 44px) * var(--nav-progress)) !important;
+  padding-inline: calc(30px - 8px * var(--nav-progress)) !important;
+  font-size: calc(16px - 1px * var(--nav-progress)) !important;
   border-radius: 9999px;
 }
 
@@ -70,24 +70,23 @@
   .header {
     --nav-initial-px: 4%;
     --nav-compact-px: 20px;
-    --nav-compact-width: min(980px, calc(100% - 48px));
+    --nav-compact-width: min(1200px, calc(100% - 40px));
   }
 }
 
 @media (max-width: 1100px) {
   .header {
     --nav-initial-top: 0px;
-    --nav-compact-top: 12px;
+    --nav-compact-top: 10px;
     --nav-initial-height: 80px;
-    --nav-compact-height: 56px;
-    --nav-compact-width: min(720px, calc(100% - 32px));
+    --nav-compact-height: 64px;
+    --nav-compact-width: min(840px, calc(100% - 24px));
     --nav-compact-radius: 24px;
     --nav-initial-px: 24px;
     --nav-compact-px: 16px;
   }
   
   .header nav a img {
-    width: calc(180px - (180px - 140px) * var(--nav-progress));
+    width: calc(180px - (180px - 150px) * var(--nav-progress));
   }
 }
-

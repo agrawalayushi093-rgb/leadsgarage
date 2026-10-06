@@ -7,7 +7,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function WhyChooseUs() {
   const sectionRef = useRef(null);
-  const cardsWrapperRef = useRef(null);
   const cardRefs = useRef([]);
   cardRefs.current = [];
 
@@ -50,66 +49,29 @@ export default function WhyChooseUs() {
     }
   ];
 
-  // GSAP ScrollTrigger Stepped Pyramid Deck Stacking Animation (Compact Zero-Gap Bounds):
+  // Sequential Sticky Cards 3D Stepped Stacking:
+  // 1. In document layout: Cards sit separately in vertical sequence (one below another).
+  // 2. On Scroll: As each card comes UP from below, it slides over and pins, scaling previous cards down from top-center for a 3D stepped pyramid deck effect.
   useEffect(() => {
-    const cardsWrapper = cardsWrapperRef.current;
-    if (!cardsWrapper || cardRefs.current.length === 0) return;
-
     const ctx = gsap.context(() => {
       const cardsList = cardRefs.current;
       const totalCards = cardsList.length;
 
-      // Set initial positions: Card 0 at yPercent 0, Cards 1..N-1 at yPercent 105 (below container boundary)
       cardsList.forEach((card, index) => {
-        gsap.set(card, {
-          transformOrigin: 'top center',
-          scale: 1,
-        });
-        if (index === 0) {
-          gsap.set(card, { yPercent: 0, y: 0 });
-        } else {
-          gsap.set(card, { yPercent: 105, y: 0 });
+        if (index < totalCards - 1) {
+          const nextCard = cardsList[index + 1];
+          gsap.to(card, {
+            scale: Math.max(0.90, 1 - (totalCards - index) * 0.02),
+            ease: 'none',
+            scrollTrigger: {
+              trigger: nextCard,
+              start: 'top top+=240',
+              end: 'top top+=120',
+              scrub: true,
+            }
+          });
         }
       });
-
-      const stackStep = window.innerWidth < 640 ? 24 : 40;
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: cardsWrapper,
-          start: 'top top+=130',
-          end: () => `+=${window.innerHeight * 0.5 * (totalCards - 1)}`,
-          scrub: 0.7,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        }
-      });
-
-      for (let i = 1; i < totalCards; i++) {
-        const card = cardsList[i];
-        const targetY = i * stackStep;
-
-        // Slide card i UP into position
-        tl.to(card, {
-          yPercent: 0,
-          y: targetY,
-          ease: 'power1.inOut',
-          duration: 1,
-        });
-
-        // Scale down previous stacked cards for Stepped Pyramid Deck look (0.90 -> 0.925 -> 0.95 -> 0.975 -> 1.0)
-        for (let j = 0; j < i; j++) {
-          const prevCard = cardsList[j];
-          const depth = i - j;
-          const targetScale = Math.max(0.88, 1 - depth * 0.024);
-          tl.to(prevCard, {
-            scale: targetScale,
-            ease: 'power1.inOut',
-            duration: 1,
-          }, '<');
-        }
-      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -130,9 +92,8 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        {/* Compact Stepped Tiered Stacking Cards Stage */}
+        {/* Sequential Sticky Stacking Cards Stage */}
         <div 
-          ref={cardsWrapperRef} 
           className={`cards-stage ${styles.stack} w-full relative my-2`}
         >
           {cards.map((card, idx) => (
@@ -141,6 +102,7 @@ export default function WhyChooseUs() {
               ref={addToCardRefs}
               className={`solution-card-wrapper card card-${idx + 1} ${styles.item} w-full flex justify-center p-0 m-0 bg-transparent border-0 shadow-none`}
               style={{
+                top: `calc(clamp(85px, 11vh, 110px) + ${idx * 30}px)`,
                 zIndex: (idx + 1) * 10,
               }}
             >
