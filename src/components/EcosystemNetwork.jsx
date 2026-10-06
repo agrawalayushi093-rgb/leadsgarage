@@ -1,8 +1,98 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useLayoutEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChartNoAxesColumn, Users } from 'lucide-react';
 
 export default function EcosystemNetwork() {
+  const sectionRef = useRef(null);
+
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const context = gsap.context(() => {
+      const media = gsap.matchMedia();
+      media.add('(prefers-reduced-motion: no-preference)', () => {
+        const text = sectionRef.current.querySelector('.text-center');
+        const textTravel = () => Math.max(0,
+          sectionRef.current.offsetHeight - text.offsetHeight - text.offsetTop - 48);
+        const visibleDrift = () => Math.min(110, window.innerHeight * 0.12, textTravel() * 0.35);
+        const textStart = () => (window.innerHeight - text.offsetHeight) / 2
+          - visibleDrift() / 2 - text.offsetTop;
+        gsap.set(text, { y: 0 });
+        const setTextY = gsap.quickSetter(text, 'y', 'px');
+        let textFrame;
+        const updateText = () => {
+          textFrame = undefined;
+          const travel = textTravel();
+          const progress = gsap.utils.clamp(0, 1,
+            (textStart() - sectionRef.current.getBoundingClientRect().top)
+              / Math.max(1, travel - visibleDrift()));
+          setTextY(travel * progress);
+        };
+        const scheduleText = () => {
+          if (textFrame === undefined) textFrame = requestAnimationFrame(updateText);
+        };
+        window.addEventListener('scroll', scheduleText, { passive: true });
+        window.addEventListener('resize', scheduleText);
+        updateText();
+        const bubbles = sectionRef.current.querySelectorAll('[data-network-bubble]');
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current, start: 'top bottom', end: 'bottom top',
+            toggleActions: 'play pause resume pause', invalidateOnRefresh: true,
+          },
+        });
+        bubbles.forEach((bubble, index) => {
+          // Enter below the clipped canvas, then leave completely above it.
+          const delay = index * 1.2;
+          const laneOffset = () => {
+            const width = sectionRef.current.offsetWidth;
+            const center = bubble.offsetLeft + bubble.offsetWidth / 2;
+            if (center > width * 0.34 && center < width * 0.66) {
+              return width * (center < width * 0.5 ? 0.27 : 0.76) - center;
+            }
+            return 0;
+          };
+          timeline.fromTo(bubble, {
+            x: laneOffset,
+            y: () => sectionRef.current.offsetHeight - bubble.offsetTop + bubble.offsetHeight,
+          }, {
+            y: () => -bubble.offsetTop - bubble.offsetHeight - 12,
+            x: laneOffset, duration: 10, ease: 'none',
+            repeat: -1, repeatDelay: bubbles.length * 1.2 - 10,
+            repeatRefresh: true,
+          }, delay);
+          timeline.fromTo(bubble, { opacity: 0 }, {
+            keyframes: [
+              { opacity: 1, duration: 1.2 },
+              { opacity: 1, duration: 7.6 },
+              { opacity: 0, duration: 1.2 },
+            ],
+            ease: 'none', repeat: -1,
+            repeatDelay: bubbles.length * 1.2 - 10,
+          }, delay);
+        });
+        return () => {
+          cancelAnimationFrame(textFrame);
+          window.removeEventListener('scroll', scheduleText);
+          window.removeEventListener('resize', scheduleText);
+        };
+      });
+    }, sectionRef);
+    let frame;
+    let active = true;
+    const refresh = () => {
+      if (active) frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+    window.addEventListener('load', refresh);
+    document.fonts.ready.then(refresh);
+    return () => {
+      active = false;
+      cancelAnimationFrame(frame);
+      window.removeEventListener('load', refresh);
+      context.revert();
+    };
+  }, []);
+
   const nodes = [
     // Top Row
     { src: '/image/Home/section6/Group 40067.png', pos: 'top-[8%] left-[16%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 0 },
@@ -28,7 +118,7 @@ export default function EcosystemNetwork() {
   ];
 
   return (
-    <section id="network" className="py-20 lg:py-28 bg-[#FDFBF7] relative overflow-hidden w-full">
+    <section ref={sectionRef} id="network" className="py-20 lg:py-28 bg-[#FDFBF7] relative w-full" style={{ overflow: 'clip' }}>
       
       {/* Subtle Background Overlay Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-30 mix-blend-multiply">
@@ -44,33 +134,29 @@ export default function EcosystemNetwork() {
         {/* Main Floating Canvas */}
         <div className="relative min-h-[580px] sm:min-h-[640px] lg:min-h-[680px] flex items-center justify-center">
           
-          <div className="network-chart"><ChartNoAxesColumn aria-hidden="true" /></div><div className="network-people"><Users aria-hidden="true" /></div>
+          <div data-network-bubble className="network-chart"><ChartNoAxesColumn aria-hidden="true" /></div><div data-network-bubble className="network-people"><Users aria-hidden="true" /></div>
           {/* Floating Nodes */}
           {nodes.map((node, idx) => (
-            <motion.div
+            <div
               key={idx}
+              data-network-bubble
               className={`absolute hidden md:block ${node.pos} pointer-events-none z-10`}
-              animate={{
-                y: [0, -12, 0],
-              }}
-              transition={{
-                duration: 4 + (idx % 3),
-                repeat: Infinity,
-                repeatType: 'reverse',
-                ease: 'easeInOut',
-                delay: node.delay,
-              }}
             >
               <img
                 src={node.src}
                 alt={`Ecosystem node ${idx}`}
                 className={`${node.size} object-contain filter drop-shadow-md`}
+                style={{
+                  transform: `scale(${[1, 0.62, 0.8, 0.52, 0.9][idx % 5]})`,
+                  filter: `blur(${[0, 2.5, 0, 3.5, 1][idx % 5]}px)`,
+                }}
               />
-            </motion.div>
+            </div>
           ))}
 
           {/* Center Main Text Content matching Reference 1:1 */}
-          <div className="text-center max-w-lg mx-auto relative z-30 space-y-4 px-4">
+          <div className="text-center max-w-lg mx-auto relative z-30 space-y-4 px-4"
+            style={{ position: 'absolute', top: '48px' }}>
             <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-black tracking-widest uppercase border border-emerald-200 shadow-sm">
               GROW WITH US
             </span>

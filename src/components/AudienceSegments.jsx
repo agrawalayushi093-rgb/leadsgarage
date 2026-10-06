@@ -1,9 +1,48 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 export default function AudienceSegments({ onOpenContact }) {
   const [hoveredTab, setHoveredTab] = useState(null);
+  const hoverTimer = useRef(null);
+  const reducedMotion = useReducedMotion();
+  const openCard = (id) => {
+    clearTimeout(hoverTimer.current);
+    setHoveredTab(id);
+  };
+  const previewCard = (id) => {
+    if (window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches) return;
+    clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(() => setHoveredTab(id), 90);
+  };
+  const closeCards = () => {
+    clearTimeout(hoverTimer.current);
+    setHoveredTab(null);
+  };
+  const cardControls = (id) => ({
+    role: 'button',
+    tabIndex: 0,
+    'aria-label': `Explore ${id} information`,
+    'aria-expanded': hoveredTab === id,
+    onClick: () => openCard(id),
+    onKeyDown: (event) => {
+      if (event.target !== event.currentTarget) return;
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openCard(id);
+      }
+    },
+  });
+  useEffect(() => () => clearTimeout(hoverTimer.current), []);
+  useEffect(() => {
+    if (hoveredTab === null) return;
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') closeCards();
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [hoveredTab]);
+  const layoutTransition = { duration: reducedMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] };
 
   const cardsData = {
     publisher: {
@@ -54,23 +93,24 @@ export default function AudienceSegments({ onOpenContact }) {
 
         {/* Outer Cards Container Centered */}
         <div
-          onMouseLeave={() => setHoveredTab(null)}
-          className="w-full max-w-[1340px] mx-auto min-h-[500px] flex justify-center"
+          onMouseLeave={() => { if (window.innerWidth >= 768 && window.matchMedia('(hover: hover)').matches) closeCards(); }}
+          onKeyDown={(event) => { if (event.key === 'Escape') closeCards(); }}
+          className="audience-cards w-full max-w-[1340px] mx-auto min-h-[500px] flex justify-center relative"
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="popLayout" initial={false}>
             {hoveredTab === null ? (
               /* DEFAULT STATE: 2 Equal Side-by-Side Cards Grid (Original Design) */
               <motion.div
                 key="default-grid"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.25 }}
+                layout
+                initial={false}
+                exit={{ opacity: 0, transition: { duration: 0 } }}
+                transition={{ layout: layoutTransition }}
                 className="w-full max-w-[1340px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch justify-center"
               >
                 {/* Publisher Card */}
-                <div
-                  onMouseEnter={() => setHoveredTab('publisher')}
+                <motion.div layout layoutId={`audience-publisher`} transition={{ layout: layoutTransition }}
+                  onMouseEnter={() => previewCard('publisher')} {...cardControls('publisher')}
                   className="bg-gradient-to-b from-[#2F5EEA] to-[#1E43D3] rounded-[2.5rem] p-8 sm:p-10 lg:p-12 pb-0 sm:pb-0 text-white shadow-xl relative overflow-hidden flex flex-col justify-between group hover:shadow-2xl border border-blue-400/20 cursor-pointer transition-all duration-300 min-h-[460px]"
                 >
                   <div className="space-y-1">
@@ -89,11 +129,11 @@ export default function AudienceSegments({ onOpenContact }) {
                       className="w-full max-w-md object-contain transform group-hover:scale-[1.03] transition-transform duration-300 pointer-events-none"
                     />
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Advertiser Card */}
-                <div
-                  onMouseEnter={() => setHoveredTab('advertiser')}
+                <motion.div layout layoutId={`audience-advertiser`} transition={{ layout: layoutTransition }}
+                  onMouseEnter={() => previewCard('advertiser')} {...cardControls('advertiser')}
                   className="bg-gradient-to-b from-[#2F5EEA] to-[#1E43D3] rounded-[2.5rem] p-8 sm:p-10 lg:p-12 pb-0 sm:pb-0 text-white shadow-xl relative overflow-hidden flex flex-col justify-between group hover:shadow-2xl border border-blue-400/20 cursor-pointer transition-all duration-300 min-h-[460px]"
                 >
                   <div className="space-y-1">
@@ -112,22 +152,22 @@ export default function AudienceSegments({ onOpenContact }) {
                       className="w-full max-w-md object-contain transform group-hover:scale-[1.03] transition-transform duration-300 pointer-events-none"
                     />
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             ) : (
               /* HOVERED STATE: Screenshot Design (1 Expanded Card Panel + 1 Collapsed Vertical Pill Bar) */
               <motion.div
                 key="hovered-panel"
-                initial={{ opacity: 0, scale: 0.99 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.99 }}
-                transition={{ duration: 0.3 }}
+                layout
+                initial={false}
+                exit={{ opacity: 0, transition: { duration: 0 } }}
+                transition={{ layout: layoutTransition }}
                 className="w-full max-w-[1340px] mx-auto flex flex-col md:flex-row gap-4 lg:gap-6 items-stretch justify-center min-h-[500px]"
               >
                 {/* Left Component */}
                 {hoveredTab === 'publisher' ? (
                   /* Expanded Publisher Panel */
-                  <div className="flex-1 md:flex-[5] lg:flex-[6] bg-gradient-to-br from-[#1B5CFF] via-[#0B52F2] to-[#0444D0] rounded-[2.5rem] p-6 sm:p-10 lg:p-12 text-white shadow-2xl border border-blue-400/30 flex flex-col lg:flex-row items-center justify-between gap-8">
+                  <motion.div layout layoutId={`audience-publisher`} transition={{ layout: layoutTransition }} className="flex-1 md:flex-[5] lg:flex-[6] bg-gradient-to-br from-[#1B5CFF] via-[#0B52F2] to-[#0444D0] rounded-[2.5rem] p-6 sm:p-10 lg:p-12 text-white shadow-2xl border border-blue-400/30 flex flex-col lg:flex-row items-center justify-between gap-8">
                     <div className="w-full lg:w-[55%] flex flex-col justify-between space-y-6 z-10">
                       <div>
                         <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-blue-100 block tracking-tight">
@@ -148,6 +188,7 @@ export default function AudienceSegments({ onOpenContact }) {
                           onClick={(e) => {
                             e.stopPropagation();
                             if (onOpenContact) onOpenContact();
+                            else window.location.hash = 'team';
                           }}
                           className="inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#1853E6] hover:bg-[#1245C8] border border-blue-300/40 text-white font-semibold text-sm sm:text-base shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
                         >
@@ -164,11 +205,11 @@ export default function AudienceSegments({ onOpenContact }) {
                         className="w-full max-w-md lg:max-w-lg object-contain block drop-shadow-2xl pointer-events-none"
                       />
                     </div>
-                  </div>
+                  </motion.div>
                 ) : (
                   /* Collapsed Publisher Pill Bar */
-                  <div
-                    onMouseEnter={() => setHoveredTab('publisher')}
+                  <motion.div layout layoutId={`audience-publisher`} transition={{ layout: layoutTransition }}
+                    onMouseEnter={() => previewCard('publisher')} {...cardControls('publisher')}
                     className="flex-none w-full md:w-20 lg:w-24 bg-[#1B5CFF] hover:bg-[#1552EA] rounded-[2.5rem] p-4 flex md:flex-col items-center justify-between shadow-xl border border-blue-400/20 group cursor-pointer transition-all duration-300"
                   >
                     <div className="flex-1 flex items-center justify-center">
@@ -183,13 +224,13 @@ export default function AudienceSegments({ onOpenContact }) {
                     <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform shadow-md">
                       <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                     </div>
-                  </div>
+                  </motion.div>
                 )}
 
                 {/* Right Component */}
                 {hoveredTab === 'advertiser' ? (
                   /* Expanded Advertiser Panel */
-                  <div className="flex-1 md:flex-[5] lg:flex-[6] bg-gradient-to-br from-[#1B5CFF] via-[#0B52F2] to-[#0444D0] rounded-[2.5rem] p-6 sm:p-10 lg:p-12 text-white shadow-2xl border border-blue-400/30 flex flex-col lg:flex-row items-center justify-between gap-8">
+                  <motion.div layout layoutId={`audience-advertiser`} transition={{ layout: layoutTransition }} className="flex-1 md:flex-[5] lg:flex-[6] bg-gradient-to-br from-[#1B5CFF] via-[#0B52F2] to-[#0444D0] rounded-[2.5rem] p-6 sm:p-10 lg:p-12 text-white shadow-2xl border border-blue-400/30 flex flex-col lg:flex-row items-center justify-between gap-8">
                     <div className="w-full lg:w-[55%] flex flex-col justify-between space-y-6 z-10">
                       <div>
                         <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-blue-100 block tracking-tight">
@@ -210,6 +251,7 @@ export default function AudienceSegments({ onOpenContact }) {
                           onClick={(e) => {
                             e.stopPropagation();
                             if (onOpenContact) onOpenContact();
+                            else window.location.hash = 'team';
                           }}
                           className="inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#1853E6] hover:bg-[#1245C8] border border-blue-300/40 text-white font-semibold text-sm sm:text-base shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
                         >
@@ -226,11 +268,11 @@ export default function AudienceSegments({ onOpenContact }) {
                         className="w-full max-w-md lg:max-w-lg object-contain block drop-shadow-2xl pointer-events-none"
                       />
                     </div>
-                  </div>
+                  </motion.div>
                 ) : (
                   /* Collapsed Advertiser Pill Bar */
-                  <div
-                    onMouseEnter={() => setHoveredTab('advertiser')}
+                  <motion.div layout layoutId={`audience-advertiser`} transition={{ layout: layoutTransition }}
+                    onMouseEnter={() => previewCard('advertiser')} {...cardControls('advertiser')}
                     className="flex-none w-full md:w-20 lg:w-24 bg-[#1B5CFF] hover:bg-[#1552EA] rounded-[2.5rem] p-4 flex md:flex-col items-center justify-between shadow-xl border border-blue-400/20 group cursor-pointer transition-all duration-300"
                   >
                     <div className="flex-1 flex items-center justify-center">
@@ -245,7 +287,7 @@ export default function AudienceSegments({ onOpenContact }) {
                     <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform shadow-md">
                       <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                     </div>
-                  </div>
+                  </motion.div>
                 )}
               </motion.div>
             )}

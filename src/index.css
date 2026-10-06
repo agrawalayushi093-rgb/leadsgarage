@@ -189,8 +189,10 @@ section { scroll-margin-top: 90px; }
 }
 
 /* Quality: 427 × 749 centre phone and 369 × 649 side phones. */
-#quality { padding: calc(140 * var(--figma-unit)) 20px calc(70 * var(--figma-unit)); background: transparent; }
+#quality { padding: calc(140 * var(--figma-unit)) 20px calc(70 * var(--figma-unit)); background: linear-gradient(180deg, #FDFBF7 0%, #fff8eb 85%); }
 #quality > div { max-width: 1600px; padding: 0; }
+#solutions + #quality { margin-top: -160px; padding-top: 40px; }
+@media (max-width: 639px) { #solutions + #quality { margin-top: -112px; padding-top: 32px; } }
 #quality > div > div:first-child { max-width: calc(1280 * var(--figma-unit)); }
 #quality h3 { font-family: Inter,sans-serif; font-size: calc(64 * var(--figma-unit)); line-height: 1.2; font-weight: 700; color: black; }
 #quality p { font-family: Inter,sans-serif; font-size: max(14px,calc(20 * var(--figma-unit))); line-height: 1.6; max-width: calc(650 * var(--figma-unit)); color: black; }
@@ -216,7 +218,7 @@ section { scroll-margin-top: 90px; }
 }
 
 /* Partnership cards: two 602 × 624 panels, separated by 68px. */
-#audience { background: #fff8eb url('/image/Home/section2/background.png') center / min(100vw,1920px) auto; padding: calc(140 * var(--figma-unit)) 20px calc(200 * var(--figma-unit)); }
+#audience { background: #fff8eb; padding: calc(140 * var(--figma-unit)) 20px calc(200 * var(--figma-unit)); }
 #audience > div { max-width: 1540px; padding: 0; }
 #audience > div > div:first-child { max-width: none; margin-bottom: calc(88 * var(--figma-unit)); }
 #audience p { font-family: Inter,sans-serif; font-size: max(14px,calc(20 * var(--figma-unit))); color: black; }
@@ -285,6 +287,9 @@ section { scroll-margin-top: 90px; }
 #showcase > div { max-width: 1920px; padding: 0; }
 #showcase > div > div { max-width: none; padding: 0; border: 0; border-radius: 0; box-shadow: none; background: transparent; overflow: visible; }
 #showcase img { width: 100%; mask-image: linear-gradient(black 82%,transparent 100%); }
+#showcase { overflow: hidden; }
+#showcase img { margin-top: clamp(-100px, -5vw, -32px); }
+@media(max-width:1023px) { #team { padding-bottom: 28px; } }
 .footer-section { font-family: Inter,sans-serif; background: transparent; margin-top: calc(-500 * var(--figma-unit)); padding: 0 0 calc(150 * var(--figma-unit)); }
 .footer-section > div:first-child { display: none; }
 .footer-section > div:last-child { max-width: calc(1640 * var(--figma-unit)); padding: 0 20px; }
