@@ -6,8 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     watch: {
-      usePolling: true,
-      ignored: ['**/public/**']
+      usePolling: true
     }
   }
 })

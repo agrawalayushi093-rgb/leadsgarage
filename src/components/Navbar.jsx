@@ -66,7 +66,7 @@ export default function Navbar() {
     <h3>{menus[name].feature[1]}</h3><span className={styles.featureCta}>{name === 'Company' ? 'Contact Us' : 'Explore more'} <ArrowUpRight size={16} /></span>
   </a>;
   return <>
-    <motion.header ref={headerRef} className={`site-header ${styles.header} bg-[#FDFBF7]`} style={{ '--nav-progress': easedProgress }}
+    <motion.header ref={headerRef} className={`site-header ${styles.header}`} style={{ '--nav-progress': easedProgress }}
       onMouseLeave={() => setActiveDropdown(null)} onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setActiveDropdown(null); }}>
       <nav className="bg-transparent pt-6 sm:pt-7 pb-4">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">

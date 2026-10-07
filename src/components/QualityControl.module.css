@@ -1,0 +1,14 @@
+.copy { margin-top: 28px; }
+.copy p { margin: 14px auto 0; }
+.section { overflow: clip; }
+.track { height: calc(clamp(310px, 43vw, 550px) + 180vh); margin-top: 40px; }
+:global(#quality) .deck { position: sticky; top: 110px; width: 100%; max-width: 1250px; height: clamp(310px, 43vw, 550px); margin: 0 auto; perspective: 1400px; isolation: isolate; }
+.deck:focus-visible { outline: 2px solid #255bf5; outline-offset: 6px; border-radius: 20px; }
+.phone { --phone-width: min(28%, 300px); position: absolute; top: 0; left: 50%; margin-left: calc(var(--phone-width) / -2); width: var(--phone-width); transform-origin: center; will-change: transform, opacity; }
+.phone img { display: block; width: 100%; height: auto; user-select: none; }
+@media (max-width: 639px) {
+ .track { height: calc(310px + 180vh); margin-top: 28px; }
+ :global(#quality) .deck { top: 100px; height: 310px; perspective: 700px; }
+ .phone { --phone-width: 45%; }
+}
+@media (prefers-reduced-motion: reduce) { .phone { will-change: auto; } }

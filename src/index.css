@@ -258,6 +258,22 @@ section { scroll-margin-top: 90px; }
 #network .network-chart, #network .network-people { position: absolute; display: grid; place-items: center; border-radius: 50%; color: white; width: 9.2%; aspect-ratio: 1; background: linear-gradient(#63e6db,#00a988); left: 48%; top: 24%; }
 #network .network-people { left: 23%; top: 57%; background: linear-gradient(#05d8ed,#28abc2); width: 8.2%; }
 #network .network-chart svg, #network .network-people svg { width: 40%; height: 40%; }
+#network .network-bubble-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; -webkit-mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent); }
+#network .network-bubble { position: absolute; aspect-ratio: 1; pointer-events: none; will-change: transform; }
+#network .network-bubble img { width: 100%; height: 100%; object-fit: contain; }
+#network .network-bubble-layer .network-chart { left: 9%; top: 0; width: 7%; }
+#network .network-bubble-layer .network-people { left: 83%; top: 0; width: 7%; }
+#network::before, #network::after { content: ''; position: absolute; left: -5%; width: 110%; height: 15%; z-index: 5; pointer-events: none; filter: blur(15px); }
+#network::before { top: -2%; background: linear-gradient(#fff8eb 15%, #fff8ebcc 50%, transparent); }
+#network::after { bottom: -2%; background: linear-gradient(transparent, #ffffffcc 50%, white 85%); }
+@media (max-width: 767px) {
+ #network .network-bubble:nth-child(6n + 3) { left: 2% !important; }
+ #network .network-bubble:nth-child(6n + 4) { left: 9% !important; }
+ #network .network-bubble:nth-child(6n + 5) { left: 16% !important; }
+ #network .network-bubble:nth-child(6n + 6) { left: 79% !important; }
+ #network .network-bubble:nth-child(6n + 1) { left: 86% !important; }
+ #network .network-bubble:nth-child(6n + 2) { left: 93% !important; }
+}
 @media(max-width:1023px) { #network > div:last-child > div:first-child { min-height: 800px; } #network h2 { font-size: 36px; } }
 @media(max-width:767px) { #network > div:last-child > div:first-child { min-height: 650px; } #network .absolute { display: block; width: 12%; } #network .text-center { top: 45%; } #network h2 { font-size: 27px; } #network > div:last-child > div:last-child { display: none; } }
 
@@ -268,7 +284,7 @@ section { scroll-margin-top: 90px; }
 #team p { white-space: normal; font-family: Inter,sans-serif; font-size: max(14px,calc(20 * var(--figma-unit))); color: #444; }
 #team .grid { max-width: calc(1100 * var(--figma-unit)); gap: calc(100 * var(--figma-unit)); }
 #team .leader-card { border-radius: calc(48 * var(--figma-unit)); padding: calc(22 * var(--figma-unit)); }
-#team .leader-card > div:first-child { border-radius: calc(30 * var(--figma-unit)); aspect-ratio: 450/496; margin-bottom: calc(48 * var(--figma-unit)); }
+#team .leader-card > div:first-child { background: transparent; border-radius: 0; box-shadow: none; margin-bottom: calc(48 * var(--figma-unit)); }
 #team .leader-card > div:first-child img { object-fit: contain; filter: none; }
 #team h3 { font-family: Inter,sans-serif; font-size: calc(40 * var(--figma-unit)); font-weight: 600; line-height: 1.2; color: #3d3d3d; white-space: nowrap; }
 #team .leader-role { margin-top: 16px; }
@@ -306,6 +322,8 @@ section { scroll-margin-top: 90px; }
 @media(max-width:1279px) { .footer-section .grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px; } .footer-section > div:last-child { max-width: 1100px; } .footer-section > div:last-child > div { padding: 40px 28px; border-radius: 32px; } .footer-section .pt-2 { flex-wrap: wrap; } }
 @media(max-width:767px) { .footer-section { margin-top: -10vw; padding-bottom: 50px; } .footer-section .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } #network .network-people { left: 14%; top: 70%; } #network .absolute:nth-of-type(12) { right: 6%; top: 72%; } #network .absolute:nth-of-type(15) { right: 30%; top: 78%; } #network .absolute:nth-of-type(16) { right: 20%; top: 88%; } }
 html, body { overflow-x: clip; background: white; }
+/* Clip horizontal artwork without creating a separate scroll container for sticky cards. */
+body.overflow-x-hidden { overflow-x: clip; }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 
 /* Responsive safeguards for narrow phones, touch tablets and short laptops. */
@@ -337,3 +355,4 @@ html, body { overflow-x: clip; background: white; }
 @media (hover: none) {
   #team .leader-card > div:last-child { max-height: 180px; opacity: 1; margin-top: 16px; }
 }
+

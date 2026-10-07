@@ -28,6 +28,13 @@
   background: #1d4ed8;
 }
 
+/* Extra height only for macOS laptop viewports; other platforms keep the original panel. */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  .hero[data-mac-desktop="true"] .panel { aspect-ratio: 744 / 325; }
+  .hero[data-mac-desktop="true"] .panel .leftCard,
+  .hero[data-mac-desktop="true"] .panel .rightCard { height: 18.71cqw; }
+}
+
 .background, .scene { position: absolute; inset: 0; pointer-events: none; }
 .background {
   background-size: 100% 100%;
@@ -127,8 +134,27 @@
 .leftCard { width: 15%; height: 48%; left: 9%; top: 20%; transform: rotate(-7deg); }
 .rightCard { width: 15%; height: 48%; right: 9%; top: 20%; transform: rotate(7deg); }
 .cardImage { position: absolute; inset: 0; background: #fff; }
-.cardImage img { width: 100%; height: 100%; object-fit: cover; display: block; transform: translateX(var(--image-offset, 0%)) rotate(8deg) scale(1.6); }
-.rightCard .cardImage img { transform: translateX(var(--image-offset, 0%)) rotate(-8deg) scale(1.35); }
+.cardImage img { width: 100%; max-width: none; height: 100%; object-fit: cover; display: block; }
+/* Fill the fixed frame with the artwork, excluding the PNG's transparent shadow gutters. */
+.cardImage img[src$="image 95.png"],
+.cardImage img[src$="image 96.png"],
+.cardImage img[src$="image 99.png"] {
+  position: absolute;
+  width: 107.885%;
+  height: 106.306%;
+  left: -.376%;
+  top: -.701%;
+  object-fit: fill;
+}
+.cardImage img[src$="Group 40127.png"],
+.cardImage img[src$="Group 40128.png"] {
+  position: absolute;
+  width: 105.732%;
+  height: 104.823%;
+  left: -4.968%;
+  top: 0;
+  object-fit: fill;
+}
 .topLeft { left: 0; top: -3%; }
 .topRight { right: 0; top: -3%; }
 .bottomLeft { left: 1%; bottom: 2%; }

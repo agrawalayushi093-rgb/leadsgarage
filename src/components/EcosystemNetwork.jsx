@@ -35,43 +35,25 @@ export default function EcosystemNetwork() {
         window.addEventListener('resize', scheduleText);
         updateText();
         const bubbles = sectionRef.current.querySelectorAll('[data-network-bubble]');
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: sectionRef.current, start: 'top bottom', end: 'bottom top',
-            toggleActions: 'play pause resume pause', invalidateOnRefresh: true,
-          },
-        });
         bubbles.forEach((bubble, index) => {
-          // Enter below the clipped canvas, then leave completely above it.
-          const delay = index * 1.2;
-          const laneOffset = () => {
-            const width = sectionRef.current.offsetWidth;
-            const center = bubble.offsetLeft + bubble.offsetWidth / 2;
-            if (center > width * 0.34 && center < width * 0.66) {
-              return width * (center < width * 0.5 ? 0.27 : 0.76) - center;
-            }
-            return 0;
-          };
-          timeline.fromTo(bubble, {
-            x: laneOffset,
-            y: () => sectionRef.current.offsetHeight - bubble.offsetTop + bubble.offsetHeight,
+          const duration = 14 + (index % 5);
+          const loop = gsap.timeline({ repeat: -1, repeatRefresh: true });
+          loop.fromTo(bubble, {
+            y: () => sectionRef.current.offsetHeight + bubble.offsetHeight,
           }, {
-            y: () => -bubble.offsetTop - bubble.offsetHeight - 12,
-            x: laneOffset, duration: 10, ease: 'none',
-            repeat: -1, repeatDelay: bubbles.length * 1.2 - 10,
-            repeatRefresh: true,
-          }, delay);
-          timeline.fromTo(bubble, { opacity: 0 }, {
+            y: () => -bubble.offsetHeight * 2,
+            duration, ease: 'none',
+          }, 0);
+          loop.fromTo(bubble, { opacity: 0 }, {
             keyframes: [
-              { opacity: 1, duration: 1.2 },
-              { opacity: 1, duration: 7.6 },
-              { opacity: 0, duration: 1.2 },
-            ],
-            ease: 'none', repeat: -1,
-            repeatDelay: bubbles.length * 1.2 - 10,
-          }, delay);
-        });
-        return () => {
+              { opacity: .85, duration: duration * .15 },
+              { opacity: .85, duration: duration * .7 },
+              { opacity: 0, duration: duration * .15 },
+            ], ease: 'none',
+          }, 0);
+          // Seed the whole canvas immediately; continue from page load offscreen.
+          loop.progress((index * .381966) % 1);
+        });        return () => {
           cancelAnimationFrame(textFrame);
           window.removeEventListener('scroll', scheduleText);
           window.removeEventListener('resize', scheduleText);
@@ -134,13 +116,15 @@ export default function EcosystemNetwork() {
         {/* Main Floating Canvas */}
         <div className="relative min-h-[580px] sm:min-h-[640px] lg:min-h-[680px] flex items-center justify-center">
           
+          <div className="network-bubble-layer">
           <div data-network-bubble className="network-chart"><ChartNoAxesColumn aria-hidden="true" /></div><div data-network-bubble className="network-people"><Users aria-hidden="true" /></div>
           {/* Floating Nodes */}
-          {nodes.map((node, idx) => (
+          {[...nodes, ...nodes, ...nodes].map((node, idx) => (
             <div
               key={idx}
               data-network-bubble
-              className={`absolute hidden md:block ${node.pos} pointer-events-none z-10`}
+              className="network-bubble"
+              style={{ left: `${[4, 14, 24, 70, 80, 90][idx % 6]}%`, width: `${[5, 7, 4, 6, 8][idx % 5]}%`, top: 0 }}
             >
               <img
                 src={node.src}
@@ -154,6 +138,7 @@ export default function EcosystemNetwork() {
             </div>
           ))}
 
+          </div>
           {/* Center Main Text Content matching Reference 1:1 */}
           <div className="text-center max-w-lg mx-auto relative z-30 space-y-4 px-4"
             style={{ position: 'absolute', top: '48px' }}>
@@ -183,3 +168,4 @@ export default function EcosystemNetwork() {
     </section>
   );
 }
+

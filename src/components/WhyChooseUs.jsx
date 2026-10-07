@@ -50,7 +50,7 @@ export default function WhyChooseUs() {
     }
   ];
 
-  // Natural scrolling supplies the full travel distance; pinning adds only the final strip offset.
+  // Natural scrolling supplies the full travel distance; sticky cards hold the final offsets.
   useEffect(() => {
     const ctx = gsap.context(() => {
       const media = gsap.matchMedia();
@@ -62,28 +62,38 @@ export default function WhyChooseUs() {
         const strip = () => window.innerWidth < 640 ? 28 : 40;
         const exitTravel = () => cardsList[cardsList.length - 1].offsetHeight + stackTop() + (cardsList.length - 1) * strip();
         const coverTravel = () => (cardsList.length - 1) * strip();
-        const reserveExitSpace = () => gsap.set(cardsWrapperRef.current, { '--exit-space': `${coverTravel()}px` });
-        reserveExitSpace();
-        cardsList.forEach((card, index) => {
-          gsap.set(card.querySelector('.solution-surface'), { transformOrigin: 'center top' });
-          ScrollTrigger.create({
-            trigger: card,
-            start: () => `top top+=${stackTop() + index * strip()}`,
-            endTrigger: cardsWrapperRef.current,
-            // The front card covers the strips first, then the full deck exits together.
-            end: () => `bottom top+=${exitTravel() + (index === cardsList.length - 1 ? coverTravel() : 0)}`,
-            onRefreshInit: index === 0 ? reserveExitSpace : undefined,
-            pin: true,
-            // Keep each card in the same compositing layer across entry and release.
-            pinType: 'transform',
-            anticipatePin: 1,
-            pinSpacing: false,
-            invalidateOnRefresh: true,
+        // Native sticky positioning stays on the browser's scroll thread. Each flow
+        // extends to the common release point; negative margins preserve its natural gap.
+        const layoutStickyFlows = () => {
+          const gap = Math.min(96, Math.max(48, window.innerWidth * .06));
+          gsap.set(cardsWrapperRef.current, { '--exit-space': `${coverTravel()}px` });
+          cardFlows.forEach((flow, index) => gsap.set(flow, {
+            height: 'auto', paddingBottom: index === cardsList.length - 1 ? 0 : gap,
+            marginBottom: 0,
+          }));
+          const bottom = cardsWrapperRef.current.getBoundingClientRect().bottom;
+          const distances = cardFlows.map((flow, index) => Math.max(0,
+            bottom - flow.getBoundingClientRect().top - exitTravel()
+              + stackTop() + index * strip()
+              - (index === cardsList.length - 1 ? coverTravel() : 0)));
+          cardFlows.forEach((flow, index) => {
+            gsap.set(flow, {
+              height: cardsList[index].offsetHeight + distances[index], paddingBottom: 0,
+              marginBottom: (index === cardsList.length - 1 ? 0 : gap) - distances[index],
+            });
+            gsap.set(cardsList[index], {
+              position: 'sticky', top: stackTop() + index * strip(), y: 0,
+            });
           });
+        };
+        layoutStickyFlows();
+        ScrollTrigger.addEventListener('refreshInit', layoutStickyFlows);
+        cardsList.forEach(card => {
+          gsap.set(card.querySelector('.solution-surface'), { transformOrigin: 'center top' });
         });
         // Earlier cards gradually recede while later cards climb into the deck.
         cardsList.slice(0, -1).forEach((card, index) => {
-          // Scale the artwork inside the pin, so releasing the pin cannot change deck spacing.
+          // Scale only the artwork, preserving the fixed document spacing.
           gsap.fromTo(card.querySelector('.solution-surface'), { scale: 1 }, {
             scale: 1 - (cardsList.length - 1 - index) * 0.03,
             ease: 'none',
@@ -108,6 +118,7 @@ export default function WhyChooseUs() {
             },
           });
         });
+        return () => ScrollTrigger.removeEventListener('refreshInit', layoutStickyFlows);
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -175,3 +186,5 @@ export default function WhyChooseUs() {
     </section>
   );
 }
+
+

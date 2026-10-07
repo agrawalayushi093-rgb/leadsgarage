@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function LeadershipTeam() {
+  const [hoveredLeader, setHoveredLeader] = useState(null);
+  useEffect(() => {
+    ['/image/Home/harshit_s.png', '/image/Home/kunal_s.png'].forEach(src => {
+      const image = new Image();
+      image.src = src;
+    });
+  }, []);
   const leaders = [
     {
       name: 'Kunal Shrivastava',
       role: 'Co-Founder & CEO',
       image: '/image/Home/kunal.png',
+      hoverImage: '/image/Home/kunal_s.png',
       linkedin: 'https://linkedin.com',
       email: 'mailto:kunal@leadsgarage.com',
     },
@@ -14,6 +22,7 @@ export default function LeadershipTeam() {
       name: 'Harshit Shrivastava',
       role: 'Co-Founder & CEO',
       image: '/image/Home/Harshit.png',
+      hoverImage: '/image/Home/harshit_s.png',
       linkedin: 'https://linkedin.com',
       email: 'mailto:harshit@leadsgarage.com',
     },
@@ -53,14 +62,18 @@ export default function LeadershipTeam() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.15 }}
               tabIndex={0}
+              onMouseEnter={() => setHoveredLeader(leader.name)}
+              onMouseLeave={() => setHoveredLeader(null)}
+              onFocus={() => setHoveredLeader(leader.name)}
+              onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHoveredLeader(null); }}
               className="leader-card group relative rounded-[2.5rem] p-5 sm:p-6 text-center transition-all duration-300 bg-transparent border border-transparent shadow-none hover:bg-white hover:border-slate-100 hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] hover:scale-[1.02] cursor-pointer"
             >
               {/* Photo Container */}
-              <div className="portrait-container relative rounded-[2rem] overflow-hidden aspect-[4/4.5] bg-[#282A2D] mb-5 shadow-sm transition-transform duration-300 group-hover:scale-[1.01]">
+              <div className="portrait-container relative mb-5">
                 <img
-                  src={leader.image}
+                  src={hoveredLeader === leader.name ? leader.hoverImage : leader.image}
                   alt={leader.name}
-                  className="w-full h-full object-cover object-top filter contrast-[1.02] brightness-[1.02]"
+                  className="w-full h-auto block object-contain"
                 />
               </div>
 

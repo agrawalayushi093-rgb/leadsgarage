@@ -7,11 +7,17 @@
   --nav-final-height: clamp(64px, 4.167vw, 80px);
   position: fixed;
   top: calc(var(--nav-start-top) + (20px - var(--nav-start-top)) * var(--nav-progress));
-  left: 50%;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
   width: calc(100% - (100% - var(--nav-compact-width)) * var(--nav-progress));
-  transform: translateX(-50%);
   z-index: 100;
+  background-color: rgb(253 251 247 / calc(1 - .06 * var(--nav-progress)));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 1;
   border-radius: calc(40px * var(--nav-progress));
+  box-shadow: 0 8px 28px rgb(3 9 38 / calc(.16 * var(--nav-progress)));
 }
 
 .header > nav {

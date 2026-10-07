@@ -4,8 +4,13 @@ import { ArrowRight } from 'lucide-react';
 import styles from './Hero.module.css';
 
 export default function Hero() {
+  const [isMacDesktop] = useState(() => {
+    if (typeof navigator === 'undefined') return false;
+    const platform = navigator.userAgentData?.platform || navigator.platform || '';
+    // iPadOS also reports MacIntel; keep its existing touch layout.
+    return /mac/i.test(platform) && navigator.maxTouchPoints <= 1;
+  });
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(true);
   const heroRef = useRef(null);
@@ -30,7 +35,7 @@ export default function Hero() {
       if (progressRef.current) progressRef.current.style.transform = `scaleY(${progress})`;
     };
     paint(reduceMotion ? 1 : elapsedRef.current / 4000);
-    if (reduceMotion || hovered || focused || !visible) return;
+    if (reduceMotion || focused || !visible) return;
     let frame;
     let previous = performance.now();
     const resetClock = () => { previous = performance.now(); };
@@ -49,7 +54,7 @@ export default function Hero() {
       cancelAnimationFrame(frame);
       document.removeEventListener('visibilitychange', resetClock);
     };
-  }, [currentSlide, reduceMotion, hovered, focused, visible]);
+  }, [currentSlide, reduceMotion, focused, visible]);
 
   const slides = [
     {
@@ -67,7 +72,7 @@ export default function Hero() {
         { number: '24/7', label: 'Monitoring' },
       ],
       leftCardImage: '/image/Home/herosection/image 95.png',
-      rightCardImage: '/image/Home/herosection/image 97.png',
+      rightCardImage: '/image/Home/herosection/image 96.png',
       topLeftGraphic: null,
       topRightGraphic: '/image/Home/herosection/image 82.png',
       bottomLeftGraphic: '/image/Home/herosection/image 115.png',
@@ -88,8 +93,8 @@ export default function Hero() {
         { number: '24/7', label: 'Monitoring' },
         { number: '95%', label: 'Client Satisfaction' },
       ],
-      leftCardImage: '/image/Home/herosection/Group 40114.png',
-      rightCardImage: '/image/Home/herosection/Group 40112.png',
+      leftCardImage: '/image/Home/herosection/Group 40127.png',
+      rightCardImage: '/image/Home/herosection/Group 40128.png',
       topLeftGraphic: '/image/Home/herosection/image 126.png',
       topRightGraphic: null,
       bottomLeftGraphic: '/image/Home/herosection/image 118.png',
@@ -110,8 +115,8 @@ export default function Hero() {
         { number: '24/7', label: 'Monitoring' },
         { number: '95%', label: 'Client Satisfaction' },
       ],
-      leftCardImage: '/image/Home/herosection/image 86.png',
-      rightCardImage: '/image/Home/herosection/Group 40102.png',
+      leftCardImage: '/image/Home/herosection/image 99.png',
+      rightCardImage: '/image/Home/herosection/image 72.png',
       topLeftGraphic: '/image/Home/herosection/image 124.png',
       topRightGraphic: null,
       bottomLeftGraphic: '/image/Home/herosection/image 125.png',
@@ -132,8 +137,8 @@ export default function Hero() {
         { number: '24/7', label: 'Monitoring' },
         { number: '95%', label: 'Client Satisfaction' },
       ],
-      leftCardImage: '/image/Home/herosection/image 86.png',
-      rightCardImage: '/image/Home/herosection/Group 40102.png',
+      leftCardImage: '/image/Home/herosection/image 99.png',
+      rightCardImage: '/image/Home/herosection/image 72.png',
       topLeftGraphic: '/image/Home/herosection/image 121.png',
       topRightGraphic: '/image/Home/herosection/image 122.png',
       bottomLeftGraphic: null,
@@ -155,8 +160,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={heroRef} id="hero" className={styles.hero}
-      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+    <section ref={heroRef} id="hero" className={styles.hero} data-mac-desktop={isMacDesktop ? 'true' : undefined}
       onFocusCapture={() => setFocused(true)}
       onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
       <div className={styles.frame}>
@@ -221,10 +225,7 @@ export default function Hero() {
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={slideTransition}>
-                  <img src={activeSlide[asset]} alt=""
-                    style={{ '--image-offset': asset === 'leftCardImage'
-                      ? ['6.26%', '-3.94%', '7.39%', '7.39%'][currentSlide]
-                      : ['5.93%', '0%', '0%', '0%'][currentSlide] }} />
+                  <img src={activeSlide[asset]} alt="" />
                 </motion.div>
               </AnimatePresence>
             </div>
