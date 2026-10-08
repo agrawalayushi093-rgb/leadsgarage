@@ -3,7 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import styles from './Hero.module.css';
 
-export default function Hero() {
+export default function Hero({ enabled = true }) {
   const [isMacDesktop] = useState(() => {
     if (typeof navigator === 'undefined') return false;
     const platform = navigator.userAgentData?.platform || navigator.platform || '';
@@ -35,7 +35,7 @@ export default function Hero() {
       if (progressRef.current) progressRef.current.style.transform = `scaleY(${progress})`;
     };
     paint(reduceMotion ? 1 : elapsedRef.current / 4000);
-    if (reduceMotion || focused || !visible) return;
+    if (!enabled || reduceMotion || focused || !visible) return;
     let frame;
     let previous = performance.now();
     const resetClock = () => { previous = performance.now(); };
@@ -54,7 +54,7 @@ export default function Hero() {
       cancelAnimationFrame(frame);
       document.removeEventListener('visibilitychange', resetClock);
     };
-  }, [currentSlide, reduceMotion, focused, visible]);
+  }, [currentSlide, reduceMotion, focused, visible, enabled]);
 
   const slides = [
     {

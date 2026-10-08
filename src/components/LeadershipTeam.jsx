@@ -62,9 +62,10 @@ export default function LeadershipTeam() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.15 }}
               tabIndex={0}
-              onMouseEnter={() => setHoveredLeader(leader.name)}
+              onMouseEnter={() => { if (window.matchMedia('(hover: hover)').matches) setHoveredLeader(leader.name); }}
               onMouseLeave={() => setHoveredLeader(null)}
-              onFocus={() => setHoveredLeader(leader.name)}
+              onFocus={() => { if (window.matchMedia('(hover: hover)').matches) setHoveredLeader(leader.name); }}
+              onClick={(event) => { if (event.target.closest('a')) return; if (!window.matchMedia('(hover: hover)').matches) setHoveredLeader(hoveredLeader === leader.name ? null : leader.name); }}
               onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHoveredLeader(null); }}
               className="leader-card group relative rounded-[2.5rem] p-5 sm:p-6 text-center transition-all duration-300 bg-transparent border border-transparent shadow-none hover:bg-white hover:border-slate-100 hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] hover:scale-[1.02] cursor-pointer"
             >
@@ -85,7 +86,7 @@ export default function LeadershipTeam() {
               <p className="leader-role">{leader.role}</p>
 
               {/* Hidden initially, smooth reveal when hovered */}
-              <div className="overflow-hidden transition-all duration-300 ease-in-out max-h-0 opacity-0 group-hover:max-h-52 group-hover:opacity-100 group-hover:mt-2">
+              <div data-expanded={hoveredLeader === leader.name} className="leader-details overflow-hidden transition-all duration-300 ease-in-out">
 
                 {/* Divider Line */}
                 <div className="w-24 h-[1px] bg-slate-200/80 mx-auto mb-3" />

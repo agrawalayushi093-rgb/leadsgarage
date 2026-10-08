@@ -8,8 +8,8 @@ export default function Preloader({ onComplete }) {
     if (completed.current) return;
     completed.current = true;
     setLoading(false);
-    onComplete?.();
-  }, [onComplete]);
+
+  }, []);
 
   useEffect(() => {
     if (!loading) return;
@@ -26,7 +26,7 @@ export default function Preloader({ onComplete }) {
     };
   }, [loading, finish]);
 
-  return <AnimatePresence>
+  return <AnimatePresence onExitComplete={onComplete}>
     {loading && <motion.div
       role="dialog" aria-modal="true" aria-label="Leads Garage intro video"
       initial={{ opacity: 1 }}
@@ -37,9 +37,9 @@ export default function Preloader({ onComplete }) {
         aria-label="Leads Garage introduction"
         className="absolute inset-0 block w-full h-full object-cover"
         onEnded={finish} onError={finish}
-        onLoadedMetadata={event => { event.currentTarget.playbackRate = 1.35; }}
+        onLoadedMetadata={event => { event.currentTarget.playbackRate = 2; }}
         onCanPlay={event => {
-          event.currentTarget.playbackRate = 1.35;
+          event.currentTarget.playbackRate = 2;
           event.currentTarget.play()?.catch(finish);
         }}
       />

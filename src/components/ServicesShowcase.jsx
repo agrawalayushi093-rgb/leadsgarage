@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import gsap from 'gsap';
+
 import { Megaphone, Mail, Users, ListChecks, CodeXml, ChartNoAxesCombined } from 'lucide-react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import styles from './ServicesShowcase.module.css';
 
-gsap.registerPlugin(ScrollTrigger);
+
+
+
+
 const services = [
   { id: 'affiliate', title: 'Affiliate Marketing', icon: Megaphone, image: 'am1.png', description: 'Performance-driven affiliate programs that help you acquire quality customers and scale faster.', features: [['Quality partnerships', 'Connect with partners who understand your audience.'], ['Performance driven', 'Focus on qualified customers and measurable results.'], ['Scalable growth', 'Expand your reach with a managed affiliate program.']] },
   { id: 'email-sms', title: 'Email & SMS', icon: Mail, image: 'email.png', description: 'Reach your audience with targeted email and SMS campaigns that drive real engagement.', features: [['Targeted delivery', 'Reach the right inboxes and phones.'], ['Timed campaigns', 'Connect with customers at the right moment.'], ['Automated follow-ups', 'Keep your audience engaged across campaigns.']] },
@@ -17,14 +20,16 @@ const services = [
 
 export default function ServicesShowcase() {
   const sectionRef = useRef(null);
+  const trackRef = useRef(null);
   const activeRef = useRef(0);
   const lockedUntil = useRef(0);
-  const wheelTotal = useRef(0);
+
   const idleTimer = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [interacting, setInteracting] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [stacked, setStacked] = useState(true);
   const reducedMotion = useReducedMotion();
   useEffect(() => {
     services.forEach(service => {
@@ -46,55 +51,66 @@ export default function ServicesShowcase() {
   }, []);
 
   useEffect(() => {
-    const context = gsap.context(() => {
-      const media = gsap.matchMedia();
-      media.add('(min-width: 1024px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)', () => {
-        ScrollTrigger.create({ id: 'services-pin', trigger: sectionRef.current, start: 'top top+=90', end: '+=400', pin: true, pinSpacing: true, anticipatePin: 1, invalidateOnRefresh: true });
-      });
-    }, sectionRef);
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: .3 });
     observer.observe(sectionRef.current);
-    return () => { observer.disconnect(); context.revert(); clearTimeout(idleTimer.current); };
+    return () => { observer.disconnect(); clearTimeout(idleTimer.current); };
   }, []);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    let gestureLocked = false;
-    let gestureTimer;
-    const wheel = event => {
-      if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      const rect = section.getBoundingClientRect();
-      const pinned = Boolean(ScrollTrigger.getById('services-pin')?.isActive);
-      if (!pinned && !(rect.top < innerHeight * .45 && rect.bottom > innerHeight * .55)) { wheelTotal.current = 0; return; }
-      const current = activeRef.current;
-      if ((current === 0 && event.deltaY < 0) || (current === services.length - 1 && event.deltaY > 0)) return;
-      if (pinned) event.preventDefault();
-      clearTimeout(gestureTimer);
-      gestureTimer = setTimeout(() => { gestureLocked = false; wheelTotal.current = 0; }, 200);
-      if (gestureLocked || performance.now() < lockedUntil.current) return;
-      wheelTotal.current += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-      if (Math.abs(wheelTotal.current) >= 55) {
-        goToService(current + Math.sign(wheelTotal.current));
-        gestureLocked = true;
-        wheelTotal.current = 0;
-      }
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const section = sectionRef.current;
+      const track = trackRef.current;
+      track.style.setProperty('--service-height', `${section.offsetHeight}px`);
+      const top = Math.min(90, window.innerHeight - section.offsetHeight - 12);
+      section.style.setProperty('--service-sticky-top', `${top}px`);
+      const heading = section.querySelector('h2').parentElement;
+      const headingTop = section.getBoundingClientRect().top + heading.offsetTop;
+      const navbar = document.querySelector('header');
+      const navbarBottom = navbar?.getBoundingClientRect().bottom || 100;
+      heading.style.visibility = headingTop < navbarBottom + 8 ? 'hidden' : 'visible';
+      const distance = Math.max(0, top - track.getBoundingClientRect().top);
+      goToService(Math.min(services.length - 1, Math.floor(distance / 220)), false);
     };
-    let startX = 0, startY = 0;
-    const touchStart = event => { startX = event.touches[0].clientX; startY = event.touches[0].clientY; };
-    const touchEnd = event => {
-      if (performance.now() < lockedUntil.current) return;
-      const dx = startX - event.changedTouches[0].clientX;
-      const dy = startY - event.changedTouches[0].clientY;
-      if (Math.abs(dy) > 55 && Math.abs(dy) > Math.abs(dx)) goToService(activeRef.current + Math.sign(dy));
-    };
-    section.addEventListener('wheel', wheel, { passive: false });
-    section.addEventListener('touchstart', touchStart, { passive: true });
-    section.addEventListener('touchend', touchEnd, { passive: true });
-    return () => { clearTimeout(gestureTimer); section.removeEventListener('wheel', wheel); section.removeEventListener('touchstart', touchStart); section.removeEventListener('touchend', touchEnd); };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const resize = new ResizeObserver(schedule);
+    resize.observe(sectionRef.current);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    update();
+    return () => { cancelAnimationFrame(frame); resize.disconnect(); window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule); };
   }, [goToService]);
 
   useEffect(() => {
-    if (!visible || interacting || reducedMotion) return;
+    let gestureUsed = false;
+    let quietTimer;
+    const wheel = event => {
+      if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY) || !event.deltaY) return;
+      const track = trackRef.current;
+      const section = sectionRef.current;
+      const top = parseFloat(getComputedStyle(section).top);
+      const rect = track.getBoundingClientRect();
+      if (rect.top > top + 2 || rect.bottom <= top + section.offsetHeight) return;
+      const direction = Math.sign(event.deltaY);
+      const next = activeRef.current + direction;
+      if (!gestureUsed && (next < 0 || next >= services.length)) return;
+      event.preventDefault();
+      clearTimeout(quietTimer);
+      quietTimer = setTimeout(() => { gestureUsed = false; }, 350);
+      if (gestureUsed) return;
+      gestureUsed = true;
+      goToService(next, false);
+      const start = window.scrollY + rect.top - top;
+      // Move one stage per wheel/trackpad gesture; momentum cannot skip services.
+      window.scrollTo({ top: start + next * 220 + 110, behavior: 'instant' });
+    };
+    window.addEventListener('wheel', wheel, { passive: false });
+    return () => { clearTimeout(quietTimer); window.removeEventListener('wheel', wheel); };
+  }, [goToService]);
+
+  useEffect(() => {
+    if (stacked || !visible || interacting || reducedMotion) return;
     const started = performance.now();
     const timer = setInterval(() => {
       if (document.hidden) return;
@@ -103,11 +119,11 @@ export default function ServicesShowcase() {
       if (elapsed >= 4500) { clearInterval(timer); goToService((activeRef.current + 1) % services.length, false); }
     }, 80);
     return () => clearInterval(timer);
-  }, [visible, interacting, reducedMotion, activeIndex, goToService]);
+  }, [stacked, visible, interacting, reducedMotion, activeIndex, goToService]);
 
   const service = services[activeIndex];
-  const transition = { duration: reducedMotion ? 0 : .3, ease: [.22, 1, .36, 1] };
-  return <section id="services" ref={sectionRef} className={styles.section}>
+  const transition = { duration: reducedMotion ? 0 : .45, ease: [.22, 1, .36, 1] };
+  return <div ref={trackRef} className={styles.scrollTrack}><section id="services" ref={sectionRef} className={styles.section}>
     <div className={styles.frame}>
       <div className={styles.heading}><h2>What We Can Do For You?</h2><p>One Partner. Multiple Solutions. Built Around Your Goals.</p></div>
       <div className={styles.layout}>
@@ -121,14 +137,16 @@ export default function ServicesShowcase() {
           <motion.img key={service.id} src={`/image/Home/section2/${service.image}`} alt="" initial={{ opacity: 0, y: reducedMotion ? 0 : 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -12 }} transition={transition} />
         </AnimatePresence></div>
         <div id="service-panel" role="tabpanel" aria-labelledby={`service-tab-${service.id}`} className={styles.panel}>
-          <AnimatePresence mode="wait" initial={false}><motion.div key={service.id} initial={{ opacity: 0, y: reducedMotion ? 0 : 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }} transition={transition}>
+          <div className={styles.content}><AnimatePresence mode="wait" initial={false}><motion.div key={service.id} initial={{ opacity: 0, y: reducedMotion ? 0 : 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }} transition={transition}>
             <h3>{service.title}</h3><p className={styles.description}>{service.description}</p>
             <ul className={styles.features}>{service.features.map(([title, text], index) => <li key={title}><span className={styles.featureIcon} aria-hidden="true">{['↗', '◎', '✓'][index]}</span><div><strong>{title}</strong><p>{text}</p></div></li>)}</ul>
-          </motion.div></AnimatePresence>
+          </motion.div></AnimatePresence></div>
           <div className={styles.actions}><a href="#audience">Explore {service.title} <span aria-hidden="true">→</span></a><a href="#solutions">View Case Study</a></div>
         </div>
       </div>
     </div>
-  </section>;
+  </section></div>;
 }
+
+
 

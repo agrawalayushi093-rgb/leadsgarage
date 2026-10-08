@@ -21,7 +21,7 @@ export default function QualityControl() {
       if (!track) return;
       const top = parseFloat(getComputedStyle(track.firstElementChild).top) || 110;
       const distance = Math.max(0, top - track.getBoundingClientRect().top);
-      const step = window.innerHeight * .6;
+      const step = 220;
       setActiveSlide(Math.min(slides.length - 1, Math.floor(distance / step)));
     };
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };

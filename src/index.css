@@ -356,3 +356,6 @@ body.overflow-x-hidden { overflow-x: clip; }
   #team .leader-card > div:last-child { max-height: 180px; opacity: 1; margin-top: 16px; }
 }
 
+
+#team .leader-card > .leader-details { max-height: 0 !important; opacity: 0; margin-top: 0 !important; visibility: hidden; }
+#team .leader-card > .leader-details[data-expanded="true"] { max-height: 180px !important; opacity: 1; margin-top: 16px !important; visibility: visible; }

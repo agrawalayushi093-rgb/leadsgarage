@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Home.module.css';
 import Preloader from '../components/Preloader';
 import Navbar from '../components/Navbar';
@@ -13,16 +13,17 @@ import DashboardCTA from '../components/DashboardCTA';
 import Footer from '../components/Footer';
 
 export default function Home() {
+  const [introComplete, setIntroComplete] = useState(false);
   return (
     <div className={`${styles.backgroundMerge} min-h-screen bg-[#FDFBF7] font-sans antialiased text-slate-900 selection:bg-blue-600 selection:text-white`}>
       {/* Site Preloader Screen */}
-      <Preloader />
+      <Preloader onComplete={() => setIntroComplete(true)} />
 
       {/* Main Website Content (pre-rendered underneath to prevent blinking) */}
       <Navbar />
 
       <main>
-        <Hero />
+        <Hero enabled={introComplete} />
         <ServicesShowcase />
         <WhyChooseUs />
         <QualityControl />

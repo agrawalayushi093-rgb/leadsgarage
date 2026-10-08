@@ -13,7 +13,7 @@ export default function AudienceSegments({ onOpenContact }) {
   const previewCard = (id) => {
     if (window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches) return;
     clearTimeout(hoverTimer.current);
-    hoverTimer.current = setTimeout(() => setHoveredTab(id), 90);
+    hoverTimer.current = setTimeout(() => setHoveredTab(id), 180);
   };
   const closeCards = () => {
     clearTimeout(hoverTimer.current);
@@ -42,7 +42,7 @@ export default function AudienceSegments({ onOpenContact }) {
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, [hoveredTab]);
-  const layoutTransition = { duration: reducedMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] };
+  const layoutTransition = { duration: reducedMotion ? 0 : 0.85, ease: [0.22, 1, 0.36, 1] };
 
   const cardsData = {
     publisher: {
