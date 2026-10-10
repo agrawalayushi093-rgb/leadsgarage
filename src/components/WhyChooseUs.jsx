@@ -61,22 +61,19 @@ export default function WhyChooseUs() {
         const cardFlows = cardsList.map(card => card.parentElement);
         const stackTop = () => window.innerWidth < 640 ? 96 : 110;
         const strip = () => window.innerWidth < 640 ? 28 : 40;
-        const exitTravel = () => cardsList[cardsList.length - 1].offsetHeight + stackTop() + (cardsList.length - 1) * strip();
-        const coverTravel = () => (cardsList.length - 1) * strip();
         // Native sticky positioning stays on the browser's scroll thread. Each flow
         // extends to the common release point; negative margins preserve its natural gap.
         const layoutStickyFlows = () => {
           const gap = Math.min(96, Math.max(48, window.innerWidth * .06));
-          gsap.set(cardsWrapperRef.current, { '--exit-space': `${coverTravel()}px` });
+          gsap.set(cardsWrapperRef.current, { '--exit-space': '0px' });
           cardFlows.forEach((flow, index) => gsap.set(flow, {
             height: 'auto', paddingBottom: index === cardsList.length - 1 ? 0 : gap,
             marginBottom: 0,
           }));
-          const bottom = cardsWrapperRef.current.getBoundingClientRect().bottom;
+          const lastTop = cardFlows[cardFlows.length - 1].getBoundingClientRect().top;
           const distances = cardFlows.map((flow, index) => Math.max(0,
-            bottom - flow.getBoundingClientRect().top - exitTravel()
-              + stackTop() + index * strip()
-              - (index === cardsList.length - 1 ? coverTravel() : 0)));
+            lastTop - flow.getBoundingClientRect().top
+              - (cardsList.length - 1 - index) * strip()));
           cardFlows.forEach((flow, index) => {
             gsap.set(flow, {
               height: cardsList[index].offsetHeight + distances[index], paddingBottom: 0,
@@ -103,17 +100,6 @@ export default function WhyChooseUs() {
               start: 'top bottom',
               endTrigger: cardFlows[cardsList.length - 1],
               end: () => `top top+=${stackTop() + (cardsList.length - 1) * strip()}`,
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          });
-          gsap.fromTo(card.querySelector('.solution-surface'), { y: 0 }, {
-            y: () => -index * strip(),
-            ease: 'none',
-            scrollTrigger: {
-              trigger: cardsWrapperRef.current,
-              start: () => `bottom top+=${exitTravel() + coverTravel()}`,
-              end: () => `bottom top+=${exitTravel()}`,
               scrub: true,
               invalidateOnRefresh: true,
             },

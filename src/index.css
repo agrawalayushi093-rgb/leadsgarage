@@ -263,9 +263,7 @@ section { scroll-margin-top: 90px; }
 #network .network-bubble img { width: 100%; height: 100%; object-fit: contain; }
 #network .network-bubble-layer .network-chart { left: 9%; top: 0; width: 7%; }
 #network .network-bubble-layer .network-people { left: 83%; top: 0; width: 7%; }
-#network::before, #network::after { content: ''; position: absolute; left: -5%; width: 110%; height: 15%; z-index: 5; pointer-events: none; filter: blur(15px); }
-#network::before { top: -2%; background: linear-gradient(#fff8eb 15%, #fff8ebcc 50%, transparent); }
-#network::after { bottom: -2%; background: linear-gradient(transparent, #ffffffcc 50%, white 85%); }
+#network::before, #network::after { content: none; }
 
 @media(max-width:1023px) { #network > div:last-child > div:first-child { min-height: 800px; } #network h2 { font-size: 36px; } }
 @media(max-width:767px) { #network > div:last-child > div:first-child { min-height: 650px; } #network .absolute { display: block; width: 12%; } #network .text-center { top: 45%; } #network h2 { font-size: 27px; } #network > div:last-child > div:last-child { display: none; } }
@@ -382,4 +380,6 @@ body.overflow-x-hidden { overflow-x: clip; }
 #solutions { padding-top: clamp(64px, 6vw, 112px); }
 
 /* Release the card stack before the quality heading enters the page. */
-#solutions + #quality { margin-top: 0; padding-top: clamp(48px, 5vw, 80px); }
+#solutions { padding-bottom: 0; }
+#solutions .cards-stage { margin-bottom: 0; }
+#solutions + #quality { margin-top: 0; padding-top: clamp(24px, 3vw, 48px); }
