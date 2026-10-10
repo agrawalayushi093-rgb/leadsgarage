@@ -1,102 +1,96 @@
+import { publicAsset } from '../utils/publicAsset';
 import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { scatterBubbles } from '../utils/networkBubbles';
+
 import { ChartNoAxesColumn, Users } from 'lucide-react';
 
 export default function EcosystemNetwork() {
   const sectionRef = useRef(null);
 
   useLayoutEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    const context = gsap.context(() => {
-      const media = gsap.matchMedia();
-      media.add('(prefers-reduced-motion: no-preference)', () => {
-        const text = sectionRef.current.querySelector('.text-center');
-        const textTravel = () => Math.max(0,
-          sectionRef.current.offsetHeight - text.offsetHeight - text.offsetTop - 48);
-        const visibleDrift = () => Math.min(110, window.innerHeight * 0.12, textTravel() * 0.35);
-        const textStart = () => (window.innerHeight - text.offsetHeight) / 2
-          - visibleDrift() / 2 - text.offsetTop;
-        gsap.set(text, { y: 0 });
-        const setTextY = gsap.quickSetter(text, 'y', 'px');
-        let textFrame;
-        const updateText = () => {
-          textFrame = undefined;
-          const travel = textTravel();
-          const progress = gsap.utils.clamp(0, 1,
-            (textStart() - sectionRef.current.getBoundingClientRect().top)
-              / Math.max(1, travel - visibleDrift()));
-          setTextY(travel * progress);
-        };
-        const scheduleText = () => {
-          if (textFrame === undefined) textFrame = requestAnimationFrame(updateText);
-        };
-        window.addEventListener('scroll', scheduleText, { passive: true });
-        window.addEventListener('resize', scheduleText);
-        updateText();
-        const bubbles = sectionRef.current.querySelectorAll('[data-network-bubble]');
+    const section = sectionRef.current;
+    const canvas = section.querySelector('.network-bubble-layer');
+    const text = section.querySelector('.text-center');
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let context;
+    let previousSize = '';
+    let visible = false;
+    let loops = [];
+    const updatePlayback = () => loops.forEach(loop => loop.paused(!visible || document.hidden));
+    const layout = () => {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      const size = `${width}:${height}:${text.offsetWidth}:${motionPreference.matches}`;
+      if (!width || !height || size === previousSize) return;
+      previousSize = size;
+      context?.revert();
+      loops = [];
+      context = gsap.context(() => {
+        const bubbles = [...canvas.querySelectorAll('[data-network-bubble]')];
+        const positions = scatterBubbles(width, height, text.offsetWidth, bubbles.length);
         bubbles.forEach((bubble, index) => {
-          const duration = 14 + (index % 5);
-          const loop = gsap.timeline({ repeat: -1, repeatRefresh: true });
-          loop.fromTo(bubble, {
-            y: () => sectionRef.current.offsetHeight + bubble.offsetHeight,
-          }, {
-            y: () => -bubble.offsetHeight * 2,
-            duration, ease: 'none',
-          }, 0);
-          loop.fromTo(bubble, { opacity: 0 }, {
-            keyframes: [
-              { opacity: .85, duration: duration * .15 },
-              { opacity: .85, duration: duration * .7 },
-              { opacity: 0, duration: duration * .15 },
-            ], ease: 'none',
-          }, 0);
-          // Seed the whole canvas immediately; continue from page load offscreen.
-          loop.progress((index * .381966) % 1);
-        });        return () => {
-          cancelAnimationFrame(textFrame);
-          window.removeEventListener('scroll', scheduleText);
-          window.removeEventListener('resize', scheduleText);
-        };
-      });
-    }, sectionRef);
-    let frame;
-    let active = true;
-    const refresh = () => {
-      if (active) frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+          if (!positions[index]) {
+            gsap.set(bubble, { display: 'none' });
+            return;
+          }
+          const { left, diameter, phase, travel, maxSize, blur } = positions[index];
+          gsap.set(bubble, { display: bubble.matches('.network-chart, .network-people') ? 'grid' : 'block', top: 0, left, width: diameter, height: diameter, x: 0, filter: `blur(${blur}px)` });
+          gsap.set(bubble, { opacity: .85 });
+          if (motionPreference.matches) {
+            gsap.set(bubble, { y: height + maxSize - travel * phase });
+            return;
+          }
+          // Scattered starting positions share one vertical speed, preserving their spacing.
+          const loop = gsap.timeline({ repeat: -1 });
+          loop.fromTo(bubble, { y: height + maxSize }, { y: -maxSize, duration: 22, ease: 'none' }, 0);
+          loop.progress(phase);
+          loops.push(loop);
+        });
+      }, section);
+      updatePlayback();
     };
-    window.addEventListener('load', refresh);
-    document.fonts.ready.then(refresh);
+    layout();
+    const observer = new ResizeObserver(layout);
+    observer.observe(canvas);
+    observer.observe(text);
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      updatePlayback();
+    }, { rootMargin: '200px' });
+    visibilityObserver.observe(section);
+    document.addEventListener('visibilitychange', updatePlayback);
+    motionPreference.addEventListener('change', layout);
     return () => {
-      active = false;
-      cancelAnimationFrame(frame);
-      window.removeEventListener('load', refresh);
-      context.revert();
+      observer.disconnect();
+      visibilityObserver.disconnect();
+      document.removeEventListener('visibilitychange', updatePlayback);
+      motionPreference.removeEventListener('change', layout);
+      context?.revert();
     };
   }, []);
-
   const nodes = [
     // Top Row
-    { src: '/image/Home/section6/Group 40067.png', pos: 'top-[8%] left-[16%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 0 },
-    { src: '/image/Home/section6/Group 40072.png', pos: 'top-[6%] left-[36%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.4 },
-    { src: '/image/Home/section6/Ellipse 539.png', pos: 'top-[8%] right-[38%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.8 },
-    { src: '/image/Home/section6/Group 40073.png', pos: 'top-[14%] right-[14%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 1.2 },
+    { src: publicAsset("/image/Home/section6/Group 40067.png"), pos: 'top-[8%] left-[16%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 0 },
+    { src: publicAsset("/image/Home/section6/Group 40072.png"), pos: 'top-[6%] left-[36%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.4 },
+    { src: publicAsset("/image/Home/section6/Ellipse 539.png"), pos: 'top-[8%] right-[38%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.8 },
+    { src: publicAsset("/image/Home/section6/Group 40073.png"), pos: 'top-[14%] right-[14%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 1.2 },
 
     // Mid-Upper Row
-    { src: '/image/Home/section6/Group 40077.png', pos: 'top-[28%] left-[10%]', size: 'w-14 h-14 lg:w-18 lg:h-18', delay: 0.2 },
-    { src: '/image/Home/section6/Group 40079.png', pos: 'top-[36%] left-[48%]', size: 'w-14 h-14 lg:w-18 lg:h-18', delay: 0.6 },
-    { src: '/image/Home/section6/Group 40068.png', pos: 'top-[26%] right-[22%]', size: 'w-14 h-14 lg:w-18 lg:h-18', delay: 1.0 },
-    { src: '/image/Home/section6/Group 40065.png', pos: 'top-[32%] right-[10%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 1.4 },
+    { src: publicAsset("/image/Home/section6/Group 40077.png"), pos: 'top-[28%] left-[10%]', size: 'w-14 h-14 lg:w-18 lg:h-18', delay: 0.2 },
+    { src: publicAsset("/image/Home/section6/Group 40079.png"), pos: 'top-[36%] left-[48%]', size: 'w-14 h-14 lg:w-18 lg:h-18', delay: 0.6 },
+    { src: publicAsset("/image/Home/section6/Group 40068.png"), pos: 'top-[26%] right-[22%]', size: 'w-14 h-14 lg:w-18 lg:h-18', delay: 1.0 },
+    { src: publicAsset("/image/Home/section6/Group 40065.png"), pos: 'top-[32%] right-[10%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 1.4 },
 
     // Middle Left & Right
-    { src: '/image/Home/section6/Group 40066.png', pos: 'top-[52%] left-[6%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.5 },
-    { src: '/image/Home/section6/Group 40071.png', pos: 'top-[54%] right-[8%]', size: 'w-16 h-16 lg:w-20 lg:h-20', delay: 0.9 },
+    { src: publicAsset("/image/Home/section6/Group 40066.png"), pos: 'top-[52%] left-[6%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.5 },
+    { src: publicAsset("/image/Home/section6/Group 40071.png"), pos: 'top-[54%] right-[8%]', size: 'w-16 h-16 lg:w-20 lg:h-20', delay: 0.9 },
 
     // Bottom Row
-    { src: '/image/Home/section6/Group 40069.png', pos: 'top-[72%] left-[12%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 1.1 },
-    { src: '/image/Home/section6/Group 40075.png', pos: 'top-[78%] left-[22%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.3 },
-    { src: '/image/Home/section6/Group 40078.png', pos: 'top-[74%] right-[34%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.7 },
-    { src: '/image/Home/section6/Group 40070.png', pos: 'top-[76%] right-[14%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 1.3 },
+    { src: publicAsset("/image/Home/section6/Group 40069.png"), pos: 'top-[72%] left-[12%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 1.1 },
+    { src: publicAsset("/image/Home/section6/Group 40075.png"), pos: 'top-[78%] left-[22%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.3 },
+    { src: publicAsset("/image/Home/section6/Group 40078.png"), pos: 'top-[74%] right-[34%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.7 },
+    { src: publicAsset("/image/Home/section6/Group 40070.png"), pos: 'top-[76%] right-[14%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 1.3 },
   ];
 
   return (
@@ -105,7 +99,7 @@ export default function EcosystemNetwork() {
       {/* Subtle Background Overlay Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-30 mix-blend-multiply">
         <img
-          src="/image/Home/section6/Rectangle 2341.png"
+          src={publicAsset("/image/Home/section6/Rectangle 2341.png")}
           alt="Shadow Overlay"
           className="w-full h-full object-cover"
         />
@@ -114,7 +108,7 @@ export default function EcosystemNetwork() {
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Main Floating Canvas */}
-        <div className="relative min-h-[580px] sm:min-h-[640px] lg:min-h-[680px] flex items-center justify-center">
+        <div className="network-canvas relative flex items-center justify-center">
           
           <div className="network-bubble-layer">
           <div data-network-bubble className="network-chart"><ChartNoAxesColumn aria-hidden="true" /></div><div data-network-bubble className="network-people"><Users aria-hidden="true" /></div>
@@ -124,15 +118,15 @@ export default function EcosystemNetwork() {
               key={idx}
               data-network-bubble
               className="network-bubble"
-              style={{ left: `${[4, 14, 24, 70, 80, 90][idx % 6]}%`, width: `${[5, 7, 4, 6, 8][idx % 5]}%`, top: 0 }}
+              style={{ left: `${2 + ((idx * .618034) % 1) * 90}%`, width: `clamp(24px, ${[5, 7, 4, 6, 8][idx % 5]}vw, ${[65, 85, 50, 75, 95][idx % 5]}px)`, top: `${((idx * .381966) % 1) * 90}%` }}
             >
               <img
                 src={node.src}
                 alt={`Ecosystem node ${idx}`}
                 className={`${node.size} object-contain filter drop-shadow-md`}
                 style={{
-                  transform: `scale(${[1, 0.62, 0.8, 0.52, 0.9][idx % 5]})`,
-                  filter: `blur(${[0, 2.5, 0, 3.5, 1][idx % 5]}px)`,
+                  transform: 'none',
+                  filter: 'none',
                 }}
               />
             </div>
@@ -141,7 +135,7 @@ export default function EcosystemNetwork() {
           </div>
           {/* Center Main Text Content matching Reference 1:1 */}
           <div className="text-center max-w-lg mx-auto relative z-30 space-y-4 px-4"
-            style={{ position: 'absolute', top: '48px' }}>
+            style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }}>
             <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-black tracking-widest uppercase border border-emerald-200 shadow-sm">
               GROW WITH US
             </span>
@@ -155,14 +149,6 @@ export default function EcosystemNetwork() {
 
         </div>
 
-        {/* Mobile Node Display */}
-        <div className="md:hidden flex flex-wrap justify-center gap-4 mt-6 pt-4 relative z-30">
-          {nodes.slice(0, 8).map((node, idx) => (
-            <div key={idx} className="w-12 h-12">
-              <img src={node.src} alt={`Node ${idx}`} className="w-full h-full object-contain filter drop-shadow-sm" />
-            </div>
-          ))}
-        </div>
 
       </div>
     </section>

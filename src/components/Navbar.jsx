@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/publicAsset';
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './Navbar.module.css';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
@@ -70,7 +71,7 @@ export default function Navbar() {
       onMouseLeave={() => setActiveDropdown(null)} onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setActiveDropdown(null); }}>
       <nav className="bg-transparent pt-6 sm:pt-7 pb-4">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
-          <div className="flex items-center"><a href="#" className="flex items-center gap-2 group"><img src="/image/leads-garage.png" alt="Leads Garage Logo" className="h-6 sm:h-7 w-auto object-contain transition-transform duration-200 group-hover:scale-105" /></a></div>
+          <div className="flex items-center"><a href="#" className="flex items-center gap-2 group"><img src={publicAsset("/image/leads-garage.png")} alt="Leads Garage Logo" className="h-6 sm:h-7 w-auto object-contain transition-transform duration-200 group-hover:scale-105" /></a></div>
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             <div><a href="#hero" onMouseEnter={() => setActiveDropdown(null)} className="flex items-center text-xs xl:text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors py-1">Home</a></div>
             {Object.keys(menus).map(name => <div key={name} onMouseEnter={() => setActiveDropdown(name)}>
@@ -93,8 +94,8 @@ export default function Navbar() {
           <div className={styles.intro}><h2>{menus[activeDropdown].title}</h2><p>{menus[activeDropdown].description}</p></div>
           <div className={styles.linkGrid}>{activeDropdown === 'Resources' && <h2 className={styles.resourceTitle}>Resources</h2>}{links(activeDropdown)}</div>
           {activeDropdown === 'Resources' ? <div className={styles.resourceCards}>
-            <a href="#services" onClick={close}><img src="/image/Home/herosection/image 95.png" alt="Publisher growth" /><small>Explore our solutions</small><h3>Build your next stage of growth</h3></a>
-            <a href="#quality" onClick={close}><img src="/image/Home/herosection/image 97.png" alt="Customer acquisition" /><small>Our approach</small><h3>Quality traffic. Better outcomes.</h3></a>
+            <a href="#services" onClick={close}><img src={publicAsset("/image/Home/herosection/image 95.png")} alt="Publisher growth" /><small>Explore our solutions</small><h3>Build your next stage of growth</h3></a>
+            <a href="#quality" onClick={close}><img src={publicAsset("/image/Home/herosection/image 96.png")} alt="Customer acquisition" /><small>Our approach</small><h3>Quality traffic. Better outcomes.</h3></a>
           </div> : feature(activeDropdown)}
         </div>
       </motion.div>}</AnimatePresence>

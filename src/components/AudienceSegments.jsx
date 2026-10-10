@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/publicAsset';
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -55,7 +56,7 @@ export default function AudienceSegments({ onOpenContact }) {
       description2:
         'Our team provides dedicated support, flexible payout structures, and access to top-tier campaign offers to scale your business.',
       buttonText: "Let's connect",
-      image: '/image/Home/Frame 1000004723.png'
+      image: publicAsset("/image/Home/Frame 1000004723.png")
     },
     advertiser: {
       id: 'advertiser',
@@ -67,7 +68,7 @@ export default function AudienceSegments({ onOpenContact }) {
       description2:
         'Our support team will work with you to help distribute your offers, monitor traffic and transfers, and choose the best path that gets you the right buyer.',
       buttonText: "Let's connect",
-      image: '/image/Home/Frame 1000004724.png'
+      image: publicAsset("/image/Home/Frame 1000004724.png")
     }
   };
 
@@ -124,7 +125,7 @@ export default function AudienceSegments({ onOpenContact }) {
 
                   <div className="mt-8 flex justify-center items-end">
                     <img
-                      src="/image/Home/Frame 1000004723.png"
+                      src={publicAsset("/image/Home/Frame 1000004723.png")}
                       alt="Publisher Illustration"
                       className="w-full max-w-md object-contain transform group-hover:scale-[1.03] transition-transform duration-300 pointer-events-none"
                     />
@@ -147,7 +148,7 @@ export default function AudienceSegments({ onOpenContact }) {
 
                   <div className="mt-8 flex justify-center items-end">
                     <img
-                      src="/image/Home/Frame 1000004724.png"
+                      src={publicAsset("/image/Home/Frame 1000004724.png")}
                       alt="Advertiser Illustration"
                       className="w-full max-w-md object-contain transform group-hover:scale-[1.03] transition-transform duration-300 pointer-events-none"
                     />

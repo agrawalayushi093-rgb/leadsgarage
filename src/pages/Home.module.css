@@ -1,8 +1,3 @@
-/* Fade only the decorative layers at the team/showcase boundary. */
-.backgroundMerge :global(#team) > div:first-child {
-  mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - clamp(80px, 14vw, 270px)), transparent 100%);
-}
-
 .backgroundMerge :global(#showcase) img {
   /* Retain the existing bottom fade; reveal the sky gradually from cream. */
   mask-image: linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(0, 0, 0, .15) 18%, rgba(0, 0, 0, .55) 27%, #000 38%, #000 82%, transparent 100%);

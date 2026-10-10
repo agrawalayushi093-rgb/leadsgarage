@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/publicAsset';
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -16,7 +17,7 @@ export default function DashboardCTA() {
         >
           {/* Main 3D Perspective Graphic */}
           <img
-            src="/image/Home/footer/Group 40027.png"
+            src={publicAsset("/image/Home/footer/Group 40027.png")}
             alt="Platform Showcase & Dashboard Perspective"
             className="w-full h-auto object-contain transform group-hover:scale-[1.01] transition-transform duration-500"
           />

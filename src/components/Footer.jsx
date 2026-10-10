@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/publicAsset';
 import React from 'react';
 import { ArrowRight, MapPin, Mail, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 
@@ -53,7 +54,7 @@ export default function Footer() {
       {/* Background Overlay */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-20 mix-blend-multiply">
         <img
-          src="/image/Home/footer/Rectangle 2344.png"
+          src={publicAsset("/image/Home/footer/Rectangle 2344.png")}
           alt="Shadow Overlay"
           className="w-full h-full object-cover"
         />
@@ -122,7 +123,7 @@ export default function Footer() {
             <div className="flex flex-col gap-1.5 text-center md:text-left items-center md:items-start">
               <a href="#" className="inline-block">
                 <img
-                  src="/image/Home/footer/Leads_Garage_Logo.svg"
+                  src={publicAsset("/image/Home/footer/Leads_Garage_Logo.svg")}
                   alt="Leads Garage Logo"
                   className="h-7 w-auto object-contain"
                 />

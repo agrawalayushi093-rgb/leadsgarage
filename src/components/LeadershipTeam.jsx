@@ -1,10 +1,11 @@
+import { publicAsset } from '../utils/publicAsset';
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function LeadershipTeam() {
   const [hoveredLeader, setHoveredLeader] = useState(null);
   useEffect(() => {
-    ['/image/Home/harshit_s.png', '/image/Home/kunal_s.png'].forEach(src => {
+    [publicAsset("/image/Home/harshit_s.png"), publicAsset("/image/Home/kunal_s.png")].forEach(src => {
       const image = new Image();
       image.src = src;
     });
@@ -13,16 +14,16 @@ export default function LeadershipTeam() {
     {
       name: 'Kunal Shrivastava',
       role: 'Co-Founder & CEO',
-      image: '/image/Home/kunal.png',
-      hoverImage: '/image/Home/kunal_s.png',
+      image: publicAsset("/image/Home/kunal.png"),
+      hoverImage: publicAsset("/image/Home/kunal_s.png"),
       linkedin: 'https://linkedin.com',
       email: 'mailto:kunal@leadsgarage.com',
     },
     {
       name: 'Harshit Shrivastava',
       role: 'Co-Founder & CEO',
-      image: '/image/Home/Harshit.png',
-      hoverImage: '/image/Home/harshit_s.png',
+      image: publicAsset("/image/Home/Harshit.png"),
+      hoverImage: publicAsset("/image/Home/harshit_s.png"),
       linkedin: 'https://linkedin.com',
       email: 'mailto:harshit@leadsgarage.com',
     },
@@ -31,15 +32,6 @@ export default function LeadershipTeam() {
   return (
     <section id="team" className="py-16 sm:py-20 lg:py-24 bg-[#FDFBF7] relative overflow-hidden w-full">
       
-      {/* Light Grid Background matching Figma Group 40121.png 1:1 */}
-      <div className="absolute inset-0 z-0 pointer-events-none flex justify-center items-start">
-        <img
-          src="/image/Home/Group 40121.png"
-          alt="Grid Background"
-          className="w-full h-full object-cover opacity-80"
-        />
-      </div>
-
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
@@ -105,7 +97,7 @@ export default function LeadershipTeam() {
                     className="w-11 h-11 rounded-full bg-[#1866E5] hover:bg-[#1253BE] text-white flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
                     aria-label={`${leader.name} LinkedIn`}
                   >
-                    <img src="/image/Home/linkedin.png" alt="" />
+                    <img src={publicAsset("/image/Home/linkedin.png")} alt="" />
                   </a>
 
                   <a
@@ -113,7 +105,7 @@ export default function LeadershipTeam() {
                     className="w-11 h-11 rounded-full bg-[#1866E5] hover:bg-[#1253BE] text-white flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
                     aria-label={`Email ${leader.name}`}
                   >
-                    <img src="/image/Home/email.png" alt="" />
+                    <img src={publicAsset("/image/Home/email.png")} alt="" />
                   </a>
                 </div>
               </div>

@@ -266,14 +266,7 @@ section { scroll-margin-top: 90px; }
 #network::before, #network::after { content: ''; position: absolute; left: -5%; width: 110%; height: 15%; z-index: 5; pointer-events: none; filter: blur(15px); }
 #network::before { top: -2%; background: linear-gradient(#fff8eb 15%, #fff8ebcc 50%, transparent); }
 #network::after { bottom: -2%; background: linear-gradient(transparent, #ffffffcc 50%, white 85%); }
-@media (max-width: 767px) {
- #network .network-bubble:nth-child(6n + 3) { left: 2% !important; }
- #network .network-bubble:nth-child(6n + 4) { left: 9% !important; }
- #network .network-bubble:nth-child(6n + 5) { left: 16% !important; }
- #network .network-bubble:nth-child(6n + 6) { left: 79% !important; }
- #network .network-bubble:nth-child(6n + 1) { left: 86% !important; }
- #network .network-bubble:nth-child(6n + 2) { left: 93% !important; }
-}
+
 @media(max-width:1023px) { #network > div:last-child > div:first-child { min-height: 800px; } #network h2 { font-size: 36px; } }
 @media(max-width:767px) { #network > div:last-child > div:first-child { min-height: 650px; } #network .absolute { display: block; width: 12%; } #network .text-center { top: 45%; } #network h2 { font-size: 27px; } #network > div:last-child > div:last-child { display: none; } }
 
@@ -359,3 +352,34 @@ body.overflow-x-hidden { overflow-x: clip; }
 
 #team .leader-card > .leader-details { max-height: 0 !important; opacity: 0; margin-top: 0 !important; visibility: hidden; }
 #team .leader-card > .leader-details[data-expanded="true"] { max-height: 180px !important; opacity: 1; margin-top: 16px !important; visibility: visible; }
+
+/* Keep the growth canvas compact and within the available viewport. */
+#network { --network-nav-space: clamp(100px, 8vw, 150px); padding: 0; }
+#network > div:last-child > div.network-canvas:first-child {
+  display: flex;
+  min-height: 0;
+  height: 1000px;
+}
+@media (max-width: 767px) {
+  #network > div:last-child > div.network-canvas:first-child {
+    height: min(1000px, calc(100vh - var(--network-nav-space) - 32px));
+    height: min(1000px, calc(100svh - var(--network-nav-space) - 32px));
+  }
+}
+#network .text-center { width: min(80%, 600px); padding-inline: 8px; }
+#network h2 { font-size: clamp(22px, min(4vw, 6svh), 44px); line-height: 1.22; }
+#network .text-center span { font-size: clamp(10px, min(1vw, 2svh), 13px); padding: 6px 16px; }
+@media (max-height: 450px) {
+  #network .text-center { width: min(80%, 480px); }
+  #network .text-center h2 { margin-top: 10px; }
+  #network .text-center span { padding-block: 4px; }
+}
+
+/* Keep the center text compact so both bubble fields can fill the sides. */
+#network .text-center { width: max-content; max-width: 80%; }
+
+/* Breathing room between the services card and the brands heading. */
+#solutions { padding-top: clamp(64px, 6vw, 112px); }
+
+/* Release the card stack before the quality heading enters the page. */
+#solutions + #quality { margin-top: 0; padding-top: clamp(48px, 5vw, 80px); }

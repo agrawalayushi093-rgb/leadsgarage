@@ -12,3 +12,8 @@
  .phone { --phone-width: 45%; }
 }
 @media (prefers-reduced-motion: reduce) { .phone { will-change: auto; } }
+@media (max-height: 600px) {
+ :global(#quality) .deck { height: calc(100svh - 140px); }
+ .phone { --phone-width: min(28%, calc((100svh - 150px) / 1.9)); }
+ .track { height: calc(100svh - 140px + 660px); }
+}

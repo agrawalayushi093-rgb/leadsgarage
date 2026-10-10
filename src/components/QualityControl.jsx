@@ -1,11 +1,12 @@
+import { publicAsset } from '../utils/publicAsset';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import styles from './QualityControl.module.css';
 
 const slides = [
-  { id: 0, src: '/image/Home/Group 39995.png', alt: 'Propensity Score Phone Screen' },
-  { id: 1, src: '/image/Home/Group 39999.png', alt: 'Verified 100% Clean Phone Screen' },
-  { id: 2, src: '/image/Home/Group 39996.png', alt: 'Propensity Score Phone Screen Right' },
+  { id: 0, src: publicAsset("/image/Home/Group 39995.png"), alt: 'Propensity Score Phone Screen' },
+  { id: 1, src: publicAsset("/image/Home/Group 39999.png"), alt: 'Verified 100% Clean Phone Screen' },
+  { id: 2, src: publicAsset("/image/Home/Group 39996.png"), alt: 'Propensity Score Phone Screen Right' },
 ];
 
 export default function QualityControl() {

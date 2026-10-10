@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/publicAsset';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -33,7 +34,7 @@ export default function Preloader({ onComplete }) {
       exit={{ opacity: 0, transition: { duration: .35, ease: 'easeOut' } }}
       className="fixed inset-0 z-[9999] overflow-hidden bg-black"
     >
-      <video src="/image/load.mp4" autoPlay muted playsInline preload="auto"
+      <video src={publicAsset("/image/load.mp4")} autoPlay muted playsInline preload="auto"
         aria-label="Leads Garage introduction"
         className="absolute inset-0 block w-full h-full object-cover"
         onEnded={finish} onError={finish}

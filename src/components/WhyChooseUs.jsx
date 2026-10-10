@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/publicAsset';
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -22,31 +23,31 @@ export default function WhyChooseUs() {
       id: 'call-transfers',
       title: 'Instant Call Transfers',
       description: 'Connect callers instantly with your agents and close more deals, faster.',
-      image: '/image/Home/section3/Group 40062.png'
+      image: publicAsset("/image/Home/section3/Group 40062.png")
     },
     {
       id: 'lead-delivery',
       title: 'Real-Time Lead Delivery',
       description: "We deliver leads the moment they're generated, so you never miss an opportunity.",
-      image: '/image/Home/section3/Group 39954.png'
+      image: publicAsset("/image/Home/section3/Group 39954.png")
     },
     {
       id: 'link-out',
       title: 'High-Intent Link-Out Traffic',
       description: "Drive qualified, high-intent traffic that's ready to take action.",
-      image: '/image/Home/section3/Group 40094.png'
+      image: publicAsset("/image/Home/section3/Group 40094.png")
     },
     {
       id: 'smart-list',
       title: 'Smart List Management',
       description: 'Clean, verified, and well-managed lists that improve reach and deliverability.',
-      image: '/image/Home/section3/Group 40063.png'
+      image: publicAsset("/image/Home/section3/Group 40063.png")
     },
     {
       id: 'geo-targeted',
       title: 'Geo-Targeted Customer Acquisition',
       description: 'Reach the right audience in the right location for higher conversions and better ROI.',
-      image: '/image/Home/section3/Group 39956.png'
+      image: publicAsset("/image/Home/section3/Group 39956.png")
     }
   ];
 
@@ -54,7 +55,7 @@ export default function WhyChooseUs() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const media = gsap.matchMedia();
-      media.add('(prefers-reduced-motion: no-preference)', () => {
+      media.add('(prefers-reduced-motion: no-preference) and (min-height: 600px)', () => {
         const cardsList = cardRefs.current;
         // Measure permanent document-flow wrappers, never ScrollTrigger's generated spacers.
         const cardFlows = cardsList.map(card => card.parentElement);
@@ -121,7 +122,20 @@ export default function WhyChooseUs() {
         return () => ScrollTrigger.removeEventListener('refreshInit', layoutStickyFlows);
       });
     }, sectionRef);
-    return () => ctx.revert();
+    // Images and fonts can change card heights after the first layout pass.
+    let refreshFrame = 0;
+    const refreshLayout = () => {
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+    const observer = new ResizeObserver(refreshLayout);
+    cardRefs.current.forEach(card => observer.observe(card));
+    refreshLayout();
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(refreshFrame);
+      ctx.revert();
+    };
   }, [cards.length]);
 
   return (

@@ -1,152 +1,153 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-
-import { Megaphone, Mail, Users, ListChecks, CodeXml, ChartNoAxesCombined } from 'lucide-react';
+import { publicAsset } from '../utils/publicAsset';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { motion, useScroll, useSpring, useTransform, useReducedMotion, useMotionValueEvent, useMotionTemplate } from 'framer-motion';
 
 import styles from './ServicesShowcase.module.css';
 
-
-
-
-
 const services = [
-  { id: 'affiliate', title: 'Affiliate Marketing', icon: Megaphone, image: 'am1.png', description: 'Performance-driven affiliate programs that help you acquire quality customers and scale faster.', features: [['Quality partnerships', 'Connect with partners who understand your audience.'], ['Performance driven', 'Focus on qualified customers and measurable results.'], ['Scalable growth', 'Expand your reach with a managed affiliate program.']] },
-  { id: 'email-sms', title: 'Email & SMS', icon: Mail, image: 'email.png', description: 'Reach your audience with targeted email and SMS campaigns that drive real engagement.', features: [['Targeted delivery', 'Reach the right inboxes and phones.'], ['Timed campaigns', 'Connect with customers at the right moment.'], ['Automated follow-ups', 'Keep your audience engaged across campaigns.']] },
-  { id: 'smm', title: 'Social Media Marketing', icon: Users, image: 'smm1.png', description: 'Build your presence and connect with customers across your social channels.', features: [['Audience engagement', 'Build meaningful connections with your audience.'], ['Content strategy', 'Create campaigns that fit your brand.'], ['Campaign insights', 'Understand what resonates with your audience.']] },
-  { id: 'list-management', title: 'List Management', icon: ListChecks, image: 'list management.png', description: 'Clean, verified, and well-managed lists that improve reach and deliverability.', features: [['Clean data', 'Keep your customer lists accurate and organized.'], ['Audience segments', 'Build campaigns around relevant customer groups.'], ['Better reach', 'Improve delivery with verified contact information.']] },
-  { id: 'web-dev', title: 'Web Development', icon: CodeXml, image: 'webdevelopment.png', description: 'Build a responsive website designed around your customers and business goals.', features: [['Responsive websites', 'A consistent experience across devices.'], ['Conversion focused', 'Help visitors take the next step.'], ['Reliable foundations', 'Build a website that supports your growth.']] },
-  { id: 'crm', title: 'CRM Consultation', icon: ChartNoAxesCombined, image: 'crm1.png', description: 'Set up and tune your CRM so every lead is tracked from click to close.', features: [['Pipeline design', 'Clear stages from lead to sale.'], ['Integrations', 'Connect the tools you already use.'], ['Reporting', 'See what drives results.']] },
+  { id: 'affiliate', title: 'Affiliate Marketing', lead: 'Affiliate', rest: 'Marketing', icon: 'Paper_Plane.png', image: 'Group 40135.png', color: '#6ba5ff', description: 'Performance-driven affiliate programs that help you acquire quality customers and scale faster.' },
+  { id: 'smm', title: 'Social Media Marketing', lead: 'Social', rest: 'Media Marketing', icon: 'Users_Group.png', image: 'Group 40042 (2).png', color: '#30a5ff', description: 'Build your presence and connect with customers through social campaigns that drive real engagement.' },
+  { id: 'email-sms', title: 'Email & SMS', lead: 'Email', rest: '& SMS', icon: 'Mail_Open.png', image: 'Frame 1000004746.png', color: '#214ce0', description: 'Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.' },
+  { id: 'list-management', title: 'List Management', lead: 'List', rest: 'Management', icon: 'File_Document.png', image: 'Group 40162.png', color: '#9964ff', description: 'Clean, verified, and well-managed lists that improve your reach and deliverability.' },
+  { id: 'web-dev', title: 'Web Development', lead: 'Web', rest: 'Development', icon: 'Folder_Code.png', image: 'Group 40161.png', color: '#00bf93', description: 'Responsive websites built around your customers, your brand, and your business goals.' },
+  { id: 'crm', title: 'CRM Consultation', lead: 'CRM', rest: 'Consultation', icon: 'Chart_Bar_Vertical_01.png', image: 'Group 40163.png', color: '#00b8cc', description: 'Connect your tools and fine-tune your CRM so every lead is tracked from click to close.' },
 ];
 
+const backgroundStops = ['#e2f4ff', '#0089e8', '#1b42b9', '#7643db', '#009b7d', '#0098b7'];
+
 export default function ServicesShowcase() {
-  const sectionRef = useRef(null);
   const trackRef = useRef(null);
-  const activeRef = useRef(0);
+  const scrollFrame = useRef(0);
   const lockedUntil = useRef(0);
-
-  const idleTimer = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [visible, setVisible] = useState(false);
-  const [interacting, setInteracting] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [stacked, setStacked] = useState(true);
   const reducedMotion = useReducedMotion();
-  useEffect(() => {
-    services.forEach(service => {
-      const image = new Image();
-      image.src = `/image/Home/section2/${service.image}`;
-    });
-  }, []);
-  const goToService = useCallback((index, manual = true) => {
-    if (index < 0 || index >= services.length || index === activeRef.current) return;
-    lockedUntil.current = performance.now() + 650;
-    activeRef.current = index;
-    setActiveIndex(index);
-    setProgress(0);
-    if (manual) {
-      setInteracting(true);
-      clearTimeout(idleTimer.current);
-      idleTimer.current = setTimeout(() => setInteracting(false), 4500);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start start', 'end end'] });
+  const { scrollYProgress: entranceProgress } = useScroll({ target: trackRef, offset: ['start 0.9', 'start 0.45'] });
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 170, damping: 30, mass: 0.4 });
+  const phase = useTransform(reducedMotion ? scrollYProgress : smoothProgress, [0, 1], [0, 6]);
+  useMotionValueEvent(phase, 'change', value => setActiveIndex(Math.max(0, Math.min(5, Math.floor(value)))));
+  const colorRange = [0, 0.8, 1.2, 1.8, 2.2, 2.8, 3.2, 3.8, 4.2, 4.8, 5.2, 6];
+  const backgroundColor = useTransform(phase, colorRange, backgroundStops.flatMap(color => [color, color]));
+  const tint = useTransform(phase, colorRange, ['#e2f4ff', '#35a9fc', '#204acd', '#a47aff', '#19cda5', '#19c9dd'].flatMap(color => [color, color]));
+  const background = useMotionTemplate`linear-gradient(145deg, ${tint}, ${backgroundColor})`;
+  const textColor = useTransform(phase, [0.8, 1.2], ['#092052', '#ffffff']);
+
+  const selectService = useCallback(index => {
+    const track = trackRef.current;
+    const top = window.scrollY + track.getBoundingClientRect().top;
+    const distance = track.offsetHeight - window.innerHeight;
+    const destination = top + distance * ((index + 0.5) / 6);
+    cancelAnimationFrame(scrollFrame.current);
+    if (reducedMotion) {
+      window.scrollTo({ top: destination, behavior: 'instant' });
+      return;
     }
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: .3 });
-    observer.observe(sectionRef.current);
-    return () => { observer.disconnect(); clearTimeout(idleTimer.current); };
-  }, []);
-
-  useEffect(() => {
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      const section = sectionRef.current;
-      const track = trackRef.current;
-      track.style.setProperty('--service-height', `${section.offsetHeight}px`);
-      const top = Math.min(90, window.innerHeight - section.offsetHeight - 12);
-      section.style.setProperty('--service-sticky-top', `${top}px`);
-      const heading = section.querySelector('h2').parentElement;
-      const headingTop = section.getBoundingClientRect().top + heading.offsetTop;
-      const navbar = document.querySelector('header');
-      const navbarBottom = navbar?.getBoundingClientRect().bottom || 100;
-      heading.style.visibility = headingTop < navbarBottom + 8 ? 'hidden' : 'visible';
-      const distance = Math.max(0, top - track.getBoundingClientRect().top);
-      goToService(Math.min(services.length - 1, Math.floor(distance / 220)), false);
+    const start = window.scrollY;
+    const started = performance.now();
+    lockedUntil.current = started + 600;
+    const animate = now => {
+      const progress = Math.min(1, (now - started) / 520);
+      const eased = progress * progress * (3 - 2 * progress);
+      window.scrollTo({ top: start + (destination - start) * eased, behavior: 'instant' });
+      if (progress < 1) scrollFrame.current = requestAnimationFrame(animate);
     };
-    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
-    const resize = new ResizeObserver(schedule);
-    resize.observe(sectionRef.current);
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
-    update();
-    return () => { cancelAnimationFrame(frame); resize.disconnect(); window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule); };
-  }, [goToService]);
+    scrollFrame.current = requestAnimationFrame(animate);
+  }, [reducedMotion]);
 
   useEffect(() => {
     let gestureUsed = false;
     let quietTimer;
     const wheel = event => {
-      if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY) || !event.deltaY) return;
+      if (event.ctrlKey || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      if (event.target instanceof Element && event.target.closest('header, [role="dialog"], input, textarea, select')) return;
       const track = trackRef.current;
-      const section = sectionRef.current;
-      const top = parseFloat(getComputedStyle(section).top);
       const rect = track.getBoundingClientRect();
-      if (rect.top > top + 2 || rect.bottom <= top + section.offsetHeight) return;
-      const direction = Math.sign(event.deltaY);
-      const next = activeRef.current + direction;
-      if (!gestureUsed && (next < 0 || next >= services.length)) return;
+      if (rect.top > window.innerHeight || rect.bottom < 0) return;
+      const stickyTop = parseFloat(getComputedStyle(track.firstElementChild).top);
+      if (rect.top > stickyTop + 2 || rect.bottom < window.innerHeight - 2) return;
+      if (gestureUsed || performance.now() < lockedUntil.current) {
+        event.preventDefault();
+        clearTimeout(quietTimer);
+        quietTimer = setTimeout(() => { gestureUsed = false; }, 180);
+        return;
+      }
+      const current = Math.max(0, Math.min(5, Math.floor(scrollYProgress.get() * 6)));
+      const next = current + Math.sign(event.deltaY);
+      if (next < 0 || next >= services.length) return;
       event.preventDefault();
-      clearTimeout(quietTimer);
-      quietTimer = setTimeout(() => { gestureUsed = false; }, 350);
-      if (gestureUsed) return;
       gestureUsed = true;
-      goToService(next, false);
-      const start = window.scrollY + rect.top - top;
-      // Move one stage per wheel/trackpad gesture; momentum cannot skip services.
-      window.scrollTo({ top: start + next * 220 + 110, behavior: 'instant' });
+      quietTimer = setTimeout(() => { gestureUsed = false; }, 180);
+      selectService(next);
     };
     window.addEventListener('wheel', wheel, { passive: false });
-    return () => { clearTimeout(quietTimer); window.removeEventListener('wheel', wheel); };
-  }, [goToService]);
+    return () => {
+      window.removeEventListener('wheel', wheel);
+      clearTimeout(quietTimer);
+      cancelAnimationFrame(scrollFrame.current);
+    };
+  }, [scrollYProgress, selectService]);
 
-  useEffect(() => {
-    if (stacked || !visible || interacting || reducedMotion) return;
-    const started = performance.now();
-    const timer = setInterval(() => {
-      if (document.hidden) return;
-      const elapsed = performance.now() - started;
-      setProgress(Math.min(100, elapsed / 4500 * 100));
-      if (elapsed >= 4500) { clearInterval(timer); goToService((activeRef.current + 1) % services.length, false); }
-    }, 80);
-    return () => clearInterval(timer);
-  }, [stacked, visible, interacting, reducedMotion, activeIndex, goToService]);
-
-  const service = services[activeIndex];
-  const transition = { duration: reducedMotion ? 0 : .45, ease: [.22, 1, .36, 1] };
-  return <div ref={trackRef} className={styles.scrollTrack}><section id="services" ref={sectionRef} className={styles.section}>
-    <div className={styles.frame}>
-      <div className={styles.heading}><h2>What We Can Do For You?</h2><p>One Partner. Multiple Solutions. Built Around Your Goals.</p></div>
-      <div className={styles.layout}>
-        <div className={styles.menu} role="tablist" aria-label="Our services">
-          {services.map((item, index) => <button key={item.id} type="button" role="tab" id={`service-tab-${item.id}`} aria-controls="service-panel" aria-selected={activeIndex === index} onClick={() => goToService(index)} className={styles.menuButton}>
-            <span className={styles.menuIcon} aria-hidden="true"><item.icon size={22} strokeWidth={1.8} /></span><span>{item.title}</span>
-            {activeIndex === index && <span className={styles.progress} style={{ transform: `scaleX(${progress / 100})` }} />}
-          </button>)}
+  return (
+    <section id="services" ref={trackRef} className={styles.section} aria-labelledby="services-heading">
+      <div className={styles.frame}>
+        <div className={styles.heading}>
+          <span className={styles.eyebrow}>Our Services</span>
+          <h2 id="services-heading">What We Can Do For You?</h2>
+          <p>One Partner. Multiple Solutions. Built Around Your Goals.</p>
         </div>
-        <div className={styles.artwork} aria-hidden="true"><AnimatePresence mode="wait" initial={false}>
-          <motion.img key={service.id} src={`/image/Home/section2/${service.image}`} alt="" initial={{ opacity: 0, y: reducedMotion ? 0 : 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -12 }} transition={transition} />
-        </AnimatePresence></div>
-        <div id="service-panel" role="tabpanel" aria-labelledby={`service-tab-${service.id}`} className={styles.panel}>
-          <div className={styles.content}><AnimatePresence mode="wait" initial={false}><motion.div key={service.id} initial={{ opacity: 0, y: reducedMotion ? 0 : 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }} transition={transition}>
-            <h3>{service.title}</h3><p className={styles.description}>{service.description}</p>
-            <ul className={styles.features}>{service.features.map(([title, text], index) => <li key={title}><span className={styles.featureIcon} aria-hidden="true">{['↗', '◎', '✓'][index]}</span><div><strong>{title}</strong><p>{text}</p></div></li>)}</ul>
-          </motion.div></AnimatePresence></div>
-          <div className={styles.actions}><a href="#audience">Explore {service.title} <span aria-hidden="true">→</span></a><a href="#solutions">View Case Study</a></div>
-        </div>
+        <motion.div className={styles.card} style={{ background, color: textColor }}>
+          <nav className={styles.menu} aria-label="Our services">
+            {services.map((item, index) => (
+              <button key={item.id} type="button" className={styles.menuItem} aria-current={activeIndex === index ? 'true' : undefined} aria-controls={`service-${item.id}`} onClick={() => selectService(index)}>
+                <span className={styles.icon}><img src={publicAsset(`/image/Home/section2/${item.icon}`)} alt="" /></span>
+                <span>{item.title}</span>
+              </button>
+            ))}
+          </nav>
+          <div className={styles.stage}>
+            {services.map((service, index) => <ServicePanel key={service.id} service={service} index={index} phase={phase} entranceProgress={entranceProgress} active={activeIndex === index} reducedMotion={reducedMotion} />)}
+          </div>
+        </motion.div>
       </div>
-    </div>
-  </section></div>;
+    </section>
+  );
 }
 
+function ServiceHeading({ service, index, phase, entranceProgress, reducedMotion }) {
+  const reveal = useTransform(phase, [index, index + 0.45], [0, 1]);
+  const progress = index === 0 ? entranceProgress : reveal;
+  const words = service.title.split(' ');
+  return (
+    <h3 id={`heading-${service.id}`} aria-label={service.title} style={{ '--heading-ink': index === 0 ? '#092052' : '#ffffff', '--heading-muted': index === 0 ? '#09205233' : '#ffffff33' }}>
+      {words.map((word, wordIndex) => (
+        <React.Fragment key={wordIndex}>
+          <HighlightWord word={word} index={wordIndex} count={words.length} progress={progress} reducedMotion={reducedMotion} />
+          {wordIndex < words.length - 1 ? ' ' : null}
+        </React.Fragment>
+      ))}
+    </h3>
+  );
+}
+function HighlightWord({ word, index, count, progress, reducedMotion }) {
+  const fill = useTransform(progress, [index / count, (index + 1) / count], ['0% 100%', '100% 100%']);
+  return <motion.span aria-hidden="true" className={styles.highlightWord} style={{ backgroundSize: reducedMotion ? '100% 100%' : fill }}>{word}</motion.span>;
+}
 
-
+function ServicePanel({ service, index, phase, entranceProgress, active, reducedMotion }) {
+  // Adjacent panels have separate visibility intervals, so their text never overlaps.
+  const range = [index, index + 0.18, index + 0.82, index + 1];
+  const opacity = useTransform(phase, range, index === 0 ? [1, 1, 1, 0] : index === 5 ? [0, 1, 1, 1] : [0, 1, 1, 0]);
+  const contentY = useTransform(phase, range, [index === 0 ? 0 : 26, 0, 0, index === 5 ? 0 : -26]);
+  const imageY = useTransform(phase, range, [index === 0 ? 0 : 40, 0, 0, index === 5 ? 0 : -30]);
+  const imageScale = useTransform(phase, range, [index === 0 ? 1 : 0.95, 1, 1, index === 5 ? 1 : 1.03]);
+  return (
+    <motion.article id={`service-${service.id}`} className={styles.servicePanel} aria-labelledby={`heading-${service.id}`} aria-hidden={!active} inert={!active ? '' : undefined} style={{ opacity: reducedMotion ? (active ? 1 : 0) : opacity, pointerEvents: active ? 'auto' : 'none' }}>
+      <motion.div className={styles.content} style={reducedMotion ? undefined : { y: contentY }}>
+        <ServiceHeading service={service} index={index} phase={phase} entranceProgress={entranceProgress} reducedMotion={reducedMotion} />
+        <p>{service.description}</p>
+        <a className={styles.learnMore} href="#audience" aria-label={`Learn more about ${service.title}`} tabIndex={active ? 0 : -1}>Learn More</a>
+      </motion.div>
+      <motion.img className={styles.artwork} style={reducedMotion ? undefined : { y: imageY, scale: imageScale }} src={publicAsset(`/image/Home/section2/${service.image}`)} alt="" />
+    </motion.article>
+  );
+}

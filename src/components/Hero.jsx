@@ -1,3 +1,4 @@
+import { publicAsset } from '../utils/publicAsset';
 import React, { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -59,7 +60,7 @@ export default function Hero({ enabled = true }) {
   const slides = [
     {
       id: 0,
-      bgImage: '/image/Home/herosection/blue.png',
+      bgImage: publicAsset("/image/Home/herosection/blue.png"),
       bgColor: 'bg-[#1D4ED8]',
       titlePrefix: 'Get Ready to',
       titleHighlight: 'Grow Business',
@@ -71,17 +72,17 @@ export default function Hero({ enabled = true }) {
         { number: '85%', label: 'Conversion Rate' },
         { number: '24/7', label: 'Monitoring' },
       ],
-      leftCardImage: '/image/Home/herosection/image 95.png',
-      rightCardImage: '/image/Home/herosection/image 96.png',
+      leftCardImage: publicAsset("/image/Home/herosection/image 95.png"),
+      rightCardImage: publicAsset("/image/Home/herosection/image 96.png"),
       topLeftGraphic: null,
-      topRightGraphic: '/image/Home/herosection/image 82.png',
-      bottomLeftGraphic: '/image/Home/herosection/image 115.png',
+      topRightGraphic: publicAsset("/image/Home/herosection/image 82.png"),
+      bottomLeftGraphic: publicAsset("/image/Home/herosection/image 115.png"),
       bottomRightGraphic: null,
       showTopBadge: true
     },
     {
       id: 1,
-      bgImage: '/image/Home/herosection/purple.png',
+      bgImage: publicAsset("/image/Home/herosection/purple.png"),
       bgColor: 'bg-[#7C3AED]',
       titlePrefix: 'Get Ready to',
       titleHighlight: 'Scale with us',
@@ -93,17 +94,17 @@ export default function Hero({ enabled = true }) {
         { number: '24/7', label: 'Monitoring' },
         { number: '95%', label: 'Client Satisfaction' },
       ],
-      leftCardImage: '/image/Home/herosection/Group 40127.png',
-      rightCardImage: '/image/Home/herosection/Group 40128.png',
-      topLeftGraphic: '/image/Home/herosection/image 126.png',
+      leftCardImage: publicAsset("/image/Home/herosection/Group 40127.png"),
+      rightCardImage: publicAsset("/image/Home/herosection/Group 40128.png"),
+      topLeftGraphic: publicAsset("/image/Home/herosection/image 126.png"),
       topRightGraphic: null,
-      bottomLeftGraphic: '/image/Home/herosection/image 118.png',
-      bottomRightGraphic: '/image/Home/herosection/image 127.png',
+      bottomLeftGraphic: publicAsset("/image/Home/herosection/image 118.png"),
+      bottomRightGraphic: publicAsset("/image/Home/herosection/image 127.png"),
       showTopBadge: false
     },
     {
       id: 2,
-      bgImage: '/image/Home/herosection/lblue.png',
+      bgImage: publicAsset("/image/Home/herosection/lblue.png"),
       bgColor: 'bg-[#06B6D4]',
       titlePrefix: 'Get Ready to',
       titleHighlight: 'Expand',
@@ -115,17 +116,17 @@ export default function Hero({ enabled = true }) {
         { number: '24/7', label: 'Monitoring' },
         { number: '95%', label: 'Client Satisfaction' },
       ],
-      leftCardImage: '/image/Home/herosection/image 99.png',
-      rightCardImage: '/image/Home/herosection/image 72.png',
-      topLeftGraphic: '/image/Home/herosection/image 124.png',
+      leftCardImage: publicAsset("/image/Home/herosection/image 99.png"),
+      rightCardImage: publicAsset("/image/Home/herosection/image 72.png"),
+      topLeftGraphic: publicAsset("/image/Home/herosection/image 124.png"),
       topRightGraphic: null,
-      bottomLeftGraphic: '/image/Home/herosection/image 125.png',
-      bottomRightGraphic: '/image/Home/herosection/image 120.png',
+      bottomLeftGraphic: publicAsset("/image/Home/herosection/image 125.png"),
+      bottomRightGraphic: publicAsset("/image/Home/herosection/image 120.png"),
       showTopBadge: false
     },
     {
       id: 3,
-      bgImage: '/image/Home/herosection/green.png',
+      bgImage: publicAsset("/image/Home/herosection/green.png"),
       bgColor: 'bg-[#10B981]',
       titlePrefix: 'Get Ready to',
       titleHighlight: 'Monetize',
@@ -137,12 +138,12 @@ export default function Hero({ enabled = true }) {
         { number: '24/7', label: 'Monitoring' },
         { number: '95%', label: 'Client Satisfaction' },
       ],
-      leftCardImage: '/image/Home/herosection/image 99.png',
-      rightCardImage: '/image/Home/herosection/image 72.png',
-      topLeftGraphic: '/image/Home/herosection/image 121.png',
-      topRightGraphic: '/image/Home/herosection/image 122.png',
+      leftCardImage: publicAsset("/image/Home/herosection/image 99.png"),
+      rightCardImage: publicAsset("/image/Home/herosection/image 72.png"),
+      topLeftGraphic: publicAsset("/image/Home/herosection/image 121.png"),
+      topRightGraphic: publicAsset("/image/Home/herosection/image 122.png"),
       bottomLeftGraphic: null,
-      bottomRightGraphic: '/image/Home/herosection/image 123.png',
+      bottomRightGraphic: publicAsset("/image/Home/herosection/image 123.png"),
       showTopBadge: false
     },
   ];
