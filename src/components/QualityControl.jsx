@@ -12,7 +12,7 @@ const slides = [
 ];
 
 export default function QualityControl() {
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
   const activeRef = useRef(active);
   activeRef.current = active;
   const manualSelection = useRef(null);
@@ -22,17 +22,14 @@ export default function QualityControl() {
   useLayoutEffect(() => {
     const element = section.current;
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let frame = 0, top = 100, distance = 1, previousY = scrollY, direction = 1;
+    let frame = 0, top = 100, distance = 1;
     let gestureUsed = false, gestureTimer;
     const update = () => {
       frame = 0;
-      if (Math.abs(scrollY - previousY) > 1) direction = Math.sign(scrollY - previousY);
-      previousY = scrollY;
       if (preference.matches || manualSelection.current !== null) return;
       const progress = Math.max(0, Math.min(1, (top - element.getBoundingClientRect().top) / distance));
       const index = Math.min(slides.length - 1, Math.floor(progress * slides.length));
-      // Enter on the second card, but allow reverse scrolling to reach Quality Control.
-      setActive(progress < .28 && direction < 0 ? 0 : index === 0 ? 1 : index);
+      setActive(index);
     };
     const scroll = () => { if (!frame) frame = requestAnimationFrame(update); };
     const layout = () => {

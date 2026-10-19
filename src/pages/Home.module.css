@@ -116,3 +116,19 @@
 @media (max-width:767px) {
  .backgroundMerge :global(#showcase) { --showcase-crop:clamp(24px,12vw,90px); }
 }
+
+/* Footer redesign: a single blue CTA shell around the white link panel. */
+.backgroundMerge .footerWrap:global(.closing-section) {
+ position:relative; isolation:isolate; overflow:hidden;
+ width:calc(100% - clamp(24px,5.8vw,112px)); max-width:1808px;
+ margin:clamp(32px,4vw,76px) auto clamp(20px,3vw,56px);
+ padding:0 clamp(12px,1.9vw,36px) clamp(12px,1.9vw,36px);
+ border-radius:clamp(30px,5vw,96px);
+ background:radial-gradient(ellipse at 50% 18%,#55b9ff44,transparent 48%),linear-gradient(160deg,#6894ff 0%,#2f60dd 78%);
+}
+.backgroundMerge .footerWrap :global(#showcase) img {
+ margin-top:0; -webkit-mask-image:none; mask-image:none;
+}
+@media(max-width:639px) {
+ .backgroundMerge .footerWrap:global(.closing-section) { width:calc(100% - 24px); border-radius:32px; padding:0 10px 10px; }
+}

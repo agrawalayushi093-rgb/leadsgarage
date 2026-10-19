@@ -388,3 +388,8 @@ section { scroll-margin-top:var(--nav-offset,100px); }
 
 /* Animated sticky tracks manage their own positions; browser anchoring must not fight them. */
 #services, #solutions, #quality { overflow-anchor:none; }
+@media (max-width:639px) {
+ .footer-section li a { display:inline-flex; align-items:center; min-height:36px; }
+ .footer-section ul li + li { margin-top:4px; }
+ #contact { scroll-margin-top:var(--nav-offset,100px); }
+}

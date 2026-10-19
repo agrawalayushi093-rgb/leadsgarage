@@ -72,17 +72,14 @@ export default function WhyChooseUs() {
 
     const paint = phase => {
       const closing = clamp((phase - transitions) / .5, 0, 1);
-      const visibleReserve = metrics.strip * clamp(phase, 0, transitions) * (1 - closing);
-      const heightScale = Math.max(.5, 1 - visibleReserve / metrics.deckHeight);
       flows.forEach((flow, index) => {
         const arrival = index === 0 ? 1 : clamp(phase - index + 1, 0, 1);
         const y = (1 - arrival) * metrics.incoming
           + index * metrics.strip * arrival * (1 - closing);
         flow.style.transform = `translate3d(0, ${y.toFixed(3)}px, 0)`;
         const scale = 1 - clamp(phase - index, 0, transitions - index) * .025;
-        surfaces[index].style.transform = `scale(${scale.toFixed(5)}, ${(scale * heightScale).toFixed(5)})`;
-        // Keep the copy's letter shapes unchanged as the card's available height changes.
-        copies[index].style.transform = `scaleY(${(1 / heightScale).toFixed(5)})`;
+        surfaces[index].style.transform = `scale(${scale.toFixed(5)})`;
+        copies[index].style.removeProperty('transform');
       });
     };
     const animate = time => {
@@ -122,6 +119,11 @@ export default function WhyChooseUs() {
       section.style.setProperty('--frame-height', `${height}px`);
       section.style.setProperty('--stack-reserve', `${strip * transitions}px`);
       section.style.setProperty('--stack-travel', `${travel}px`);
+      const availableHeight = Math.max(80, deck.clientHeight - strip * transitions);
+      const cardWidth = innerWidth < 640 ? deck.clientWidth : Math.min(deck.clientWidth, availableHeight * (1471 / 583));
+      const cardHeight = innerWidth < 640 ? availableHeight : cardWidth * (583 / 1471);
+      section.style.setProperty('--brand-card-width', `${cardWidth}px`);
+      section.style.setProperty('--brand-card-height', `${cardHeight}px`);
       // All layout reads happen on resize, never in the animation loop.
       metrics = {
         nav, strip,

@@ -17,10 +17,17 @@ const backgroundStops = ['#e2f4ff', '#0089e8', '#1b42b9', '#7643db', '#009b7d', 
 
 export default function ServicesShowcase() {
   const trackRef = useRef(null);
+  const menuRef = useRef(null);
   const scrollFrame = useRef(0);
   const animationTarget = useRef(null);
   const reducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
+  useEffect(() => {
+    const menu = menuRef.current;
+    if (!menu || !matchMedia('(max-width: 639px)').matches) return;
+    const item = menu.children[activeIndex];
+    menu.scrollTo({left:Math.max(0,item.offsetLeft - (menu.clientWidth - item.offsetWidth) / 2),behavior:'smooth'});
+  }, [activeIndex]);
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start start', 'end end'] });
   const { scrollYProgress: entranceProgress } = useScroll({ target: trackRef, offset: ['start 0.9', 'start 0.45'] });
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 170, damping: 30, mass: 0.4 });
@@ -79,7 +86,7 @@ export default function ServicesShowcase() {
           <p>One Partner. Multiple Solutions. Built Around Your Goals.</p>
         </div>
         <motion.div className={styles.card} style={{ background, color: textColor }}>
-          <nav className={styles.menu} aria-label="Our services">
+          <nav ref={menuRef} className={styles.menu} aria-label="Our services">
             {services.map((item, index) => (
               <ServiceMenuItem key={item.id} item={item} index={index} phase={phase} active={activeIndex === index} onSelect={selectService} />
             ))}
