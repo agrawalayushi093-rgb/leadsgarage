@@ -81,3 +81,28 @@
  radial-gradient(ellipse 58% 106% at 50% 0%,#eff5ff 99.7%,#c8dcfa 100%);
  background-size:100% 100%; background-position:center;
 }
+
+/* Let each side curve end independently before the next section begins. */
+.backgroundMerge :global(#team)::before {
+ -webkit-mask-image:linear-gradient(to right,#000 0%,#000 24%,transparent 44%,transparent 56%,#000 76%,#000 100%),linear-gradient(to bottom,#000 0%,#000 58%,transparent 94%);
+ -webkit-mask-composite:source-in;
+ mask-image:linear-gradient(to right,#000 0%,#000 24%,transparent 44%,transparent 56%,#000 76%,#000 100%),linear-gradient(to bottom,#000 0%,#000 58%,transparent 94%);
+ mask-composite:intersect;
+}
+.backgroundMerge :global(.closing-section) {
+ margin-top:0;
+ background:linear-gradient(to bottom,white 0%,#faf7ef clamp(240px,24vw,460px));
+}
+.backgroundMerge :global(#showcase) img {
+ margin-top:0;
+ -webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.12) 10%,#000 30%,#000 82%,transparent 100%);
+ mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.12) 10%,#000 30%,#000 82%,transparent 100%);
+}
+
+/* Trim the empty sky inside the showcase asset, keeping the blend in the visible edge. */
+.backgroundMerge :global(#showcase) { --showcase-crop:clamp(90px,20vw,380px); }
+.backgroundMerge :global(#showcase) img {
+ margin-top:calc(-1 * var(--showcase-crop));
+ -webkit-mask-image:linear-gradient(to bottom,transparent var(--showcase-crop),#000 calc(var(--showcase-crop) + 110px),#000 82%,transparent 100%);
+ mask-image:linear-gradient(to bottom,transparent var(--showcase-crop),#000 calc(var(--showcase-crop) + 110px),#000 82%,transparent 100%);
+}

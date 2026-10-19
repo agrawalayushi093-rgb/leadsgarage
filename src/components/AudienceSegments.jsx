@@ -16,8 +16,11 @@ export default function AudienceSegments({ onOpenContact }) {
    const height = document.documentElement.clientHeight || innerHeight;
    const width = document.documentElement.clientWidth;
    const nav = document.querySelector('.site-header')?.getBoundingClientRect().bottom || 92;
-   const referenceHeight = width >= 1024 ? Math.min(width / 1920, 1) * 1100 : 240;
-   section.current.style.setProperty('--audience-height', `${Math.max(referenceHeight, height - nav - 20)}px`);
+   const available = Math.max(180, height - nav - 20);
+   const scale = Math.min(width / (width >= 1024 ? 1920 : 1400), available / 1000, 1);
+   section.current.style.setProperty('--audience-height', `${available}px`);
+   section.current.style.setProperty('--audience-unit', `${scale}px`);
+   section.current.style.setProperty('--audience-top', `${nav + 10}px`);
   };
   const observer = new ResizeObserver(update);
   const navbar = document.querySelector('.site-header');
@@ -29,7 +32,8 @@ export default function AudienceSegments({ onOpenContact }) {
   const cards = [...section.current.querySelectorAll('article')];
   const layout = () => cards.forEach(card => {
    const copy = card.firstElementChild;
-   const available = Math.max(0, card.clientHeight - copy.offsetHeight - 20);
+   const inset = parseFloat(getComputedStyle(card.querySelector('img')).bottom) || 0;
+   const available = Math.max(0, card.clientHeight - copy.offsetHeight - inset - 20);
    // The supplied artwork has transparent space at the top; keep its visible edge below the CTA.
    card.style.setProperty('--art-height', `${Math.min(card.clientHeight * .46, available / .86)}px`);
   });
@@ -64,6 +68,7 @@ export default function AudienceSegments({ onOpenContact }) {
     </article>)}
    </div>
   </div>
+  <div className={styles.curveCutout} aria-hidden="true" />
   <div className={styles.curvesFront} aria-hidden="true"><span /><span /></div>
  </section>;
 }

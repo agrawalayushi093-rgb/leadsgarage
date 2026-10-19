@@ -75,3 +75,14 @@
 }
 
 :global(#team).section.section { margin-top:clamp(40px,4vw,76px); }
+
+/* Keep the section gap inside the white surface instead of exposing the page color. */
+:global(#team).section.section {
+ margin-top:0;
+ padding-top:calc(clamp(44px,4.8vw,92px) + clamp(40px,4vw,76px));
+}
+@media (max-width:767px) {
+ :global(#team).section.section { padding-top:80px; }
+}
+
+:global(#team).section.section { padding-bottom:clamp(24px,2vw,40px); }
