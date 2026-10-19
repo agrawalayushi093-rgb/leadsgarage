@@ -64,10 +64,6 @@ export default function WhyChooseUs() {
     const duration = transitions + .85;
     let frame = 0;
     let layoutFrame = 0;
-    let wheelFrame = 0;
-    let wheelTarget = 0;
-    let wheelTime = 0;
-    let wheelLastPosition = 0;
     let current = 0;
     let target = 0;
     let previousTime = 0;
@@ -103,7 +99,6 @@ export default function WhyChooseUs() {
     };
     const update = () => {
       if (preference.matches || disposed) return;
-      if (wheelFrame && Math.abs(window.scrollY - wheelLastPosition) > 48) cancelWheel();
       target = clamp((metrics.nav - section.getBoundingClientRect().top) / metrics.travel, 0, 1) * duration;
       // Large scrollbar/touch jumps should catch up without a long animation tail.
       if (Math.abs(target - current) > 1.25) current = target - Math.sign(target - current) * .3;
@@ -119,7 +114,7 @@ export default function WhyChooseUs() {
         return;
       }
       const height = document.documentElement.clientHeight || innerHeight;
-      const navbarBottom = document.querySelector('.site-header')?.getBoundingClientRect().bottom || 0;
+      const navbarBottom = document.querySelector('.site-header nav')?.getBoundingClientRect().bottom || 0;
       const nav = Math.min(height * .3, Math.max(clamp(innerWidth * .07, 68, 110), navbarBottom + 12));
       const strip = clamp(height * .028, 12, 30);
       const travel = Math.max(240, height * .62) * transitions + Math.max(160, height * .2);
@@ -143,53 +138,14 @@ export default function WhyChooseUs() {
     };
     const onPreferenceChange = () => {
       cancelAnimationFrame(frame); frame = 0;
-      cancelAnimationFrame(wheelFrame); wheelFrame = 0;
       requestLayout();
-    };
-    const smoothWheel = time => {
-      wheelFrame = 0;
-      if (disposed || preference.matches) return;
-      const elapsed = Math.min(250, wheelTime ? time - wheelTime : 16.67);
-      wheelTime = time;
-      const distance = wheelTarget - window.scrollY;
-      const next = Math.abs(distance) < 1 ? wheelTarget
-        : window.scrollY + distance * (1 - Math.exp(-elapsed / 65));
-      window.scrollTo({ top: next, behavior: 'instant' });
-      wheelLastPosition = window.scrollY;
-      if (Math.abs(wheelTarget - window.scrollY) >= 1) wheelFrame = requestAnimationFrame(smoothWheel);
-      else wheelTime = 0;
-    };
-    const onWheel = event => {
-      if (preference.matches || event.ctrlKey || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      if (event.target instanceof Element && event.target.closest('header, [role="dialog"], input, textarea, select, [data-native-scroll]')) return;
-      const rect = section.getBoundingClientRect();
-      // Leave normal page scrolling in control outside the pinned frame.
-      if (rect.top > metrics.nav + 2 || rect.bottom < innerHeight - 2) { cancelWheel(); return; }
-      const start = window.scrollY + rect.top - metrics.nav;
-      const end = start + metrics.travel;
-      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-      if (!wheelFrame) { wheelTarget = window.scrollY; wheelLastPosition = window.scrollY; }
-      wheelTarget = clamp(wheelTarget + delta, start - 80, end + 80);
-      event.preventDefault();
-      if (!wheelFrame) {
-        wheelTime = 0;
-        wheelFrame = requestAnimationFrame(smoothWheel);
-      }
-    };
-    const cancelWheel = () => { cancelAnimationFrame(wheelFrame); wheelFrame = 0; wheelTime = 0; };
-    const cancelForKey = event => {
-      if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) cancelWheel();
     };
     const observer = new ResizeObserver(requestLayout);
     observer.observe(section.querySelector('.why-heading'));
     observer.observe(deck);
-    const navbar = document.querySelector('.site-header');
+    const navbar = document.querySelector('.site-header nav');
     if (navbar) observer.observe(navbar);
     window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('wheel', onWheel, { passive: false });
-    window.addEventListener('touchstart', cancelWheel, { passive: true });
-    window.addEventListener('pointerdown', cancelWheel, { passive: true });
-    window.addEventListener('keydown', cancelForKey);
     window.addEventListener('resize', requestLayout);
     preference.addEventListener('change', onPreferenceChange);
     const images = [...section.querySelectorAll('img')];
@@ -200,13 +156,8 @@ export default function WhyChooseUs() {
       disposed = true;
       cancelAnimationFrame(frame);
       cancelAnimationFrame(layoutFrame);
-      cancelAnimationFrame(wheelFrame);
       observer.disconnect();
       window.removeEventListener('scroll', update);
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('touchstart', cancelWheel);
-      window.removeEventListener('pointerdown', cancelWheel);
-      window.removeEventListener('keydown', cancelForKey);
       window.removeEventListener('resize', requestLayout);
       preference.removeEventListener('change', onPreferenceChange);
       images.forEach(image => image.removeEventListener('load', requestLayout));
@@ -279,5 +230,3 @@ export default function WhyChooseUs() {
     </section>
   );
 }
-
-

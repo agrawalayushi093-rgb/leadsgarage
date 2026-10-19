@@ -106,3 +106,13 @@
  -webkit-mask-image:linear-gradient(to bottom,transparent var(--showcase-crop),#000 calc(var(--showcase-crop) + 110px),#000 82%,transparent 100%);
  mask-image:linear-gradient(to bottom,transparent var(--showcase-crop),#000 calc(var(--showcase-crop) + 110px),#000 82%,transparent 100%);
 }
+
+/* Scale the trimmed sky and its fade on phones without fading the artwork itself. */
+.backgroundMerge :global(#showcase) { --showcase-fade:clamp(16px,5.7vw,110px); }
+.backgroundMerge :global(#showcase) img {
+ -webkit-mask-image:linear-gradient(to bottom,transparent var(--showcase-crop),#000 calc(var(--showcase-crop) + var(--showcase-fade)),#000 82%,transparent 100%);
+ mask-image:linear-gradient(to bottom,transparent var(--showcase-crop),#000 calc(var(--showcase-crop) + var(--showcase-fade)),#000 82%,transparent 100%);
+}
+@media (max-width:767px) {
+ .backgroundMerge :global(#showcase) { --showcase-crop:clamp(24px,12vw,90px); }
+}

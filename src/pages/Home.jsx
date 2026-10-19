@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import usePageScroll from '../hooks/usePageScroll';
 import styles from './Home.module.css';
 import Preloader from '../components/Preloader';
 import Navbar from '../components/Navbar';
@@ -13,6 +14,7 @@ import DashboardCTA from '../components/DashboardCTA';
 import Footer from '../components/Footer';
 
 export default function Home() {
+  usePageScroll();
   const [introComplete, setIntroComplete] = useState(false);
   return (
     <div className={`${styles.backgroundMerge} min-h-screen bg-[#FDFBF7] font-sans antialiased text-slate-900 selection:bg-blue-600 selection:text-white`}>

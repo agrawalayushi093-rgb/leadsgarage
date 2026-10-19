@@ -207,3 +207,20 @@
  .badge { font-size:12px; }
  .progress button { width:calc(48 * var(--figma-unit)); height:calc(48 * var(--figma-unit)); }
 }
+
+/* Compact viewports keep the controls and timeline inside the pinned frame. */
+@media (max-height:500px) and (prefers-reduced-motion:no-preference) {
+ :global(#quality).section > .panel {
+  height:var(--quality-height); min-height:0;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  padding:12px 0; row-gap:6px;
+ }
+ .viewport { display:block; padding:12px 0 10px; }
+ .rail { height:100%; }
+ .card { height:100%; min-height:0; }
+ .cardCopy,.active .cardCopy { padding-top:12px; padding-bottom:12px; }
+ .progress button { width:30px; height:30px; }
+}
+@media (max-width:767px) and (min-height:501px) and (max-height:650px) {
+ .card { min-height:230px; }
+}

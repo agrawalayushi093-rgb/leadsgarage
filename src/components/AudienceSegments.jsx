@@ -15,7 +15,7 @@ export default function AudienceSegments({ onOpenContact }) {
   const update = () => {
    const height = document.documentElement.clientHeight || innerHeight;
    const width = document.documentElement.clientWidth;
-   const nav = document.querySelector('.site-header')?.getBoundingClientRect().bottom || 92;
+   const nav = document.querySelector('.site-header nav')?.getBoundingClientRect().bottom || 92;
    const available = Math.max(180, height - nav - 20);
    const scale = Math.min(width / (width >= 1024 ? 1920 : 1400), available / 1000, 1);
    section.current.style.setProperty('--audience-height', `${available}px`);
@@ -23,7 +23,7 @@ export default function AudienceSegments({ onOpenContact }) {
    section.current.style.setProperty('--audience-top', `${nav + 10}px`);
   };
   const observer = new ResizeObserver(update);
-  const navbar = document.querySelector('.site-header');
+  const navbar = document.querySelector('.site-header nav');
   if (navbar) observer.observe(navbar);
   window.addEventListener('resize', update); update();
   return () => { clearTimeout(timer.current); observer.disconnect(); window.removeEventListener('resize', update); };

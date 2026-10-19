@@ -13,7 +13,7 @@ const slides = [
 
 export default function QualityControl() {
   const [active, setActive] = useState(1);
-  const activeRef = useRef(1);
+  const activeRef = useRef(active);
   activeRef.current = active;
   const manualSelection = useRef(null);
   const section = useRef(null);
@@ -22,86 +22,61 @@ export default function QualityControl() {
   useLayoutEffect(() => {
     const element = section.current;
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let frame = 0;
-    let wheelFrame = 0;
-    let wheelTarget = 0;
-    let previousTime = 0;
-    let lastWheelY = 0;
-    let top = 100;
-    let distance = 1;
-    let gestureUsed = false;
-    let gestureTimer;
-    let lockedUntil = 0;
-    const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
-    const cancel = () => { cancelAnimationFrame(wheelFrame); wheelFrame = 0; previousTime = 0; };
+    let frame = 0, top = 100, distance = 1, previousY = scrollY, direction = 1;
+    let gestureUsed = false, gestureTimer;
     const update = () => {
       frame = 0;
-      if (preference.matches) return;
-      if (wheelFrame && Math.abs(scrollY - lastWheelY) > 48) cancel();
-      const progress = clamp((top - element.getBoundingClientRect().top) / distance, 0, 1);
-      if (manualSelection.current === null) {
-        setActive(Math.min(slides.length - 1, 1 + Math.floor(progress * (slides.length - 1))));
-      }
+      if (Math.abs(scrollY - previousY) > 1) direction = Math.sign(scrollY - previousY);
+      previousY = scrollY;
+      if (preference.matches || manualSelection.current !== null) return;
+      const progress = Math.max(0, Math.min(1, (top - element.getBoundingClientRect().top) / distance));
+      const index = Math.min(slides.length - 1, Math.floor(progress * slides.length));
+      // Enter on the second card, but allow reverse scrolling to reach Quality Control.
+      setActive(progress < .28 && direction < 0 ? 0 : index === 0 ? 1 : index);
     };
     const scroll = () => { if (!frame) frame = requestAnimationFrame(update); };
     const layout = () => {
       const height = document.documentElement.clientHeight || innerHeight;
-      const nav = document.querySelector('.site-header')?.getBoundingClientRect().bottom || 80;
+      const nav = document.querySelector('.site-header nav')?.getBoundingClientRect().bottom || 80;
       top = Math.max(68, nav + 12);
       element.style.setProperty('--quality-top', `${top}px`);
       const panelWidth = viewport.current.clientWidth;
       const referenceHeight = panelWidth >= 900 ? panelWidth * .575 : height - top - 20;
       element.style.setProperty('--quality-height', `${Math.max(220, Math.min(height - top - 20, referenceHeight))}px`);
-      element.style.setProperty('--quality-travel', `${Math.max(200, height * .55) * slides.length}px`);
+      element.style.setProperty('--quality-travel', `${Math.max(160, height * .36) * (slides.length - 1)}px`);
       element.style.setProperty('--active-card-width', `${Math.min(panelWidth >= 900 ? panelWidth * .336 : 460, panelWidth - 32)}px`);
       distance = Math.max(1, element.offsetHeight - height + top);
       scroll();
     };
-    const tick = time => {
-      wheelFrame = 0;
-      const delta = Math.min(250, previousTime ? time - previousTime : 16.67);
-      previousTime = time;
-      const difference = wheelTarget - scrollY;
-      window.scrollTo({top: Math.abs(difference) < 1 ? wheelTarget : scrollY + difference * (1 - Math.exp(-delta / 65)), behavior:'instant'});
-      lastWheelY = scrollY;
-      if (Math.abs(wheelTarget - scrollY) >= 1) wheelFrame = requestAnimationFrame(tick);
-      else {
-        previousTime = 0;
-        if (manualSelection.current !== 0) manualSelection.current = null;
-        scroll();
-      }
-    };
+    const releaseManual = () => { manualSelection.current = null; };
     const wheel = event => {
-      if (preference.matches || event.ctrlKey || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      if (event.target instanceof Element && event.target.closest('.site-header, [role="dialog"], input, textarea, select')) return;
+      if (preference.matches || !matchMedia('(hover: hover) and (pointer: fine)').matches || event.ctrlKey || event.metaKey || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      if (event.target instanceof Element && event.target.closest('.site-header,[role="dialog"],input,textarea,select,[data-native-scroll]')) return;
       const rect = element.getBoundingClientRect();
-      if (rect.top > top + 2 || rect.bottom < innerHeight - 2) { cancel(); return; }
-      clearTimeout(gestureTimer);
-      gestureTimer = setTimeout(() => { gestureUsed = false; }, 160);
-      if (gestureUsed || performance.now() < lockedUntil) { event.preventDefault(); return; }
-      gestureUsed = true;
-      lockedUntil = performance.now() + 500;
-      cancel();
-      lastWheelY = scrollY;
-      const start = scrollY + rect.top - top;
-      const next = activeRef.current + Math.sign(event.deltaY);
-      if (next < 0 || next >= slides.length) {
-        manualSelection.current = null;
-        wheelTarget = next < 0 ? start - 80 : start + distance + 80;
-      } else {
-        activeRef.current = next;
-        manualSelection.current = next;
-        setActive(next);
-        wheelTarget = start + distance * (next === 0 ? .02 : (next - .5) / (slides.length - 1));
-      }
+      if (rect.top > top + 2 || rect.bottom < innerHeight - 2) { releaseManual(); return; }
       event.preventDefault();
-      if (!wheelFrame) wheelFrame = requestAnimationFrame(tick);
+      clearTimeout(gestureTimer);
+      gestureTimer = setTimeout(() => { gestureUsed = false; }, 140);
+      if (gestureUsed) return;
+      gestureUsed = true;
+      const next = activeRef.current + Math.sign(event.deltaY);
+      const start = scrollY + rect.top - top;
+      let destination;
+      if (next < 0 || next >= slides.length) {
+        releaseManual();
+        destination = next < 0 ? start - 80 : start + distance + 80;
+      } else {
+        manualSelection.current = next;
+        activeRef.current = next;
+        setActive(next);
+        destination = start + distance * (next + .5) / slides.length;
+      }
+      window.dispatchEvent(new CustomEvent('page-scroll-to',{detail:{top:destination}}));
     };
-    const releaseManual = () => { manualSelection.current = null; cancel(); };
     const keyboard = event => { if (['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) releaseManual(); };
     const observer = new ResizeObserver(layout);
     observer.observe(viewport.current);
-    const nav = document.querySelector('.site-header');
+    const nav = document.querySelector('.site-header nav');
     if (nav) observer.observe(nav);
     window.addEventListener('scroll', scroll, { passive:true });
     window.addEventListener('wheel', wheel, { passive:false });
@@ -112,7 +87,7 @@ export default function QualityControl() {
     preference.addEventListener('change', layout);
     layout();
     return () => {
-      cancel(); clearTimeout(gestureTimer); cancelAnimationFrame(frame); observer.disconnect();
+      cancelAnimationFrame(frame); clearTimeout(gestureTimer); observer.disconnect();
       window.removeEventListener('scroll', scroll);
       window.removeEventListener('wheel', wheel);
       window.removeEventListener('resize', layout);
@@ -150,14 +125,14 @@ export default function QualityControl() {
   }, [active]);
   const select = useCallback(index => {
     const next = Math.max(0, Math.min(slides.length - 1, index));
-    manualSelection.current = next === 0 ? 0 : null;
+    manualSelection.current = next;
     setActive(next);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setActive(next); return; }
     const element = section.current;
     const top = parseFloat(getComputedStyle(element).getPropertyValue('--quality-top')) || 100;
     const start = scrollY + element.getBoundingClientRect().top - top;
     const distance = element.offsetHeight - innerHeight + top;
-    const progress = next === 0 ? .02 : (next - .5) / (slides.length - 1);
+    const progress = (next + .5) / slides.length;
     window.scrollTo({top: start + distance * progress, behavior:'smooth'});
   }, []);
   return <section ref={section} id="quality" className={styles.section} aria-labelledby="quality-title">

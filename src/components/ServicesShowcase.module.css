@@ -173,3 +173,7 @@
 /* Give descenders (g, y, p) room inside the text-fill paint area. */
 .content h3 { overflow:visible; }
 .highlightWord { line-height:1.25; padding-bottom:.16em; margin-bottom:-.16em; }
+
+/* Keep gradual fills without requiring an excessively long scroll track. */
+:global(#services).section { height:420svh; }
+@media (max-width:639px) { :global(#services).section { height:380svh; } }
