@@ -1,0 +1,77 @@
+:global(#team).section.section {
+ position: relative; isolation: isolate; background: white;
+ padding: clamp(36px,3vw,48px) 20px 32px;
+}
+:global(#team).section > .rail { width:100%; max-width:1180px; padding:0; }
+:global(#team).section .heading { max-width:none; margin-bottom:32px; }
+:global(#team).section .heading h2 { font-size:clamp(28px,3vw,56px); line-height:1.2; font-weight:600; color:#444; }
+:global(#team).section .heading p { font-size:clamp(12px,1.1vw,20px); margin-top:10px; line-height:1.45; color:#555; }
+.cards { display:flex; align-items:flex-start; justify-content:center; gap:calc(80 * var(--figma-unit)); max-width:calc(1080 * var(--figma-unit)); }
+:global(#team).section .card {
+ width:calc(500 * var(--figma-unit)); flex-shrink:0;
+ max-width:500px;
+ padding:calc(24 * var(--figma-unit)); border:1px solid transparent; border-radius:calc(48 * var(--figma-unit));
+ background:transparent; text-align:center; box-shadow:none;
+ transition:background-color .35s ease, box-shadow .4s ease, border-color .35s ease;
+}
+:global(#team).section .card[data-active="true"] {
+ background:white; border-color:#f0f0f0; box-shadow:0 18px 44px #15243c30;
+}
+:global(#team).section .card .portrait {
+ width:100%; aspect-ratio:450 / 496;
+ margin:0 0 calc(48 * var(--figma-unit)); border-radius:calc(28 * var(--figma-unit)); overflow:hidden; background:#222;
+}
+:global(#team).section .portrait img { display:block; width:100%; height:100%; object-fit:cover; }
+:global(#team).section .card h3 { font-size:calc(40 * var(--figma-unit)); line-height:1.2; font-weight:600; white-space:normal; color:#444; margin:0; }
+:global(#team).section .card :global(.leader-role) { font-size:calc(20 * var(--figma-unit)); line-height:1.4; margin-top:calc(16 * var(--figma-unit)); }
+:global(#team).section .card :global(.leader-details),
+:global(#team).section .card:focus-within > div:last-child {
+ height:calc(132 * var(--figma-unit)); max-height:calc(132 * var(--figma-unit)); opacity:0; margin:calc(16 * var(--figma-unit)) 0 0;
+ transition:opacity .35s ease;
+}
+:global(#team).section .card :global(.leader-details)[data-expanded="true"] { opacity:1; }
+:global(#team).section .card :global(.leader-details) p { font-size:calc(16 * var(--figma-unit)); }
+:global(#team).section .card a { display:grid; place-items:center; width:calc(64 * var(--figma-unit)); height:calc(64 * var(--figma-unit)); min-width:0; min-height:0; border-radius:50%; }
+.card:focus-visible { outline:3px solid #2870ef; outline-offset:4px; }
+@media (max-width:767px) {
+ :global(#team).section.section { padding:36px 16px 28px; }
+ .cards { gap:16px; max-width:none; }
+ :global(#team).section .card { width:calc((100% - 16px) / 2); max-width:none; padding:10px; border-radius:22px; }
+ :global(#team).section .card .portrait { margin-bottom:14px; border-radius:14px; max-height:none; }
+ :global(#team).section .card h3 { font-size:clamp(15px,3.5vw,24px); }
+ :global(#team).section .card :global(.leader-role) { font-size:11px; margin-top:6px; }
+ :global(#team).section .card :global(.leader-details) { height:104px; max-height:104px; margin-top:10px; }
+ :global(#team).section .card :global(.leader-details) p { font-size:10px; }
+ :global(#team).section .card a { width:36px; height:36px; }
+}
+@media (prefers-reduced-motion: reduce) { :global(#team).section .card, :global(#team).section .card :global(.leader-details) { transition:none; } }
+
+
+/* Preserve the rounded border embedded in each source portrait. */
+:global(#team).section .card .portrait { background:transparent; isolation:isolate; }
+:global(#team).section .card .portrait img {
+ width:100%; height:100%; max-width:100%; object-fit:fill;
+ border-radius:inherit; clip-path:inset(0 round calc(28 * var(--figma-unit)));
+}
+@media (max-width:767px) {
+ :global(#team).section .card .portrait img { clip-path:inset(0 round 14px); }
+}
+
+/* Match the leadership reference: generous white space and a soft hover shell. */
+:global(#team).section.section {
+ padding-top:clamp(44px,4.8vw,92px);
+ padding-bottom:clamp(56px,6.25vw,120px);
+}
+:global(#team).section .heading { margin-bottom:calc(48 * var(--figma-unit)); }
+.cards { gap:calc(100 * var(--figma-unit)); max-width:calc(1100 * var(--figma-unit)); }
+:global(#team).section .card[data-active="true"] {
+ border-color:white; box-shadow:0 20px 60px #00000035;
+}
+@media (max-width:767px) {
+ :global(#team).section.section { padding:40px 16px 56px; }
+ :global(#team).section .heading { margin-bottom:24px; }
+ .cards { gap:16px; max-width:none; }
+ :global(#team).section .card[data-active="true"] { box-shadow:0 12px 30px #00000025; }
+}
+
+:global(#team).section.section { margin-top:clamp(40px,4vw,76px); }

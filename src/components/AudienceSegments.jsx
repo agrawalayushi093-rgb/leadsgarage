@@ -1,301 +1,69 @@
-import { publicAsset } from '../utils/publicAsset';
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { publicAsset } from '../utils/publicAsset';
+import styles from './AudienceSegments.module.css';
 
+const audiences = [
+ { title:'Publisher?', description:"However you drive traffic, we’re here to help you grow. With valuable insight from our internal teams, as well as top publishers in every channel, we know how to make them work and scale.", compact:'Grow your traffic with valuable insights, top campaigns, and support built to help you scale.', image:'Frame 1000004723.png' },
+ { title:'Advertiser?', description:'Get high-quality, intent-driven traffic that converts. Scale your customer acquisition and maximize ROI with LeadsGarage.', compact:'Reach high-intent customers, scale your acquisition, and maximize ROI with LeadsGarage.', image:'Frame 1000004724.png' },
+];
 export default function AudienceSegments({ onOpenContact }) {
-  const [hoveredTab, setHoveredTab] = useState(null);
-  const hoverTimer = useRef(null);
-  const reducedMotion = useReducedMotion();
-  const openCard = (id) => {
-    clearTimeout(hoverTimer.current);
-    setHoveredTab(id);
+ const section = useRef(null);
+ const [active, setActive] = useState(null);
+ const timer = useRef(null);
+ useLayoutEffect(() => {
+  const update = () => {
+   const height = document.documentElement.clientHeight || innerHeight;
+   const width = document.documentElement.clientWidth;
+   const nav = document.querySelector('.site-header')?.getBoundingClientRect().bottom || 92;
+   const referenceHeight = width >= 1024 ? Math.min(width / 1920, 1) * 1100 : 240;
+   section.current.style.setProperty('--audience-height', `${Math.max(referenceHeight, height - nav - 20)}px`);
   };
-  const previewCard = (id) => {
-    if (window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches) return;
-    clearTimeout(hoverTimer.current);
-    hoverTimer.current = setTimeout(() => setHoveredTab(id), 180);
-  };
-  const closeCards = () => {
-    clearTimeout(hoverTimer.current);
-    setHoveredTab(null);
-  };
-  const cardControls = (id) => ({
-    role: 'button',
-    tabIndex: 0,
-    'aria-label': `Explore ${id} information`,
-    'aria-expanded': hoveredTab === id,
-    onClick: () => openCard(id),
-    onKeyDown: (event) => {
-      if (event.target !== event.currentTarget) return;
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        openCard(id);
-      }
-    },
+  const observer = new ResizeObserver(update);
+  const navbar = document.querySelector('.site-header');
+  if (navbar) observer.observe(navbar);
+  window.addEventListener('resize', update); update();
+  return () => { clearTimeout(timer.current); observer.disconnect(); window.removeEventListener('resize', update); };
+ }, []);
+ useLayoutEffect(() => {
+  const cards = [...section.current.querySelectorAll('article')];
+  const layout = () => cards.forEach(card => {
+   const copy = card.firstElementChild;
+   const available = Math.max(0, card.clientHeight - copy.offsetHeight - 20);
+   // The supplied artwork has transparent space at the top; keep its visible edge below the CTA.
+   card.style.setProperty('--art-height', `${Math.min(card.clientHeight * .46, available / .86)}px`);
   });
-  useEffect(() => () => clearTimeout(hoverTimer.current), []);
-  useEffect(() => {
-    if (hoveredTab === null) return;
-    const handleEscape = (event) => {
-      if (event.key === 'Escape') closeCards();
-    };
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
-  }, [hoveredTab]);
-  const layoutTransition = { duration: reducedMotion ? 0 : 0.85, ease: [0.22, 1, 0.36, 1] };
-
-  const cardsData = {
-    publisher: {
-      id: 'publisher',
-      pillLabel: "I'm a Publisher",
-      tagline: 'Are you a',
-      title: 'Publisher?',
-      description1:
-        'As a publisher with LeadsGarage, we help you maximize the value of your traffic and drive high-converting leads through verified, real-time channels.',
-      description2:
-        'Our team provides dedicated support, flexible payout structures, and access to top-tier campaign offers to scale your business.',
-      buttonText: "Let's connect",
-      image: publicAsset("/image/Home/Frame 1000004723.png")
-    },
-    advertiser: {
-      id: 'advertiser',
-      pillLabel: "I'm an Advertiser",
-      tagline: 'Are you a',
-      title: 'Advertiser?',
-      description1:
-        'As an advertiser with LeadsGarage, we understand you need customers to succeed, and we have seen the results inbound calls can do to help grow a business.',
-      description2:
-        'Our support team will work with you to help distribute your offers, monitor traffic and transfers, and choose the best path that gets you the right buyer.',
-      buttonText: "Let's connect",
-      image: publicAsset("/image/Home/Frame 1000004724.png")
-    }
-  };
-
-  return (
-    <section
-      id="audience"
-      className="pt-8 sm:pt-12 lg:pt-16 pb-16 sm:pb-20 lg:pb-28 bg-[#FDFBF7] relative overflow-hidden w-full flex flex-col items-center"
-    >
-      {/* Ambient Soft Blend Overlay */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-60 bg-gradient-to-b from-transparent via-amber-50/20 to-transparent" />
-
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
-            Where Do you fit into this picture?
-          </h2>
-          <p className="text-sm sm:text-base lg:text-lg text-slate-600 font-normal mt-3 leading-relaxed">
-            We combine technology, data, and expertise to deliver measurable growth for your business.
-          </p>
-        </div>
-
-        {/* Outer Cards Container Centered */}
-        <div
-          onMouseLeave={() => { if (window.innerWidth >= 768 && window.matchMedia('(hover: hover)').matches) closeCards(); }}
-          onKeyDown={(event) => { if (event.key === 'Escape') closeCards(); }}
-          className="audience-cards w-full max-w-[1340px] mx-auto min-h-[500px] flex justify-center relative"
-        >
-          <AnimatePresence mode="popLayout" initial={false}>
-            {hoveredTab === null ? (
-              /* DEFAULT STATE: 2 Equal Side-by-Side Cards Grid (Original Design) */
-              <motion.div
-                key="default-grid"
-                layout
-                initial={false}
-                exit={{ opacity: 0, transition: { duration: 0 } }}
-                transition={{ layout: layoutTransition }}
-                className="w-full max-w-[1340px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-stretch justify-center"
-              >
-                {/* Publisher Card */}
-                <motion.div layout layoutId={`audience-publisher`} transition={{ layout: layoutTransition }}
-                  onMouseEnter={() => previewCard('publisher')} {...cardControls('publisher')}
-                  className="bg-gradient-to-b from-[#2F5EEA] to-[#1E43D3] rounded-[2.5rem] p-8 sm:p-10 lg:p-12 pb-0 sm:pb-0 text-white shadow-xl relative overflow-hidden flex flex-col justify-between group hover:shadow-2xl border border-blue-400/20 cursor-pointer transition-all duration-300 min-h-[460px]"
-                >
-                  <div className="space-y-1">
-                    <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-blue-100 block tracking-tight">
-                      Are you a
-                    </span>
-                    <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
-                      Publisher?
-                    </h3>
-                  </div>
-
-                  <div className="mt-8 flex justify-center items-end">
-                    <img
-                      src={publicAsset("/image/Home/Frame 1000004723.png")}
-                      alt="Publisher Illustration"
-                      className="w-full max-w-md object-contain transform group-hover:scale-[1.03] transition-transform duration-300 pointer-events-none"
-                    />
-                  </div>
-                </motion.div>
-
-                {/* Advertiser Card */}
-                <motion.div layout layoutId={`audience-advertiser`} transition={{ layout: layoutTransition }}
-                  onMouseEnter={() => previewCard('advertiser')} {...cardControls('advertiser')}
-                  className="bg-gradient-to-b from-[#2F5EEA] to-[#1E43D3] rounded-[2.5rem] p-8 sm:p-10 lg:p-12 pb-0 sm:pb-0 text-white shadow-xl relative overflow-hidden flex flex-col justify-between group hover:shadow-2xl border border-blue-400/20 cursor-pointer transition-all duration-300 min-h-[460px]"
-                >
-                  <div className="space-y-1">
-                    <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-blue-100 block tracking-tight">
-                      Are you a
-                    </span>
-                    <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white">
-                      Advertiser?
-                    </h3>
-                  </div>
-
-                  <div className="mt-8 flex justify-center items-end">
-                    <img
-                      src={publicAsset("/image/Home/Frame 1000004724.png")}
-                      alt="Advertiser Illustration"
-                      className="w-full max-w-md object-contain transform group-hover:scale-[1.03] transition-transform duration-300 pointer-events-none"
-                    />
-                  </div>
-                </motion.div>
-              </motion.div>
-            ) : (
-              /* HOVERED STATE: Screenshot Design (1 Expanded Card Panel + 1 Collapsed Vertical Pill Bar) */
-              <motion.div
-                key="hovered-panel"
-                layout
-                initial={false}
-                exit={{ opacity: 0, transition: { duration: 0 } }}
-                transition={{ layout: layoutTransition }}
-                className="w-full max-w-[1340px] mx-auto flex flex-col md:flex-row gap-4 lg:gap-6 items-stretch justify-center min-h-[500px]"
-              >
-                {/* Left Component */}
-                {hoveredTab === 'publisher' ? (
-                  /* Expanded Publisher Panel */
-                  <motion.div layout layoutId={`audience-publisher`} transition={{ layout: layoutTransition }} className="flex-1 md:flex-[5] lg:flex-[6] bg-gradient-to-br from-[#1B5CFF] via-[#0B52F2] to-[#0444D0] rounded-[2.5rem] p-6 sm:p-10 lg:p-12 text-white shadow-2xl border border-blue-400/30 flex flex-col lg:flex-row items-center justify-between gap-8">
-                    <div className="w-full lg:w-[55%] flex flex-col justify-between space-y-6 z-10">
-                      <div>
-                        <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-blue-100 block tracking-tight">
-                          {cardsData.publisher.tagline}
-                        </span>
-                        <h3 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white mt-1">
-                          {cardsData.publisher.title}
-                        </h3>
-                      </div>
-
-                      <div className="space-y-4 text-blue-50/90 text-sm sm:text-base leading-relaxed font-normal">
-                        <p className="!text-blue-50/90">{cardsData.publisher.description1}</p>
-                        <p className="!text-blue-50/90">{cardsData.publisher.description2}</p>
-                      </div>
-
-                      <div className="pt-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (onOpenContact) onOpenContact();
-                            else window.location.hash = 'team';
-                          }}
-                          className="inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#1853E6] hover:bg-[#1245C8] border border-blue-300/40 text-white font-semibold text-sm sm:text-base shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
-                        >
-                          <span>{cardsData.publisher.buttonText}</span>
-                          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="w-full lg:w-[45%] flex items-end justify-center lg:justify-end h-full">
-                      <img
-                        src={cardsData.publisher.image}
-                        alt="Publisher Illustration"
-                        className="w-full max-w-md lg:max-w-lg object-contain block drop-shadow-2xl pointer-events-none"
-                      />
-                    </div>
-                  </motion.div>
-                ) : (
-                  /* Collapsed Publisher Pill Bar */
-                  <motion.div layout layoutId={`audience-publisher`} transition={{ layout: layoutTransition }}
-                    onMouseEnter={() => previewCard('publisher')} {...cardControls('publisher')}
-                    className="flex-none w-full md:w-20 lg:w-24 bg-[#1B5CFF] hover:bg-[#1552EA] rounded-[2.5rem] p-4 flex md:flex-col items-center justify-between shadow-xl border border-blue-400/20 group cursor-pointer transition-all duration-300"
-                  >
-                    <div className="flex-1 flex items-center justify-center">
-                      <span className="hidden md:block -rotate-90 whitespace-nowrap text-white font-medium text-base lg:text-lg tracking-wide select-none group-hover:text-blue-100 transition-colors">
-                        {cardsData.publisher.pillLabel}
-                      </span>
-                      <span className="block md:hidden text-white font-medium text-base">
-                        {cardsData.publisher.pillLabel}
-                      </span>
-                    </div>
-
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform shadow-md">
-                      <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* Right Component */}
-                {hoveredTab === 'advertiser' ? (
-                  /* Expanded Advertiser Panel */
-                  <motion.div layout layoutId={`audience-advertiser`} transition={{ layout: layoutTransition }} className="flex-1 md:flex-[5] lg:flex-[6] bg-gradient-to-br from-[#1B5CFF] via-[#0B52F2] to-[#0444D0] rounded-[2.5rem] p-6 sm:p-10 lg:p-12 text-white shadow-2xl border border-blue-400/30 flex flex-col lg:flex-row items-center justify-between gap-8">
-                    <div className="w-full lg:w-[55%] flex flex-col justify-between space-y-6 z-10">
-                      <div>
-                        <span className="text-2xl sm:text-3xl lg:text-4xl font-light text-blue-100 block tracking-tight">
-                          {cardsData.advertiser.tagline}
-                        </span>
-                        <h3 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white mt-1">
-                          {cardsData.advertiser.title}
-                        </h3>
-                      </div>
-
-                      <div className="space-y-4 text-blue-50/90 text-sm sm:text-base leading-relaxed font-normal">
-                        <p className="!text-blue-50/90">{cardsData.advertiser.description1}</p>
-                        <p className="!text-blue-50/90">{cardsData.advertiser.description2}</p>
-                      </div>
-
-                      <div className="pt-2">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (onOpenContact) onOpenContact();
-                            else window.location.hash = 'team';
-                          }}
-                          className="inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#1853E6] hover:bg-[#1245C8] border border-blue-300/40 text-white font-semibold text-sm sm:text-base shadow-lg hover:scale-105 active:scale-95 transition-all duration-200"
-                        >
-                          <span>{cardsData.advertiser.buttonText}</span>
-                          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="w-full lg:w-[45%] flex items-end justify-center lg:justify-end h-full">
-                      <img
-                        src={cardsData.advertiser.image}
-                        alt="Advertiser Illustration"
-                        className="w-full max-w-md lg:max-w-lg object-contain block drop-shadow-2xl pointer-events-none"
-                      />
-                    </div>
-                  </motion.div>
-                ) : (
-                  /* Collapsed Advertiser Pill Bar */
-                  <motion.div layout layoutId={`audience-advertiser`} transition={{ layout: layoutTransition }}
-                    onMouseEnter={() => previewCard('advertiser')} {...cardControls('advertiser')}
-                    className="flex-none w-full md:w-20 lg:w-24 bg-[#1B5CFF] hover:bg-[#1552EA] rounded-[2.5rem] p-4 flex md:flex-col items-center justify-between shadow-xl border border-blue-400/20 group cursor-pointer transition-all duration-300"
-                  >
-                    <div className="flex-1 flex items-center justify-center">
-                      <span className="hidden md:block -rotate-90 whitespace-nowrap text-white font-medium text-base lg:text-lg tracking-wide select-none group-hover:text-blue-100 transition-colors">
-                        {cardsData.advertiser.pillLabel}
-                      </span>
-                      <span className="block md:hidden text-white font-medium text-base">
-                        {cardsData.advertiser.pillLabel}
-                      </span>
-                    </div>
-
-                    <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform shadow-md">
-                      <ArrowRight className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
-                    </div>
-                  </motion.div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-      </div>
-    </section>
-  );
+  const observer = new ResizeObserver(layout);
+  cards.forEach(card => { observer.observe(card); observer.observe(card.firstElementChild); });
+  layout();
+  return () => observer.disconnect();
+ }, []);
+ const enter = index => {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  clearTimeout(timer.current); timer.current = setTimeout(() => setActive(index), 90);
+ };
+ const connect = () => { if (onOpenContact) onOpenContact(); else window.location.hash = 'team'; };
+ return <section ref={section} id="audience" className={styles.section} aria-labelledby="audience-title">
+  <div className={styles.curvesBack} aria-hidden="true"><span /><span /></div>
+  <div className={styles.content}>
+   <header className={styles.heading}>
+    <h2 id="audience-title">Where Do you fit into this picture?</h2>
+    <p>We combine technology, data, and expertise to deliver measurable growth for your business.</p>
+   </header>
+   <div className={styles.cards} onMouseLeave={() => { clearTimeout(timer.current); if (window.matchMedia('(hover: hover)').matches && !section.current.contains(document.activeElement)) setActive(null); }} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setActive(null); }}>
+    {audiences.map((card,index) => <article key={card.title} tabIndex={0} aria-label={`Explore ${card.title.replace('?','')}`} data-active={active === index} className={styles.card}
+      onMouseEnter={() => enter(index)} onFocus={() => { clearTimeout(timer.current); setActive(index); }}
+      onClick={event => { if (!event.target.closest('button')) setActive(index); }}
+      onKeyDown={event => { if (event.target !== event.currentTarget) return; if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setActive(active === index ? null : index); } if(event.key === 'Escape') setActive(null); }}>
+     <div className={styles.copy}>
+      <span className={styles.intro}>Are you a</span><h3>{card.title}</h3>
+      <p className={styles.fullDescription}>{card.description}</p><p className={styles.compactDescription}>{card.compact}</p>
+      <button type="button" className={styles.connect} onClick={connect}>Let’s connect <ArrowRight size={19} aria-hidden="true" /></button>
+     </div>
+     <img className={`${styles.illustration} ${index === 1 ? styles.advertiserIllustration : ''}`} src={publicAsset(`/image/Home/${card.image}`)} alt="" decoding="async" />
+    </article>)}
+   </div>
+  </div>
+  <div className={styles.curvesFront} aria-hidden="true"><span /><span /></div>
+ </section>;
 }

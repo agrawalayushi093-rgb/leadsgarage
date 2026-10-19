@@ -1,10 +1,10 @@
 import { publicAsset } from '../utils/publicAsset';
 import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+
 import styles from './WhyChooseUs.module.css';
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 export default function WhyChooseUs() {
   const sectionRef = useRef(null);
@@ -51,101 +51,175 @@ export default function WhyChooseUs() {
     }
   ];
 
-  // Natural scrolling supplies the full travel distance; sticky cards hold the final offsets.
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const media = gsap.matchMedia();
-      media.add('(prefers-reduced-motion: no-preference) and (min-height: 600px)', () => {
-        const cardsList = cardRefs.current;
-        // Measure permanent document-flow wrappers, never ScrollTrigger's generated spacers.
-        const cardFlows = cardsList.map(card => card.parentElement);
-        const stackTop = () => window.innerWidth < 640 ? 96 : 110;
-        const strip = () => window.innerWidth < 640 ? 28 : 40;
-        const coverTravel = () => (cardsList.length - 1) * strip();
-        // Native sticky positioning stays on the browser's scroll thread. Each flow
-        // extends to the common release point; negative margins preserve its natural gap.
-        const layoutStickyFlows = () => {
-          const gap = Math.min(96, Math.max(48, window.innerWidth * .06));
-          gsap.set(cardsWrapperRef.current, { '--exit-space': '0px', marginBottom: -coverTravel() });
-          cardFlows.forEach((flow, index) => gsap.set(flow, {
-            height: 'auto', paddingBottom: index === cardsList.length - 1 ? 0 : gap,
-            marginBottom: 0,
-          }));
-          const lastTop = cardFlows[cardFlows.length - 1].getBoundingClientRect().top;
-          const distances = cardFlows.map((flow, index) => Math.max(0,
-            lastTop - flow.getBoundingClientRect().top
-              - (cardsList.length - 1 - index) * strip() + coverTravel()));
-          cardFlows.forEach((flow, index) => {
-            gsap.set(flow, {
-              height: cardsList[index].offsetHeight + distances[index], paddingBottom: 0,
-              marginBottom: index === cardsList.length - 1 ? 0 : gap - distances[index],
-            });
-            gsap.set(cardsList[index], {
-              position: 'sticky', top: stackTop() + index * strip(), y: 0,
-            });
-          });
-        };
-        layoutStickyFlows();
-        ScrollTrigger.addEventListener('refreshInit', layoutStickyFlows);
-        cardsList.forEach(card => {
-          gsap.set(card.querySelector('.solution-surface'), { transformOrigin: 'center top' });
-        });
-        // Earlier cards gradually recede while later cards climb into the deck.
-        cardsList.slice(0, -1).forEach((card, index) => {
-          // Scale only the artwork, preserving the fixed document spacing.
-          gsap.fromTo(card.querySelector('.solution-surface'), { scale: 1 }, {
-            scale: 1 - (cardsList.length - 1 - index) * 0.03,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: cardFlows[index + 1],
-              start: 'top bottom',
-              endTrigger: cardFlows[cardsList.length - 1],
-              end: () => `top top+=${stackTop() + (cardsList.length - 1) * strip()}`,
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          });
-        });
-        // Close the visible strips before the shared sticky release point.
-        // Every surface finishes at the same top edge, with the final card in front.
-        cardsList.forEach((card, index) => {
-          gsap.fromTo(card.querySelector('.solution-surface'), { y: 0 }, {
-            y: () => -index * strip(),
-            ease: 'none',
-            scrollTrigger: {
-              trigger: cardFlows[cardFlows.length - 1],
-              start: () => `top top+=${stackTop() + coverTravel()}`,
-              end: () => `top top+=${stackTop()}`,
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          });
-        });
-        return () => ScrollTrigger.removeEventListener('refreshInit', layoutStickyFlows);
-      });
-    }, sectionRef);
-    // Images and fonts can change card heights after the first layout pass.
-    let refreshFrame = 0;
-    const refreshLayout = () => {
-      cancelAnimationFrame(refreshFrame);
-      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
-    };
-    const observer = new ResizeObserver(refreshLayout);
-    cardRefs.current.forEach(card => observer.observe(card));
-    refreshLayout();
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(refreshFrame);
-      ctx.revert();
-    };
-  }, [cards.length]);
+    const section = sectionRef.current;
+    const deck = cardsWrapperRef.current;
+    const cards = [...cardRefs.current];
+    const flows = cards.map(card => card.parentElement);
+    const surfaces = cards.map(card => card.querySelector('.solution-surface'));
+    const copies = cards.map(card => card.querySelector('.solution-copy'));
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+    const transitions = cards.length - 1;
+    const duration = transitions + .85;
+    let frame = 0;
+    let layoutFrame = 0;
+    let wheelFrame = 0;
+    let wheelTarget = 0;
+    let wheelTime = 0;
+    let wheelLastPosition = 0;
+    let current = 0;
+    let target = 0;
+    let previousTime = 0;
+    let metrics = { nav: 90, strip: 24, travel: 1, incoming: 1000, deckHeight: 820 };
+    let disposed = false;
 
-  return (
-    <section id="solutions" ref={sectionRef} className="why-section relative w-full bg-transparent py-4 sm:py-8">
+    const paint = phase => {
+      const closing = clamp((phase - transitions) / .5, 0, 1);
+      const visibleReserve = metrics.strip * clamp(phase, 0, transitions) * (1 - closing);
+      const heightScale = Math.max(.5, 1 - visibleReserve / metrics.deckHeight);
+      flows.forEach((flow, index) => {
+        const arrival = index === 0 ? 1 : clamp(phase - index + 1, 0, 1);
+        const y = (1 - arrival) * metrics.incoming
+          + index * metrics.strip * arrival * (1 - closing);
+        flow.style.transform = `translate3d(0, ${y.toFixed(3)}px, 0)`;
+        const scale = 1 - clamp(phase - index, 0, transitions - index) * .025;
+        surfaces[index].style.transform = `scale(${scale.toFixed(5)}, ${(scale * heightScale).toFixed(5)})`;
+        // Keep the copy's letter shapes unchanged as the card's available height changes.
+        copies[index].style.transform = `scaleY(${(1 / heightScale).toFixed(5)})`;
+      });
+    };
+    const animate = time => {
+      frame = 0;
+      if (disposed || preference.matches) return;
+      const delta = Math.min(250, previousTime ? time - previousTime : 16.67);
+      previousTime = time;
+      // Time-based damping feels the same on 60Hz and high-refresh displays.
+      current += (target - current) * (1 - Math.exp(-delta / 40));
+      if (Math.abs(target - current) < .0005) current = target;
+      paint(current);
+      if (current !== target) frame = requestAnimationFrame(animate);
+      else previousTime = 0;
+    };
+    const update = () => {
+      if (preference.matches || disposed) return;
+      if (wheelFrame && Math.abs(window.scrollY - wheelLastPosition) > 48) cancelWheel();
+      target = clamp((metrics.nav - section.getBoundingClientRect().top) / metrics.travel, 0, 1) * duration;
+      // Large scrollbar/touch jumps should catch up without a long animation tail.
+      if (Math.abs(target - current) > 1.25) current = target - Math.sign(target - current) * .3;
+      if (!frame) frame = requestAnimationFrame(animate);
+    };
+    const layout = () => {
+      layoutFrame = 0;
+      if (disposed) return;
+      if (preference.matches) {
+        flows.forEach(flow => flow.style.removeProperty('transform'));
+        surfaces.forEach(surface => surface.style.removeProperty('transform'));
+        copies.forEach(copy => copy.style.removeProperty('transform'));
+        return;
+      }
+      const height = document.documentElement.clientHeight || innerHeight;
+      const navbarBottom = document.querySelector('.site-header')?.getBoundingClientRect().bottom || 0;
+      const nav = Math.min(height * .3, Math.max(clamp(innerWidth * .07, 68, 110), navbarBottom + 12));
+      const strip = clamp(height * .028, 12, 30);
+      const travel = Math.max(240, height * .62) * transitions + Math.max(160, height * .2);
+      section.style.setProperty('--heading-top', `${nav}px`);
+      section.style.setProperty('--frame-height', `${height}px`);
+      section.style.setProperty('--stack-reserve', `${strip * transitions}px`);
+      section.style.setProperty('--stack-travel', `${travel}px`);
+      // All layout reads happen on resize, never in the animation loop.
+      metrics = {
+        nav, strip,
+        travel: section.offsetHeight - height + nav,
+        incoming: deck.clientHeight + 180,
+        deckHeight: deck.clientHeight,
+      };
+      target = clamp((nav - section.getBoundingClientRect().top) / metrics.travel, 0, 1) * duration;
+      current = target;
+      paint(current);
+    };
+    const requestLayout = () => {
+      if (!layoutFrame && !disposed) layoutFrame = requestAnimationFrame(layout);
+    };
+    const onPreferenceChange = () => {
+      cancelAnimationFrame(frame); frame = 0;
+      cancelAnimationFrame(wheelFrame); wheelFrame = 0;
+      requestLayout();
+    };
+    const smoothWheel = time => {
+      wheelFrame = 0;
+      if (disposed || preference.matches) return;
+      const elapsed = Math.min(250, wheelTime ? time - wheelTime : 16.67);
+      wheelTime = time;
+      const distance = wheelTarget - window.scrollY;
+      const next = Math.abs(distance) < 1 ? wheelTarget
+        : window.scrollY + distance * (1 - Math.exp(-elapsed / 65));
+      window.scrollTo({ top: next, behavior: 'instant' });
+      wheelLastPosition = window.scrollY;
+      if (Math.abs(wheelTarget - window.scrollY) >= 1) wheelFrame = requestAnimationFrame(smoothWheel);
+      else wheelTime = 0;
+    };
+    const onWheel = event => {
+      if (preference.matches || event.ctrlKey || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      if (event.target instanceof Element && event.target.closest('header, [role="dialog"], input, textarea, select, [data-native-scroll]')) return;
+      const rect = section.getBoundingClientRect();
+      // Leave normal page scrolling in control outside the pinned frame.
+      if (rect.top > metrics.nav + 2 || rect.bottom < innerHeight - 2) { cancelWheel(); return; }
+      const start = window.scrollY + rect.top - metrics.nav;
+      const end = start + metrics.travel;
+      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+      if (!wheelFrame) { wheelTarget = window.scrollY; wheelLastPosition = window.scrollY; }
+      wheelTarget = clamp(wheelTarget + delta, start - 80, end + 80);
+      event.preventDefault();
+      if (!wheelFrame) {
+        wheelTime = 0;
+        wheelFrame = requestAnimationFrame(smoothWheel);
+      }
+    };
+    const cancelWheel = () => { cancelAnimationFrame(wheelFrame); wheelFrame = 0; wheelTime = 0; };
+    const cancelForKey = event => {
+      if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) cancelWheel();
+    };
+    const observer = new ResizeObserver(requestLayout);
+    observer.observe(section.querySelector('.why-heading'));
+    observer.observe(deck);
+    const navbar = document.querySelector('.site-header');
+    if (navbar) observer.observe(navbar);
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('touchstart', cancelWheel, { passive: true });
+    window.addEventListener('pointerdown', cancelWheel, { passive: true });
+    window.addEventListener('keydown', cancelForKey);
+    window.addEventListener('resize', requestLayout);
+    preference.addEventListener('change', onPreferenceChange);
+    const images = [...section.querySelectorAll('img')];
+    images.forEach(image => image.addEventListener('load', requestLayout));
+    document.fonts?.ready.then(requestLayout);
+    layout();
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(frame);
+      cancelAnimationFrame(layoutFrame);
+      cancelAnimationFrame(wheelFrame);
+      observer.disconnect();
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', cancelWheel);
+      window.removeEventListener('pointerdown', cancelWheel);
+      window.removeEventListener('keydown', cancelForKey);
+      window.removeEventListener('resize', requestLayout);
+      preference.removeEventListener('change', onPreferenceChange);
+      images.forEach(image => image.removeEventListener('load', requestLayout));
+      flows.forEach(flow => flow.style.removeProperty('transform'));
+      surfaces.forEach(surface => surface.style.removeProperty('transform'));
+      copies.forEach(copy => copy.style.removeProperty('transform'));
+    };
+  }, [cards.length]);  return (
+    <section id="solutions" ref={sectionRef} className={`why-section ${styles.section}`}>
       <div className="why-rail w-full max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8">
         <div className={styles.stage}>
         
-        {/* Section Heading (Appears normally above cards stack) */}
+        {/* The heading leaves together with the sticky card frame. */}
         <div className="why-heading relative z-10 pt-2 pb-4 mb-6 text-center max-w-5xl mx-auto flex flex-col items-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[46px] xl:text-[52px] font-black text-[#222225] tracking-tight whitespace-nowrap">
             Why Leading Brands Choose LeadsGarage
@@ -155,10 +229,10 @@ export default function WhyChooseUs() {
           </p>
         </div>
 
-        {/* GSAP ScrollTrigger Pinned Stacking Cards Stage */}
+        {/* Native sticky frame with transform-only card transitions. */}
         <div 
           ref={cardsWrapperRef} 
-          className={`cards-stage ${styles.stack} w-full relative min-h-[520px] sm:min-h-[660px] md:min-h-[720px] flex justify-center items-start my-4`}
+          className={`cards-stage ${styles.stack}`}
         >
           {cards.map((card, idx) => (
             <div key={card.id} className={styles.flow} style={{ '--stack-index': idx }}>
@@ -172,7 +246,10 @@ export default function WhyChooseUs() {
                   <img
                     src={card.image}
                     alt={card.title}
-                    className="w-full h-auto object-contain block transform scale-[1.01] origin-top-left transition-transform duration-500 group-hover:scale-[1.025] select-none"
+                    decoding="async"
+                    width="1540"
+                    height="644"
+                    className="w-full h-auto object-contain block select-none"
                   />
                 </div>
                 <div className="solution-copy">

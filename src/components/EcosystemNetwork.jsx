@@ -1,74 +1,12 @@
 import { publicAsset } from '../utils/publicAsset';
-import React, { useLayoutEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { scatterBubbles } from '../utils/networkBubbles';
+import React from 'react';
+
+
 
 import { ChartNoAxesColumn, Users } from 'lucide-react';
 
 export default function EcosystemNetwork() {
-  const sectionRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    const canvas = section.querySelector('.network-bubble-layer');
-    const text = section.querySelector('.text-center');
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let context;
-    let previousSize = '';
-    let visible = false;
-    let loops = [];
-    const updatePlayback = () => loops.forEach(loop => loop.paused(!visible || document.hidden));
-    const layout = () => {
-      const width = canvas.clientWidth;
-      const height = canvas.clientHeight;
-      const size = `${width}:${height}:${text.offsetWidth}:${motionPreference.matches}`;
-      if (!width || !height || size === previousSize) return;
-      previousSize = size;
-      context?.revert();
-      loops = [];
-      context = gsap.context(() => {
-        const bubbles = [...canvas.querySelectorAll('[data-network-bubble]')];
-        const positions = scatterBubbles(width, height, text.offsetWidth, bubbles.length);
-        bubbles.forEach((bubble, index) => {
-          if (!positions[index]) {
-            gsap.set(bubble, { display: 'none' });
-            return;
-          }
-          const { left, diameter, phase, travel, maxSize, blur } = positions[index];
-          gsap.set(bubble, { display: bubble.matches('.network-chart, .network-people') ? 'grid' : 'block', top: 0, left, width: diameter, height: diameter, x: 0, filter: `blur(${blur}px)` });
-          gsap.set(bubble, { opacity: .85 });
-          if (motionPreference.matches) {
-            gsap.set(bubble, { y: height + maxSize - travel * phase });
-            return;
-          }
-          // Scattered starting positions share one vertical speed, preserving their spacing.
-          const loop = gsap.timeline({ repeat: -1 });
-          loop.fromTo(bubble, { y: height + maxSize }, { y: -maxSize, duration: 22, ease: 'none' }, 0);
-          loop.progress(phase);
-          loops.push(loop);
-        });
-      }, section);
-      updatePlayback();
-    };
-    layout();
-    const observer = new ResizeObserver(layout);
-    observer.observe(canvas);
-    observer.observe(text);
-    const visibilityObserver = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      updatePlayback();
-    }, { rootMargin: '200px' });
-    visibilityObserver.observe(section);
-    document.addEventListener('visibilitychange', updatePlayback);
-    motionPreference.addEventListener('change', layout);
-    return () => {
-      observer.disconnect();
-      visibilityObserver.disconnect();
-      document.removeEventListener('visibilitychange', updatePlayback);
-      motionPreference.removeEventListener('change', layout);
-      context?.revert();
-    };
-  }, []);
+  const positions = [[22,16],[41,15],[63,10],[84,21],[15,34],[34,41],[70,37],[85,44],[11,56],[85,68],[15,84],[44,85],[64,75],[75,89]];
   const nodes = [
     // Top Row
     { src: publicAsset("/image/Home/section6/Group 40067.png"), pos: 'top-[8%] left-[16%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 0 },
@@ -94,7 +32,7 @@ export default function EcosystemNetwork() {
   ];
 
   return (
-    <section ref={sectionRef} id="network" className="py-20 lg:py-28 bg-[#FDFBF7] relative w-full" style={{ overflow: 'clip' }}>
+    <section id="network" className="py-20 lg:py-28 bg-[#FDFBF7] relative w-full" style={{ overflow: 'clip' }}>
       
       {/* Subtle Background Overlay Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-30 mix-blend-multiply">
@@ -113,12 +51,12 @@ export default function EcosystemNetwork() {
           <div className="network-bubble-layer">
           <div data-network-bubble className="network-chart"><ChartNoAxesColumn aria-hidden="true" /></div><div data-network-bubble className="network-people"><Users aria-hidden="true" /></div>
           {/* Floating Nodes */}
-          {[...nodes, ...nodes, ...nodes].map((node, idx) => (
+          {nodes.map((node, idx) => (
             <div
               key={idx}
               data-network-bubble
               className="network-bubble"
-              style={{ left: `${2 + ((idx * .618034) % 1) * 90}%`, width: `clamp(24px, ${[5, 7, 4, 6, 8][idx % 5]}vw, ${[65, 85, 50, 75, 95][idx % 5]}px)`, top: `${((idx * .381966) % 1) * 90}%` }}
+              style={{ left: `${6 + (positions[idx][0] - 11) / 74 * 88}%`, top: `${positions[idx][1]}%`, width: 'clamp(28px, 8vw, 90px)' }}
             >
               <img
                 src={node.src}
@@ -135,7 +73,7 @@ export default function EcosystemNetwork() {
           </div>
           {/* Center Main Text Content matching Reference 1:1 */}
           <div className="text-center max-w-lg mx-auto relative z-30 space-y-4 px-4"
-            style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }}>
+            style={{ position: 'absolute', top: '55%', transform: 'translateY(-50%)' }}>
             <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-black tracking-widest uppercase border border-emerald-200 shadow-sm">
               GROW WITH US
             </span>
@@ -154,4 +92,5 @@ export default function EcosystemNetwork() {
     </section>
   );
 }
+
 

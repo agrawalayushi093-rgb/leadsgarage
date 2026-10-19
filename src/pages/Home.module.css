@@ -1,37 +1,83 @@
 .backgroundMerge :global(#showcase) img {
-  /* Retain the existing bottom fade; reveal the sky gradually from cream. */
-  mask-image: linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(0, 0, 0, .15) 18%, rgba(0, 0, 0, .55) 27%, #000 38%, #000 82%, transparent 100%);
+ mask-image: linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(0,0,0,.15) 18%, rgba(0,0,0,.55) 27%, #000 38%, #000 82%, transparent 100%);
 }
-
-/* Reduce only the breathing space below the team content. */
 .backgroundMerge :global(#team) {
-  padding-bottom: clamp(24px, 2vw, 38px);
+ isolation: isolate; background: white;
+ padding-top: clamp(48px,6vw,96px); padding-bottom: 64px;
 }
-@media (max-width: 1023px) {
-  .backgroundMerge :global(#team) { padding-bottom: 28px; }
+.backgroundMerge :global(#team)::before {
+ content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+ background-image: url('/image/Home/Rectangle 2395.png'),url('/image/Home/Rectangle 2396.png');
+ background-repeat: no-repeat; background-position: left bottom,right bottom; background-size: 51% 88%,51% 88%;
 }
-
-/* The artwork includes empty sky above its cards: overlap that decorative area. */
+.backgroundMerge :global(#team) > div:last-child { z-index: 20; }
 .backgroundMerge :global(.closing-section) {
-  position: relative;
-  margin-top: calc(-200 * var(--figma-unit));
-  background: linear-gradient(to bottom, transparent 0, #faf7ef clamp(200px, 20vw, 380px));
+ position: relative; margin-top: calc(-200 * var(--figma-unit));
+ background: linear-gradient(to bottom,transparent 0,#faf7ef clamp(200px,20vw,380px));
 }
-.backgroundMerge :global(#team) > div:last-child {
-  z-index: 20;
-}
-
-/* Overlap and merge boundary between Quality Control ("Why We Deliver Better Results") and Audience Segments ("Where Do you fit into this picture?") */
-.backgroundMerge :global(#audience) {
-  margin-top: calc(-70 * var(--figma-unit, 1px));
-  position: relative;
-  z-index: 10;
+@media (max-width: 767px) {
+ .backgroundMerge :global(#team)::before { background-size:65% 65%,65% 65%; }
 }
 
-@media (max-width: 1023px) {
-  .backgroundMerge :global(#audience) {
-    margin-top: -40px;
-  }
+/* Keep the bubble section between services and the results stack, as in Figma. */
+.backgroundMerge :global(#network) {
+ padding-top:clamp(56px,6vw,112px);
+ background:linear-gradient(to bottom,#fdfbf7 0%,#fff 24%,#fff 70%,#fdfbf7 100%);
+}
+.backgroundMerge :global(#team)::before { background-size:50% 88%,50% 88%; }
+.backgroundMerge :global(#team)::before {
+ background-image:url('/image/Home/Rectangle 2394.png'),url('/image/Home/Rectangle 2397.png'),url('/image/Home/Rectangle 2395.png'),url('/image/Home/Rectangle 2396.png');
+ background-position:left bottom,right bottom,left bottom,right bottom;
+ background-size:50% 132%,50% 132%,50% 100%,50% 100%;
 }
 
 
+
+
+
+/* Static growth composition matching the reference, with a shorter canvas. */
+.backgroundMerge :global(#network) { padding-top:clamp(32px,4vw,64px); }
+.backgroundMerge :global(#network) > div:last-child { max-width:1100px; }
+.backgroundMerge :global(#network) :global(.network-canvas) {
+ height:clamp(400px,52vw,720px); min-height:0;
+}
+.backgroundMerge :global(#network) :global(.network-bubble-layer) {
+ overflow:visible; mask-image:none; -webkit-mask-image:none;
+}
+.backgroundMerge :global(#network) :global([data-network-bubble]) {
+ transform:translate(-50%,-50%); filter:none; will-change:auto;
+}
+.backgroundMerge :global(#network) :global(.network-bubble) { opacity:.8; }
+.backgroundMerge :global(#network) :global(.network-bubble-layer .network-chart) {
+ left:54%; top:30%; width:clamp(30px,8vw,94px);
+}
+.backgroundMerge :global(#network) :global(.network-bubble-layer .network-people) {
+ left:28%; top:64%; width:clamp(30px,8vw,94px);
+}
+.backgroundMerge :global(#network) :global(.text-center) { top:55%; }
+.backgroundMerge :global(#network) h2 { font-size:clamp(18px,2.8vw,34px); }
+.backgroundMerge :global(#network) :global(.text-center span) { font-size:clamp(7px,.8vw,10px); padding:4px 12px; }
+.backgroundMerge :global(#network) > div:last-child > div:global(.network-canvas):first-child {
+ height:clamp(400px,52vw,720px); min-height:0;
+}
+
+/* Match the growth field to the services card edges. */
+.backgroundMerge :global(#network) > div:last-child {
+ width:min(calc(100% - 40px),calc(1540 * var(--figma-unit)));
+ max-width:1540px; padding-inline:0;
+}
+@media (max-width:1023px) {
+ .backgroundMerge :global(#network) > div:last-child { width:calc(100% - 40px); }
+}
+.backgroundMerge :global(#network) :global(.network-bubble-layer .network-chart) { left:57%; }
+.backgroundMerge :global(#network) :global(.network-bubble-layer .network-people) { left:26%; }
+
+
+/* The same pale-blue curve palette continues behind leadership. */
+.backgroundMerge :global(#team)::before {
+ background-image:
+ linear-gradient(to bottom,transparent 62%,white 100%),
+ radial-gradient(ellipse 52% 90% at 50% 0%,white 99.7%,transparent 100%),
+ radial-gradient(ellipse 58% 106% at 50% 0%,#eff5ff 99.7%,#c8dcfa 100%);
+ background-size:100% 100%; background-position:center;
+}

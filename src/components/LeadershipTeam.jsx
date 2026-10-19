@@ -1,6 +1,7 @@
 import { publicAsset } from '../utils/publicAsset';
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import styles from './LeadershipTeam.module.css';
 
 export default function LeadershipTeam() {
   const [hoveredLeader, setHoveredLeader] = useState(null);
@@ -30,12 +31,12 @@ export default function LeadershipTeam() {
   ];
 
   return (
-    <section id="team" className="py-16 sm:py-20 lg:py-24 bg-[#FDFBF7] relative overflow-hidden w-full">
+    <section id="team" className={`${styles.section} relative overflow-hidden w-full`}>
       
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className={`${styles.rail} mx-auto relative z-10`}>
         
         {/* Section Header */}
-        <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
+        <div className={`${styles.heading} text-center mx-auto`}>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
             The Faces Behind Our Success
           </h2>
@@ -45,11 +46,11 @@ export default function LeadershipTeam() {
         </div>
 
         {/* 2 Leadership Cards — White card & details appear strictly on hover for both leaders */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12 max-w-3xl mx-auto items-start">
+        <div className={`${styles.cards} mx-auto`}>
           {leaders.map((leader, idx) => (
             <motion.div
               key={leader.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 0 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.15 }}
@@ -59,10 +60,10 @@ export default function LeadershipTeam() {
               onFocus={() => { if (window.matchMedia('(hover: hover)').matches) setHoveredLeader(leader.name); }}
               onClick={(event) => { if (event.target.closest('a')) return; if (!window.matchMedia('(hover: hover)').matches) setHoveredLeader(hoveredLeader === leader.name ? null : leader.name); }}
               onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHoveredLeader(null); }}
-              className="leader-card group relative rounded-[2.5rem] p-5 sm:p-6 text-center transition-all duration-300 bg-transparent border border-transparent shadow-none hover:bg-white hover:border-slate-100 hover:shadow-[0_20px_50px_rgba(0,0,0,0.12)] hover:scale-[1.02] cursor-pointer"
+              data-active={hoveredLeader === leader.name} className={`leader-card ${styles.card}`}
             >
               {/* Photo Container */}
-              <div className="portrait-container relative mb-5">
+              <div className={`portrait-container ${styles.portrait}`}>
                 <img
                   src={hoveredLeader === leader.name ? leader.hoverImage : leader.image}
                   alt={leader.name}
@@ -118,3 +119,4 @@ export default function LeadershipTeam() {
     </section>
   );
 }
+

@@ -25,10 +25,10 @@ export default function Home() {
       <main>
         <Hero enabled={introComplete} />
         <ServicesShowcase />
+        <EcosystemNetwork />
         <WhyChooseUs />
         <QualityControl />
         <AudienceSegments />
-        <EcosystemNetwork />
         <LeadershipTeam />
       </main>
 

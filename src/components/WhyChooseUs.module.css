@@ -1,34 +1,98 @@
-.stage { width: 100%; }
-.stack.stack {
-  position: relative;
-  width: 100%;
-  display: block;
-  min-height: 0;
-  padding-bottom: calc(32px + var(--exit-space, 0px)) !important;
+:global(#solutions).section {
+ position: relative; padding: 0; margin-top: clamp(72px, 6vw, 112px);
+ height: calc(100svh + var(--stack-travel, 2600px));
 }
-.item {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: calc(10 + var(--stack-index));
-  will-change: transform;
+:global(#solutions).section > :global(.why-rail) {
+ width: min(calc(100% - 40px), calc(1540 * var(--figma-unit)));
+ max-width: 1540px; height: 100%; padding: 0;
+}
+.stage {
+ position: sticky; top: var(--heading-top, 90px);
+ height: calc(var(--frame-height, 100svh) - var(--heading-top, 90px) - 14px);
+ width: 100%; display: flex; flex-direction: column; padding-top: 6px;
+}
+:global(#solutions) .stage :global(.why-heading) {
+ position: relative; top: auto; z-index: 30; flex-shrink: 0;
+ margin: 0 0 8px; padding: 0 0 6px; max-width: none;
+ background: #fdfbf7;
+}
+:global(#solutions) .stage :global(.why-heading) h2 {
+ font-size: clamp(22px, 2.6vw, 44px); line-height: 1.15; white-space: normal;
+}
+:global(#solutions) .stage :global(.why-heading) p {
+ font-size: clamp(11px, 1.2vw, 18px); line-height: 1.4; margin-top: 8px;
+}
+:global(#solutions) .stack.stack {
+ position: relative; flex: 1; min-height: 0; width: 100%;
+ padding: 0; margin: 0; overflow: visible;
+ clip-path: inset(0 -90px -70px -90px);
 }
 .flow {
-  position: relative;
-  padding-bottom: clamp(48px, 6vw, 96px);
-  margin-top: 0 !important;
-  z-index: calc(10 + var(--stack-index));
+ position: absolute; inset: 0; z-index: calc(10 + var(--stack-index));
+ display: flex; justify-content: center; margin: 0 !important; padding: 0;
+ transform: translate3d(0, calc(100% + 180px), 0); will-change: transform;
 }
-.flow:last-child { padding-bottom: 0; }
-.stack :global(.pin-spacer) {
-  background: transparent !important;
-  z-index: calc(10 + var(--stack-index));
+.flow:first-child { transform: translate3d(0, 0, 0); }
+.item {
+ position: relative; top: auto; width: 100%;
+ height: 100%;
+ display: flex; justify-content: center; align-items: flex-start;
+}
+:global(#solutions) .item :global(.solution-surface) {
+ width: 100%; height: 100%; max-height: none; flex-shrink: 0;
+ overflow: visible; border-radius: 0; container-type: inline-size;
+ transform-origin: center top; will-change: transform;
+}
+:global(#solutions) .item :global(.solution-art) {
+ display: block; width: 100%; height: 100%; overflow: visible; border-radius: 0;
+}
+/* Coloured artwork ends at x=1471/y=583; the remainder is the supplied soft shadow. */
+:global(#solutions) .item :global(.solution-art) img {
+ width: 104.6907%; max-width: none; height: 110.4631%;
+ object-fit: fill; margin: 0; transform: none; transition: none;
+}
+:global(#solutions) .item :global(.solution-copy) {
+ position: absolute; top: 30%; left: 9%; width: 38%; padding: 0; z-index: 2;
+ transform-origin: left top;
+}
+:global(#solutions) .item :global(.solution-copy) h3 { font-size: clamp(18px, 3.4cqw, 52px); line-height: 1.2; }
+:global(#solutions) .item :global(.solution-copy) p { font-size: clamp(11px, 1.6cqw, 25px); line-height: 1.45; margin-top: 1.4cqw; }
+:global(#solutions) .item:global(.card-5) :global(.solution-copy) { width: 43%; }
+@media (max-width: 1023px) {
+ :global(#solutions).section > :global(.why-rail) { width: calc(100% - 40px); }
 }
 @media (max-width: 639px) {
-  .item { top: 0; }
-  .stack.stack { padding-bottom: calc(24px + var(--exit-space, 0px)) !important; }
+ .stage { height: calc(var(--frame-height, 100svh) - var(--heading-top, 70px) - 12px); }
+ :global(#solutions) .stack.stack { overflow: hidden; clip-path: none; border-radius: 20px; }
+ :global(#solutions) .item :global(.solution-surface) { flex-direction: column-reverse; overflow: hidden; border-radius: 20px; }
+ :global(#solutions) .item :global(.solution-copy),
+ :global(#solutions) .item:global(.card-5) :global(.solution-copy) { position: static; width: 100%; flex-shrink: 0; padding: 16px 20px 12px; }
+ :global(#solutions) .item :global(.solution-copy) h3 { font-size: clamp(18px, 6cqw, 26px); }
+ :global(#solutions) .item :global(.solution-copy) p { font-size: 12px; line-height: 1.4; margin-top: 8px; }
+ :global(#solutions) .item :global(.solution-art) { flex: 1; min-height: 0; overflow: hidden; aspect-ratio: auto; }
+ :global(#solutions) .item :global(.solution-art) img { width: 190%; max-width: none; height: 100%; margin-left: -88%; object-fit: cover; object-position: right center; }
+}
+@media (max-height: 500px) {
+ .stage { height: calc(var(--frame-height, 100svh) - var(--heading-top, 70px) - 16px); }
+ :global(#solutions) .stage :global(.why-heading) { margin-bottom: 8px; padding: 0; }
+ :global(#solutions) .stage :global(.why-heading) h2 { font-size: 20px; }
+ :global(#solutions) .stage :global(.why-heading) p { font-size: 10px; margin-top: 4px; }
+ :global(#solutions) .item :global(.solution-copy) { top: 20%; }
+ :global(#solutions) .item :global(.solution-copy) h3 { font-size: clamp(16px, 2.8vw, 24px); }
+ :global(#solutions) .item :global(.solution-copy) p { font-size: 11px; line-height: 1.3; margin-top: 6px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .item { position: relative; top: auto; will-change: auto; }
+ :global(#solutions).section { height: auto; }
+ :global(#solutions).section > :global(.why-rail) { height: auto; }
+ .stage { position: relative; top: auto; height: auto; }
+ :global(#solutions) .stack.stack { overflow: visible; clip-path: none; }
+ .flow { position: relative; transform: none; margin-bottom: 24px !important; will-change: auto; }
+ .item { height: auto; }
+ :global(#solutions) .item :global(.solution-surface) { height: auto; aspect-ratio: 2.28; will-change: auto; }
+ :global(#solutions) .item :global(.solution-art) img { height: auto; }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 639px) {
+ :global(#solutions) .item :global(.solution-surface) { aspect-ratio: auto; }
+ :global(#solutions) .item :global(.solution-art) { height: 220px; flex: none; }
+ :global(#solutions) .item :global(.solution-art) img { height: 100%; }
 }

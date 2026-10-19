@@ -348,8 +348,6 @@ body.overflow-x-hidden { overflow-x: clip; }
 }
 
 
-#team .leader-card > .leader-details { max-height: 0 !important; opacity: 0; margin-top: 0 !important; visibility: hidden; }
-#team .leader-card > .leader-details[data-expanded="true"] { max-height: 180px !important; opacity: 1; margin-top: 16px !important; visibility: visible; }
 
 /* Keep the growth canvas compact and within the available viewport. */
 #network { --network-nav-space: clamp(100px, 8vw, 150px); padding: 0; }
