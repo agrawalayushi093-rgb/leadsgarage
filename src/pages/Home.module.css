@@ -132,3 +132,6 @@
 @media(max-width:639px) {
  .backgroundMerge .footerWrap:global(.closing-section) { width:calc(100% - 24px); border-radius:32px; padding:0 10px 10px; }
 }
+
+/* Growth now follows the white audience section and leads into leadership. */
+.backgroundMerge :global(#audience) + :global(#network) { background:white; }

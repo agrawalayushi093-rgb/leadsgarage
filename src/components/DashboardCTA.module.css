@@ -30,3 +30,20 @@
 }
 @media(prefers-reduced-motion:reduce) { .connect { transition:none; } }
 
+
+@keyframes footerIconFloat {
+ 0%,100% { transform:translate3d(0,0,0) rotate(-2deg); }
+ 50% { transform:translate3d(0,-14px,0) rotate(2deg); }
+}
+@media(prefers-reduced-motion:no-preference) {
+ :global(#showcase).hero .icon { animation:footerIconFloat 5s ease-in-out infinite; }
+ :global(#showcase).hero .mail { animation-duration:5.6s; animation-delay:-2s; }
+ :global(#showcase).hero .plane { animation-duration:4.8s; animation-delay:-1s; }
+ :global(#showcase).hero .bell { animation-duration:5.3s; animation-delay:-3s; }
+}
+
+:global(#showcase).hero .artwork { aspect-ratio:auto; }
+:global(#showcase).hero .artwork .dashboardImage {
+ display:block; position:relative; width:100%; max-width:100%; height:auto;
+ margin:0; object-fit:contain;
+}
