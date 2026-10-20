@@ -18,8 +18,6 @@ const backgroundStops = ['#e2f4ff', '#0089e8', '#1b42b9', '#7643db', '#009b7d', 
 export default function ServicesShowcase() {
   const trackRef = useRef(null);
   const menuRef = useRef(null);
-  const scrollFrame = useRef(0);
-  const animationTarget = useRef(null);
   const reducedMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
   useEffect(() => {
@@ -44,39 +42,10 @@ export default function ServicesShowcase() {
     const top = window.scrollY + track.getBoundingClientRect().top;
     const distance = track.offsetHeight - window.innerHeight;
     const destination = top + distance * ((index + 0.8) / 6);
-    cancelAnimationFrame(scrollFrame.current);
-    animationTarget.current = index;
-    if (reducedMotion) {
-      window.scrollTo({ top: destination, behavior: 'instant' });
-      animationTarget.current = null;
-      return;
-    }
-    const start = window.scrollY;
-    const started = performance.now();
-    const animate = now => {
-      const progress = Math.min(1, (now - started) / 460);
-      const eased = progress * progress * (3 - 2 * progress);
-      window.scrollTo({ top: start + (destination - start) * eased, behavior: 'instant' });
-      if (progress < 1) scrollFrame.current = requestAnimationFrame(animate);
-      else animationTarget.current = null;
-    };
-    scrollFrame.current = requestAnimationFrame(animate);
-  }, [reducedMotion]);
-
-  useEffect(() => {
-    // Manual scrolling stays continuous; only menu clicks animate the page position.
-    const interrupt = () => {
-      cancelAnimationFrame(scrollFrame.current);
-      animationTarget.current = null;
-    };
-    window.addEventListener('wheel', interrupt, { passive: true });
-    window.addEventListener('touchstart', interrupt, { passive: true });
-    return () => {
-      interrupt();
-      window.removeEventListener('wheel', interrupt);
-      window.removeEventListener('touchstart', interrupt);
-    };
+    // Share the page animator instead of running a second scroll loop.
+    window.dispatchEvent(new CustomEvent('page-scroll-to', {detail:{top:destination}}));
   }, []);
+
   return (
     <section id="services" ref={trackRef} className={styles.section} aria-labelledby="services-heading">
       <div className={styles.frame}>

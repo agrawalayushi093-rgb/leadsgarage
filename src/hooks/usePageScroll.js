@@ -5,13 +5,13 @@ export default function usePageScroll() {
  useEffect(() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
-  let frame = 0, target = scrollY, position = scrollY, lastPosition = scrollY, previousTime = 0, damping = 75;
+  let frame = 0, target = scrollY, position = scrollY, lastPosition = scrollY, previousTime = 0, damping = 95;
   const cancel = () => { cancelAnimationFrame(frame); frame = 0; previousTime = 0; };
   const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - innerHeight);
   const clamp = value => Math.max(0, Math.min(maxScroll(), value));
   const animate = time => {
    frame = 0;
-   const elapsed = Math.min(1000, previousTime ? time - previousTime : 16.67);
+   const elapsed = Math.min(40, previousTime ? time - previousTime : 16.67);
    previousTime = time;
    target = clamp(target);
    const difference = target - position;
@@ -32,12 +32,19 @@ export default function usePageScroll() {
    return false;
   };
   const wheel = event => {
-   if (event.defaultPrevented || event.ctrlKey || event.metaKey || reduced.matches || !fine.matches || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+   if (event.defaultPrevented) return;
+   if (event.ctrlKey || event.metaKey || reduced.matches || !fine.matches || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+   if (getComputedStyle(document.body).overflow === 'hidden' || getComputedStyle(document.documentElement).overflow === 'hidden') { cancel(); return; }
    if (hasNativePanel(event.target, event.deltaY)) { cancel(); return; }
-   damping = 75;
+   damping = 95;
    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
    if (!frame) { target = scrollY; position = scrollY; lastPosition = scrollY; }
-   const destination = clamp(target + delta);
+   // Bound the unconsumed wheel distance, so momentum cannot queue whole sections.
+   const direction = Math.sign(delta);
+   if (Math.sign(target - position) !== direction) target = position;
+   const step = Math.sign(delta) * Math.min(Math.abs(delta), 160);
+   const pendingLimit = Math.min(240, innerHeight * .3);
+   const destination = clamp(Math.max(position - pendingLimit, Math.min(position + pendingLimit, target + step)));
    if (destination === target && !frame) return;
    target = destination;
    event.preventDefault();
