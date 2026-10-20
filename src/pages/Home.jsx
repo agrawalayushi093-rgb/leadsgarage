@@ -34,9 +34,11 @@ export default function Home() {
         <LeadershipTeam />
       </main>
 
+      <div className={styles.footerTransition}>
       <div className={`closing-section ${styles.footerWrap}`}>
         <DashboardCTA />
         <Footer />
+      </div>
       </div>
     </div>
   );

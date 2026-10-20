@@ -5,20 +5,20 @@ export default function usePageScroll() {
  useEffect(() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
-  let frame = 0, target = scrollY, lastPosition = scrollY, previousTime = 0, damping = 75;
+  let frame = 0, target = scrollY, position = scrollY, lastPosition = scrollY, previousTime = 0, damping = 75;
   const cancel = () => { cancelAnimationFrame(frame); frame = 0; previousTime = 0; };
   const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - innerHeight);
   const clamp = value => Math.max(0, Math.min(maxScroll(), value));
   const animate = time => {
    frame = 0;
-   const elapsed = Math.min(100, previousTime ? time - previousTime : 16.67);
+   const elapsed = Math.min(1000, previousTime ? time - previousTime : 16.67);
    previousTime = time;
    target = clamp(target);
-   const difference = target - scrollY;
-   const next = Math.abs(difference) < .5 ? target : scrollY + difference * (1 - Math.exp(-elapsed / damping));
-   scrollTo({ top:next, behavior:'instant' });
+   const difference = target - position;
+   position = Math.abs(difference) < .5 ? target : position + difference * (1 - Math.exp(-elapsed / damping));
+   scrollTo({ top:position, behavior:'instant' });
    lastPosition = scrollY;
-   if (Math.abs(target - scrollY) > .5) frame = requestAnimationFrame(animate);
+   if (position !== target) frame = requestAnimationFrame(animate);
    else previousTime = 0;
   };
   const hasNativePanel = (element, delta) => {
@@ -36,7 +36,7 @@ export default function usePageScroll() {
    if (hasNativePanel(event.target, event.deltaY)) { cancel(); return; }
    damping = 75;
    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-   if (!frame) { target = scrollY; lastPosition = scrollY; }
+   if (!frame) { target = scrollY; position = scrollY; lastPosition = scrollY; }
    const destination = clamp(target + delta);
    if (destination === target && !frame) return;
    target = destination;
@@ -45,7 +45,7 @@ export default function usePageScroll() {
   };
   const goTo = event => {
    if (!Number.isFinite(event.detail?.top)) return;
-   cancel(); target = clamp(event.detail.top); lastPosition = scrollY; damping = 110;
+   cancel(); target = clamp(event.detail.top); position = scrollY; lastPosition = scrollY; damping = 110;
    if (reduced.matches) scrollTo({top:target,behavior:'instant'});
    else frame = requestAnimationFrame(animate);
   };

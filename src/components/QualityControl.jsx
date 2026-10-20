@@ -23,7 +23,7 @@ export default function QualityControl() {
     const element = section.current;
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0, top = 100, distance = 1;
-    let gestureUsed = false, gestureTimer;
+    let gestureUsed = false, gestureTimer, gestureDirection = 0, lastStep = 0;
     const update = () => {
       frame = 0;
       if (preference.matches || manualSelection.current !== null) return;
@@ -45,19 +45,13 @@ export default function QualityControl() {
       distance = Math.max(1, element.offsetHeight - height + top);
       scroll();
     };
-    const releaseManual = () => { manualSelection.current = null; };
-    const wheel = event => {
-      if (preference.matches || !matchMedia('(hover: hover) and (pointer: fine)').matches || event.ctrlKey || event.metaKey || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      if (event.target instanceof Element && event.target.closest('.site-header,[role="dialog"],input,textarea,select,[data-native-scroll]')) return;
-      const rect = element.getBoundingClientRect();
-      if (rect.top > top + 2 || rect.bottom < innerHeight - 2) { releaseManual(); return; }
-      event.preventDefault();
-      clearTimeout(gestureTimer);
-      gestureTimer = setTimeout(() => { gestureUsed = false; }, 140);
-      if (gestureUsed) return;
-      gestureUsed = true;
-      const next = activeRef.current + Math.sign(event.deltaY);
-      const start = scrollY + rect.top - top;
+    const releaseManual = () => {
+      manualSelection.current = null;
+    };
+    const move = direction => {
+      lastStep = performance.now();
+      const next = activeRef.current + direction;
+      const start = scrollY + element.getBoundingClientRect().top - top;
       let destination;
       if (next < 0 || next >= slides.length) {
         releaseManual();
@@ -70,13 +64,40 @@ export default function QualityControl() {
       }
       window.dispatchEvent(new CustomEvent('page-scroll-to',{detail:{top:destination}}));
     };
+    const wheel = event => {
+      if (preference.matches || !matchMedia('(hover: hover) and (pointer: fine)').matches || event.ctrlKey || event.metaKey || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      if (event.target instanceof Element && event.target.closest('.site-header,[role="dialog"],input,textarea,select,[data-native-scroll]')) return;
+      const rect = element.getBoundingClientRect();
+      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+      const direction = Math.sign(delta);
+      const enteringDown = rect.top > top + 2 && direction > 0 && rect.top - delta <= top + 2;
+      const enteringUp = rect.bottom < innerHeight - 2 && direction < 0 && rect.bottom - delta >= innerHeight - 2;
+      if (!enteringDown && !enteringUp && (rect.top > top + 2 || rect.bottom < innerHeight - 2)) { releaseManual(); return; }
+      event.preventDefault();
+      clearTimeout(gestureTimer);
+      gestureTimer = setTimeout(() => { gestureUsed = false; }, 240);
+      if (gestureUsed && gestureDirection === direction) return;
+      if (gestureDirection && gestureDirection !== direction) lastStep = 0;
+      gestureUsed = true;
+      gestureDirection = direction;
+      if (enteringDown || enteringUp) {
+          const index = enteringDown ? 0 : slides.length - 1;
+        manualSelection.current = index; activeRef.current = index; setActive(index);
+        lastStep = performance.now();
+        const start = scrollY + rect.top - top;
+        window.dispatchEvent(new CustomEvent('page-scroll-to',{detail:{top:start + distance * (index + .5) / slides.length}}));
+        return;
+      }
+      // Ignore momentum during transitions instead of replaying queued steps.
+      if (performance.now() - lastStep >= 700) move(direction);
+    };
     const keyboard = event => { if (['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) releaseManual(); };
     const observer = new ResizeObserver(layout);
     observer.observe(viewport.current);
     const nav = document.querySelector('.site-header nav');
     if (nav) observer.observe(nav);
     window.addEventListener('scroll', scroll, { passive:true });
-    window.addEventListener('wheel', wheel, { passive:false });
+    window.addEventListener('wheel', wheel, { passive:false, capture:true });
     window.addEventListener('resize', layout);
     window.addEventListener('pointerdown', releaseManual, { passive:true });
     window.addEventListener('touchstart', releaseManual, { passive:true });
@@ -86,7 +107,7 @@ export default function QualityControl() {
     return () => {
       cancelAnimationFrame(frame); clearTimeout(gestureTimer); observer.disconnect();
       window.removeEventListener('scroll', scroll);
-      window.removeEventListener('wheel', wheel);
+      window.removeEventListener('wheel', wheel, true);
       window.removeEventListener('resize', layout);
       window.removeEventListener('pointerdown', releaseManual);
       window.removeEventListener('touchstart', releaseManual);
@@ -98,6 +119,7 @@ export default function QualityControl() {
     let frame = 0;
     let started = 0;
     let previous = 0;
+    let position = null;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const align = time => {
       frame = 0;
@@ -105,16 +127,18 @@ export default function QualityControl() {
       const card = cards.current[active];
       if (!view || !card) return;
       if (!started) started = time;
+      if (position === null) position = view.scrollLeft;
       const offset = view.clientWidth < 640 ? (view.clientWidth - card.offsetWidth) / 2 : view.clientWidth * .18;
       const target = Math.max(0, Math.min(view.scrollWidth - view.clientWidth, card.offsetLeft - offset));
       const elapsed = Math.min(250, previous ? time - previous : 16.67);
       previous = time;
-      const difference = target - view.scrollLeft;
-      view.scrollTo({left: reduced || Math.abs(difference) < .5 ? target : view.scrollLeft + difference * (1 - Math.exp(-elapsed / 70)), behavior:'instant'});
+      const difference = target - position;
+      position = reduced || Math.abs(difference) < .5 ? target : position + difference * (1 - Math.exp(-elapsed / 70));
+      view.scrollTo({left:position, behavior:'instant'});
       // Follow the card's changing width throughout its expansion, then settle.
-      if (!reduced && (time - started < 650 || Math.abs(target - view.scrollLeft) > 1)) frame = requestAnimationFrame(align);
+      if (!reduced && (time - started < 650 || position !== target)) frame = requestAnimationFrame(align);
     };
-    const restart = () => { cancelAnimationFrame(frame); started = 0; previous = 0; frame = requestAnimationFrame(align); };
+    const restart = () => { cancelAnimationFrame(frame); started = 0; previous = 0; position = null; frame = requestAnimationFrame(align); };
     restart();
     const observer = new ResizeObserver(restart);
     observer.observe(viewport.current);
@@ -130,7 +154,7 @@ export default function QualityControl() {
     const start = scrollY + element.getBoundingClientRect().top - top;
     const distance = element.offsetHeight - innerHeight + top;
     const progress = (next + .5) / slides.length;
-    window.scrollTo({top: start + distance * progress, behavior:'smooth'});
+    window.dispatchEvent(new CustomEvent('page-scroll-to', {detail:{top:start + distance * progress}}));
   }, []);
   return <section ref={section} id="quality" className={styles.section} aria-labelledby="quality-title">
     <div className={styles.panel}>

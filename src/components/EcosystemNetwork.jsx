@@ -1,11 +1,51 @@
 import { publicAsset } from '../utils/publicAsset';
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
 
 
 import { ChartNoAxesColumn, Users } from 'lucide-react';
 
 export default function EcosystemNetwork() {
+  const sectionRef = useRef(null);
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const layer = section.querySelector('.network-bubble-layer');
+    const bubbles = [...layer.querySelectorAll('[data-network-bubble]')];
+    const preference = matchMedia('(prefers-reduced-motion: reduce)');
+    const originalTop = bubbles.map(bubble => bubble.style.top);
+    let animations = [], visible = false, size = '';
+    const clear = () => {
+      animations.forEach(animation => animation.cancel()); animations = [];
+      bubbles.forEach((bubble,index) => { bubble.style.top = originalTop[index]; });
+    };
+    const playback = () => animations.forEach(animation => visible && !document.hidden ? animation.play() : animation.pause());
+    const layout = () => {
+      const nextSize = `${layer.clientWidth}:${layer.clientHeight}:${preference.matches}`;
+      if (nextSize === size) return;
+      size = nextSize; clear();
+      if (preference.matches || !layer.clientHeight) return;
+      const height = layer.clientHeight, padding = 100, travel = height + padding * 2;
+      const duration = travel / 24 * 1000;
+      bubbles.forEach(bubble => {
+        const start = parseFloat(getComputedStyle(bubble).top) || 0;
+        bubble.style.top = '0px';
+        const animation = bubble.animate([
+          {transform:`translate3d(-50%,${height + padding}px,0) translateY(-50%)`},
+          {transform:`translate3d(-50%,-${padding}px,0) translateY(-50%)`},
+        ], {duration,iterations:Infinity,easing:'linear'});
+        animation.currentTime = (height + padding - start) / travel * duration;
+        animations.push(animation);
+      });
+      playback();
+    };
+    const observer = new ResizeObserver(layout); observer.observe(layer);
+    const visibility = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; playback(); },{rootMargin:'100px'});
+    visibility.observe(section);
+    preference.addEventListener('change',layout);
+    document.addEventListener('visibilitychange',playback);
+    layout();
+    return () => { clear(); observer.disconnect(); visibility.disconnect(); preference.removeEventListener('change',layout); document.removeEventListener('visibilitychange',playback); };
+  }, []);
   const positions = [[22,16],[41,15],[63,10],[84,21],[15,34],[34,41],[70,37],[85,44],[11,56],[85,68],[15,84],[44,85],[64,75],[75,89]];
   const nodes = [
     // Top Row
@@ -32,7 +72,7 @@ export default function EcosystemNetwork() {
   ];
 
   return (
-    <section id="network" className="py-20 lg:py-28 bg-[#FDFBF7] relative w-full" style={{ overflow: 'clip' }}>
+    <section ref={sectionRef} id="network" className="py-20 lg:py-28 bg-[#FDFBF7] relative w-full" style={{ overflow: 'clip' }}>
       
       {/* Subtle Background Overlay Grid */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-30 mix-blend-multiply">

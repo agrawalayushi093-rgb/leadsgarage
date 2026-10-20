@@ -48,3 +48,37 @@
  .contactButton span { width:28px; height:28px; }
 }
 @media(prefers-reduced-motion:reduce) { .footer a { transition:none; } }
+
+/* A shorter, balanced links panel. Mobile groups expand on demand. */
+.footer { padding:clamp(28px,3vw,44px) clamp(24px,4.5vw,64px) clamp(24px,2.5vw,36px); border-radius:clamp(24px,3vw,48px); }
+.columns { gap:24px; padding-bottom:28px; }
+.linkGroup summary { display:flex; align-items:center; justify-content:space-between; list-style:none; margin-bottom:16px; font-size:15px; line-height:1.4; font-weight:600; }
+.linkGroup summary::-webkit-details-marker { display:none; }
+.linkGroup summary svg { display:none; }
+.columns li { font-size:14px; line-height:1.6; }
+.columns li+li { margin-top:6px; }
+.contact { font-size:14px; gap:16px; }
+.contactIcon { width:32px; height:32px; }
+.bottom { gap:20px; padding-top:24px; }
+.brand img { width:190px; }
+.brand small { font-size:11px; }
+.socials a { width:40px; height:40px; border-radius:12px; }
+.contactButton { min-height:46px; font-size:15px; padding:8px 10px 8px 22px; }
+.contactButton span { width:28px; height:28px; }
+@media(max-width:639px) {
+ .footer { padding:20px; border-radius:24px; }
+ .columns { grid-template-columns:1fr; gap:0; padding-bottom:20px; }
+ .columns nav { border-bottom:1px solid #edf0f5; }
+ .linkGroup summary { cursor:pointer; min-height:48px; margin:0; font-size:14px; }
+ .linkGroup summary svg { display:block; transition:transform .2s; }
+ .linkGroup[open] summary svg { transform:rotate(180deg); }
+ .columns ul { padding-bottom:12px; }
+ .columns li+li { margin-top:0; }
+ .columns li a { min-height:36px; font-size:13px; }
+ .contact { grid-column:auto; padding-top:20px; font-size:13px; }
+ .bottom { gap:16px; padding-top:20px; }
+ .brand img { width:170px; }
+ .brand small { margin-top:8px; font-size:10px; }
+ .socials { gap:10px; }
+ .socials a { width:40px; height:40px; }
+}

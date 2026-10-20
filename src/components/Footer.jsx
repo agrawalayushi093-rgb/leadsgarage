@@ -1,9 +1,16 @@
 import { publicAsset } from '../utils/publicAsset';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Footer.module.css';
-import { ArrowRight, MapPin, Mail, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { ArrowRight, MapPin, Mail, Facebook, Twitter, Linkedin, Instagram, ChevronDown } from 'lucide-react';
 
 export default function Footer() {
+  const [compact, setCompact] = useState(() => matchMedia('(max-width:639px)').matches);
+  useEffect(() => {
+    const query = matchMedia('(max-width:639px)');
+    const update = () => setCompact(query.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
   const columns = [
     {
       title: 'Partnership',
@@ -52,8 +59,10 @@ export default function Footer() {
   return <footer className={styles.footer}>
    <div className={styles.columns}>
     {columns.map(column=><nav key={column.title} aria-label={column.title}>
-     <h3>{column.title}</h3>
-     <ul>{column.links.map(link=><li key={link.name}><a href={link.href}>{link.name}</a></li>)}</ul>
+     <details open={!compact} className={styles.linkGroup}>
+      <summary onClick={event => { if (!compact) event.preventDefault(); }}><span>{column.title}</span><ChevronDown size={18} /></summary>
+      <ul>{column.links.map(link=><li key={link.name}><a href={link.href}>{link.name}</a></li>)}</ul>
+     </details>
     </nav>)}
     <address id="contact" className={styles.contact}>
      <div><span className={styles.contactIcon}><MapPin size={19} /></span><p>123 Digital Ave, Tech City, TC 12345</p></div>

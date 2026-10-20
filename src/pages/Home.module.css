@@ -135,3 +135,23 @@
 
 /* Growth now follows the white audience section and leads into leadership. */
 .backgroundMerge :global(#audience) + :global(#network) { background:white; }
+.backgroundMerge .footerWrap:global(.closing-section) {
+ width:calc(100% - clamp(24px,4vw,64px)); max-width:1440px;
+ margin-top:clamp(28px,3vw,48px); padding:0 clamp(12px,1.5vw,24px) clamp(12px,1.5vw,24px);
+ border-radius:clamp(28px,4vw,64px);
+}
+
+/* A quiet upward bubble stream: fade at the edges and leave the central message clear. */
+@media(prefers-reduced-motion:no-preference) {
+ .backgroundMerge :global(#network) :global(.network-bubble-layer) {
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(transparent,#000 16%,#000 84%,transparent),radial-gradient(ellipse clamp(110px,15vw,220px) clamp(68px,8vw,110px) at 50% 55%,transparent 85%,#000 100%);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(transparent,#000 16%,#000 84%,transparent),radial-gradient(ellipse clamp(110px,15vw,220px) clamp(68px,8vw,110px) at 50% 55%,transparent 85%,#000 100%);
+  mask-composite:intersect;
+ }
+ .backgroundMerge :global(#network) :global([data-network-bubble]) { will-change:transform; }
+}
+
+.footerTransition { background:#fff; padding:clamp(28px,3vw,48px) 0 clamp(20px,3vw,56px); display:flow-root; }
+.backgroundMerge .footerTransition .footerWrap:global(.closing-section) { margin-top:0; margin-bottom:0; }
