@@ -14,10 +14,11 @@ export default function EcosystemNetwork() {
     const content = section.querySelector('.network-copy');
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
     const originalTop = bubbles.map(bubble => bubble.style.top);
+    const originalLeft = bubbles.map(bubble => bubble.style.left);
     let animations = [], visible = false, size = '';
     const clear = () => {
       animations.forEach(animation => animation.cancel()); animations = [];
-      bubbles.forEach((bubble,index) => { bubble.style.top = originalTop[index]; });
+      bubbles.forEach((bubble,index) => { bubble.style.top = originalTop[index]; bubble.style.left = originalLeft[index]; });
     };
     const playback = () => animations.forEach(animation => visible && !document.hidden ? animation.play() : animation.pause());
     const layout = () => {
@@ -26,13 +27,19 @@ export default function EcosystemNetwork() {
       const gap = 28;
       const left = Math.max(0, copy.left - field.left - gap);
       const right = Math.min(field.width, copy.right - field.left + gap);
-      const top = Math.max(0, copy.top - field.top - gap);
-      const bottom = Math.min(field.height, copy.bottom - field.top + gap);
-      // Cut a complete clear area around the copy for every animation frame.
-      layer.style.clipPath = `polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,${left}px ${top}px,${left}px ${bottom}px,${right}px ${bottom}px,${right}px ${top}px,${left}px ${top}px)`;
       const nextSize = `${layer.clientWidth}:${layer.clientHeight}:${preference.matches}`;
       if (nextSize === size) return;
       size = nextSize; clear();
+      // Place each entire vertical lane beside the text, rather than masking it.
+      bubbles.forEach(bubble => {
+        const style = getComputedStyle(bubble);
+        const half = bubble.offsetWidth / 2;
+        const original = parseFloat(style.left) || 0;
+        if (original + half > left && original - half < right) {
+          const lane = original < field.width / 2 ? left - half : right + half;
+          bubble.style.left = `${Math.max(half, Math.min(field.width - half, lane))}px`;
+        }
+      });
       if (preference.matches || !layer.clientHeight) return;
       const height = layer.clientHeight, padding = 100, travel = height + padding * 2;
       const duration = travel / 24 * 1000;

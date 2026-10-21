@@ -145,10 +145,10 @@
 @media(prefers-reduced-motion:no-preference) {
  .backgroundMerge :global(#network) :global(.network-bubble-layer) {
   overflow:hidden;
-  -webkit-mask-image:linear-gradient(transparent,#000 16%,#000 84%,transparent),radial-gradient(ellipse clamp(110px,15vw,220px) clamp(68px,8vw,110px) at 50% 55%,transparent 85%,#000 100%);
-  -webkit-mask-composite:source-in;
-  mask-image:linear-gradient(transparent,#000 16%,#000 84%,transparent),radial-gradient(ellipse clamp(110px,15vw,220px) clamp(68px,8vw,110px) at 50% 55%,transparent 85%,#000 100%);
-  mask-composite:intersect;
+  -webkit-mask-image:linear-gradient(transparent,#000 16%,#000 84%,transparent);
+  -webkit-mask-composite:source-over;
+  mask-image:linear-gradient(transparent,#000 16%,#000 84%,transparent);
+  mask-composite:add;
  }
  .backgroundMerge :global(#network) :global([data-network-bubble]) { will-change:transform; }
 }
