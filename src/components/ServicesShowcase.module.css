@@ -12,11 +12,11 @@
 .card { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: 30% 1fr; gap: 6%; min-height: 450px; padding: 22px; border-radius: 32px; color: #fff; scroll-margin-top: 110px; }
 .colorLayer { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: var(--service-background); }
 .affiliate { --service-background: #e2f4ff; color: #092052; }
-.smm { --service-background: linear-gradient(155deg, #35a9fc, #0089e8); }
-.email-sms { --service-background: linear-gradient(135deg, #204acd, #1b42b9); }
-.list-management { --service-background: linear-gradient(135deg, #a47aff, #7643db); }
-.web-dev { --service-background: linear-gradient(135deg, #19cda5, #009b7d); }
-.crm { --service-background: linear-gradient(135deg, #19c9dd, #0098b7); }
+.smm { --service-background: linear-gradient(145deg, #35a9fc, #0089e8); }
+.email-sms { --service-background: linear-gradient(145deg, #204acd, #1b42b9); }
+.list-management { --service-background: linear-gradient(145deg, #a47aff, #7643db); }
+.web-dev { --service-background: linear-gradient(145deg, #19cda5, #009b7d); }
+.crm { --service-background: linear-gradient(145deg, #19c9dd, #0098b7); }
 .menu { --icon-size: 28px; --item-inset: 12px; --row-gap: 6px; position: relative; z-index: 2; display: grid; grid-template-rows: repeat(6, 1fr); gap: var(--row-gap); background: #fff; border-radius: 26px; padding: 22px; }
 .menuItem { position: relative; display: flex; align-items: center; gap: 10px; color: #252525; font-size: 13px; min-height: 44px; padding: 8px 12px; border-radius: 30px; transition: box-shadow .2s, background .2s; }
 .menuItem:not(:last-child)::after { content: ''; position: absolute; left: calc(var(--item-inset) + var(--icon-size) / 2); top: calc(50% + var(--icon-size) / 2); height: calc(100% + var(--row-gap) - var(--icon-size)); width: 1px; background: repeating-linear-gradient(to bottom, #a6a6a6 0 6px, transparent 6px 12px); pointer-events: none; }
@@ -66,12 +66,13 @@
 @media (prefers-reduced-motion: reduce) { .menuItem, .learnMore { transition: none; } }
 
 /* One pinned card, with six service panels driven by the page scroll. */
+.card { background:#e2f4ff; }
 :global(#services).section { --sticky-top: clamp(90px, 8vw, 150px); height: 500svh; padding: 0; }
 :global(#services).section > .frame { position: sticky; top: var(--sticky-top); height: calc(100svh - var(--sticky-top)); display: flex; flex-direction: column; justify-content: center; padding: 16px 0 28px; }
 .heading { flex-shrink: 0; margin-bottom: 24px; }
 .card { min-height: 0; height: min(760px, calc(100svh - var(--sticky-top) - 160px)); flex-shrink: 1; }
 .menuItem { width: 100%; text-align: left; background: transparent; border: 0; cursor: pointer; }
-.stage { position: relative; min-width: 0; height: 100%; }
+.stage { position: relative; z-index:1; min-width: 0; height: 100%; }
 .servicePanel { position: absolute; inset: 0; }
 .content { padding-top: clamp(12px, 4vh, 48px); }
 .stage .artwork { width: 58%; height: 72%; right: -40px; bottom: -52px; }
@@ -221,4 +222,14 @@
  .content h3 { font-size:23px; }
  .content p { font-size:11px; margin-top:7px; line-height:1.35; }
  .learnMore { min-height:34px; margin-top:8px; }
+}
+
+/* Explicit menu changes crossfade; native scrolling never inherits this delay. */
+@media(prefers-reduced-motion:no-preference) {
+ .menuTransition .colorLayer,.menuTransition .menuHighlight,.menuTransition .servicePanel {
+  transition:opacity 420ms cubic-bezier(.22,1,.36,1);
+ }
+ .menuTransition .content,.menuTransition .artwork {
+  transition:transform 420ms cubic-bezier(.22,1,.36,1);
+ }
 }

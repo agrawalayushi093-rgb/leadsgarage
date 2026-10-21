@@ -3,6 +3,9 @@ import { useEffect } from 'react';
 // One wheel animator for the page. Touch, keyboard, nested panels and reduced motion stay native.
 export default function usePageScroll() {
  useEffect(() => {
+  const nativeRegions = [...document.querySelectorAll('[data-native-page-scroll]')];
+  let nativeRanges = [];
+  const isNativeRegion = () => nativeRanges.some(range => scrollY >= range.start && scrollY <= range.end);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   let frame = 0, target = scrollY, position = scrollY, lastPosition = scrollY, previousTime = 0, damping = 95;
@@ -33,6 +36,7 @@ export default function usePageScroll() {
   };
   const wheel = event => {
    if (event.defaultPrevented) return;
+   if (isNativeRegion()) { cancel(); return; }
    if (event.ctrlKey || event.metaKey || reduced.matches || !fine.matches || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
    if (getComputedStyle(document.body).overflow === 'hidden' || getComputedStyle(document.documentElement).overflow === 'hidden') { cancel(); return; }
    if (hasNativePanel(event.target, event.deltaY)) { cancel(); return; }
@@ -56,16 +60,22 @@ export default function usePageScroll() {
    if (reduced.matches) scrollTo({top:target,behavior:'instant'});
    else frame = requestAnimationFrame(animate);
   };
-  const scroll = () => { if (frame && Math.abs(scrollY - lastPosition) > 48) cancel(); };
+  const scroll = () => { if (frame && (isNativeRegion() || Math.abs(scrollY - lastPosition) > 48)) cancel(); };
   const key = event => { if (['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) cancel(); };
   const header = document.querySelector('.site-header nav');
   const measure = () => {
    const bottom = header?.getBoundingClientRect().bottom || 80;
+   nativeRanges = nativeRegions.map(region => {
+    const rect = region.getBoundingClientRect();
+    return {start:scrollY + rect.top - innerHeight,end:scrollY + rect.bottom};
+   });
    document.documentElement.style.setProperty('--nav-offset', `${Math.ceil(bottom + 12)}px`);
   };
   const resize = () => { cancel(); measure(); };
   const observer = new ResizeObserver(measure);
   if (header) observer.observe(header);
+  nativeRegions.forEach(region => observer.observe(region));
+  if (nativeRegions.length && document.querySelector('main')) observer.observe(document.querySelector('main'));
   measure();
   window.addEventListener('wheel',wheel,{passive:false});
   window.addEventListener('page-scroll-to',goTo);

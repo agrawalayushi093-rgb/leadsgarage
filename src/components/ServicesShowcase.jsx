@@ -1,6 +1,6 @@
 import { publicAsset } from '../utils/publicAsset';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useScroll, useSpring, useTransform, useReducedMotion, useMotionValueEvent, useMotionTemplate } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion, useMotionValueEvent } from 'framer-motion';
 
 import styles from './ServicesShowcase.module.css';
 
@@ -13,82 +13,127 @@ const services = [
   { id: 'crm', title: 'CRM Consultation', lead: 'CRM', rest: 'Consultation', icon: 'Chart_Bar_Vertical_01.png', image: 'Frame 1000004755.png', color: '#00b8cc', description: 'Connect your tools and fine-tune your CRM so every lead is tracked from click to close.' },
 ];
 
-const backgroundStops = ['#e2f4ff', '#0089e8', '#1b42b9', '#7643db', '#009b7d', '#0098b7'];
+function useServiceOpacity(index, phase) {
+  return useTransform(phase, [index - .12, index + .12, index + .88, index + 1.12],
+    index === 0 ? [1, 1, 1, 0] : index === 5 ? [0, 1, 1, 1] : [0, 1, 1, 0]);
+}
+
+function ServiceBackground({index, phase, active, reducedMotion}) {
+  const opacity = useServiceOpacity(index, phase);
+  return <motion.div aria-hidden="true" className={`${styles.colorLayer} ${styles[services[index].id]}`} style={{
+    opacity: reducedMotion ? (active ? 1 : 0) : opacity,
+  }} />;
+}
 
 export default function ServicesShowcase() {
   const trackRef = useRef(null);
   const menuRef = useRef(null);
   const reducedMotion = useReducedMotion();
+  const activeRef = useRef(0);
+  const revealed = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [menuTransition, setMenuTransition] = useState(false);
+  const menuTimer = useRef(0);
+  useEffect(() => () => clearTimeout(menuTimer.current), []);
+  useEffect(() => {
+    if (!menuTransition) return;
+    const interrupt = () => { clearTimeout(menuTimer.current); setMenuTransition(false); };
+    window.addEventListener('wheel', interrupt, {passive:true});
+    window.addEventListener('touchstart', interrupt, {passive:true});
+    const keyboard = event => { if (['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) interrupt(); };
+    window.addEventListener('keydown', keyboard);
+    return () => { window.removeEventListener('wheel', interrupt); window.removeEventListener('touchstart', interrupt); window.removeEventListener('keydown', keyboard); };
+  }, [menuTransition]);
   useEffect(() => {
     const menu = menuRef.current;
     if (!menu || !matchMedia('(max-width: 639px)').matches) return;
     const item = menu.children[activeIndex];
-    menu.scrollTo({left:Math.max(0,item.offsetLeft - (menu.clientWidth - item.offsetWidth) / 2),behavior:'smooth'});
-  }, [activeIndex]);
+    menu.scrollTo({left:Math.max(0,item.offsetLeft - (menu.clientWidth - item.offsetWidth) / 2),behavior:reducedMotion ? 'instant' : 'smooth'});
+  }, [activeIndex, reducedMotion]);
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ['start start', 'end end'] });
-  const { scrollYProgress: entranceProgress } = useScroll({ target: trackRef, offset: ['start 0.9', 'start 0.45'] });
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 170, damping: 30, mass: 0.4 });
-  const phase = useTransform(reducedMotion ? scrollYProgress : smoothProgress, [0, 1], [0, 6]);
-  useMotionValueEvent(phase, 'change', value => setActiveIndex(Math.max(0, Math.min(5, Math.floor(value)))));
-  const colorRange = [0, 0.88, 1.12, 1.88, 2.12, 2.88, 3.12, 3.88, 4.12, 4.88, 5.12, 6];
-  const backgroundColor = useTransform(phase, colorRange, backgroundStops.flatMap(color => [color, color]));
-  const tint = useTransform(phase, colorRange, ['#e2f4ff', '#35a9fc', '#204acd', '#a47aff', '#19cda5', '#19c9dd'].flatMap(color => [color, color]));
-  const background = useMotionTemplate`linear-gradient(145deg, ${tint}, ${backgroundColor})`;
-  const textColor = useTransform(phase, [0.88, 1.12], ['#092052', '#ffffff']);
+  // Native scroll position is the single clock for menu, fill, artwork and colour.
+  const phase = useTransform(scrollYProgress, [0, 1], [0, 6]);
+  useMotionValueEvent(phase, 'change', value => {
+    const next = Math.max(0, Math.min(services.length - 1, Math.floor(value)));
+    if (next !== activeRef.current) { activeRef.current = next; setActiveIndex(next); }
+  });
+  useEffect(() => {
+    if (reducedMotion || revealed.current || typeof window.IntersectionObserver !== 'function') return;
+    const track = trackRef.current;
+    let animations = [];
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || revealed.current) return;
+      revealed.current = true;
+      // Base styles stay visible: a failed or disabled reveal cannot hide content.
+      [track.querySelector(`.${styles.heading}`), menuRef.current, track.querySelector(`.${styles.stage}`)].forEach((element,index) => {
+        if (!element?.animate) return;
+        animations.push(element.animate([
+          {opacity:.92,transform:'translate3d(0,10px,0)'},
+          {opacity:1,transform:'translate3d(0,0,0)'},
+        ],{duration:420 + index * 30,easing:'cubic-bezier(.22,1,.36,1)'}));
+      });
+      observer.disconnect();
+    },{threshold:.01,rootMargin:'0px 0px -24px 0px'});
+    observer.observe(track);
+    return () => { observer.disconnect(); animations.forEach(animation => animation.cancel()); };
+  }, [reducedMotion]);
 
   const selectService = useCallback(index => {
+    clearTimeout(menuTimer.current);
+    setMenuTransition(true);
+    menuTimer.current = setTimeout(() => setMenuTransition(false), 500);
     const track = trackRef.current;
     const top = window.scrollY + track.getBoundingClientRect().top;
     const distance = track.offsetHeight - window.innerHeight;
     const destination = top + distance * ((index + 0.8) / 6);
-    // Share the page animator instead of running a second scroll loop.
-    window.dispatchEvent(new CustomEvent('page-scroll-to', {detail:{top:destination}}));
+    // Explicit menu navigation moves directly within the pinned frame. Wheel/touch stay native.
+    window.scrollTo({top:destination,behavior:'instant'});
   }, []);
 
   return (
-    <section id="services" ref={trackRef} className={styles.section} aria-labelledby="services-heading">
+    <section data-native-page-scroll id="services" ref={trackRef} className={styles.section} aria-labelledby="services-heading">
       <div className={styles.frame}>
         <div className={styles.heading}>
           <span className={styles.eyebrow}>Our Services</span>
           <h2 id="services-heading">What We Can Do For You?</h2>
           <p>One Partner. Multiple Solutions. Built Around Your Goals.</p>
         </div>
-        <motion.div className={styles.card} style={{ background, color: textColor }}>
+        <div className={`${styles.card} ${menuTransition ? styles.menuTransition : ''}`}>
+          {services.map((item,index) => <ServiceBackground key={item.id} index={index} phase={phase} active={activeIndex === index} reducedMotion={reducedMotion} />)}
           <nav ref={menuRef} className={styles.menu} aria-label="Our services">
             {services.map((item, index) => (
-              <ServiceMenuItem key={item.id} item={item} index={index} phase={phase} active={activeIndex === index} onSelect={selectService} />
+              <ServiceMenuItem key={item.id} item={item} index={index} phase={phase} active={activeIndex === index} onSelect={selectService} reducedMotion={reducedMotion} />
             ))}
           </nav>
           <div className={styles.stage}>
-            {services.map((service, index) => <ServicePanel key={service.id} service={service} index={index} phase={phase} entranceProgress={entranceProgress} active={activeIndex === index} reducedMotion={reducedMotion} />)}
+            {services.map((service, index) => <ServicePanel key={service.id} service={service} index={index} phase={phase} active={activeIndex === index} reducedMotion={reducedMotion} />)}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
 
-function ServiceMenuItem({ item, index, phase, active, onSelect }) {
-  const opacity = useTransform(phase, [index - 0.12, index + 0.12, index + 0.88, index + 1.12], index === 0 ? [1, 1, 1, 0] : index === 5 ? [0, 1, 1, 1] : [0, 1, 1, 0]);
+function ServiceMenuItem({ item, index, phase, active, onSelect, reducedMotion }) {
+  const opacity = useServiceOpacity(index, phase);
   return (
     <button type="button" className={styles.menuItem} aria-current={active ? 'true' : undefined} aria-controls={`service-${item.id}`} onClick={() => onSelect(index)}>
-      <motion.span className={styles.menuHighlight} style={{ opacity }} aria-hidden="true" />
+      <motion.span className={styles.menuHighlight} style={{ opacity:reducedMotion ? (active ? 1 : 0) : opacity }} aria-hidden="true" />
       <span className={styles.icon}><img src={publicAsset(`/image/Home/section2/${item.icon}`)} alt="" /></span>
       <span>{item.title}</span>
     </button>
   );
 }
 
-function ServiceHeading({ service, index, phase, entranceProgress, reducedMotion }) {
+function ServiceHeading({ service, index, phase, reducedMotion }) {
   const reveal = useTransform(phase, [index + 0.14, index + 0.76], [0, 1]);
-  const progress = reveal;
+
   const words = service.title.split(' ');
   return (
     <h3 id={`heading-${service.id}`} aria-label={service.title} style={{ '--heading-ink': index === 0 ? '#092052' : '#ffffff', '--heading-muted': index === 0 ? '#09205233' : '#ffffff33' }}>
       {words.map((word, wordIndex) => (
         <React.Fragment key={wordIndex}>
-          <HighlightWord word={word} index={wordIndex} count={words.length} progress={progress} reducedMotion={reducedMotion} />
+          <HighlightWord word={word} index={wordIndex} count={words.length} progress={reveal} reducedMotion={reducedMotion} />
           {wordIndex < words.length - 1 ? ' ' : null}
         </React.Fragment>
       ))}
@@ -100,21 +145,21 @@ function HighlightWord({ word, index, count, progress, reducedMotion }) {
   return <motion.span aria-hidden="true" className={styles.highlightWord} style={{ backgroundSize: reducedMotion ? '100% 100%' : fill }}>{word}</motion.span>;
 }
 
-function ServicePanel({ service, index, phase, entranceProgress, active, reducedMotion }) {
+function ServicePanel({ service, index, phase, active, reducedMotion }) {
   // Menu highlight, artwork and background share the same transition window.
   const range = [index - 0.12, index + 0.12, index + 0.88, index + 1.12];
-  const opacity = useTransform(phase, range, index === 0 ? [1, 1, 1, 0] : index === 5 ? [0, 1, 1, 1] : [0, 1, 1, 0]);
+  const opacity = useServiceOpacity(index, phase);
   const contentY = useTransform(phase, range, [index === 0 ? 0 : 12, 0, 0, index === 5 ? 0 : -12]);
   const imageY = useTransform(phase, range, [index === 0 ? 0 : 18, 0, 0, index === 5 ? 0 : -18]);
   const imageScale = useTransform(phase, range, [index === 0 ? 1 : 0.985, 1, 1, index === 5 ? 1 : 1.015]);
   return (
-    <motion.article id={`service-${service.id}`} className={styles.servicePanel} aria-labelledby={`heading-${service.id}`} aria-hidden={!active} inert={!active ? '' : undefined} style={{ opacity: reducedMotion ? (active ? 1 : 0) : opacity, pointerEvents: active ? 'auto' : 'none' }}>
+    <motion.article id={`service-${service.id}`} className={styles.servicePanel} aria-labelledby={`heading-${service.id}`} aria-hidden={!active} inert={!active ? '' : undefined} style={{ color:index === 0 ? '#092052' : '#ffffff', opacity: reducedMotion ? (active ? 1 : 0) : opacity, pointerEvents: active ? 'auto' : 'none' }}>
       <motion.div className={styles.content} style={reducedMotion ? undefined : { y: contentY }}>
-        <ServiceHeading service={service} index={index} phase={phase} entranceProgress={entranceProgress} reducedMotion={reducedMotion} />
+        <ServiceHeading service={service} index={index} phase={phase} reducedMotion={reducedMotion} />
         <p>{service.description}</p>
         <a className={styles.learnMore} href="#audience" aria-label={`Learn more about ${service.title}`} tabIndex={active ? 0 : -1}>Learn More</a>
       </motion.div>
-      <motion.img className={styles.artwork} style={reducedMotion ? undefined : { y: imageY, scale: imageScale }} src={publicAsset(`/image/Home/section2/${service.image}`)} alt="" />
+      <motion.img decoding="async" className={styles.artwork} style={reducedMotion ? undefined : { y: imageY, scale: imageScale }} src={publicAsset(`/image/Home/section2/${service.image}`)} alt="" />
     </motion.article>
   );
 }
