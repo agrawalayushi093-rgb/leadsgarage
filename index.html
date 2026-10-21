@@ -12,6 +12,64 @@
   </head>
   <body class="bg-[#FDFBF7] text-slate-900 font-sans antialiased overflow-x-hidden selection:bg-blue-500 selection:text-white">
     <div id="root"></div>
+    <!-- Static Services fallback: keep copy/artwork aligned with ServicesShowcase.jsx. -->
+    <noscript>
+      <style>
+        html { scroll-behavior:auto; }
+        body { margin:0; }
+        .static-services { padding:48px 16px; background:#fdfbf7; color:#08143f; font-family:'Plus Jakarta Sans',Arial,sans-serif; }
+        .static-services>div { max-width:1155px; margin:auto; }
+        .static-services header { text-align:center; margin-bottom:28px; }
+        .static-services h2 { font-size:clamp(26px,4vw,42px); line-height:1.2; }
+        .static-services p { line-height:1.5; }
+        .static-services nav { display:flex; flex-wrap:wrap; gap:12px; margin:24px 0; }
+        .static-services nav a { display:flex; align-items:center; gap:8px; padding:12px 16px; border-radius:24px; background:#fff; color:#08143f; }
+        .static-services article { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,240px); gap:24px; align-items:center; margin-top:24px; padding:clamp(20px,4vw,44px); border-radius:28px; background:var(--fallback-fill); color:var(--fallback-ink); scroll-margin-top:24px; }
+        .static-services h3 { font-size:clamp(26px,3vw,40px); line-height:1.2; margin:0 0 18px; }
+        .static-services article a { color:inherit; display:inline-block; padding-block:12px; }
+        .static-service-art { width:100%; height:200px; object-fit:contain; }
+        .static-services a:focus-visible { outline:3px solid #ffcf58; outline-offset:4px; }
+        @media(max-width:639px) { .static-services article { grid-template-columns:minmax(0,1fr); } .static-service-art { max-width:220px; justify-self:end; } }
+      </style>
+      <section class="static-services" aria-labelledby="static-services-title">
+        <div>
+          <header><p>Our Services</p><h2 id="static-services-title">What We Can Do For You?</h2><p>One Partner. Multiple Solutions. Built Around Your Goals.</p></header>
+          <nav id="static-service-menu" aria-label="Our services">
+          <a href="#static-affiliate"><img src="./image/Home/section2/Paper_Plane.png" width="24" height="24" alt="">Affiliate Marketing</a>
+          <a href="#static-smm"><img src="./image/Home/section2/Users_Group.png" width="24" height="24" alt="">Social Media Marketing</a>
+          <a href="#static-email-sms"><img src="./image/Home/section2/Mail_Open.png" width="24" height="24" alt="">Email &amp; SMS</a>
+          <a href="#static-list-management"><img src="./image/Home/section2/File_Document.png" width="24" height="24" alt="">List Management</a>
+          <a href="#static-web-dev"><img src="./image/Home/section2/Folder_Code.png" width="24" height="24" alt="">Web Development</a>
+          <a href="#static-crm"><img src="./image/Home/section2/Chart_Bar_Vertical_01.png" width="24" height="24" alt="">CRM Consultation</a>
+          </nav>
+          <article id="static-affiliate" style="--fallback-fill:#e2f4ff;--fallback-ink:#092052">
+            <div><h3>Affiliate Marketing</h3><p>Performance-driven affiliate programs that help you acquire quality customers and scale faster.</p><a href="#static-service-menu">All services ↑</a></div>
+            <img class="static-service-art" src="./image/Home/section2/Group%2040135.png" width="480" height="400" alt="" decoding="async">
+          </article>
+          <article id="static-smm" style="--fallback-fill:linear-gradient(145deg, #35a9fc, #0089e8);--fallback-ink:#fff">
+            <div><h3>Social Media Marketing</h3><p>Build your presence and connect with customers through social campaigns that drive real engagement.</p><a href="#static-service-menu">All services ↑</a></div>
+            <img class="static-service-art" src="./image/Home/section2/Group%2040042%20(2).png" width="480" height="400" alt="" decoding="async">
+          </article>
+          <article id="static-email-sms" style="--fallback-fill:linear-gradient(145deg, #204acd, #1b42b9);--fallback-ink:#fff">
+            <div><h3>Email &amp; SMS</h3><p>Reach your audience instantly with targeted email and SMS campaigns that drive real engagement.</p><a href="#static-service-menu">All services ↑</a></div>
+            <img class="static-service-art" src="./image/Home/section2/Frame%201000004746.png" width="480" height="400" alt="" decoding="async">
+          </article>
+          <article id="static-list-management" style="--fallback-fill:linear-gradient(145deg, #a47aff, #7643db);--fallback-ink:#fff">
+            <div><h3>List Management</h3><p>Clean, verified, and well-managed lists that improve your reach and deliverability.</p><a href="#static-service-menu">All services ↑</a></div>
+            <img class="static-service-art" src="./image/Home/section2/Frame%201000004753.png" width="480" height="400" alt="" decoding="async">
+          </article>
+          <article id="static-web-dev" style="--fallback-fill:linear-gradient(145deg, #19cda5, #009b7d);--fallback-ink:#fff">
+            <div><h3>Web Development</h3><p>Responsive websites built around your customers, your brand, and your business goals.</p><a href="#static-service-menu">All services ↑</a></div>
+            <img class="static-service-art" src="./image/Home/section2/Frame%201000004754.png" width="480" height="400" alt="" decoding="async">
+          </article>
+          <article id="static-crm" style="--fallback-fill:linear-gradient(145deg, #19c9dd, #0098b7);--fallback-ink:#fff">
+            <div><h3>CRM Consultation</h3><p>Connect your tools and fine-tune your CRM so every lead is tracked from click to close.</p><a href="#static-service-menu">All services ↑</a></div>
+            <img class="static-service-art" src="./image/Home/section2/Frame%201000004755.png" width="480" height="400" alt="" decoding="async">
+          </article>
+        </div>
+      </section>
+    </noscript>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
