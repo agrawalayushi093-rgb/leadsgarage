@@ -124,7 +124,8 @@
 }
 
 /* Movement is coordinated by one transform animation in QualityControl. */
-.viewport { overflow:clip; position:relative; touch-action:pan-y; }
+/* Clip neighbouring slides horizontally while allowing the phone and shadow above the row. */
+.viewport { overflow-x:clip; overflow-y:visible; min-width:0; position:relative; touch-action:pan-y; }
 .rail { transform:translate3d(0,0,0); }
 .card { transform-origin:left center; }
 .card, .cardCopy { transition:none; }
