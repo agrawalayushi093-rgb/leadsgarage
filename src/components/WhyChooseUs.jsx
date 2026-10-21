@@ -124,6 +124,7 @@ export default function WhyChooseUs() {
       const cardHeight = innerWidth < 640 ? availableHeight : cardWidth * (583 / 1471);
       section.style.setProperty('--brand-card-width', `${cardWidth}px`);
       section.style.setProperty('--brand-card-height', `${cardHeight}px`);
+      section.style.setProperty('--stack-bottom-space', `${Math.max(0, deck.clientHeight - cardHeight)}px`);
       // All layout reads happen on resize, never in the animation loop.
       metrics = {
         nav, strip,

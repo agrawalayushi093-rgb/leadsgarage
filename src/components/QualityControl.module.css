@@ -59,7 +59,8 @@
 
 /* Leave breathing room after the final stack card and its soft shadow. */
 :global(#solutions) + :global(#quality).section {
- margin-top: clamp(48px, 4vw, 80px);
+ margin-top:clamp(48px,4vw,64px);
+ padding-top:0;
 }
 
 /* Scroll-driven results: title, cards and steps stay in one responsive frame. */

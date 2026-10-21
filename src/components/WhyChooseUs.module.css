@@ -99,6 +99,7 @@
 
 /* Fit the complete banner in the frame without stretching its photo or text. */
 @media (prefers-reduced-motion:no-preference) {
+ :global(#solutions).section { margin-bottom:calc(-1 * var(--stack-bottom-space,0px)); }
  :global(#solutions) .flow .item {
   width:var(--brand-card-width,100%); height:var(--brand-card-height,100%);
   flex-shrink:0;
