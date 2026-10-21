@@ -248,11 +248,17 @@ export default function QualityControl() {
           if (!start) return;
           const dx = event.clientX - start.x, dy = event.clientY - start.y;
           if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) select(activeRef.current + (dx < 0 ? 1 : -1));
-        }} onKeyDown={event => { if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); select(active + (event.key === 'ArrowRight' ? 1 : -1)); } }}>
+        }} onKeyDown={event => {
+          if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+          event.preventDefault();
+          const next = Math.max(0, Math.min(slides.length - 1, activeRef.current + (event.key === 'ArrowRight' ? 1 : -1)));
+          select(next);
+          if (activeRef.current === next) cards.current[next].querySelector('button').focus({preventScroll:true});
+        }}>
         <div ref={rail} className={styles.rail}>
           {slides.map((slide, index) => <article key={slide.title} ref={el => cards.current[index] = el} className={`${styles.card} ${index === active ? styles.active : ''}`} aria-current={index === active ? 'step' : undefined}>
             <img className={styles.phone} src={publicAsset(`/image/Home/${slide.image}`)} decoding="async" aria-hidden={index !== active} alt={index === active ? "Campaign verification and performance dashboard" : ""} />
-            <button type="button" className={styles.cardCopy} onClick={() => select(index)} aria-label={`Show ${slide.title}`}>
+            <button type="button" className={styles.cardCopy} tabIndex={index === active ? 0 : -1} onClick={() => select(index)} aria-label={`Show ${slide.title}`}>
               <span hidden={index !== active} className={styles.label}>{slide.label}</span>
               <h3>{slide.title}</h3><p>{slide.description}</p>
             </button>
