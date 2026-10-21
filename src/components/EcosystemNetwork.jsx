@@ -11,6 +11,7 @@ export default function EcosystemNetwork() {
     const section = sectionRef.current;
     const layer = section.querySelector('.network-bubble-layer');
     const bubbles = [...layer.querySelectorAll('[data-network-bubble]')];
+    const content = section.querySelector('.network-copy');
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
     const originalTop = bubbles.map(bubble => bubble.style.top);
     let animations = [], visible = false, size = '';
@@ -20,6 +21,15 @@ export default function EcosystemNetwork() {
     };
     const playback = () => animations.forEach(animation => visible && !document.hidden ? animation.play() : animation.pause());
     const layout = () => {
+      const field = layer.getBoundingClientRect();
+      const copy = content.getBoundingClientRect();
+      const gap = 28;
+      const left = Math.max(0, copy.left - field.left - gap);
+      const right = Math.min(field.width, copy.right - field.left + gap);
+      const top = Math.max(0, copy.top - field.top - gap);
+      const bottom = Math.min(field.height, copy.bottom - field.top + gap);
+      // Cut a complete clear area around the copy for every animation frame.
+      layer.style.clipPath = `polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,${left}px ${top}px,${left}px ${bottom}px,${right}px ${bottom}px,${right}px ${top}px,${left}px ${top}px)`;
       const nextSize = `${layer.clientWidth}:${layer.clientHeight}:${preference.matches}`;
       if (nextSize === size) return;
       size = nextSize; clear();
@@ -38,7 +48,7 @@ export default function EcosystemNetwork() {
       });
       playback();
     };
-    const observer = new ResizeObserver(layout); observer.observe(layer);
+    const observer = new ResizeObserver(layout); observer.observe(layer); observer.observe(content);
     const visibility = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; playback(); },{rootMargin:'100px'});
     visibility.observe(section);
     preference.addEventListener('change',layout);
@@ -112,7 +122,7 @@ export default function EcosystemNetwork() {
 
           </div>
           {/* Center Main Text Content matching Reference 1:1 */}
-          <div className="text-center max-w-lg mx-auto relative z-30 space-y-4 px-4"
+          <div className="network-copy text-center max-w-lg mx-auto relative z-30 space-y-4 px-4"
             style={{ position: 'absolute', top: '55%', transform: 'translateY(-50%)' }}>
             <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-black tracking-widest uppercase border border-emerald-200 shadow-sm">
               GROW WITH US
