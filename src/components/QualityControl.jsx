@@ -42,7 +42,7 @@ export default function QualityControl() {
     const element = section.current;
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0, top = 100, distance = 1;
-    let gestureUsed = false, gestureTimer, gestureDirection = 0, lastStep = 0;
+    let gestureDirection = 0, lastStep = -Infinity;
     const update = () => {
       frame = 0;
       if (preference.matches || manualSelection.current !== null) return;
@@ -88,16 +88,13 @@ export default function QualityControl() {
       const rect = element.getBoundingClientRect();
       const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
       const direction = Math.sign(delta);
-      const enteringDown = rect.top > top + 2 && direction > 0 && rect.top - delta <= top + 2;
-      const enteringUp = rect.bottom < innerHeight - 2 && direction < 0 && rect.bottom - delta >= innerHeight - 2;
+      const crossing = direction * Math.min(Math.abs(delta), 240);
+      const enteringDown = rect.top > top + 2 && direction > 0 && rect.top - crossing <= top + 2;
+      const enteringUp = rect.bottom < innerHeight - 2 && direction < 0 && rect.bottom - crossing >= innerHeight - 2;
       if (!enteringDown && !enteringUp && (rect.top > top + 2 || rect.bottom < innerHeight - 2)) { releaseManual(); return; }
       event.preventDefault();
       if (transitioning.current) return;
-      clearTimeout(gestureTimer);
-      gestureTimer = setTimeout(() => { gestureUsed = false; }, 240);
-      if (gestureUsed && gestureDirection === direction) return;
-      if (gestureDirection && gestureDirection !== direction) lastStep = 0;
-      gestureUsed = true;
+      if (gestureDirection && gestureDirection !== direction) lastStep = -Infinity;
       gestureDirection = direction;
       if (enteringDown || enteringUp) {
           const index = enteringDown ? 0 : slides.length - 1;
@@ -107,8 +104,8 @@ export default function QualityControl() {
         window.dispatchEvent(new CustomEvent('page-scroll-to',{detail:{top:start + distance * (index + .5) / slides.length}}));
         return;
       }
-      // Ignore momentum during transitions instead of replaying queued steps.
-      if (performance.now() - lastStep >= 700) move(direction);
+      // Pace sustained input by the actual card transition, without waiting for wheel silence.
+      if (performance.now() - lastStep >= 560) move(direction);
     };
     const keyboard = event => { if (['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) releaseManual(); };
     const observer = new ResizeObserver(layout);
@@ -125,7 +122,7 @@ export default function QualityControl() {
     preference.addEventListener('change', layout);
     layout();
     return () => {
-      cancelAnimationFrame(frame); clearTimeout(gestureTimer); observer.disconnect();
+      cancelAnimationFrame(frame); observer.disconnect();
       window.removeEventListener('scroll', scroll);
       window.removeEventListener('wheel', wheel, true);
       window.removeEventListener('resize', layout);

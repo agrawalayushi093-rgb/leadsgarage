@@ -9,7 +9,8 @@ export default function usePageScroll() {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   let frame = 0, target = scrollY, position = scrollY, lastPosition = scrollY, previousTime = 0, damping = 95;
-  const cancel = () => { cancelAnimationFrame(frame); frame = 0; previousTime = 0; };
+  let navigation = null;
+  const cancel = () => { cancelAnimationFrame(frame); frame = 0; previousTime = 0; navigation = null; };
   const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - innerHeight);
   const clamp = value => Math.max(0, Math.min(maxScroll(), value));
   const animate = time => {
@@ -17,12 +18,18 @@ export default function usePageScroll() {
    const elapsed = Math.min(40, previousTime ? time - previousTime : 16.67);
    previousTime = time;
    target = clamp(target);
-   const difference = target - position;
-   position = Math.abs(difference) < .5 ? target : position + difference * (1 - Math.exp(-elapsed / damping));
+   if (navigation) {
+    // Card navigation must finish on time, even when frames are delayed.
+    const progress = Math.min(1, Math.max(0, (time - navigation.started) / 500));
+    position = progress === 1 ? target : navigation.from + (target - navigation.from) * (1 - (1 - progress) ** 3);
+   } else {
+    const difference = target - position;
+    position = Math.abs(difference) < .5 ? target : position + difference * (1 - Math.exp(-elapsed / damping));
+   }
    scrollTo({ top:position, behavior:'instant' });
    lastPosition = scrollY;
    if (position !== target) frame = requestAnimationFrame(animate);
-   else previousTime = 0;
+   else { previousTime = 0; navigation = null; }
   };
   const hasNativePanel = (element, delta) => {
    for (let node = element; node instanceof Element && node !== document.body; node = node.parentElement) {
@@ -40,6 +47,7 @@ export default function usePageScroll() {
    if (event.ctrlKey || event.metaKey || reduced.matches || !fine.matches || !event.deltaY || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
    if (getComputedStyle(document.body).overflow === 'hidden' || getComputedStyle(document.documentElement).overflow === 'hidden') { cancel(); return; }
    if (hasNativePanel(event.target, event.deltaY)) { cancel(); return; }
+   if (navigation) cancel();
    damping = 95;
    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
    if (!frame) { target = scrollY; position = scrollY; lastPosition = scrollY; }
@@ -58,7 +66,7 @@ export default function usePageScroll() {
    if (!Number.isFinite(event.detail?.top)) return;
    cancel(); target = clamp(event.detail.top); position = scrollY; lastPosition = scrollY; damping = 110;
    if (reduced.matches) scrollTo({top:target,behavior:'instant'});
-   else frame = requestAnimationFrame(animate);
+   else { navigation = {from:position,started:performance.now()}; frame = requestAnimationFrame(animate); }
   };
   const scroll = () => { if (frame && (isNativeRegion() || Math.abs(scrollY - lastPosition) > 48)) cancel(); };
   const key = event => { if (['ArrowUp','ArrowDown','PageUp','PageDown','Home','End',' '].includes(event.key)) cancel(); };
