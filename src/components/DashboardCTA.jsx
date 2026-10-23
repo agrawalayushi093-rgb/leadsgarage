@@ -5,7 +5,7 @@ import styles from './DashboardCTA.module.css';
 
 export default function DashboardCTA() {
  return <section id="showcase" className={styles.hero} aria-labelledby="footer-cta-title">
-  <img className={styles.wordmark} src={publicAsset('/image/Home/Group 40201.png')} alt="" aria-hidden="true" />
+  <img className={styles.wordmark} src={publicAsset('/image/Home/Group 40211.png')} alt="" aria-hidden="true" />
   <img className={`${styles.icon} ${styles.lock}`} src={publicAsset('/image/Home/Group 40197.png')} alt="" />
   <img className={`${styles.icon} ${styles.mail}`} src={publicAsset('/image/Home/Group 40195.png')} alt="" />
   <img className={`${styles.icon} ${styles.plane}`} src={publicAsset('/image/Home/Group 40198.png')} alt="" />
