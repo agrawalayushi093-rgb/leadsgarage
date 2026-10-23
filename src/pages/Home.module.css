@@ -36,10 +36,10 @@
 
 
 /* Static growth composition matching the reference, with a shorter canvas. */
-.backgroundMerge :global(#network) { padding-top:clamp(32px,4vw,64px); }
+.backgroundMerge :global(#network) { padding-block:clamp(24px,2.5vw,40px); }
 .backgroundMerge :global(#network) > div:last-child { max-width:1100px; }
 .backgroundMerge :global(#network) :global(.network-canvas) {
- height:clamp(400px,52vw,720px); min-height:0;
+ height:clamp(360px,40vw,560px); min-height:0;
 }
 .backgroundMerge :global(#network) :global(.network-bubble-layer) {
  overflow:visible; mask-image:none; -webkit-mask-image:none;
@@ -58,7 +58,7 @@
 .backgroundMerge :global(#network) h2 { font-size:clamp(18px,2.8vw,34px); }
 .backgroundMerge :global(#network) :global(.text-center span) { font-size:clamp(7px,.8vw,10px); padding:4px 12px; }
 .backgroundMerge :global(#network) > div:last-child > div:global(.network-canvas):first-child {
- height:clamp(400px,52vw,720px); min-height:0;
+ height:clamp(360px,40vw,560px); min-height:0;
 }
 
 /* Match the growth field to the services card edges. */
