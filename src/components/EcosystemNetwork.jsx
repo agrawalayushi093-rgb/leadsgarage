@@ -30,27 +30,50 @@ export default function EcosystemNetwork() {
       const nextSize = `${layer.clientWidth}:${layer.clientHeight}:${preference.matches}`;
       if (nextSize === size) return;
       size = nextSize; clear();
-      // Place each entire vertical lane beside the text, rather than masking it.
-      bubbles.forEach(bubble => {
-        const style = getComputedStyle(bubble);
-        const half = bubble.offsetWidth / 2;
-        const original = parseFloat(style.left) || 0;
-        if (original + half > left && original - half < right) {
-          const lane = original < field.width / 2 ? left - half : right + half;
-          bubble.style.left = `${Math.max(half, Math.min(field.width - half, lane))}px`;
+      const height = layer.clientHeight;
+      const padding = Math.ceil(Math.max(...bubbles.map(bubble => bubble.offsetHeight)) / 2) + 2;
+      const travel = height + padding * 2;
+      const phases = new Map();
+      const placed = [];
+      // Keep the scattered horizontal composition; stagger phases to prevent collisions.
+      bubbles.forEach((bubble, index) => {
+        const radius = bubble.offsetWidth / 2;
+        const original = parseFloat(getComputedStyle(bubble).left) || 0;
+        const start = original < field.width / 2 ? radius : right + radius;
+        const end = original < field.width / 2 ? left - radius : field.width - radius;
+        const scatter = Math.sin((index + 1) * 2.399963) * radius * .8;
+        const preferred = Math.max(start, Math.min(end, original + scatter));
+        let best = { score: -Infinity, x: preferred, phase: 0 };
+        for (let offset = -2; offset <= 2; offset++) {
+          const x = Math.max(start, Math.min(end, preferred + offset * radius));
+          for (let step = 0; step < 128; step++) {
+            const phase = step / 128;
+            const clearance = placed.reduce((minimum, other) => {
+              const separation = Math.abs(phase - other.phase);
+              const y = Math.min(separation, 1 - separation) * travel;
+              return Math.min(minimum, Math.hypot(x - other.x, y) - radius - other.radius);
+            }, travel);
+            const targetPhase = (index * .61803398875) % 1;
+            const phaseDistance = Math.abs(phase - targetPhase);
+            const score = Math.min(clearance, 24) - Math.abs(x - preferred) * .05
+              - Math.min(phaseDistance, 1 - phaseDistance) * 12;
+            if (score > best.score) best = { score, x, phase };
+          }
         }
+        bubble.style.left = `${best.x}px`;
+        phases.set(bubble, best.phase);
+        placed.push({ ...best, radius });
       });
       if (preference.matches || !layer.clientHeight) return;
-      const height = layer.clientHeight, padding = 100, travel = height + padding * 2;
       const duration = travel / 24 * 1000;
       bubbles.forEach(bubble => {
-        const start = parseFloat(getComputedStyle(bubble).top) || 0;
         bubble.style.top = '0px';
         const animation = bubble.animate([
           {transform:`translate3d(-50%,${height + padding}px,0) translateY(-50%)`},
           {transform:`translate3d(-50%,-${padding}px,0) translateY(-50%)`},
         ], {duration,iterations:Infinity,easing:'linear'});
-        animation.currentTime = (height + padding - start) / travel * duration;
+        // Independent staggered cycles overlap: the next bubbles enter before this batch exits.
+        animation.currentTime = phases.get(bubble) * duration;
         animations.push(animation);
       });
       playback();
