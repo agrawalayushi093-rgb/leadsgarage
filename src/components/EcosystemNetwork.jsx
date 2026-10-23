@@ -22,6 +22,7 @@ export default function EcosystemNetwork() {
     };
     const playback = () => animations.forEach(animation => visible && !document.hidden ? animation.play() : animation.pause());
     const layout = () => {
+      const bubbles = [...layer.querySelectorAll('[data-network-bubble]')].filter(bubble => bubble.offsetWidth > 0);
       const field = layer.getBoundingClientRect();
       const copy = content.getBoundingClientRect();
       const gap = 28;
@@ -86,7 +87,7 @@ export default function EcosystemNetwork() {
     layout();
     return () => { clear(); observer.disconnect(); visibility.disconnect(); preference.removeEventListener('change',layout); document.removeEventListener('visibilitychange',playback); };
   }, []);
-  const positions = [[22,16],[41,15],[63,10],[84,21],[15,34],[34,41],[70,37],[85,44],[11,56],[85,68],[15,84],[44,85],[64,75],[75,89]];
+  const positions = [[22,16],[41,15],[63,10],[84,21],[15,34],[34,41],[70,37],[85,44],[11,56],[85,68],[15,84],[44,85],[64,75],[75,89],[28,58],[73,29]];
   const nodes = [
     // Top Row
     { src: publicAsset("/image/Home/section6/Group 40067.png"), pos: 'top-[8%] left-[16%]', size: 'w-14 h-14 lg:w-20 lg:h-20', delay: 0 },
@@ -109,6 +110,8 @@ export default function EcosystemNetwork() {
     { src: publicAsset("/image/Home/section6/Group 40075.png"), pos: 'top-[78%] left-[22%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.3 },
     { src: publicAsset("/image/Home/section6/Group 40078.png"), pos: 'top-[74%] right-[34%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 0.7 },
     { src: publicAsset("/image/Home/section6/Group 40070.png"), pos: 'top-[76%] right-[14%]', size: 'w-16 h-16 lg:w-22 lg:h-22', delay: 1.3 },
+    { src: publicAsset("/image/Home/section6/Group 40067.png"), size: 'w-14 h-14 lg:w-20 lg:h-20' },
+    { src: publicAsset("/image/Home/section6/Group 40073.png"), size: 'w-14 h-14 lg:w-20 lg:h-20' },
   ];
 
   return (
@@ -135,7 +138,7 @@ export default function EcosystemNetwork() {
             <div
               key={idx}
               data-network-bubble
-              className="network-bubble"
+              className={`network-bubble${idx >= 14 ? ' hidden sm:block' : ''}`}
               style={{ left: `${6 + (positions[idx][0] - 11) / 74 * 88}%`, top: `${positions[idx][1]}%`, width: 'clamp(28px, 8vw, 90px)' }}
             >
               <img
