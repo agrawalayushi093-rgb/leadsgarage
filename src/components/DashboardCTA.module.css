@@ -1,5 +1,4 @@
 :global(#showcase).hero { position:relative; isolation:isolate; overflow:hidden; padding:clamp(64px,7vw,132px) 0 0; background:transparent; text-align:center; }
-:global(#showcase).hero .wordmark { position:absolute; z-index:0; left:50%; top:clamp(-60px,-3.5vw,-20px); transform:translateX(-50%); width:104%; max-width:none; height:auto; opacity:1; pointer-events:none; user-select:none; }
 :global(#showcase).hero > .copy { position:relative; z-index:2; width:min(75%,1000px); max-width:1000px; padding:0; margin:auto; }
 .copy h2 { font-size:clamp(32px,4.3vw,80px); font-weight:500; line-height:1.2; letter-spacing:-.035em; color:white; }
 .copy p { margin-top:clamp(14px,1.5vw,28px); color:#e8efff; font-size:clamp(13px,1.2vw,22px); line-height:1.5; }
@@ -48,21 +47,25 @@
  margin:0; object-fit:contain;
 }
 
-/* Compact CTA proportions, keeping the artwork and four floating icons. */
-:global(#showcase).hero { padding-top:clamp(44px,5vw,76px); }
-.copy h2 { font-size:clamp(32px,3.3vw,56px); }
-.copy p { margin-top:14px; font-size:clamp(13px,1.1vw,17px); }
-.connect { min-height:46px; padding:8px 12px 8px 24px; margin-top:16px; font-size:16px; gap:12px; }
+/* Match the Figma CTA proportions while keeping the phone layout readable. */
+:global(#showcase).hero { padding-top:clamp(64px,6.5vw,124px); }
+.copy h2 { font-size:clamp(36px,4.2vw,76px); }
+.copy p { margin-top:18px; font-size:clamp(13px,1.1vw,20px); }
+.connect { min-height:48px; padding:9px 12px 9px 26px; margin-top:20px; font-size:clamp(15px,1.2vw,22px); gap:14px; }
 .connect span { width:28px; height:28px; }
-:global(#showcase).hero .icon { width:clamp(48px,6vw,96px); }
-:global(#showcase).hero .artwork { width:70%; margin-top:24px; }
-:global(#showcase).hero .plane { top:42%; }
-:global(#showcase).hero .bell { top:42%; }
+:global(#showcase).hero .icon { width:clamp(54px,7.2vw,130px); }
+:global(#showcase).hero .artwork { width:80%; margin-top:clamp(28px,3vw,56px); }
+:global(#showcase).hero .plane,:global(#showcase).hero .bell { top:39%; }
 @media(max-width:767px) {
- :global(#showcase).hero { padding-top:54px; }
- .copy h2 { font-size:clamp(27px,6.2vw,38px); }
- .copy p { margin-top:10px; }
+ :global(#showcase).hero { padding-top:66px; }
+ :global(#showcase).hero > .copy { width:94%; }
+ .copy h2 { font-size:clamp(27px,6.2vw,42px); }
+ .copy p { margin-top:12px; }
  :global(#showcase).hero .icon { width:44px; }
- :global(#showcase).hero .plane,:global(#showcase).hero .bell { top:55%; }
- :global(#showcase).hero .artwork { width:94%; margin-top:24px; }
+ :global(#showcase).hero .plane,:global(#showcase).hero .bell { top:56%; }
+ :global(#showcase).hero .artwork { width:100%; margin-top:34px; }
+}
+
+@media(max-width:767px) {
+ :global(#showcase).hero .lock,:global(#showcase).hero .mail { top:20px; }
 }

@@ -12,6 +12,7 @@ import EcosystemNetwork from '../components/EcosystemNetwork';
 import LeadershipTeam from '../components/LeadershipTeam';
 import DashboardCTA from '../components/DashboardCTA';
 import Footer from '../components/Footer';
+import { publicAsset } from '../utils/publicAsset';
 
 export default function Home() {
   usePageScroll();
@@ -36,6 +37,7 @@ export default function Home() {
 
       <div className={styles.footerTransition}>
       <div className={`closing-section ${styles.footerWrap}`}>
+        <img className={styles.footerBackground} src={publicAsset('/image/Home/Group 40211.png')} alt="" aria-hidden="true" />
         <DashboardCTA />
         <Footer />
       </div>

@@ -155,3 +155,14 @@
 
 .footerTransition { background:#fff; padding:clamp(28px,3vw,48px) 0 clamp(20px,3vw,56px); display:flow-root; }
 .backgroundMerge .footerTransition .footerWrap:global(.closing-section) { margin-top:0; margin-bottom:0; }
+
+/* One continuous footer background, rather than a second rounded image in the CTA. */
+.footerBackground {
+ position:absolute; z-index:0; pointer-events:none; user-select:none;
+ top:clamp(-80px,-4vw,-16px); left:-2%; width:104%; max-width:none; height:auto;
+}
+.backgroundMerge .footerWrap:global(.closing-section) { max-width:1808px; }
+
+@media(max-width:767px) {
+ .footerBackground { -webkit-mask-image:linear-gradient(#000 0%,#000 40%,transparent 82%); mask-image:linear-gradient(#000 0%,#000 40%,transparent 82%); }
+}
