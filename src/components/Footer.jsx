@@ -1,15 +1,11 @@
 import { publicAsset } from '../utils/publicAsset';
+import { navigationUrl } from '../utils/pageRoutes';
 import React, { useEffect, useState } from 'react';
 import styles from './Footer.module.css';
 import { ArrowRight, MapPin, Mail, Facebook, Twitter, Linkedin, Instagram, ChevronDown } from 'lucide-react';
 
 export default function Footer({ page = 'home' }) {
-  const pageLink = href => {
-    if (href === '?page=buyers') return publicAsset('/?page=buyers');
-    if (page === 'home' || href === '#contact') return href;
-    if (href === '#audience') return '#contact';
-    return `${publicAsset('/')}${href}`;
-  };
+  const pageLink = href => navigationUrl(href, page);
   const [compact, setCompact] = useState(() => matchMedia('(max-width:639px)').matches);
   useEffect(() => {
     const query = matchMedia('(max-width:639px)');
@@ -21,9 +17,9 @@ export default function Footer({ page = 'home' }) {
     {
       title: 'Partnership',
       links: [
-        { name: 'Brands', href: '#audience' },
+        { name: 'Brands', href: '/advertisers' },
         { name: 'Publisher', href: '#audience' },
-        { name: 'Lead Buyer', href: '?page=buyers' },
+        { name: 'Lead Buyer', href: '/buyers' },
       ],
     },
     {

@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    { "source": "/buyers", "destination": "/partnerships/buyers", "permanent": true },
+    { "source": "/advertisers", "destination": "/partnerships/advertisers", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/partnerships/:path*", "destination": "/index.html" }
+  ]
+}

@@ -1,9 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Home from './pages/Home';
 import Buyers from './pages/Buyers';
+import Advertisers from './pages/Advertisers';
+import Navbar from './components/Navbar';
+import { pageRoutes, pageUrl } from './utils/pageRoutes';
 import { MotionConfig } from 'framer-motion';
 
+const pages = { home: Home, buyers: Buyers, advertisers: Advertisers };
+
 export default function App() {
-  const buyers = new URLSearchParams(window.location.search).get('page') === 'buyers';
-  return <MotionConfig reducedMotion="user">{buyers ? <Buyers /> : <Home />}</MotionConfig>;
+  const url = new URL(window.location.href);
+  const legacyBuyers = url.searchParams.get('page') === 'buyers';
+  const path = url.pathname.replace(/\/+$/, '').replace(/\/index\.html$/, '') || '/';
+  const aliases = { [`${import.meta.env.BASE_URL}buyers`]: 'buyers', [`${import.meta.env.BASE_URL}advertisers`]: 'advertisers' };
+  const page = legacyBuyers ? 'buyers' : aliases[path] || Object.keys(pageRoutes).find(key => (pageUrl(key).replace(/\/+$/, '') || '/') === path);
+  const Page = pages[page];
+
+  useEffect(() => {
+    if (!page) return;
+    const normalizeUrl = () => {
+      const canonical = new URL(window.location.href);
+      canonical.pathname = pageUrl(page);
+      if (legacyBuyers) canonical.searchParams.delete('page');
+      if (canonical.hash === '#hero') canonical.hash = '';
+      if (canonical.href !== window.location.href) history.replaceState(history.state, '', canonical);
+    };
+    normalizeUrl();
+    window.addEventListener('hashchange', normalizeUrl);
+    return () => window.removeEventListener('hashchange', normalizeUrl);
+  }, [page, legacyBuyers]);
+
+  return <MotionConfig reducedMotion="user">
+    <Navbar page={page || 'home'} />
+    {Page ? <Page /> : <main className="min-h-[60vh] flex flex-col items-center justify-center gap-6 px-6 text-center">
+      <h1 className="text-4xl font-bold">Page not found</h1>
+      <a className="rounded-full bg-blue-600 px-6 py-3 text-white" href={pageUrl('home')}>Back to Home</a>
+    </main>}
+  </MotionConfig>;
 }

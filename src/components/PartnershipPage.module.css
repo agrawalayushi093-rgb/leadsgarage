@@ -92,3 +92,6 @@
 }
 @media(max-width:479px) { .requirementGrid { grid-template-columns:1fr; }.requirementCard { padding:26px; }.requirementCard p { font-size:16px; }.heroArt { width:100%; }.stepControls button { width:36px; height:36px; }.page .sectionHeader h2 { font-size:28px; } }
 @media(prefers-reduced-motion:reduce) { .whiteButton,.darkButton { transition:none; }.page :global(*) { scroll-behavior:auto; } }
+
+.cloudCopy { text-align:center; position:relative; z-index:1; }
+.cloudCopy > p { color:#667085; font-size:clamp(14px,1.2vw,22px); line-height:1.5; margin-top:14px; max-width:520px; }

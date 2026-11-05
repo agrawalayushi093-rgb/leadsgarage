@@ -1,4 +1,5 @@
 import { publicAsset } from '../utils/publicAsset';
+import { navigationUrl } from '../utils/pageRoutes';
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './Navbar.module.css';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
@@ -7,8 +8,8 @@ import { ChevronDown, Menu, X, Globe, Send, Users, Target, BarChart3, Shield, Do
 const menus = {
   Partnerships: { title: 'Power in Partnership', description: 'Connect with the right people, programs, and opportunities to grow.', href: '#audience', items: [
     ['Publisher Network', 'Top offers and dedicated support for your audience.', Send],
-    ['Advertiser Solutions', 'Acquire high-quality customers at scale.', Globe],
-    ['Lead Buyers', 'Quality leads built around your business.', Target, '?page=buyers'],
+    ['Advertisers', 'Acquire high-quality customers at scale.', Globe, '/advertisers'],
+    ['Buyers', 'Quality leads built around your business.', Target, '/buyers'],
     ['Agency Partners', 'Build stronger campaigns with a trusted partner.', Users],
     ['Affiliate Programs', 'Performance partnerships built around your goals.', Target]
   ], feature: ['Explore our partnerships', 'Find your next growth opportunity.'] },
@@ -42,12 +43,7 @@ const menus = {
 };
 
 export default function Navbar({ page = 'home' }) {
-  const pageLink = href => {
-    if (href === '?page=buyers') return publicAsset('/?page=buyers');
-    if (page === 'home') return href;
-    if (href === '#audience') return '#contact';
-    return `${publicAsset('/')}${href}`;
-  };
+  const pageLink = href => navigationUrl(href, page);
   const { scrollY } = useScroll();
   const scrollProgress = useTransform(scrollY, [0, 220], [0, 1]);
   const easedProgress = useTransform(scrollProgress, p => p * p * (3 - 2 * p));
@@ -65,7 +61,7 @@ export default function Navbar({ page = 'home' }) {
   }, [activeDropdown]);
   const close = () => { setActiveDropdown(null); setMobileMenuOpen(false); };
   const links = name => menus[name].items.map(([label, description, Icon, href]) => (
-    <a key={label} href={pageLink(href || menus[name].href)} className={styles.megaLink} aria-current={page === 'buyers' && href === '?page=buyers' ? 'page' : undefined} onClick={close}>
+    <a key={label} href={pageLink(href || menus[name].href)} className={styles.megaLink} aria-current={((page === 'buyers' && href === '/buyers') || (page === 'advertisers' && href === '/advertisers')) ? 'page' : undefined} onClick={close}>
       <Icon aria-hidden="true" /><span><strong>{label}</strong><small>{description}</small></span>
     </a>
   ));
@@ -82,7 +78,7 @@ export default function Navbar({ page = 'home' }) {
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             <div><a href={pageLink('#hero')} onMouseEnter={() => setActiveDropdown(null)} className="flex items-center text-xs xl:text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors py-1">Home</a></div>
             {Object.keys(menus).map(name => <div key={name} onMouseEnter={() => setActiveDropdown(name)}>
-              <button ref={el => { triggerRefs.current[name] = el; }} type="button" className={`${styles.trigger} ${activeDropdown === name || (page === 'buyers' && name === 'Partnerships') ? styles.active : ''}`}
+              <button ref={el => { triggerRefs.current[name] = el; }} type="button" className={`${styles.trigger} ${activeDropdown === name || (page !== 'home' && name === 'Partnerships') ? styles.active : ''}`}
                 aria-expanded={activeDropdown === name} aria-controls={`mega-${name}`} onClick={() => setActiveDropdown(name)}
                 onKeyDown={e => { if (e.key === 'ArrowDown') { e.preventDefault(); setActiveDropdown(name); requestAnimationFrame(() => headerRef.current?.querySelector(`#mega-${name} a`)?.focus()); } }}>
                 {name}

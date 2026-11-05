@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import usePageScroll from '../hooks/usePageScroll';
 import styles from './Home.module.css';
 import Preloader from '../components/Preloader';
-import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import ServicesShowcase from '../components/ServicesShowcase';
 import WhyChooseUs from '../components/WhyChooseUs';
@@ -23,7 +22,6 @@ export default function Home() {
       <Preloader onComplete={() => setIntroComplete(true)} />
 
       {/* Main Website Content (pre-rendered underneath to prevent blinking) */}
-      <Navbar />
 
       <main>
         <Hero enabled={introComplete} />
