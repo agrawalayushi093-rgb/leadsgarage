@@ -8,6 +8,7 @@ const menus = {
   Partnerships: { title: 'Power in Partnership', description: 'Connect with the right people, programs, and opportunities to grow.', href: '#audience', items: [
     ['Publisher Network', 'Top offers and dedicated support for your audience.', Send],
     ['Advertiser Solutions', 'Acquire high-quality customers at scale.', Globe],
+    ['Lead Buyers', 'Quality leads built around your business.', Target, '?page=buyers'],
     ['Agency Partners', 'Build stronger campaigns with a trusted partner.', Users],
     ['Affiliate Programs', 'Performance partnerships built around your goals.', Target]
   ], feature: ['Explore our partnerships', 'Find your next growth opportunity.'] },
@@ -40,7 +41,13 @@ const menus = {
   ], feature: ['Get in Touch', 'Let’s build your next chapter of growth.'] }
 };
 
-export default function Navbar() {
+export default function Navbar({ page = 'home' }) {
+  const pageLink = href => {
+    if (href === '?page=buyers') return publicAsset('/?page=buyers');
+    if (page === 'home') return href;
+    if (href === '#audience') return '#contact';
+    return `${publicAsset('/')}${href}`;
+  };
   const { scrollY } = useScroll();
   const scrollProgress = useTransform(scrollY, [0, 220], [0, 1]);
   const easedProgress = useTransform(scrollProgress, p => p * p * (3 - 2 * p));
@@ -58,11 +65,11 @@ export default function Navbar() {
   }, [activeDropdown]);
   const close = () => { setActiveDropdown(null); setMobileMenuOpen(false); };
   const links = name => menus[name].items.map(([label, description, Icon, href]) => (
-    <a key={label} href={href || menus[name].href} className={styles.megaLink} onClick={close}>
+    <a key={label} href={pageLink(href || menus[name].href)} className={styles.megaLink} aria-current={page === 'buyers' && href === '?page=buyers' ? 'page' : undefined} onClick={close}>
       <Icon aria-hidden="true" /><span><strong>{label}</strong><small>{description}</small></span>
     </a>
   ));
-  const feature = name => <a href={name === 'Company' ? '#audience' : menus[name].href} className={styles.feature} onClick={close}>
+  const feature = name => <a href={pageLink(name === 'Company' ? '#audience' : menus[name].href)} className={styles.feature} onClick={close}>
     <span className={styles.featureIcon}><ArrowUpRight aria-hidden="true" /></span><small>{menus[name].feature[0]}</small>
     <h3>{menus[name].feature[1]}</h3><span className={styles.featureCta}>{name === 'Company' ? 'Contact Us' : 'Explore more'} <ArrowUpRight size={16} /></span>
   </a>;
@@ -71,11 +78,11 @@ export default function Navbar() {
       onMouseLeave={() => setActiveDropdown(null)} onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setActiveDropdown(null); }}>
       <nav className="bg-transparent pt-6 sm:pt-7 pb-4">
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between relative">
-          <div className="flex items-center"><a href="#" className="flex items-center gap-2 group"><img src={publicAsset("/image/leads-garage.png")} alt="Leads Garage Logo" className="h-6 sm:h-7 w-auto object-contain transition-transform duration-200 group-hover:scale-105" /></a></div>
+          <div className="flex items-center"><a href={publicAsset('/')} className="flex items-center gap-2 group"><img src={publicAsset("/image/leads-garage.png")} alt="Leads Garage Logo" className="h-6 sm:h-7 w-auto object-contain transition-transform duration-200 group-hover:scale-105" /></a></div>
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-            <div><a href="#hero" onMouseEnter={() => setActiveDropdown(null)} className="flex items-center text-xs xl:text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors py-1">Home</a></div>
+            <div><a href={pageLink('#hero')} onMouseEnter={() => setActiveDropdown(null)} className="flex items-center text-xs xl:text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors py-1">Home</a></div>
             {Object.keys(menus).map(name => <div key={name} onMouseEnter={() => setActiveDropdown(name)}>
-              <button ref={el => { triggerRefs.current[name] = el; }} type="button" className={`${styles.trigger} ${activeDropdown === name ? styles.active : ''}`}
+              <button ref={el => { triggerRefs.current[name] = el; }} type="button" className={`${styles.trigger} ${activeDropdown === name || (page === 'buyers' && name === 'Partnerships') ? styles.active : ''}`}
                 aria-expanded={activeDropdown === name} aria-controls={`mega-${name}`} onClick={() => setActiveDropdown(name)}
                 onKeyDown={e => { if (e.key === 'ArrowDown') { e.preventDefault(); setActiveDropdown(name); requestAnimationFrame(() => headerRef.current?.querySelector(`#mega-${name} a`)?.focus()); } }}>
                 {name}
@@ -83,8 +90,8 @@ export default function Navbar() {
             </div>)}
           </div>
           <div className="nav-actions hidden lg:flex items-center gap-3">
-            <a href="#services" className="bg-white border border-slate-200 hover:border-slate-300 text-slate-800 rounded-full px-5 py-2 font-bold text-xs transition-all shadow-sm cursor-pointer inline-block">Login</a>
-            <a href="#audience" className="bg-[#0A1C3E] hover:bg-[#00102B] text-white rounded-full px-6 py-2.5 font-bold text-xs shadow-md transition-all cursor-pointer inline-block">Let’s Connect</a>
+            <a href={pageLink('#services')} className="bg-white border border-slate-200 hover:border-slate-300 text-slate-800 rounded-full px-5 py-2 font-bold text-xs transition-all shadow-sm cursor-pointer inline-block">Login</a>
+            <a href={pageLink('#audience')} className="bg-[#0A1C3E] hover:bg-[#00102B] text-white rounded-full px-6 py-2.5 font-bold text-xs shadow-md transition-all cursor-pointer inline-block">Let’s Connect</a>
           </div>
           <div className="flex lg:hidden items-center gap-2"><button onClick={() => { setMobileMenuOpen(!mobileMenuOpen); setActiveDropdown(null); }} className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors" aria-label="Toggle menu" aria-expanded={mobileMenuOpen} aria-controls="mobile-navigation">{mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}</button></div>
         </div>
@@ -94,18 +101,18 @@ export default function Navbar() {
           <div className={styles.intro}><h2>{menus[activeDropdown].title}</h2><p>{menus[activeDropdown].description}</p></div>
           <div className={styles.linkGrid}>{activeDropdown === 'Resources' && <h2 className={styles.resourceTitle}>Resources</h2>}{links(activeDropdown)}</div>
           {activeDropdown === 'Resources' ? <div className={styles.resourceCards}>
-            <a href="#services" onClick={close}><img src={publicAsset("/image/Home/herosection/image 95.png")} alt="Publisher growth" /><small>Explore our solutions</small><h3>Build your next stage of growth</h3></a>
-            <a href="#quality" onClick={close}><img src={publicAsset("/image/Home/herosection/image 96.png")} alt="Customer acquisition" /><small>Our approach</small><h3>Quality traffic. Better outcomes.</h3></a>
+            <a href={pageLink('#services')} onClick={close}><img src={publicAsset("/image/Home/herosection/image 95.png")} alt="Publisher growth" /><small>Explore our solutions</small><h3>Build your next stage of growth</h3></a>
+            <a href={pageLink('#quality')} onClick={close}><img src={publicAsset("/image/Home/herosection/image 96.png")} alt="Customer acquisition" /><small>Our approach</small><h3>Quality traffic. Better outcomes.</h3></a>
           </div> : feature(activeDropdown)}
         </div>
       </motion.div>}</AnimatePresence>
       <AnimatePresence>{mobileMenuOpen && <motion.div id="mobile-navigation" className="lg:hidden bg-white px-4 pt-3 pb-6 shadow-xl overflow-hidden" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
-        <a href="#hero" onClick={close} className={styles.mobileTrigger}>Home</a>
+        <a href={pageLink('#hero')} onClick={close} className={styles.mobileTrigger}>Home</a>
         {Object.keys(menus).map(name => <div key={name}>
           <button type="button" className={styles.mobileTrigger} aria-expanded={mobileDropdown === name} aria-controls={`mobile-${name}`} onClick={() => setMobileDropdown(current => current === name ? null : name)}>{name}<ChevronDown size={18} style={{ transform: mobileDropdown === name ? 'rotate(180deg)' : undefined }} /></button>
           {mobileDropdown === name && <div id={`mobile-${name}`} className={styles.mobileLinks}>{links(name)}</div>}
         </div>)}
-        <div className="pt-4 border-t border-slate-200 flex flex-col gap-3"><a href="#services" onClick={close} className="w-full text-center py-2.5 text-xs font-bold text-slate-800 bg-white border border-slate-200 rounded-full">Login</a><a href="#audience" onClick={close} className="w-full text-center py-3 text-xs font-bold text-white bg-[#0A1C3E] rounded-full shadow-md">Let’s Connect</a></div>
+        <div className="pt-4 border-t border-slate-200 flex flex-col gap-3"><a href={pageLink('#services')} onClick={close} className="w-full text-center py-2.5 text-xs font-bold text-slate-800 bg-white border border-slate-200 rounded-full">Login</a><a href={pageLink('#audience')} onClick={close} className="w-full text-center py-3 text-xs font-bold text-white bg-[#0A1C3E] rounded-full shadow-md">Let’s Connect</a></div>
       </motion.div>}</AnimatePresence>
     </motion.header><div className="site-header-spacer" aria-hidden="true" />
   </>;

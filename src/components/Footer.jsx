@@ -3,7 +3,13 @@ import React, { useEffect, useState } from 'react';
 import styles from './Footer.module.css';
 import { ArrowRight, MapPin, Mail, Facebook, Twitter, Linkedin, Instagram, ChevronDown } from 'lucide-react';
 
-export default function Footer() {
+export default function Footer({ page = 'home' }) {
+  const pageLink = href => {
+    if (href === '?page=buyers') return publicAsset('/?page=buyers');
+    if (page === 'home' || href === '#contact') return href;
+    if (href === '#audience') return '#contact';
+    return `${publicAsset('/')}${href}`;
+  };
   const [compact, setCompact] = useState(() => matchMedia('(max-width:639px)').matches);
   useEffect(() => {
     const query = matchMedia('(max-width:639px)');
@@ -17,7 +23,7 @@ export default function Footer() {
       links: [
         { name: 'Brands', href: '#audience' },
         { name: 'Publisher', href: '#audience' },
-        { name: 'Lead Buyer', href: '#audience' },
+        { name: 'Lead Buyer', href: '?page=buyers' },
       ],
     },
     {
@@ -61,7 +67,7 @@ export default function Footer() {
     {columns.map(column=><nav key={column.title} aria-label={column.title}>
      <details open={!compact} className={styles.linkGroup}>
       <summary onClick={event => { if (!compact) event.preventDefault(); }}><span>{column.title}</span><ChevronDown size={18} /></summary>
-      <ul>{column.links.map(link=><li key={link.name}><a href={link.href}>{link.name}</a></li>)}</ul>
+      <ul>{column.links.map(link=><li key={link.name}><a href={pageLink(link.href)}>{link.name}</a></li>)}</ul>
      </details>
     </nav>)}
     <address id="contact" className={styles.contact}>
@@ -71,13 +77,13 @@ export default function Footer() {
    </div>
    <div className={styles.bottom}>
     <div className={styles.brand}>
-     <a href="#hero"><img src={publicAsset('/image/Home/footer/Leads_Garage_Logo.svg')} alt="Leads Garage" /></a>
+     <a href={pageLink('#hero')}><img src={publicAsset('/image/Home/footer/Leads_Garage_Logo.svg')} alt="Leads Garage" /></a>
      <small>© 2026 Leads Garage. All rights reserved.</small>
     </div>
     <nav className={styles.socials} aria-label="Social media">
      {[{Icon:Facebook,label:'Facebook'},{Icon:Twitter,label:'Twitter'},{Icon:Linkedin,label:'LinkedIn'},{Icon:Instagram,label:'Instagram'}].map(({Icon,label})=><a key={label} href="#" aria-label={label}><Icon size={18} /></a>)}
     </nav>
-    <a className={styles.contactButton} href="#audience">Contact Us <span><ArrowRight size={18} /></span></a>
+    <a className={styles.contactButton} href={pageLink('#audience')}>Contact Us <span><ArrowRight size={18} /></span></a>
    </div>
   </footer>;
 }
