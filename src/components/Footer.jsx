@@ -25,7 +25,8 @@ export default function Footer({ page = 'home' }) {
     {
       title: 'Solutions',
       links: [
-        { name: 'Affiliate Marketing', href: '#services' },
+        { name: 'Affiliate Marketing', href: '/affiliate-marketing' },
+        { name: 'Inbound Call Solutions', href: '/inbound-call-solutions' },
         { name: 'Email & SMS', href: '#services' },
         { name: 'List management', href: '#services' },
         { name: 'CRM Consultation', href: '#services' },

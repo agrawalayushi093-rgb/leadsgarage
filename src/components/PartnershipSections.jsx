@@ -12,12 +12,12 @@ export function FloatingIcons({ className = '' }) {
   </div>;
 }
 
-export function RequirementsSection({ title, items }) {
+export function RequirementsSection({ title, items, iconColor }) {
   return <section className={styles.requirements} aria-labelledby="requirements-title">
     <div className={styles.container}>
       <h2 id="requirements-title">{title}</h2>
       <div className={styles.requirementGrid}>{items.map(([Icon, heading, description, color]) => <article key={heading} className={styles.requirementCard}>
-        <span className={styles.requirementIcon} style={{ background: color }}><Icon size={32} strokeWidth={1.6} aria-hidden="true" /></span>
+        <span className={styles.requirementIcon} style={{ background: color, color: iconColor }}><Icon size={32} strokeWidth={1.6} aria-hidden="true" /></span>
         <h3>{heading}</h3><p>{description}</p>
       </article>)}</div>
     </div>
