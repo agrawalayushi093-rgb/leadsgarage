@@ -54,7 +54,7 @@ export function HowItWorks({ steps }) {
         <button type="button" aria-label="Next step" disabled={activeStep === steps.length - 1} onClick={() => goToStep(activeStep + 1)}><ArrowRight size={20} /></button>
       </div>
     </div>
-    <div ref={track} className={styles.stepsTrack} onScroll={syncStep} role="region" aria-label="Campaign process steps" tabIndex={0}>
+    <div ref={track} className={`${styles.stepsTrack} ${styles.hiddenScrollbars}`} onScroll={syncStep} role="region" aria-label="Campaign process steps" tabIndex={0}>
       {steps.map(([Icon, title, description], index) => <article className={`${styles.stepCard} ${activeStep === index ? styles.activeStep : ''}`} key={title}>
         <span className={styles.stepNumber}>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{description}</p>
         <div className={styles.stepArtwork} aria-hidden="true"><Icon size={58} strokeWidth={1.6} /></div>

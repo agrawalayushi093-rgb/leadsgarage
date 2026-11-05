@@ -47,6 +47,8 @@
 .stepControls { display:flex; gap:10px; }.stepControls button { display:grid; place-items:center; width:46px; height:46px; border:1px solid #e1e8f5; border-radius:50%; background:#fff; }.stepControls button:disabled { opacity:.3; cursor:default; }
 .stepsTrack { --step-width:29%; --step-gap:32px; display:flex; gap:var(--step-gap); overflow-x:auto; overscroll-behavior-x:contain; scroll-snap-type:x mandatory; scrollbar-width:thin; scrollbar-color:#cbdcff transparent; padding:5px 0 25px; }
 .stepsTrack::after { content:''; flex:0 0 calc(100% - var(--step-width) - var(--step-gap)); }
+.hiddenScrollbars { overflow-y:hidden; scrollbar-width:none; -ms-overflow-style:none; }
+.hiddenScrollbars::-webkit-scrollbar { display:none; width:0; height:0; }
 .stepCard { flex:0 0 var(--step-width); min-width:0; position:relative; isolation:isolate; scroll-snap-align:start; padding:40px 35px 200px; border:1px solid #e1e8f5; border-radius:30px; background:#fff; box-shadow:0 14px 24px #10295208; }
 .stepNumber { display:grid; place-items:center; width:66px; height:66px; background:#f6f6f7; color:#222; border-radius:50%; font-size:25px; font-weight:800; margin-bottom:32px; }
 .activeStep .stepNumber { color:#fff; background:#1b56d9; }
