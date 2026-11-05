@@ -14,3 +14,5 @@ Serve `.js` as JavaScript and `.css` as CSS. Keep `index.html` uncached or reval
 For a local production check, run `npm run preview`. This is a preview command, not the production hosting setup.
 
 Verify direct page visits, refresh, navigation and asset loading after changing the host configuration.
+
+All pages reuse `SiteFooter` from `src/components/PartnershipSections.jsx`. The Advertisers FAQ remains a page section above the shared footer.

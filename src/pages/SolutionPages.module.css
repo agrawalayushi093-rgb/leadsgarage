@@ -36,7 +36,3 @@
 }
 @media(max-width:540px) { .models { grid-template-columns:1fr; }.models > h2 { grid-column:1; grid-row:auto; }.model0,.model1,.model2,.model3 { grid-column:auto; grid-row:auto; transform:none; }.modelCard { padding:28px; }.modelCard h3 { font-size:26px; }.modelCard > p { margin-block:22px; }.modelFlow { font-size:13px; padding:13px; gap:12px; }.callFlow { padding:30px 15px; gap:5px; }.callFlow div > span { width:57px; }.callFlow > svg { width:17px; }.conversationsGrid ul { grid-template-columns:1fr; gap:22px; }.channelViewport { --channel-height:480px; height:560px; } }
 @media(prefers-reduced-motion:reduce) { .squareButton,.outlineButton,.channelTrack { transition:none; } }
-
-.page :global(#showcase) h2 { font-size:clamp(30px,4.2vw,76px); font-weight:500; }
-
-.page :global(#showcase) h2 + p { margin-top:18px; }

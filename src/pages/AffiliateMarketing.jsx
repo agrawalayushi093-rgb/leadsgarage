@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ChartNoAxesCombined, Expand, Gauge, Handshake, Headphones, Link, Mail, MessageSquare, PhoneCall, ShieldCheck, SlidersHorizontal, Target, UsersRound, Zap } from 'lucide-react';
-import { RequirementsSection } from '../components/PartnershipSections';
-import DashboardCTA from '../components/DashboardCTA';
-import Footer from '../components/Footer';
+import { RequirementsSection, SiteFooter } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
 import shared from '../components/PartnershipPage.module.css';
-import homeStyles from './Home.module.css';
 import styles from './SolutionPages.module.css';
 
 const paleBlue = '#e5ebff';
@@ -86,14 +83,6 @@ export default function AffiliateMarketing() {
         <div>{reasons.map(([Icon, title, description]) => <article key={title}><Icon size={29} strokeWidth={1.5} aria-hidden="true" /><div><h3>{title}</h3><p>{description}</p></div></article>)}</div>
       </section>
     </main>
-    <div className={homeStyles.backgroundMerge}>
-      <div className={homeStyles.footerTransition}>
-        <div className={`closing-section ${homeStyles.footerWrap}`}>
-          <img className={homeStyles.footerBackground} src={publicAsset('/image/Home/Group 40211.png')} alt="" aria-hidden="true" />
-          <DashboardCTA contactHref="#contact" />
-          <Footer page="affiliateMarketing" />
-        </div>
-      </div>
-    </div>
+    <SiteFooter page="affiliateMarketing" />
   </div>;
 }

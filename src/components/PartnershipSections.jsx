@@ -76,9 +76,8 @@ export function IndustriesSection({ title, items, folder, imageAssets }) {
   </section>;
 }
 
-export function PartnershipFooter({ page, children, assetFolder }) {
+export function SiteFooter({ page, assetFolder }) {
   return <div className={styles.footerShell}>
-    {children}
     <section className={styles.closingCta} aria-labelledby="partnership-cta-title">
       <FloatingIcons assetFolder={assetFolder} />
       <h2 id="partnership-cta-title">Ready to Start Buying<br />Quality Leads?</h2>

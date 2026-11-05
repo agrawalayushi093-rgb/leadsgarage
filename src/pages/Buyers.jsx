@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { ArrowRight, BadgeCheck, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, Check, Headphones, House, Landmark, Layers, ShieldCheck, SlidersHorizontal, Target, Users, Zap } from 'lucide-react';
-import { BenefitsCloud, FloatingIcons, HowItWorks, IndustriesSection, PartnershipFooter, RequirementsSection } from '../components/PartnershipSections';
+import { ArrowRight, BadgeCheck, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, Headphones, House, Landmark, Layers, ShieldCheck, SlidersHorizontal, Target, Users, Zap } from 'lucide-react';
+import { BenefitsCloud, FloatingIcons, HowItWorks, IndustriesSection, SiteFooter, RequirementsSection } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
 import styles from '../components/PartnershipPage.module.css';
 
@@ -13,6 +13,10 @@ const requirements = [
   [Headphones, 'Dedicated Support', 'Work directly with our team to discuss requirements, performance, and optimization opportunities.', '#53dbb9'],
 ];
 const benefits = ['Fresh Lead Delivery', 'Quality Monitoring', 'Transparent Communication', 'Targeted Geography', 'Quality-Focused Leads', 'Custom Qualification Criteria'];
+const asset = name => `/image/Buyers/${name}.png`;
+const requirementIcons = ['Feature symbol', 'Feature symbol (1)', 'Feature symbol (2)', 'Icon bg (3)', 'Icon bg (4)', 'Icon bg (5)'].map(asset);
+const processIcons = ['Group 40217', 'Group 40217 (1)', 'Group 40217 (2)', 'Group 40217 (3)'].map(asset);
+const processCurves = ['Frame 1000004767', 'Frame 1000004767 (1)', 'Frame 1000004767 (2)', 'Frame 1000004767 (3)'].map(asset);
 const steps = [
   [Users, 'Tell Us What You Need', 'Share your vertical, target geography, lead type, qualification criteria, and desired volume.'],
   [ChartNoAxesColumnIncreasing, 'We Build Your Campaign', 'We match your requirements with the appropriate traffic & lead-generation sources.'],
@@ -45,16 +49,16 @@ export default function Buyers() {
           <img src={publicAsset('/image/Buyers/hero-art.webp')} width="580" height="650" alt="A team reviewing customer opportunities. Targeting by geography, audience and vertical, with quality-focused leads built around your requirements." fetchPriority="high" />
         </div>
       </section>
-      <RequirementsSection title="Built Around Your Requirements" items={requirements} />
-      <BenefitsCloud title="Why Buy Leads From" emphasis="Leadsgarage?" items={benefits} />
-      <HowItWorks steps={steps} />
+      <RequirementsSection title="Built Around Your Requirements" items={requirements} iconAssets={requirementIcons} />
+      <BenefitsCloud title="Why Buy Leads From" emphasis="Leadsgarage?" items={benefits} assetFolder="Buyers" />
+      <HowItWorks steps={steps} artworkAssets={processIcons} curveAssets={processCurves} />
       <section className={`${styles.container} ${styles.benefitSummary}`} aria-labelledby="summary-title">
         <h2 id="summary-title">Why Buy Leads From<br /><strong>Leadsgarage?</strong></h2>
-        <ul>{['Quality-Focused Leads', 'Targeted Geography', 'Custom Qualification Criteria', 'Fresh Lead Delivery', 'Quality Monitoring', 'Transparent Communication'].map(benefit => <li key={benefit}><span><Check size={23} /></span>{benefit}</li>)}</ul>
-        <FloatingIcons />
+        <ul>{['Quality-Focused Leads', 'Targeted Geography', 'Custom Qualification Criteria', 'Fresh Lead Delivery', 'Quality Monitoring', 'Transparent Communication'].map(benefit => <li key={benefit}><span className={styles.assetPill}><img src={publicAsset(asset('Check symbol'))} alt="" width="50" height="50" /></span>{benefit}</li>)}</ul>
+        <FloatingIcons assetFolder="Buyers" />
       </section>
       <IndustriesSection title="Industries We Support" items={industries} folder="Buyers" />
     </main>
-    <PartnershipFooter page="buyers" />
+    <SiteFooter page="buyers" assetFolder="Buyers" />
   </div>;
 }

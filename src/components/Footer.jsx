@@ -80,7 +80,7 @@ export default function Footer({ page = 'home' }) {
     <nav className={styles.socials} aria-label="Social media">
      {[{Icon:Facebook,label:'Facebook'},{Icon:Twitter,label:'Twitter'},{Icon:Linkedin,label:'LinkedIn'},{Icon:Instagram,label:'Instagram'}].map(({Icon,label})=><a key={label} href="#" aria-label={label}><Icon size={18} /></a>)}
     </nav>
-    <a className={styles.contactButton} href={pageLink('#audience')}>Contact Us <span><ArrowRight size={18} /></span></a>
+    <a className={styles.contactButton} href={pageLink('#contact')}>Contact Us <span><ArrowRight size={18} /></span></a>
    </div>
   </footer>;
 }

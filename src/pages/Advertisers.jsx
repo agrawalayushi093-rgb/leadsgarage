@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, BadgeCheck, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, Headphones, Heart, House, Landmark, Layers, Leaf, ShieldCheck, ShoppingCart, SlidersHorizontal, Target, Users, Zap } from 'lucide-react';
-import { BenefitsCloud, HowItWorks, IndustriesSection, PartnershipFooter, RequirementsSection } from '../components/PartnershipSections';
+import { BenefitsCloud, HowItWorks, IndustriesSection, SiteFooter, RequirementsSection } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
 import shared from '../components/PartnershipPage.module.css';
 import styles from './Advertisers.module.css';
@@ -78,7 +78,8 @@ export default function Advertisers() {
       <BenefitsCloud title="Performance" emphasis="Marketing Solutions" subtitle="Flexible solutions tailored to your goals and KPIs." items={solutions} iconAssets={solutionIcons} assetFolder="Advertisers" />
       <IndustriesSection title="Industries We Serve" items={industries} folder="Advertisers" imageAssets={{ insurance: asset('Rectangle') }} />
       <div className={styles.process}><HowItWorks steps={steps} artworkAssets={processIcons} curveAssets={processCurves} /></div>
+      <div className={styles.faqShell}><CampaignFAQ /></div>
     </main>
-    <PartnershipFooter page="advertisers" assetFolder="Advertisers"><CampaignFAQ /></PartnershipFooter>
+    <SiteFooter page="advertisers" assetFolder="Advertisers" />
   </div>;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ArrowLeftRight, ArrowRight, Check, ChartNoAxesColumn, Headphones, Phone, PhoneIncoming, PhoneCall, Send, UserRound, UsersRound } from 'lucide-react';
-import { PartnershipFooter } from '../components/PartnershipSections';
+import { SiteFooter } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
 import shared from '../components/PartnershipPage.module.css';
 import styles from './SolutionPages.module.css';
@@ -95,6 +95,6 @@ export default function InboundCallSolutions() {
         </div>
       </section>
     </main>
-    <PartnershipFooter page="inboundCalls" />
+    <SiteFooter page="inboundCalls" />
   </div>;
 }
