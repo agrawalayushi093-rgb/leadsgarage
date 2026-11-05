@@ -6,33 +6,33 @@ import styles from './PartnershipPage.module.css';
 
 const floatingIcons = ['Group 40197.png', 'Group 40195.png', 'Group 40198.png', 'Group 40196.png'];
 
-export function FloatingIcons({ className = '' }) {
+export function FloatingIcons({ className = '', assetFolder = 'Home' }) {
   return <div className={`${styles.floatingIcons} ${className}`} aria-hidden="true">
-    {floatingIcons.map(file => <img key={file} src={publicAsset(`/image/Home/${file}`)} alt="" width="150" height="150" />)}
+    {floatingIcons.map(file => <img key={file} src={publicAsset(`/image/${assetFolder}/${file}`)} alt="" width="150" height="150" />)}
   </div>;
 }
 
-export function RequirementsSection({ title, items, iconColor }) {
+export function RequirementsSection({ title, items, iconColor, iconAssets }) {
   return <section className={styles.requirements} aria-labelledby="requirements-title">
     <div className={styles.container}>
       <h2 id="requirements-title">{title}</h2>
-      <div className={styles.requirementGrid}>{items.map(([Icon, heading, description, color]) => <article key={heading} className={styles.requirementCard}>
-        <span className={styles.requirementIcon} style={{ background: color, color: iconColor }}><Icon size={32} strokeWidth={1.6} aria-hidden="true" /></span>
+      <div className={styles.requirementGrid}>{items.map(([Icon, heading, description, color], index) => <article key={heading} className={styles.requirementCard}>
+        {iconAssets?.[index] ? <img className={styles.requirementIcon} src={publicAsset(iconAssets[index])} alt="" width="80" height="80" /> : <span className={styles.requirementIcon} style={{ background: color, color: iconColor }}><Icon size={32} strokeWidth={1.6} aria-hidden="true" /></span>}
         <h3>{heading}</h3><p>{description}</p>
       </article>)}</div>
     </div>
   </section>;
 }
 
-export function BenefitsCloud({ title, emphasis, subtitle, items }) {
+export function BenefitsCloud({ title, emphasis, subtitle, items, iconAssets, assetFolder }) {
   return <section className={`${styles.container} ${styles.benefitCloud}`} aria-labelledby="benefits-title">
-    <FloatingIcons />
+    <FloatingIcons assetFolder={assetFolder} />
     <div className={styles.cloudCopy}><h2 id="benefits-title">{title}<br /><strong>{emphasis}</strong></h2>{subtitle && <p>{subtitle}</p>}</div>
-    <ul>{items.map((benefit, index) => <li key={benefit} className={styles[`pill${index}`]}><span><Check size={19} /></span>{benefit}</li>)}</ul>
+    <ul>{items.map((benefit, index) => <li key={benefit} className={styles[`pill${index}`]}><span className={iconAssets?.[index] ? styles.assetPill : undefined}>{iconAssets?.[index] ? <img src={publicAsset(iconAssets[index])} alt="" width="49" height="49" /> : <Check size={19} />}</span>{benefit}</li>)}</ul>
   </section>;
 }
 
-export function HowItWorks({ steps }) {
+export function HowItWorks({ steps, artworkAssets, curveAssets }) {
   const track = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
   const goToStep = index => {
@@ -55,9 +55,10 @@ export function HowItWorks({ steps }) {
       </div>
     </div>
     <div ref={track} className={`${styles.stepsTrack} ${styles.hiddenScrollbars}`} onScroll={syncStep} role="region" aria-label="Campaign process steps" tabIndex={0}>
-      {steps.map(([Icon, title, description], index) => <article className={`${styles.stepCard} ${activeStep === index ? styles.activeStep : ''}`} key={title}>
+      {steps.map(([Icon, title, description], index) => <article className={`${styles.stepCard} ${activeStep === index ? styles.activeStep : ''} ${curveAssets?.[index] ? styles.customCurve : ''}`} key={title}>
         <span className={styles.stepNumber}>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{description}</p>
-        <div className={styles.stepArtwork} aria-hidden="true"><Icon size={58} strokeWidth={1.6} /></div>
+        {curveAssets?.[index] && <img className={styles.stepCurve} src={publicAsset(curveAssets[index])} alt="" width="354" height="171" />}
+        <div className={`${styles.stepArtwork} ${artworkAssets?.[index] ? styles.assetArtwork : ''}`} aria-hidden="true">{artworkAssets?.[index] ? <img src={publicAsset(artworkAssets[index])} alt="" width="170" height="170" /> : <Icon size={58} strokeWidth={1.6} />}</div>
         {index < steps.length - 1 && <button className={styles.stepArrow} type="button" aria-label={`Go to step ${index + 2}`} onClick={() => goToStep(index + 1)}><ArrowRight size={24} /></button>}
       </article>)}
     </div>
@@ -65,21 +66,21 @@ export function HowItWorks({ steps }) {
   </section>;
 }
 
-export function IndustriesSection({ title, items, folder }) {
+export function IndustriesSection({ title, items, folder, imageAssets }) {
   return <section className={`${styles.container} ${styles.industries}`} aria-labelledby="industries-title">
     <h2 id="industries-title">{title}</h2>
     <div className={styles.industryGrid}>{items.map(([Icon, heading, description, asset]) => <article className={styles.industryCard} key={heading}>
-      <img src={publicAsset(`/image/${folder}/${asset}.webp`)} width="540" height="237" alt={`${heading} industry`} loading="lazy" />
+      <img src={publicAsset(imageAssets?.[asset] || `/image/${folder}/${asset}.webp`)} width="540" height="237" alt={`${heading} industry`} loading="lazy" />
       <div><h3><Icon size={27} strokeWidth={1.7} aria-hidden="true" />{heading}</h3><p>{description}</p></div>
     </article>)}</div>
   </section>;
 }
 
-export function PartnershipFooter({ page, children }) {
+export function PartnershipFooter({ page, children, assetFolder }) {
   return <div className={styles.footerShell}>
     {children}
     <section className={styles.closingCta} aria-labelledby="partnership-cta-title">
-      <FloatingIcons />
+      <FloatingIcons assetFolder={assetFolder} />
       <h2 id="partnership-cta-title">Ready to Start Buying<br />Quality Leads?</h2>
       <p>Tell us what you're looking for, and our team will work with you to<br className={styles.desktopBreak} /> build a lead-generation campaign around your requirements.</p>
       <a className={styles.darkButton} href="#contact">Let's Work Together <ArrowRight size={22} /></a>

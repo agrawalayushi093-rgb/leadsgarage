@@ -14,6 +14,11 @@ const goals = [
   [Headphones, 'Dedicated Support', 'Work directly with our team on requirements, performance, and optimisation opportunities.', '#53dbb9'],
 ];
 const solutions = ['Lead Generation (CPL)', 'Email Marketing', 'Pay Per Call', 'Native & Display', 'Cost Per Acquisition', 'Mobile Marketing'];
+const asset = name => `/image/Advertisers/${name}.png`;
+const goalIcons = ['Icon bg', 'Icon bg (1)', 'Icon bg (2)', 'Icon bg (3)', 'Icon bg (4)', 'Icon bg (5)'].map(asset);
+const solutionIcons = ['Check symbol (1)', 'Check symbol (2)', 'Check symbol', 'Check symbol (3)', 'Check symbol (1)', 'Check symbol (4)'].map(asset);
+const processIcons = ['Group 40217', 'Group 40217 (1)', 'Group 40217 (2)', 'Group 40217 (3)'].map(asset);
+const processCurves = ['Frame 1000004767', 'Frame 1000004767 (1)', 'Frame 1000004767 (2)', 'Frame 1000004767 (3)'].map(asset);
 const industries = [
   [Landmark, 'Finance', 'Connect with prospects interested in financial products and services.', 'finance'],
   [ShieldCheck, 'Insurance', 'Reach customers exploring insurance products and coverage options.', 'insurance'],
@@ -69,11 +74,11 @@ export default function Advertisers() {
         </div>
         <img className={styles.heroArt} src={publicAsset('/image/Advertisers/hero-art.webp')} width="1138" height="780" alt="Performance dashboard with campaign metrics, continuous optimisation, high-intent traffic, and brand safety." fetchPriority="high" />
       </section>
-      <RequirementsSection title="Built Around Your Campaign Goals" items={goals} />
-      <BenefitsCloud title="Performance" emphasis="Marketing Solutions" subtitle="Flexible solutions tailored to your goals and KPIs." items={solutions} />
-      <IndustriesSection title="Industries We Serve" items={industries} folder="Advertisers" />
-      <div className={styles.process}><HowItWorks steps={steps} /></div>
+      <RequirementsSection title="Built Around Your Campaign Goals" items={goals} iconAssets={goalIcons} />
+      <BenefitsCloud title="Performance" emphasis="Marketing Solutions" subtitle="Flexible solutions tailored to your goals and KPIs." items={solutions} iconAssets={solutionIcons} assetFolder="Advertisers" />
+      <IndustriesSection title="Industries We Serve" items={industries} folder="Advertisers" imageAssets={{ insurance: asset('Rectangle') }} />
+      <div className={styles.process}><HowItWorks steps={steps} artworkAssets={processIcons} curveAssets={processCurves} /></div>
     </main>
-    <PartnershipFooter page="advertisers"><CampaignFAQ /></PartnershipFooter>
+    <PartnershipFooter page="advertisers" assetFolder="Advertisers"><CampaignFAQ /></PartnershipFooter>
   </div>;
 }

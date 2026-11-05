@@ -61,6 +61,12 @@
 .activeStep .stepArtwork { background:linear-gradient(#326cf4,#164ecb); color:white; border:0; }
 .stepArrow { position:absolute; right:-25px; bottom:55px; z-index:2; display:grid; place-items:center; width:52px; height:52px; border:7px solid #fff; border-radius:50%; background:#f0f5ff; }
 .stepDots { display:flex; justify-content:center; gap:4px; padding-top:8px; }.stepDots button { display:grid; place-items:center; width:36px; height:36px; }.stepDots button::before { content:''; width:9px; height:9px; border-radius:50%; background:#d8dfed; }.stepDots button[aria-current]::before { width:24px; border-radius:8px; background:#255ff3; }
+.benefitCloud li > .assetPill { background:transparent; }
+.assetPill img { display:block; width:100%; height:100%; object-fit:contain; }
+.stepArtwork.assetArtwork { background:transparent; border:0; }
+.assetArtwork img { display:block; width:100%; height:100%; object-fit:contain; }
+.customCurve::before,.customCurve::after { content:none; }
+.stepCurve { position:absolute; z-index:-1; left:0; bottom:0; width:85%; height:auto; pointer-events:none; }
 .benefitSummary { position:relative; isolation:isolate; overflow:hidden; border-radius:30px; padding:clamp(40px,7vw,135px); margin-block:clamp(80px,9vw,170px); background:linear-gradient(110deg,#f7f7f7,#fdfdfd); }
 .benefitSummary h2 { font-weight:400; font-size:clamp(32px,3.7vw,70px); line-height:1.4; }
 .benefitSummary ul { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:55px 35px; list-style:none; padding:0; margin:65px 0 0; width:79%; }
