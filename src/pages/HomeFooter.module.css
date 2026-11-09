@@ -1,0 +1,27 @@
+.shell {
+ position:relative;
+ isolation:isolate;
+ overflow:hidden;
+ background:url('/image/Home/Ellipse 568.png') center clamp(-200px,-12vw,-70px) / min(85%,1250px) auto no-repeat,linear-gradient(160deg,#6894ff 0%,#2f60dd 78%);
+}
+.shell::before {
+ content:'';
+ position:absolute;
+ inset:0;
+ z-index:-1;
+ pointer-events:none;
+ background:url('/image/Home/Group 40201.png') center clamp(-60px,-3vw,-20px) / 104% auto no-repeat;
+ opacity:.35;
+}
+.shell.shell :global(#showcase) img { margin:0; -webkit-mask-image:none; mask-image:none; }
+.shell.shell :global(#showcase) { padding-top:clamp(100px,10.8vw,200px); }
+.shell.shell :global(#showcase) a { min-width:clamp(175px,15vw,280px); min-height:clamp(44px,3.8vw,64px); padding:10px 24px; font-size:clamp(14px,1.25vw,22px); gap:12px; }
+.shell.shell :global(#showcase) a span { width:clamp(22px,1.9vw,30px); height:clamp(22px,1.9vw,30px); }
+.shell.shell :global(#showcase) a svg { width:19px; height:19px; }
+.shell :global(#showcase) > img { margin:0; }
+.shell.shell :global(#showcase) figure { width:90%; margin-top:clamp(28px,3vw,56px); margin-bottom:0; }
+@media(max-width:767px) {
+ .shell::before { background-size:auto 340px; }
+ .shell.shell :global(#showcase) { padding-top:76px; }
+ .shell.shell :global(#showcase) figure { width:100%; margin-top:32px; }
+}

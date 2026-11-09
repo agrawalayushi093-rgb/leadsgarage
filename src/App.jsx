@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Preloader from './components/Preloader';
+import { hasSeenIntro } from './utils/introSession';
 import Home from './pages/Home';
 import Buyers from './pages/Buyers';
 import Advertisers from './pages/Advertisers';
@@ -15,6 +17,7 @@ import { MotionConfig } from 'framer-motion';
 const pages = { home: Home, buyers: Buyers, advertisers: Advertisers, inboundCalls: InboundCallSolutions, affiliateMarketing: AffiliateMarketing, webDevelopment: WebDevelopment, socialMediaMarketing: SocialMediaMarketing, insurance: InsuranceSolutions, about: AboutUs };
 
 export default function App() {
+  const [introComplete, setIntroComplete] = useState(hasSeenIntro);
   const url = new URL(window.location.href);
   const legacyBuyers = url.searchParams.get('page') === 'buyers';
   const path = url.pathname.replace(/\/+$/, '').replace(/\/index\.html$/, '') || '/';
@@ -37,8 +40,9 @@ export default function App() {
   }, [page, legacyBuyers]);
 
   return <MotionConfig reducedMotion="user">
+    {!introComplete && <Preloader onComplete={() => setIntroComplete(true)} />}
     <Navbar page={page || 'home'} />
-    {Page ? <Page /> : <main className="min-h-[60vh] flex flex-col items-center justify-center gap-6 px-6 text-center">
+    {Page ? <Page introComplete={introComplete} /> : <main className="min-h-[60vh] flex flex-col items-center justify-center gap-6 px-6 text-center">
       <h1 className="text-4xl font-bold">Page not found</h1>
       <a className="rounded-full bg-blue-600 px-6 py-3 text-white" href={pageUrl('home')}>Back to Home</a>
     </main>}

@@ -27,7 +27,6 @@ export default function Footer({ page = 'home' }) {
       links: [
         { name: 'Affiliate Marketing', href: '/affiliate-marketing' },
         { name: 'PPC', href: '#services' },
-        { name: 'Email Marketing', href: '#services' },
         { name: 'Email & SMS', href: '#services' },
         { name: 'List Management', href: '#services' },
         { name: 'CRM Consultation', href: '#services' },
@@ -51,6 +50,8 @@ export default function Footer({ page = 'home' }) {
         { name: 'About Us', href: '/about-us' },
         { name: 'Contact Us', href: '#contact' },
         { name: 'Career', href: '#team' },
+        { name: 'Terms & Condition', href: '#contact' },
+        { name: 'Policy', href: '#contact' },
       ],
     },
   ];

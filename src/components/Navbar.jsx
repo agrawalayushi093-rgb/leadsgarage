@@ -14,7 +14,6 @@ const menus = {
   Solutions: { title: 'Solutions for Growth', description: 'One partner. Multiple solutions. Built around your goals.', href: '#services', items: [
     ['Affiliate Marketing', 'Performance programs that help you acquire customers.', Users, '/affiliate-marketing'],
     ['PPC', 'Reach high-intent audiences through targeted paid campaigns.', Target],
-    ['Email Marketing', 'Build engagement with relevant email campaigns.', Mail],
     ['Email & SMS', 'Reach your audience with targeted campaigns.', Mail],
     ['List Management', 'Clean, verified data for better reach.', Database],
     ['CRM Consultation', 'Connect your customer journey from lead to conversion.', Target],
@@ -28,17 +27,12 @@ const menus = {
     ['Health & Beauty', 'Grow your reach and build lasting loyalty.', Heart],
     ['E-Commerce', 'Turn engaged shoppers into customers.', ShoppingBag]
   ], feature: ['Why brands choose us', 'High-intent traffic. Real-time lead delivery.'] },
-  Resources: { title: 'Resources', description: 'Explore how we deliver better results.', href: '#quality', items: [
-    ['Articles & Insights', 'Explore our approach to performance and growth.', Bookmark],
-    ['Case Studies', 'Discover the solutions behind better outcomes.', PieChart],
-    ['Webinars & Events', 'Connect with our team to learn more.', Calendar],
-    ['Press', 'Meet the people behind Leads Garage.', FileText],
-    ['FAQ', 'Learn about our quality and verification process.', CircleHelp]
-  ], feature: ['Quality comes first', 'Every impression deserves protection.'] },
   Company: { title: 'Meet Leads Garage', description: 'Get to know our story, our team, and how to connect.', href: '#team', items: [
     ['About Us', 'Meet the people behind our success.', Users, '/about-us'],
     ['Contact Us', 'Have a question or an idea? Let’s talk.', Mail, '#contact'],
-    ['Career', 'Connect with our team about opportunities.', Smile]
+    ['Career', 'Connect with our team about opportunities.', Smile],
+    ['Terms & Condition', 'Contact our team for terms and conditions.', FileText, '#contact'],
+    ['Policy', 'Contact our team for policy information.', Shield, '#contact']
   ], feature: ['Get in Touch', 'Let’s build your next chapter of growth.'] }
 };
 

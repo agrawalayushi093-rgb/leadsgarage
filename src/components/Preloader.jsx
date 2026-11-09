@@ -1,4 +1,5 @@
 import { publicAsset } from '../utils/publicAsset';
+import { markIntroSeen } from '../utils/introSession';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -8,6 +9,7 @@ export default function Preloader({ onComplete }) {
   const finish = useCallback(() => {
     if (completed.current) return;
     completed.current = true;
+    markIntroSeen();
     setLoading(false);
 
   }, []);
