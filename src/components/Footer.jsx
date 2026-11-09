@@ -31,14 +31,14 @@ export default function Footer({ page = 'home' }) {
         { name: 'List management', href: '#services' },
         { name: 'CRM Consultation', href: '#services' },
         { name: 'Web Dev.', href: '/web-development' },
-        { name: 'SMM', href: '#services' },
+        { name: 'SMM', href: '/social-media-marketing' },
       ],
     },
     {
       title: 'Industry',
       links: [
         { name: 'Finance', href: '#solutions' },
-        { name: 'Insurance', href: '#solutions' },
+        { name: 'Insurance', href: '/insurance-solutions' },
         { name: 'Dating', href: '#solutions' },
         { name: 'Home Service', href: '#solutions' },
         { name: 'Nutra', href: '#solutions' },

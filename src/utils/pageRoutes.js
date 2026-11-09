@@ -6,6 +6,8 @@ export const pageRoutes = {
   inboundCalls: 'solutions/inbound-call-solutions',
   affiliateMarketing: 'solutions/affiliate-marketing',
   webDevelopment: 'solutions/web-development',
+  socialMediaMarketing: 'solutions/social-media-marketing',
+  insurance: 'industries/insurance-solutions',
 };
 
 export function pageUrl(page) {
@@ -13,6 +15,8 @@ export function pageUrl(page) {
 }
 
 export function navigationUrl(href, page) {
+  if (href === '/social-media-marketing') return pageUrl('socialMediaMarketing');
+  if (href === '/insurance-solutions') return pageUrl('insurance');
   if (href === '/buyers') return pageUrl('buyers');
   if (href === '/advertisers') return pageUrl('advertisers');
   if (href === '/inbound-call-solutions') return pageUrl('inboundCalls');

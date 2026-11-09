@@ -20,10 +20,10 @@ const menus = {
     ['List Management', 'Clean, verified data for better reach.', Database],
     ['CRM Consultation', 'Connect your customer journey from lead to conversion.', Target],
     ['Web Development', 'Build digital experiences that drive growth.', Code, '/web-development'],
-    ['SMM', 'Connect with your audience across social channels.', BarChart3]
+    ['SMM', 'Connect with your audience across social channels.', BarChart3, '/social-media-marketing']
   ], feature: ['Discover our solutions', 'Smarter strategies. Measurable growth.'] },
   Industries: { title: 'Built for Your Industry', description: 'Performance strategies tailored to your audience and business.', href: '#solutions', items: [
-    ['Insurance', 'Connect with customers looking for the right coverage.', Shield],
+    ['Insurance', 'Connect with customers looking for the right coverage.', Shield, '/insurance-solutions'],
     ['Finance', 'Reach high-intent audiences across the funnel.', DollarSign],
     ['Home Services', 'Connect with homeowners ready to take action.', House],
     ['E-Commerce & Retail', 'Turn engaged shoppers into customers.', ShoppingBag],

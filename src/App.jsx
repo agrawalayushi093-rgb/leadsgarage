@@ -5,11 +5,13 @@ import Advertisers from './pages/Advertisers';
 import InboundCallSolutions from './pages/InboundCallSolutions';
 import AffiliateMarketing from './pages/AffiliateMarketing';
 import WebDevelopment from './pages/WebDevelopment';
+import SocialMediaMarketing from './pages/SocialMediaMarketing';
+import InsuranceSolutions from './pages/InsuranceSolutions';
 import Navbar from './components/Navbar';
 import { pageRoutes, pageUrl } from './utils/pageRoutes';
 import { MotionConfig } from 'framer-motion';
 
-const pages = { home: Home, buyers: Buyers, advertisers: Advertisers, inboundCalls: InboundCallSolutions, affiliateMarketing: AffiliateMarketing, webDevelopment: WebDevelopment };
+const pages = { home: Home, buyers: Buyers, advertisers: Advertisers, inboundCalls: InboundCallSolutions, affiliateMarketing: AffiliateMarketing, webDevelopment: WebDevelopment, socialMediaMarketing: SocialMediaMarketing, insurance: InsuranceSolutions };
 
 export default function App() {
   const url = new URL(window.location.href);
