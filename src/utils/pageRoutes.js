@@ -8,6 +8,7 @@ export const pageRoutes = {
   webDevelopment: 'solutions/web-development',
   socialMediaMarketing: 'solutions/social-media-marketing',
   insurance: 'industries/insurance-solutions',
+  about: 'company/about-us',
 };
 
 export function pageUrl(page) {
@@ -17,6 +18,7 @@ export function pageUrl(page) {
 export function navigationUrl(href, page) {
   if (href === '/social-media-marketing') return pageUrl('socialMediaMarketing');
   if (href === '/insurance-solutions') return pageUrl('insurance');
+  if (href === '/about-us') return pageUrl('about');
   if (href === '/buyers') return pageUrl('buyers');
   if (href === '/advertisers') return pageUrl('advertisers');
   if (href === '/inbound-call-solutions') return pageUrl('inboundCalls');

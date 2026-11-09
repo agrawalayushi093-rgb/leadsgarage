@@ -4,6 +4,7 @@
     { "source": "/advertisers", "destination": "/partnerships/advertisers", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/company/:path*", "destination": "/index.html" },
     { "source": "/industries/:path*", "destination": "/index.html" },
     { "source": "/partnerships/:path*", "destination": "/index.html" },
     { "source": "/solutions/:path*", "destination": "/index.html" }

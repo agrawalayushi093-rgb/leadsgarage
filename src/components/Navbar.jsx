@@ -7,27 +7,26 @@ import { ChevronDown, Menu, X, Globe, Send, Users, Target, BarChart3, Shield, Do
 
 const menus = {
   Partnerships: { title: 'Power in Partnership', description: 'Connect with the right people, programs, and opportunities to grow.', href: '#audience', items: [
-    ['Publisher Network', 'Top offers and dedicated support for your audience.', Send],
     ['Advertisers', 'Acquire high-quality customers at scale.', Globe, '/advertisers'],
-    ['Buyers', 'Quality leads built around your business.', Target, '/buyers'],
-    ['Agency Partners', 'Build stronger campaigns with a trusted partner.', Users],
-    ['Affiliate Programs', 'Performance partnerships built around your goals.', Target]
+    ['Publishers', 'Top offers and dedicated support for your audience.', Send],
+    ['Buyer', 'Quality leads built around your business.', Target, '/buyers']
   ], feature: ['Explore our partnerships', 'Find your next growth opportunity.'] },
   Solutions: { title: 'Solutions for Growth', description: 'One partner. Multiple solutions. Built around your goals.', href: '#services', items: [
     ['Affiliate Marketing', 'Performance programs that help you acquire customers.', Users, '/affiliate-marketing'],
-    ['Inbound Call Solutions', 'Connect with high-intent customers through quality calls.', PhoneIncoming, '/inbound-call-solutions'],
+    ['PPC', 'Reach high-intent audiences through targeted paid campaigns.', Target],
+    ['Email Marketing', 'Build engagement with relevant email campaigns.', Mail],
     ['Email & SMS', 'Reach your audience with targeted campaigns.', Mail],
     ['List Management', 'Clean, verified data for better reach.', Database],
     ['CRM Consultation', 'Connect your customer journey from lead to conversion.', Target],
     ['Web Development', 'Build digital experiences that drive growth.', Code, '/web-development'],
-    ['SMM', 'Connect with your audience across social channels.', BarChart3, '/social-media-marketing']
+    ['SMM (Social Media Marketing)', 'Connect with your audience across social channels.', BarChart3, '/social-media-marketing']
   ], feature: ['Discover our solutions', 'Smarter strategies. Measurable growth.'] },
   Industries: { title: 'Built for Your Industry', description: 'Performance strategies tailored to your audience and business.', href: '#solutions', items: [
     ['Insurance', 'Connect with customers looking for the right coverage.', Shield, '/insurance-solutions'],
-    ['Finance', 'Reach high-intent audiences across the funnel.', DollarSign],
     ['Home Services', 'Connect with homeowners ready to take action.', House],
-    ['E-Commerce & Retail', 'Turn engaged shoppers into customers.', ShoppingBag],
-    ['Health & Beauty', 'Grow your reach and build lasting loyalty.', Heart]
+    ['Finance', 'Reach high-intent audiences across the funnel.', DollarSign],
+    ['Health & Beauty', 'Grow your reach and build lasting loyalty.', Heart],
+    ['E-Commerce', 'Turn engaged shoppers into customers.', ShoppingBag]
   ], feature: ['Why brands choose us', 'High-intent traffic. Real-time lead delivery.'] },
   Resources: { title: 'Resources', description: 'Explore how we deliver better results.', href: '#quality', items: [
     ['Articles & Insights', 'Explore our approach to performance and growth.', Bookmark],
@@ -37,9 +36,9 @@ const menus = {
     ['FAQ', 'Learn about our quality and verification process.', CircleHelp]
   ], feature: ['Quality comes first', 'Every impression deserves protection.'] },
   Company: { title: 'Meet Leads Garage', description: 'Get to know our story, our team, and how to connect.', href: '#team', items: [
-    ['About Us', 'Meet the people behind our success.', Users],
-    ['Careers', 'Connect with our team about opportunities.', Smile],
-    ['Contact Us', 'Have a question or an idea? Let’s talk.', Mail, '#audience']
+    ['About Us', 'Meet the people behind our success.', Users, '/about-us'],
+    ['Contact Us', 'Have a question or an idea? Let’s talk.', Mail, '#contact'],
+    ['Career', 'Connect with our team about opportunities.', Smile]
   ], feature: ['Get in Touch', 'Let’s build your next chapter of growth.'] }
 };
 

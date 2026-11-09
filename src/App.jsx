@@ -7,11 +7,12 @@ import AffiliateMarketing from './pages/AffiliateMarketing';
 import WebDevelopment from './pages/WebDevelopment';
 import SocialMediaMarketing from './pages/SocialMediaMarketing';
 import InsuranceSolutions from './pages/InsuranceSolutions';
+import AboutUs from './pages/AboutUs';
 import Navbar from './components/Navbar';
 import { pageRoutes, pageUrl } from './utils/pageRoutes';
 import { MotionConfig } from 'framer-motion';
 
-const pages = { home: Home, buyers: Buyers, advertisers: Advertisers, inboundCalls: InboundCallSolutions, affiliateMarketing: AffiliateMarketing, webDevelopment: WebDevelopment, socialMediaMarketing: SocialMediaMarketing, insurance: InsuranceSolutions };
+const pages = { home: Home, buyers: Buyers, advertisers: Advertisers, inboundCalls: InboundCallSolutions, affiliateMarketing: AffiliateMarketing, webDevelopment: WebDevelopment, socialMediaMarketing: SocialMediaMarketing, insurance: InsuranceSolutions, about: AboutUs };
 
 export default function App() {
   const url = new URL(window.location.href);
