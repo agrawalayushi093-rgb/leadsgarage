@@ -63,3 +63,9 @@
 }
 @media(max-width:380px) { .capabilities { grid-template-columns:1fr; gap:45px; }.capabilities article { min-height:180px; }.processGrid { grid-template-columns:1fr; }.step { min-height:310px; } }
 @media(prefers-reduced-motion:reduce) { .stepIcon { transition:none; } }
+@media(prefers-reduced-motion:no-preference) and (hover:hover) and (pointer:fine) {
+ .strengthCard { transition:transform 350ms cubic-bezier(.22,1,.36,1); }
+ .strengthCard > img { transition:transform 450ms cubic-bezier(.22,1,.36,1); }
+ .strengthCard:hover { transform:translate3d(0,-4px,0); }
+ .strengthCard:hover > img { transform:scale(1.025); }
+}

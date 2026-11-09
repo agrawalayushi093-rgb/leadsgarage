@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import Footer from '../components/Footer';
 import { FloatingIcons } from '../components/PartnershipSections';
@@ -30,6 +30,40 @@ const strengths = [
 
 export default function WebDevelopment() {
   const [step, setStep] = useState(0);
+  const strengthsSection = useRef(null);
+  useEffect(() => {
+    const section = strengthsSection.current;
+    if (!section || !window.IntersectionObserver || !section.animate) return;
+    const motion = matchMedia('(prefers-reduced-motion: reduce)');
+    const animations = new Set();
+    const play = (element, frames, options) => {
+      const animation = element.animate(frames, options);
+      animations.add(animation);
+      animation.onfinish = () => animations.delete(animation);
+    };
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting || motion.matches) return;
+        observer.unobserve(target);
+        play(target, [{ opacity: 0, transform: 'translate3d(0,24px,0)' }, { opacity: 1, transform: 'translate3d(0,0,0)' }], { duration: 650, easing: 'cubic-bezier(.22,1,.36,1)' });
+        const image = target.querySelector('img');
+        if (image) play(image, [{ transform: 'translate3d(10px,0,0) scale(.97)' }, { transform: 'translate3d(0,0,0) scale(1)' }], { duration: 750, easing: 'cubic-bezier(.22,1,.36,1)' });
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -24px 0px' });
+    if (!motion.matches) section.querySelectorAll('[data-strength-reveal]').forEach(element => observer.observe(element));
+    const stopMotion = () => {
+      if (!motion.matches) return;
+      observer.disconnect();
+      animations.forEach(animation => animation.cancel());
+      animations.clear();
+    };
+    motion.addEventListener('change', stopMotion);
+    return () => {
+      observer.disconnect();
+      animations.forEach(animation => animation.cancel());
+      motion.removeEventListener('change', stopMotion);
+    };
+  }, []);
   useEffect(() => {
     const previous = document.title;
     document.title = 'Web Development | Leads Garage';
@@ -49,10 +83,10 @@ export default function WebDevelopment() {
       </section>
 
       <div className={styles.curvedArea}>
-        <section className={styles.strengths} aria-labelledby="strengths-title">
-          <h2 id="strengths-title">Our Core Strengths</h2>
-          <p>Everything you need to fill your sales pipeline with ready-to-buy prospects.</p>
-          <div className={styles.strengthList}>{strengths.map(([title, description, image, alt], index) => <article key={title} className={`${styles.strengthCard} ${styles[`strength${index}`]}`}>
+        <section ref={strengthsSection} className={styles.strengths} aria-labelledby="strengths-title">
+          <h2 id="strengths-title" data-strength-reveal>Our Core Strengths</h2>
+          <p data-strength-reveal>Everything you need to fill your sales pipeline with ready-to-buy prospects.</p>
+          <div className={styles.strengthList}>{strengths.map(([title, description, image, alt], index) => <article key={title} data-strength-reveal className={`${styles.strengthCard} ${styles[`strength${index}`]}`}>
             <div><h3>{title}</h3><p>{description}</p></div>
             <img src={webAsset(image)} width="410" height="302" alt={alt} loading="lazy" />
           </article>)}</div>
