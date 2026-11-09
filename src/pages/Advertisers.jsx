@@ -78,8 +78,10 @@ export default function Advertisers() {
       <BenefitsCloud title="Performance" emphasis="Marketing Solutions" subtitle="Flexible solutions tailored to your goals and KPIs." items={solutions} iconAssets={solutionIcons} assetFolder="Advertisers" />
       <IndustriesSection title="Industries We Serve" items={industries} folder="Advertisers" imageAssets={{ insurance: asset('Rectangle') }} />
       <div className={styles.process}><HowItWorks steps={steps} artworkAssets={processIcons} curveAssets={processCurves} /></div>
-      <div className={styles.faqShell}><CampaignFAQ /></div>
     </main>
-    <SiteFooter page="advertisers" assetFolder="Advertisers" />
+    <div className={styles.closingArea}>
+      <div className={styles.faqShell}><CampaignFAQ /></div>
+      <SiteFooter page="advertisers" assetFolder="Advertisers" />
+    </div>
   </div>;
 }

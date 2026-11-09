@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ChartNoAxesCombined, Expand, Gauge, Handshake, Headphones, Link, Mail, MessageSquare, PhoneCall, ShieldCheck, SlidersHorizontal, Target, UsersRound, Zap } from 'lucide-react';
-import { RequirementsSection, SiteFooter } from '../components/PartnershipSections';
+import { RequirementsSection } from '../components/PartnershipSections';
+import DashboardCTA from '../components/DashboardCTA';
+import Footer from '../components/Footer';
+import footerStyles from './AffiliateFooter.module.css';
 import { publicAsset } from '../utils/publicAsset';
 import shared from '../components/PartnershipPage.module.css';
 import styles from './SolutionPages.module.css';
@@ -16,11 +19,11 @@ const benefits = [
 ];
 const channels = [
   [Mail, 'Email Marketing', 'Reach targeted audiences with engaging emails that drive opens, engagement, and conversions.', 'Email'],
-  [Handshake, 'Affiliate Partnerships', 'Connect with relevant campaigns and build performance partnerships around your audience and goals.', 'Affiliate'],
-  [MessageSquare, 'SMS Marketing', 'Reach your audience with relevant messages that encourage timely engagement and action.', 'SMS'],
-  [Target, 'PPC Advertising', 'Reach customers actively searching for your products and services through targeted advertising.', 'PPC'],
-  [Link, 'Link-Out Traffic', 'Connect engaged audiences with relevant destinations and opportunities across the customer journey.', 'Link-Out'],
-  [PhoneCall, 'Call Transfers', 'Connect qualified callers with the right business or solution expert through direct conversations.', 'Calls'],
+  [Handshake, 'Affiliate Partnerships', 'Leverage a network of performance partners who promote your offers and deliver measurable results.', 'Affiliate'],
+  [MessageSquare, 'SMS Marketing', 'Connect instantly with your audience through direct, timely, and action-oriented SMS campaigns.', 'SMS'],
+  [PhoneCall, 'Call Transfers', 'Connect high-intent prospects directly with your team through qualified call transfers.', 'Calls'],
+  [Link, 'Link-Out Traffic', 'Drive relevant traffic to your landing pages and offers from trusted websites and publishers.', 'Link-Out'],
+  [Target, 'PPC Advertising', 'Run high-intent paid campaigns across multiple platforms to drive targeted traffic and quality actions.', 'PPC'],
 ];
 const reasons = [
   [ShieldCheck, 'Quality Traffic', 'We deliver high-quality, verified traffic that drives real results.'],
@@ -30,6 +33,11 @@ const reasons = [
   [Expand, 'Scalable Opportunities', 'Grow with us as we continually add new campaigns and opportunities.'],
   [UsersRound, 'Dedicated Support', 'A dedicated team that’s with you every step of the way.'],
 ];
+
+const affiliateIcon = name => publicAsset(`/image/AffiliateMarketing/${name}`);
+const benefitIcons = ['Icon bg.png', ...Array.from({ length: 5 }, (_, i) => `Icon bg (${i + 1}).png`)];
+const channelIcons = ['Channel symbol.png', ...Array.from({ length: 5 }, (_, i) => `Channel symbol (${i + 1}).png`)];
+const reasonIcons = ['shield-check.png', 'target.png', 'gauge.png', 'chart-line.png', 'expand.png', 'users.png'];
 
 function ChannelShowcase() {
   const [active, setActive] = useState(0);
@@ -52,7 +60,7 @@ function ChannelShowcase() {
     </div>
     <div className={styles.channelViewport}>
       <div className={styles.channelTrack} style={{ '--channel-index': active }}>{channels.map(([Icon, title, description], index) => <article key={title} className={`${styles.channelCard} ${styles[`channel${index}`]}`} role="tabpanel" id={`channel-${index}`} aria-labelledby={`channel-tab-${index}`} aria-hidden={active !== index}>
-        <span><Icon size={34} strokeWidth={1.6} /></span><h3>{title}</h3><p>{description}</p>
+        <img className={styles.channelIcon} src={affiliateIcon(channelIcons[index])} width="72" height="72" alt="" /><h3>{title}</h3><p>{description}</p>
       </article>)}</div>
     </div>
   </section>;
@@ -76,13 +84,16 @@ export default function AffiliateMarketing() {
         </div>
         <img className={styles.affiliateHeroArt} src={publicAsset('/image/AffiliateMarketing/hero-art.webp')} width="787" height="535" alt="Performance marketing partners collaborating across email, SMS, PPC, affiliate partnerships, link-out traffic and call transfers." fetchPriority="high" />
       </section>
-      <RequirementsSection title="How Leadsgarage Helps Our Partners" items={benefits} iconColor="#1755f8" />
+      <RequirementsSection title="How Leadsgarage Helps Our Partners" items={benefits} iconColor="#1755f8" iconAssets={benefitIcons.map(affiliateIcon)} />
       <ChannelShowcase />
       <section className={`${shared.container} ${styles.whyPartner}`} aria-labelledby="why-partner-title">
         <h2 id="why-partner-title">Why Partner With Leadsgarage?</h2>
-        <div>{reasons.map(([Icon, title, description]) => <article key={title}><Icon size={29} strokeWidth={1.5} aria-hidden="true" /><div><h3>{title}</h3><p>{description}</p></div></article>)}</div>
+        <div>{reasons.map(([Icon, title, description], index) => <article key={title}><img className={styles.reasonIcon} src={affiliateIcon(reasonIcons[index])} width="29" height="29" alt="" /><div><h3>{title}</h3><p>{description}</p></div></article>)}</div>
       </section>
     </main>
-    <SiteFooter page="affiliateMarketing" />
+    <div className={`${shared.footerShell} ${footerStyles.shell}`}>
+      <DashboardCTA contactHref="#contact" />
+      <Footer page="affiliateMarketing" />
+    </div>
   </div>;
 }

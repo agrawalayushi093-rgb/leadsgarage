@@ -19,7 +19,7 @@ const menus = {
     ['Email & SMS', 'Reach your audience with targeted campaigns.', Mail],
     ['List Management', 'Clean, verified data for better reach.', Database],
     ['CRM Consultation', 'Connect your customer journey from lead to conversion.', Target],
-    ['Web Development', 'Build digital experiences that drive growth.', Code],
+    ['Web Development', 'Build digital experiences that drive growth.', Code, '/web-development'],
     ['SMM', 'Connect with your audience across social channels.', BarChart3]
   ], feature: ['Discover our solutions', 'Smarter strategies. Measurable growth.'] },
   Industries: { title: 'Built for Your Industry', description: 'Performance strategies tailored to your audience and business.', href: '#solutions', items: [

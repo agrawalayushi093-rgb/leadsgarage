@@ -1,4 +1,9 @@
 .hero { overflow:hidden; min-height:clamp(580px,48.5vw,930px); }
+.closingArea { width:calc(100% - 4.4%); max-width:1836px; margin:0 auto 30px; border-radius:clamp(32px,3.125vw,60px); overflow:hidden; background:radial-gradient(ellipse at 50% 36%,#438bec 0%,transparent 65%),linear-gradient(155deg,#2c60df 0%,#1652df 38%,#3375df 80%); }
+.closingArea > .faqShell { width:100%; max-width:none; margin:0; border-radius:0; background:none; }
+.closingArea > :last-child { width:100%; max-width:none; margin:0; border-radius:0; background:none; }
+.closingArea section[aria-labelledby="partnership-cta-title"]::before { -webkit-mask-image:linear-gradient(to bottom,transparent,#000 25%,#000 75%,transparent); mask-image:linear-gradient(to bottom,transparent,#000 25%,#000 75%,transparent); }
+@media(max-width:767px) { .closingArea { width:calc(100% - 24px); margin-bottom:15px; border-radius:32px; } }
 .hero h1 { font-size:clamp(40px,4.2vw,81px); }.hero h1 span { color:#70ffcd; }
 .hero :global(p) { max-width:680px; }
 .heroArt { position:absolute; bottom:0; right:0; z-index:1; width:61%; height:auto; pointer-events:none; }

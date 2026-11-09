@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ArrowLeftRight, ArrowRight, Check, ChartNoAxesColumn, Headphones, Phone, PhoneIncoming, PhoneCall, Send, UserRound, UsersRound } from 'lucide-react';
+import { ArrowLeftRight, ArrowRight, Check, ChartNoAxesColumn, Headphones, PhoneIncoming, Send, UsersRound } from 'lucide-react';
 import { SiteFooter } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
 import shared from '../components/PartnershipPage.module.css';
@@ -12,6 +12,8 @@ const models = [
   [UsersRound, 'Warm Transfers', 'A caller is qualified and introduced before the call is connected, creating a smoother transition.', 'Introduction', 'Connection'],
 ];
 const benefits = ['Reach high-intent audiences', 'Improve the customer journey', 'Scale call-based campaigns', 'Track call & campaign performance', 'Custom Qualification Criteria', 'Generate opportunities with real conversations'];
+const inboundAsset = file => publicAsset(`/image/InboundCalls/${file}`);
+const modelIcons = ['phone-incoming.png', 'headset (1).png', 'Model symbol.png', 'Model symbol (1).png'];
 const avatar = file => publicAsset(`/image/Home/section6/${file}`);
 
 function CallProcessArtwork({ step }) {
@@ -22,16 +24,7 @@ function CallProcessArtwork({ step }) {
     <img src={avatar('Group 40067.png')} alt="" width="80" height="80" />
     <span><ChartNoAxesColumn size={27} /></span>
   </div>;
-  if (step === 1) return <div className={styles.connectionArtwork} aria-hidden="true">
-    <img src={avatar('Group 40069.png')} alt="" width="80" height="80" />
-    <div className={styles.callWave}>{[9, 18, 26, 14].map((height, i) => <i key={i} style={{ height }} />)}<span><Phone size={20} /></span>{[14, 26, 18, 9].map((height, i) => <i key={i} style={{ height }} />)}</div>
-    <img src={avatar('Group 40067.png')} alt="" width="80" height="80" />
-    <small><i />Connected</small>
-  </div>;
-  return <div className={styles.dashboardArtwork} aria-hidden="true"><strong>Dashboard</strong>
-    <svg viewBox="0 0 180 85" fill="none"><path d="M8 72 36 46 58 55 86 22 109 35 135 20 154 28 174 7V80H8Z" fill="#e1f9ef" /><path d="M8 72 36 46 58 55 86 22 109 35 135 20 154 28 174 7" stroke="#0bc77c" strokeWidth="3" strokeLinejoin="round" /><circle cx="174" cy="7" r="5" fill="#0bc77c" /></svg>
-    <div><span>↑</span><p><b>+42%</b><small>High-Intent Clicks</small></p></div>
-  </div>;
+  return <div className={styles.inboundProcessArtwork} aria-hidden="true"><img src={inboundAsset(step === 1 ? 'image 24.png' : 'Container.png')} width={step === 1 ? 283 : 272} height={step === 1 ? 116 : 282} alt="" /></div>;
 }
 
 export default function InboundCallSolutions() {
@@ -62,16 +55,16 @@ export default function InboundCallSolutions() {
             <ul className={styles.criteria}>{['Call duration', 'Lead quality', 'Location'].map(item => <li key={item}><span><Check size={23} /></span>{item}</li>)}</ul>
           </div>
           <figure className={styles.callFlow} aria-label="Customer to quality call to solution expert">
-            <div><span><UserRound size={38} /></span><figcaption>Customer</figcaption></div><ArrowRight aria-hidden="true" />
-            <div><span><PhoneCall size={38} /></span><p>Quality call</p></div><ArrowRight aria-hidden="true" />
-            <div><span><Headphones size={38} /></span><p>Solution expert</p></div>
+            <div><span><img className={styles.inboundFlowIcon} src={inboundAsset('Vector.png')} width="33" height="37" alt="" /></span><figcaption>Customer</figcaption></div><ArrowRight aria-hidden="true" />
+            <div><span className={styles.inboundStage}><img src={inboundAsset('Stage icon.png')} width="112" height="112" alt="" /></span><p>Quality call</p></div><ArrowRight aria-hidden="true" />
+            <div><span><img className={styles.inboundFlowIcon} src={inboundAsset('headset.png')} width="46" height="46" alt="" /></span><p>Solution expert</p></div>
           </figure>
         </section>
 
         <section className={`${shared.container} ${styles.models}`} aria-labelledby="models-title">
           <h2 id="models-title"><strong>Pay Per Call</strong><br />Models</h2>
           {models.map(([Icon, title, description, from, to], index) => <article className={`${styles.modelCard} ${styles[`model${index}`]}`} key={title}>
-            <h3><span><Icon size={32} strokeWidth={1.6} /></span>{title}</h3><p>{description}</p>
+            <h3><span className={index > 1 ? styles.inboundModelSymbol : undefined}><img src={inboundAsset(modelIcons[index])} width={index > 1 ? 77 : 40} height={index > 1 ? 77 : 40} alt="" /></span>{title}</h3><p>{description}</p>
             <div className={styles.modelFlow}><strong>{from}</strong><i /><ArrowRight size={22} /><strong>{to}</strong></div>
           </article>)}
         </section>

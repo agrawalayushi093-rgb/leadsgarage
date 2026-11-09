@@ -30,7 +30,7 @@ export default function Footer({ page = 'home' }) {
         { name: 'Email & SMS', href: '#services' },
         { name: 'List management', href: '#services' },
         { name: 'CRM Consultation', href: '#services' },
-        { name: 'Web Dev.', href: '#services' },
+        { name: 'Web Dev.', href: '/web-development' },
         { name: 'SMM', href: '#services' },
       ],
     },

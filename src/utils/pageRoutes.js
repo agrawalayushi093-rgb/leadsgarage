@@ -5,6 +5,7 @@ export const pageRoutes = {
   advertisers: 'partnerships/advertisers',
   inboundCalls: 'solutions/inbound-call-solutions',
   affiliateMarketing: 'solutions/affiliate-marketing',
+  webDevelopment: 'solutions/web-development',
 };
 
 export function pageUrl(page) {
@@ -15,6 +16,7 @@ export function navigationUrl(href, page) {
   if (href === '/buyers') return pageUrl('buyers');
   if (href === '/advertisers') return pageUrl('advertisers');
   if (href === '/inbound-call-solutions') return pageUrl('inboundCalls');
+  if (href === '/web-development') return pageUrl('webDevelopment');
   if (href === '/affiliate-marketing') return pageUrl('affiliateMarketing');
   if (href === '#hero' || href === '/') return pageUrl('home');
   if (page === 'home' || href === '#contact') return href;
