@@ -1,3 +1,5 @@
+import TypingHighlight from '../components/TypingHighlight';
+import heroStyles from './AffiliateHero.module.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ChartNoAxesCombined, Expand, Gauge, Handshake, Headphones, Link, Mail, MessageSquare, PhoneCall, ShieldCheck, SlidersHorizontal, Target, UsersRound, Zap } from 'lucide-react';
 import { RequirementsSection } from '../components/PartnershipSections';
@@ -59,7 +61,7 @@ function ChannelShowcase() {
       <div className={styles.channelControls}><button type="button" aria-label="Previous channel" disabled={active === 0} onClick={() => setActive(current => current - 1)}><ArrowLeft size={21} /></button><button type="button" aria-label="Next channel" disabled={active === channels.length - 1} onClick={() => setActive(current => current + 1)}><ArrowRight size={21} /></button></div>
     </div>
     <div className={styles.channelViewport}>
-      <div className={styles.channelTrack} style={{ '--channel-index': active }}>{channels.map(([Icon, title, description], index) => <article key={title} className={`${styles.channelCard} ${styles[`channel${index}`]}`} role="tabpanel" id={`channel-${index}`} aria-labelledby={`channel-tab-${index}`} aria-hidden={active !== index}>
+      <div data-channel-track className={styles.channelTrack} style={{ '--channel-index': active }}>{channels.map(([Icon, title, description], index) => <article key={title} className={`${styles.channelCard} ${styles[`channel${index}`]}`} role="tabpanel" id={`channel-${index}`} aria-labelledby={`channel-tab-${index}`} aria-hidden={active !== index}>
         <img className={styles.channelIcon} src={affiliateIcon(channelIcons[index])} width="72" height="72" alt="" /><h3>{title}</h3><p>{description}</p>
       </article>)}</div>
     </div>
@@ -74,15 +76,22 @@ export default function AffiliateMarketing() {
   }, []);
   return <div className={`${shared.page} ${styles.page}`}>
     <main id="affiliate-marketing-main">
-      <section className={`${shared.hero} ${styles.solutionHero} ${styles.affiliateHero}`} aria-labelledby="affiliate-marketing-title">
+      <section className={`${shared.hero} ${styles.solutionHero} ${styles.affiliateHero}`} data-page-hero aria-labelledby="affiliate-marketing-title">
         <a className={shared.specialist} href="#contact">Connect with our Specialist <ArrowRight size={18} /></a>
         <div className={shared.heroCopy}>
           <span className={shared.eyebrow}>Affiliate Marketing</span>
-          <h1 id="affiliate-marketing-title">Performance<br />Partnerships.<br /><span>Meaningful Results.</span></h1>
+          <h1 id="affiliate-marketing-title">Performance<br />Partnerships.<br /><span><TypingHighlight>Meaningful Results.</TypingHighlight></span></h1>
           <p>Connect with customers who are actively looking for the products and services you offer.</p>
           <a className={shared.whiteButton} href="#contact">Let's Work Together <ArrowRight size={22} /></a>
         </div>
-        <img className={styles.affiliateHeroArt} src={publicAsset('/image/AffiliateMarketing/hero-art.webp')} width="787" height="535" alt="Performance marketing partners collaborating across email, SMS, PPC, affiliate partnerships, link-out traffic and call transfers." fetchPriority="high" />
+        <div data-hero-art className={`${styles.affiliateHeroArt} ${heroStyles.visual}`}>
+          <img className={heroStyles.team} src={affiliateIcon('Group 40229.png')} width="642" height="474" alt="Performance marketing partners collaborating to grow customer acquisition." fetchPriority="high" />
+          <img className={`${heroStyles.channel} ${heroStyles.link}`} src={affiliateIcon('Acquisition channel.png')} width="224" height="120" alt="Link-Out Traffic" />
+          <img className={`${heroStyles.channel} ${heroStyles.partners}`} src={affiliateIcon('Acquisition channel (1).png')} width="188" height="107" alt="Affiliate Partnerships" />
+          <img className={`${heroStyles.channel} ${heroStyles.email}`} src={affiliateIcon('Acquisition channel (2).png')} width="199" height="107" alt="Email Marketing" />
+          <img className={`${heroStyles.channel} ${heroStyles.ppc}`} src={affiliateIcon('Acquisition channel (3).png')} width="224" height="120" alt="PPC Advertising" />
+          <img className={`${heroStyles.channel} ${heroStyles.calls}`} src={affiliateIcon('Acquisition channel (4).png')} width="165" height="89" alt="Call Transfers" />
+        </div>
       </section>
       <RequirementsSection title="How Leadsgarage Helps Our Partners" items={benefits} iconColor="#1755f8" iconAssets={benefitIcons.map(affiliateIcon)} />
       <ChannelShowcase />
@@ -95,5 +104,6 @@ export default function AffiliateMarketing() {
       <DashboardCTA contactHref="#contact" />
       <Footer page="affiliateMarketing" />
     </div>
+    
   </div>;
 }

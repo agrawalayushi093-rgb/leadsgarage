@@ -25,3 +25,41 @@
  .shell.shell :global(#showcase) { padding-top:76px; }
  .shell.shell :global(#showcase) figure { width:100%; margin-top:32px; }
 }
+
+/* Home CTA fits below the fixed header without cropping its artwork. */
+.shell.shell :global(#showcase) {
+ box-sizing:border-box;
+ height:calc(100svh - clamp(96px,7.5vw,144px));
+ min-height:0;
+ display:grid;
+ grid-template-rows:auto minmax(0,1fr);
+ gap:clamp(16px,3svh,32px);
+ padding:clamp(64px,12svh,132px) 0 0;
+ scroll-margin-top:clamp(96px,7.5vw,144px);
+}
+.shell.shell :global(#showcase) > div { width:74%; }
+.shell.shell :global(#showcase) h2 { font-size:clamp(30px,min(4.2vw,8svh),80px); line-height:1.2; font-weight:500; letter-spacing:0; word-spacing:.035em; white-space:nowrap; }
+.shell.shell :global(#showcase) p { font-size:clamp(13px,min(1.1vw,2.1svh),20px); margin-top:16px; }
+.shell.shell :global(#showcase) a { min-height:44px; margin-top:18px; font-size:clamp(14px,min(1.2vw,2.2svh),21px); }
+.shell.shell :global(#showcase) figure { display:flex; justify-content:center; align-items:flex-end; width:82%; height:100%; min-height:0; margin:0 auto; }
+.shell.shell :global(#showcase) figure img { width:100%; height:100%; max-height:100%; object-fit:contain; object-position:center bottom; }
+.shell.shell :global(#showcase) > img { width:clamp(42px,min(7vw,11svh),110px); }
+.shell.shell :global(#showcase) > img:nth-child(1),.shell.shell :global(#showcase) > img:nth-child(2) { top:7%; }
+.shell.shell :global(#showcase) > img:nth-child(3),.shell.shell :global(#showcase) > img:nth-child(4) { top:40%; }
+@media(max-width:767px) {
+ .shell.shell :global(#showcase) { height:calc(100svh - 100px); grid-template-rows:auto auto; align-content:center; padding:66px 0 24px; gap:24px; }
+ .shell.shell :global(#showcase) > div { width:92%; }
+ .shell.shell :global(#showcase) h2 { font-size:clamp(21px,min(6.3vw,5svh),40px); }
+ .shell.shell :global(#showcase) p { max-width:290px; margin:14px auto 0; }
+ .shell.shell :global(#showcase) figure { width:100%; height:auto; }
+ .shell.shell :global(#showcase) figure img { height:auto; max-height:calc(100svh - 370px); }
+ .shell.shell :global(#showcase) > img { width:42px; }
+}
+@media(max-height:500px) and (min-width:768px) {
+ .shell.shell :global(#showcase) { height:calc(100svh - 90px); scroll-margin-top:90px; padding-top:18px; gap:10px; }
+ .shell.shell :global(#showcase) h2 { font-size:27px; }
+ .shell.shell :global(#showcase) p { font-size:12px; margin-top:8px; }
+ .shell.shell :global(#showcase) a { min-height:36px; margin-top:10px; padding:7px 16px; font-size:13px; }
+ .shell.shell :global(#showcase) a span { width:22px; height:22px; }
+ .shell.shell :global(#showcase) > img { width:42px; }
+}

@@ -1,3 +1,5 @@
+import TypingHighlight from '../components/TypingHighlight';
+import heroStyles from './InboundHero.module.css';
 import React, { useEffect } from 'react';
 import { ArrowLeftRight, ArrowRight, Check, ChartNoAxesColumn, Headphones, PhoneIncoming, Send, UsersRound } from 'lucide-react';
 import { SiteFooter } from '../components/PartnershipSections';
@@ -35,15 +37,18 @@ export default function InboundCallSolutions() {
   }, []);
   return <div className={`${shared.page} ${styles.page}`}>
     <main id="inbound-calls-main">
-      <section className={`${shared.hero} ${styles.solutionHero} ${styles.callHero}`} aria-labelledby="inbound-calls-title">
+      <section className={`${shared.hero} ${styles.solutionHero} ${styles.callHero}`} data-page-hero aria-labelledby="inbound-calls-title">
         <a className={shared.specialist} href="#contact">Connect with our Specialist <ArrowRight size={18} /></a>
         <div className={shared.heroCopy}>
           <span className={shared.eyebrow}>INBOUND CALL SOLUTIONS</span>
-          <h1 id="inbound-calls-title">Turn Inbound Calls Into<br /><span>Real Opportunities.</span></h1>
+          <h1 id="inbound-calls-title">Turn Inbound Calls Into<br /><span><TypingHighlight>Real Opportunities.</TypingHighlight></span></h1>
           <p>Connect your business with high-intent customers through quality inbound calls and performance-driven call solutions.</p>
           <div className={styles.heroActions}><a className={styles.squareButton} href="#contact">Get Started <ArrowRight size={22} /></a><a className={styles.outlineButton} href="#contact">Talk to Our Team <ArrowRight size={22} /></a></div>
         </div>
-        <img className={styles.callHeroArt} src={publicAsset('/image/InboundCalls/hero-art.webp')} width="635" height="590" alt="An inbound customer call with a blue telephone, live call status and audio waveform." fetchPriority="high" />
+        <div data-hero-art className={`${styles.callHeroArt} ${heroStyles.visual}`}>
+          <img className={heroStyles.phone} src={inboundAsset('Phone sculpture.png')} width="587" height="401" alt="A blue telephone surrounded by conversation bubbles." fetchPriority="high" />
+          <img className={heroStyles.callCard} src={inboundAsset('Inbound call card.png')} width="707" height="359" alt="Inbound Call: Customer. Live Call with audio waveform." />
+        </div>
       </section>
 
       <div className={styles.curveArea}>

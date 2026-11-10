@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ArrowRight, Check } from 'lucide-react';
 import Footer from './Footer';
 import { publicAsset } from '../utils/publicAsset';
 import styles from './PartnershipPage.module.css';
@@ -32,37 +32,78 @@ export function BenefitsCloud({ title, emphasis, subtitle, items, iconAssets, as
   </section>;
 }
 
-export function HowItWorks({ steps, artworkAssets, curveAssets }) {
+export function HowItWorks({ steps, artworkAssets, curveAssets, title = 'How It Works', label = 'Campaign process steps', showConnectors = true }) {
   const track = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
-  const goToStep = index => {
-    const card = track.current?.children[index];
+  const active = useRef(0);
+  const programmaticUntil = useRef(0);
+  const goToStep = useCallback(index => {
+    const next = Math.max(0, Math.min(steps.length - 1, index));
+    const element = track.current;
+    if (!element) return;
+    const visible = parseInt(getComputedStyle(element).getPropertyValue('--visible-steps'), 10) || 1;
+    const firstVisible = Math.min(next, Math.max(0, steps.length - visible));
+    const card = element.children[firstVisible];
     if (!card) return;
-    track.current.scrollTo({ left: card.offsetLeft - track.current.children[0].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-    setActiveStep(index);
-  };
+    const left = card.offsetLeft - element.children[0].offsetLeft;
+    if (Math.abs(element.scrollLeft - left) > 1) {
+      programmaticUntil.current = performance.now() + 650;
+      element.scrollTo({ left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    }
+    active.current = next;
+    setActiveStep(next);
+  }, [steps.length]);
+  useEffect(() => {
+    const element = track.current;
+    let lastEvent = 0;
+    let lastMove = -Infinity;
+    let distance = 0;
+    const wheel = event => {
+      if (event.ctrlKey || Math.abs(event.deltaX) >= Math.abs(event.deltaY) || !event.deltaY) return;
+      const now = performance.now();
+      const quiet = now - lastEvent > 180;
+      if (now - lastMove < 650 || (!quiet && distance === Infinity)) {
+        event.preventDefault();
+        lastEvent = now;
+        return;
+      }
+      const direction = Math.sign(event.deltaY);
+      const next = active.current + direction;
+      if (next < 0 || next >= steps.length) return;
+      event.preventDefault();
+      lastEvent = now;
+      if (quiet) distance = 0;
+      distance += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? element.clientWidth : 1);
+      if (Math.abs(distance) < 35) return;
+      lastMove = now;
+      distance = Infinity;
+      goToStep(next);
+    };
+    element.addEventListener('wheel', wheel, { passive: false });
+    return () => element.removeEventListener('wheel', wheel);
+  }, [goToStep, steps.length]);
   const syncStep = () => {
+    if (performance.now() < programmaticUntil.current) return;
     const container = track.current;
     const first = container.children[0].offsetLeft;
     const nearest = [...container.children].reduce((best, card, index) => Math.abs(card.offsetLeft - first - container.scrollLeft) < Math.abs(container.children[best].offsetLeft - first - container.scrollLeft) ? index : best, 0);
+    active.current = nearest;
     setActiveStep(nearest);
   };
   return <section className={`${styles.container} ${styles.howItWorks}`} aria-labelledby="steps-title">
-    <div className={styles.sectionHeader}><h2 id="steps-title">How It Works</h2>
-      <div className={styles.stepControls}>
-        <button type="button" aria-label="Previous step" disabled={activeStep === 0} onClick={() => goToStep(activeStep - 1)}><ArrowLeft size={20} /></button>
-        <button type="button" aria-label="Next step" disabled={activeStep === steps.length - 1} onClick={() => goToStep(activeStep + 1)}><ArrowRight size={20} /></button>
-      </div>
-    </div>
-    <div ref={track} className={`${styles.stepsTrack} ${styles.hiddenScrollbars}`} onScroll={syncStep} role="region" aria-label="Campaign process steps" tabIndex={0}>
-      {steps.map(([Icon, title, description], index) => <article className={`${styles.stepCard} ${activeStep === index ? styles.activeStep : ''} ${curveAssets?.[index] ? styles.customCurve : ''}`} key={title}>
+    <div className={styles.sectionHeader}><h2 id="steps-title">{title}</h2></div>
+    <div ref={track} className={`${styles.stepsTrack} ${styles.hiddenScrollbars}`} onScroll={syncStep} role="region" aria-label={label} tabIndex={0} onKeyDown={event => {
+      const next = event.key === 'ArrowRight' ? active.current + 1 : event.key === 'ArrowLeft' ? active.current - 1 : event.key === 'Home' ? 0 : event.key === 'End' ? steps.length - 1 : undefined;
+      if (next !== undefined) { event.preventDefault(); goToStep(next); }
+    }}>
+      {steps.map(([Icon, title, description], index) => <article className={`${styles.stepCard} ${activeStep === index ? styles.activeStep : ''} ${curveAssets?.[index] ? styles.customCurve : ''}`} key={title} style={{ '--step-layer': steps.length - index }} aria-current={activeStep === index ? 'step' : undefined}>
         <span className={styles.stepNumber}>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{description}</p>
         {curveAssets?.[index] && <img className={styles.stepCurve} src={publicAsset(curveAssets[index])} alt="" width="354" height="171" />}
-        <div className={`${styles.stepArtwork} ${artworkAssets?.[index] ? styles.assetArtwork : ''}`} aria-hidden="true">{artworkAssets?.[index] ? <img src={publicAsset(artworkAssets[index])} alt="" width="170" height="170" /> : <Icon size={58} strokeWidth={1.6} />}</div>
-        {index < steps.length - 1 && <button className={styles.stepArrow} type="button" aria-label={`Go to step ${index + 2}`} onClick={() => goToStep(index + 1)}><ArrowRight size={24} /></button>}
+        <div className={`${styles.stepArtwork} ${artworkAssets?.[index] ? styles.assetArtwork : ''}`} aria-hidden="true">{artworkAssets?.[index] ? <><img src={publicAsset(artworkAssets[index])} alt="" width="170" height="170" /><Icon className={styles.activeGlyph} size={58} strokeWidth={1.6} /></> : <Icon size={58} strokeWidth={1.6} />}</div>
+        {showConnectors && index < steps.length - 1 && <button className={styles.stepArrow} type="button" aria-label={`Go to step ${index + 2}`} onClick={() => goToStep(index + 1)}><ArrowRight size={24} /></button>}
       </article>)}
     </div>
-    <div className={styles.stepDots} aria-label="Select a step">{steps.map(([, title], index) => <button key={title} type="button" aria-label={`Step ${index + 1}: ${title}`} aria-current={activeStep === index ? 'step' : undefined} onClick={() => goToStep(index)} />)}</div>
+
   </section>;
 }
 

@@ -1,3 +1,4 @@
+import './pages/ReferencePages.css';
 import React, { useEffect, useState } from 'react';
 import Preloader from './components/Preloader';
 import { hasSeenIntro } from './utils/introSession';
@@ -42,7 +43,7 @@ export default function App() {
   return <MotionConfig reducedMotion="user">
     {!introComplete && <Preloader onComplete={() => setIntroComplete(true)} />}
     <Navbar page={page || 'home'} />
-    {Page ? <Page introComplete={introComplete} /> : <main className="min-h-[60vh] flex flex-col items-center justify-center gap-6 px-6 text-center">
+    {Page ? (page === 'home' ? <Page introComplete={introComplete} /> : <div data-reference-pages><Page introComplete={introComplete} /></div>) : <main className="min-h-[60vh] flex flex-col items-center justify-center gap-6 px-6 text-center">
       <h1 className="text-4xl font-bold">Page not found</h1>
       <a className="rounded-full bg-blue-600 px-6 py-3 text-white" href={pageUrl('home')}>Back to Home</a>
     </main>}

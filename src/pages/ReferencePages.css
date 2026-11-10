@@ -1,0 +1,7 @@
+/* Reference refinements are deliberately excluded from Home. */
+[data-reference-pages] #showcase h2 { font-size:clamp(32px,4vw,76px); font-weight:500; letter-spacing:-.02em; line-height:1.2; }
+[data-reference-pages] #showcase p { margin-top:18px; }
+[data-reference-pages] #showcase figure { width:76%; }
+[data-reference-pages] footer { border-radius:clamp(24px,3.2vw,60px); }
+[data-reference-pages] [role="region"]:focus-visible, [data-reference-pages] section[tabindex]:focus-visible { outline:3px solid #4281ff; outline-offset:5px; }
+@media(max-width:767px) { [data-reference-pages] #showcase h2 { font-size:clamp(28px,6.2vw,42px); } [data-reference-pages] #showcase figure { width:100%; } }

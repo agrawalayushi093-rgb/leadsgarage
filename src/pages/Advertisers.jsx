@@ -1,3 +1,4 @@
+import TypingHighlight from '../components/TypingHighlight';
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, BadgeCheck, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, Headphones, Heart, House, Landmark, Layers, Leaf, ShieldCheck, ShoppingCart, SlidersHorizontal, Target, Users, Zap } from 'lucide-react';
 import { BenefitsCloud, HowItWorks, IndustriesSection, SiteFooter, RequirementsSection } from '../components/PartnershipSections';
@@ -64,15 +65,20 @@ export default function Advertisers() {
   }, []);
   return <div className={`${shared.page} ${styles.page}`}>
     <main id="advertisers-main">
-      <section className={`${shared.hero} ${styles.hero}`} aria-labelledby="advertisers-title">
+      <section className={`${shared.hero} ${styles.hero}`} data-page-hero aria-labelledby="advertisers-title">
         <a className={shared.specialist} href="#contact">Connect with our Specialist <ArrowRight size={18} /></a>
         <div className={shared.heroCopy}>
           <span className={shared.eyebrow}>ADVERTISERS</span>
-          <h1 id="advertisers-title">Performance That<br className={shared.desktopBreak} /> Delivers <span>Real Results.</span></h1>
+          <h1 id="advertisers-title">Performance That<br className={shared.desktopBreak} /> Delivers <span><TypingHighlight>Real Results.</TypingHighlight></span></h1>
           <p>High-quality, intent-driven traffic that converts. Scale your customer acquisition with Leadsgarage.</p>
           <div className={styles.heroActions}><a className={styles.mintButton} href="#contact">Let's Work Together</a><a className={styles.outlineButton} href="#contact">Start Your Campaign</a></div>
         </div>
-        <img className={styles.heroArt} src={publicAsset('/image/Advertisers/hero-art.webp')} width="1138" height="780" alt="Performance dashboard with campaign metrics, continuous optimisation, high-intent traffic, and brand safety." fetchPriority="high" />
+        <div data-hero-art className={styles.heroVisual}>
+          <img className={styles.macbook} src={publicAsset('/image/Advertisers/MacBook Air (15 inch).png')} width="1204" height="791" alt="MacBook displaying a performance overview with campaign metrics and growth charts." fetchPriority="high" />
+          <img className={`${styles.benefitCard} ${styles.optimisation}`} src={publicAsset('/image/Advertisers/Benefit card.png')} width="330" height="123" alt="Continuous Optimisation. We test and optimise every element to lower costs." />
+          <img className={`${styles.benefitCard} ${styles.intent}`} src={publicAsset('/image/Advertisers/Benefit card (1).png')} width="295" height="123" alt="High-Intent Traffic. Reach users actively seeking your product or service." />
+          <img className={`${styles.benefitCard} ${styles.safety}`} src={publicAsset('/image/Advertisers/Benefit card (2).png')} width="300" height="122" alt="Brand Safety. Advanced fraud prevention and strict quality checks." />
+        </div>
       </section>
       <RequirementsSection title="Built Around Your Campaign Goals" items={goals} iconAssets={goalIcons} />
       <BenefitsCloud title="Performance" emphasis="Marketing Solutions" subtitle="Flexible solutions tailored to your goals and KPIs." items={solutions} iconAssets={solutionIcons} assetFolder="Advertisers" />
@@ -83,5 +89,6 @@ export default function Advertisers() {
       <div className={styles.faqShell}><CampaignFAQ /></div>
       <SiteFooter page="advertisers" assetFolder="Advertisers" />
     </div>
+    
   </div>;
 }

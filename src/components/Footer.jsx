@@ -4,15 +4,15 @@ import React, { useEffect, useState } from 'react';
 import styles from './Footer.module.css';
 import { ArrowRight, MapPin, Mail, Facebook, Twitter, Linkedin, Instagram, ChevronDown } from 'lucide-react';
 
-export default function Footer({ page = 'home' }) {
+export default function Footer({ page = 'home', compactQuery = page === 'home' ? '(max-width:639px)' : '(max-width:639px), (max-height:500px)' }) {
   const pageLink = href => navigationUrl(href, page);
-  const [compact, setCompact] = useState(() => matchMedia('(max-width:639px)').matches);
+  const [compact, setCompact] = useState(() => matchMedia(compactQuery).matches);
   useEffect(() => {
-    const query = matchMedia('(max-width:639px)');
+    const query = matchMedia(compactQuery);
     const update = () => setCompact(query.matches);
     query.addEventListener('change', update);
     return () => query.removeEventListener('change', update);
-  }, []);
+  }, [compactQuery]);
   const columns = [
     {
       title: 'Partnership',

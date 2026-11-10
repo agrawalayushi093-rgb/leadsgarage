@@ -1,0 +1,6 @@
+.visual { position:relative; aspect-ratio:.9; }
+.phone { position:absolute; top:0; right:0; width:100%; height:auto; }
+.callCard { position:absolute; bottom:0; left:0; width:100%; height:auto; }
+@keyframes callFloat { 0%,100% { transform:translate3d(0,0,0); } 50% { transform:translate3d(0,-8px,0); } }
+@media(prefers-reduced-motion:no-preference) { .callCard { animation:callFloat 6.4s ease-in-out infinite; } }
+@media(max-width:767px) { .visual { width:100%; max-width:440px; } }

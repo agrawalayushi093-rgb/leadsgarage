@@ -1,0 +1,14 @@
+.art > .team { width:86%; margin-left:14%; }
+.art > .targeting,.art > .quality { position:absolute; z-index:2; height:auto; }
+.art > .targeting { width:62%; left:1%; top:10%; }
+.art > .quality { width:77%; right:-3%; bottom:-1%; }
+@keyframes cardFloat { 0%,100% { transform:translate3d(0,0,0); } 50% { transform:translate3d(0,-10px,0); } }
+@media(prefers-reduced-motion:no-preference) {
+ .targeting { animation:cardFloat 6s ease-in-out infinite; }
+ .quality { animation:cardFloat 6.7s ease-in-out -2.4s infinite; }
+}
+@media(max-width:767px) {
+ .art { width:90%; }
+ .art > .targeting { left:0; }
+ .art > .quality { width:85%; right:-2%; }
+}

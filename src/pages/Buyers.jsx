@@ -1,4 +1,6 @@
+import TypingHighlight from '../components/TypingHighlight';
 import React, { useEffect } from 'react';
+import heroStyles from './BuyersHero.module.css';
 import { ArrowRight, BadgeCheck, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, Headphones, House, Landmark, Layers, ShieldCheck, SlidersHorizontal, Target, Users, Zap } from 'lucide-react';
 import { BenefitsCloud, FloatingIcons, HowItWorks, IndustriesSection, SiteFooter, RequirementsSection } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
@@ -36,17 +38,19 @@ export default function Buyers() {
   }, []);
   return <div className={styles.page}>
     <main id="buyers-main">
-      <section className={styles.hero} aria-labelledby="buyers-title">
+      <section className={styles.hero} data-page-hero aria-labelledby="buyers-title">
         <a className={styles.specialist} href="#contact">Connect with our Specialist <ArrowRight size={18} /></a>
         <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>BUYERS</span>
-          <h1 id="buyers-title">Quality Leads. Built<br className={styles.desktopBreak} /> for <span>Your Business.</span></h1>
+          <h1 id="buyers-title">Quality Leads. Built<br className={styles.desktopBreak} /> for <span><TypingHighlight>Your Business.</TypingHighlight></span></h1>
           <p>Connect with customers who are actively looking for the products and services you offer.</p>
           <a className={styles.whiteButton} href="#contact">Let's Work Together <ArrowRight size={22} /></a>
         </div>
-        <div className={styles.heroArt}>
+        <div data-hero-art className={`${styles.heroArt} ${heroStyles.art}`}>
           <div className={styles.orbits} aria-hidden="true">{[0, 1, 2, 3].map(index => <i key={index} />)}</div>
-          <img src={publicAsset('/image/Buyers/hero-art.webp')} width="580" height="650" alt="A team reviewing customer opportunities. Targeting by geography, audience and vertical, with quality-focused leads built around your requirements." fetchPriority="high" />
+          <img className={heroStyles.team} src={publicAsset('/image/Buyers/Customer acquisition team.png')} width="582" height="698" alt="A customer acquisition team reviewing opportunities together." fetchPriority="high" />
+          <img className={heroStyles.targeting} src={publicAsset('/image/Buyers/Targeting card.png')} width="368" height="168" alt="Targeting: Geography, Audience, Vertical." />
+          <img className={heroStyles.quality} src={publicAsset('/image/Buyers/Quality card.png')} width="494" height="182" alt="Quality-Focused Leads. Built around your requirements." />
         </div>
       </section>
       <RequirementsSection title="Built Around Your Requirements" items={requirements} iconAssets={requirementIcons} />
