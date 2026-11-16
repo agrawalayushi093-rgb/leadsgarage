@@ -1,0 +1,21 @@
+
+.callProcess { width:78%; max-width:1500px; margin:0 auto; padding:clamp(40px,5vw,80px) 0; }
+.callProcess.callProcess > h2 { text-align:center; font-size:clamp(30px,3.2vw,50px); margin:0 0 clamp(28px,3.3vw,52px); }
+.callProcessGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(20px,2.5vw,40px); }
+.callProcessGrid article { position:relative; isolation:isolate; container-type:inline-size; aspect-ratio:.925; padding:10% 13%; border:1px solid #d8d8dc; border-radius:16px; background:#fff; box-shadow:0 18px 22px -24px #0006; overflow:hidden; }
+.callProcess .callProcessGrid h3 { font-size:clamp(19px,9cqw,30px); line-height:1.25; font-weight:700; letter-spacing:-.025em; }
+.callProcessGrid article > p { color:#616980; font-size:clamp(13px,5.5cqw,19px); line-height:1.55; margin:14px 0 0; }
+.processNumber { position:absolute; z-index:-1; right:9%; bottom:5%; color:#f2f2f5; font-size:clamp(100px,53cqw,190px); font-weight:800; letter-spacing:-.075em; line-height:1; }
+.trafficArtwork { position:absolute; left:13%; top:47%; width:70%; height:40%; }
+.trafficArtwork > img { position:absolute; object-fit:contain; height:auto; }
+.trafficSend { width:18%; top:0; left:0; }
+.trafficPerson { width:18%; left:54%; top:7%; }
+.trafficCustomer { width:26%; left:5%; top:44%; }
+.trafficChart { width:20%; left:42%; top:44%; }
+.trafficExpert { position:absolute; left:27%; top:17%; width:17%; aspect-ratio:1; overflow:hidden; border-radius:50%; }
+.trafficExpert img { position:absolute; width:410%; max-width:none; left:-16%; top:-18%; }
+.inboundProcessArtwork { position:absolute; left:13%; top:48%; width:70%; height:25%; display:flex; align-items:center; }
+.inboundProcessArtwork img { display:block; width:100%; height:auto; max-height:100%; object-fit:contain; object-position:left center; }
+.resultsArtwork { left:10%; top:45%; width:59%; height:47%; }
+@media(max-width:900px) { .callProcess { width:88%; }.callProcessGrid { gap:18px; }.callProcessGrid article { padding:24px 20px; aspect-ratio:auto; min-height:310px; }.callProcess .callProcessGrid h3 { font-size:21px; }.callProcessGrid article > p { font-size:14px; } }
+@media(max-width:650px) { .callProcessGrid { grid-template-columns:1fr; }.callProcessGrid article { min-height:330px; padding:30px; }.callProcess .callProcessGrid h3 { font-size:26px; }.callProcessGrid article > p { font-size:16px; max-width:260px; }.trafficArtwork { width:210px; left:30px; }.inboundProcessArtwork { width:220px; left:30px; }.resultsArtwork { width:180px; }.processNumber { font-size:150px; } }

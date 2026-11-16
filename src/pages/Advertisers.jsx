@@ -1,5 +1,5 @@
-import TypingHighlight from '../components/TypingHighlight';
 import React, { useEffect, useState } from 'react';
+import usePageScroll from '../hooks/usePageScroll';
 import { ArrowRight, BadgeCheck, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, Headphones, Heart, House, Landmark, Layers, Leaf, ShieldCheck, ShoppingCart, SlidersHorizontal, Target, Users, Zap } from 'lucide-react';
 import { BenefitsCloud, HowItWorks, IndustriesSection, SiteFooter, RequirementsSection } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
@@ -25,7 +25,6 @@ const industries = [
   [ShieldCheck, 'Insurance', 'Reach customers exploring insurance products and coverage options.', 'insurance'],
   [House, 'Home Services', 'Reach homeowners looking for trusted home improvement services.', 'home-services'],
   [Heart, 'Dating', 'Connect with audiences seeking meaningful connections and relationship services.', 'dating'],
-  [Leaf, 'Nutra', 'Reach health-conscious consumers actively seeking wellness and nutrition products.', 'nutra'],
   [ShoppingCart, 'E-Commerce', 'Drive high-intent shoppers to your store and increase conversions at scale.', 'e-commerce'],
 ];
 const steps = [
@@ -58,6 +57,7 @@ function CampaignFAQ() {
 }
 
 export default function Advertisers() {
+  usePageScroll();
   useEffect(() => {
     const previous = document.title;
     document.title = 'Advertiser Partnerships | Leads Garage';
@@ -69,7 +69,7 @@ export default function Advertisers() {
         <a className={shared.specialist} href="#contact">Connect with our Specialist <ArrowRight size={18} /></a>
         <div className={shared.heroCopy}>
           <span className={shared.eyebrow}>ADVERTISERS</span>
-          <h1 id="advertisers-title">Performance That<br className={shared.desktopBreak} /> Delivers <span><TypingHighlight>Real Results.</TypingHighlight></span></h1>
+          <h1 id="advertisers-title">Performance That<br className={shared.desktopBreak} /> Delivers <span>Real Results.</span></h1>
           <p>High-quality, intent-driven traffic that converts. Scale your customer acquisition with Leadsgarage.</p>
           <div className={styles.heroActions}><a className={styles.mintButton} href="#contact">Let's Work Together</a><a className={styles.outlineButton} href="#contact">Start Your Campaign</a></div>
         </div>
@@ -80,10 +80,10 @@ export default function Advertisers() {
           <img className={`${styles.benefitCard} ${styles.safety}`} src={publicAsset('/image/Advertisers/Benefit card (2).png')} width="300" height="122" alt="Brand Safety. Advanced fraud prevention and strict quality checks." />
         </div>
       </section>
-      <RequirementsSection title="Built Around Your Campaign Goals" items={goals} iconAssets={goalIcons} />
-      <BenefitsCloud title="Performance" emphasis="Marketing Solutions" subtitle="Flexible solutions tailored to your goals and KPIs." items={solutions} iconAssets={solutionIcons} assetFolder="Advertisers" />
-      <IndustriesSection title="Industries We Serve" items={industries} folder="Advertisers" imageAssets={{ insurance: asset('Rectangle') }} />
-      <div className={styles.process}><HowItWorks steps={steps} artworkAssets={processIcons} curveAssets={processCurves} /></div>
+      <RequirementsSection className={styles.campaignGoals} title="Built Around Your Campaign Goals" items={goals} iconAssets={goalIcons} />
+      <BenefitsCloud className={styles.benefitsSection} compact title="Performance" emphasis="Marketing Solutions" subtitle="Flexible solutions tailored to your goals and KPIs." items={solutions} iconAssets={solutionIcons} assetFolder="Advertisers" />
+      <IndustriesSection className={styles.industryRow} hideIcons title="Industries We Serve" items={industries} folder="Advertisers" imageAssets={{ insurance: asset('Rectangle') }} />
+      <div className={styles.process}><HowItWorks scrollOnWheel className={styles.referenceProcess} steps={steps} artworkAssets={processIcons} curveAssets={processCurves} /></div>
     </main>
     <div className={styles.closingArea}>
       <div className={styles.faqShell}><CampaignFAQ /></div>

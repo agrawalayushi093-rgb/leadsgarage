@@ -58,3 +58,13 @@
 }
 
 @media(max-width:767px) { .page [aria-labelledby="insurance-title"] { min-height:0; }.page [aria-labelledby="insurance-title"] h1 br { display:none; } }
+
+
+@media(min-width:1101px) {
+ .page [aria-labelledby="insurance-title"] { min-height:min(51vw,var(--section-space)); padding-block:clamp(22px,3dvh,35px); row-gap:clamp(16px,2dvh,26px); }
+ .page .heroVisual { width:min(100%,calc(var(--section-space) * .74)); justify-self:end; margin-block:10px clamp(50px,7dvh,75px); }
+ .page [aria-labelledby="insurance-reach-title"] .heroPhoto { max-height:45dvh; }
+ .page [aria-labelledby="insurance-reach-title"] > div:first-child > div:last-child { max-width:calc(var(--section-space) * .9); justify-self:end; }
+ .page [aria-labelledby="insurance-reach-title"] > div:last-child { margin-top:var(--section-gap); }
+ .page .channelArt { height:clamp(140px,min(14.5vw,24dvh),250px); }
+}

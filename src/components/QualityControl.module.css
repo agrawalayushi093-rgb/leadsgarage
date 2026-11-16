@@ -233,3 +233,15 @@
 @media(prefers-reduced-motion:reduce) {
  .phone,.progress::after,.progress button { transition:none !important; animation:none !important; }
 }
+
+/* Figma result cards: the existing scroll-active state reveals each illustration. */
+.card { overflow:hidden; }
+.active { background:linear-gradient(125deg,#235eea,#10358f); }
+.label { display:none; }
+.cardCopy,.active .cardCopy { position:relative; z-index:1; padding:clamp(22px,2vw,36px); }
+:global(#quality) .active h3 { position:relative; max-width:100%; }
+:global(#quality) .active p { max-width:59%; margin-top:14px; }
+.phone { left:auto; right:-3%; bottom:-5%; width:53%; height:auto; max-height:82%; object-fit:contain; object-position:right bottom; transform:none; filter:none; }
+@media(min-width:1024px) { .cardCopy,.active .cardCopy { padding:calc(32 * var(--figma-unit)); }.phone { left:auto; right:-3%; bottom:-5%; width:53%; height:auto; max-height:82%; } }
+@media(max-width:767px) { .cardCopy,.active .cardCopy { padding:22px; }.phone { left:auto; right:-5%; bottom:-4%; width:52%; height:auto; max-height:75%; }:global(#quality) .active p { max-width:60%; } }
+@media(max-height:500px) { .cardCopy,.active .cardCopy { padding:14px; }:global(#quality) .active p { margin-top:8px; } }

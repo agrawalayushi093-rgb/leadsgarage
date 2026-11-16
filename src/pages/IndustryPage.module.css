@@ -1,0 +1,1745 @@
+.page {
+  --ink: #080d2c;
+  --blue: #255ff3;
+  color: var(--ink);
+  background: #ffffff;
+  font-family: 'Plus Jakarta Sans', Inter, -apple-system, sans-serif;
+  overflow-x: clip;
+}
+
+.page h1, .page h2, .page h3 {
+  margin: 0;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+
+.page h2 {
+  font-size: clamp(30px, 3vw, 52px);
+  line-height: 1.25;
+}
+
+.page h3 {
+  font-size: clamp(20px, 1.6vw, 30px);
+  line-height: 1.3;
+}
+
+.page p {
+  color: #5d6780;
+  font-size: clamp(15px, 1.1vw, 20px);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.page a:focus-visible, .page button:focus-visible {
+  outline: 3px solid #32d3ed;
+  outline-offset: 4px;
+}
+
+.container {
+  width: 88%;
+  max-width: 1680px;
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 52% 44%;
+  gap: 4%;
+  align-items: center;
+  width: calc(100% - 4.4%);
+  max-width: 1836px;
+  min-height: clamp(600px, 46vw, 860px);
+  margin: 0 auto clamp(70px, 7vw, 130px);
+  border-radius: clamp(32px, 3.5vw, 60px);
+  padding: clamp(60px, 6vw, 100px) clamp(28px, 4vw, 64px);
+  background: linear-gradient(108deg, #1b2c88 0%, #2552df 58%, #608fff 100%);
+  color: #ffffff;
+  box-shadow: 0 24px 60px rgba(27, 44, 136, 0.16);
+}
+
+.heroCopy {
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 99px;
+  padding: 8px 22px;
+  font-size: clamp(12px, 1vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: clamp(24px, 2.5vw, 36px);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.hero h1 {
+  font-size: clamp(36px, 4vw, 76px);
+  line-height: 1.18;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.hero h1 strong,
+.hero h1 span.highlight {
+  color: #6effcb;
+  font-weight: inherit;
+}
+
+.heroCopy > p {
+  color: #dbe5ff;
+  font-size: clamp(16px, 1.35vw, 24px);
+  max-width: 780px;
+  line-height: 1.6;
+  margin-top: clamp(24px, 2.5vw, 36px);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: clamp(28px, 3vw, 44px);
+}
+
+.primary, .secondary,
+.actions .primary, .actions .secondary,
+.homeServices .actions .primary, .homeServices .actions .secondary,
+.finance .actions .primary, .finance .actions .secondary,
+.insurance .actions .primary, .insurance .actions .secondary,
+.healthAndBeauty .actions .primary, .healthAndBeauty .actions .secondary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 48px !important;
+  border-radius: 9999px !important;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important;
+  font-size: 16px !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.2s ease,
+              background 0.2s ease,
+              border-color 0.2s ease !important;
+}
+
+.primary,
+.actions .primary,
+.homeServices .actions .primary,
+.finance .actions .primary,
+.insurance .actions .primary,
+.healthAndBeauty .actions .primary {
+  background: linear-gradient(90deg, #b7ffd6 0%, #7bfeb3 45%, #5fffa4 100%) !important;
+  color: #0f1225 !important;
+  font-weight: 700 !important;
+  padding: 14px 34px !important;
+  border: none !important;
+  box-shadow: 0 12px 28px -4px rgba(7, 18, 64, 0.65), 0 4px 10px rgba(0, 0, 0, 0.25) !important;
+}
+
+.primary:hover,
+.actions .primary:hover,
+.homeServices .actions .primary:hover,
+.finance .actions .primary:hover,
+.insurance .actions .primary:hover,
+.healthAndBeauty .actions .primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 16px 34px -4px rgba(7, 18, 64, 0.75), 0 6px 14px rgba(0, 0, 0, 0.3) !important;
+  filter: brightness(1.03) !important;
+}
+
+.secondary,
+.actions .secondary,
+.homeServices .actions .secondary,
+.finance .actions .secondary,
+.insurance .actions .secondary,
+.healthAndBeauty .actions .secondary {
+  background: rgba(16, 36, 105, 0.45) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  padding: 13px 32px !important;
+  box-shadow: 0 4px 16px rgba(5, 15, 50, 0.25) !important;
+}
+
+.secondary:hover,
+.actions .secondary:hover,
+.homeServices .actions .secondary:hover,
+.finance .actions .secondary:hover,
+.insurance .actions .secondary:hover,
+.healthAndBeauty .actions .secondary:hover {
+  transform: translateY(-2px) !important;
+  background: rgba(20, 48, 130, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.38) !important;
+}
+
+.heroArt {
+  position: relative;
+  width: 96%;
+  max-width: 680px;
+  justify-self: end;
+}
+
+.heroPhoto {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 28px;
+  box-shadow: 0 20px 48px rgba(3, 16, 52, 0.22);
+}
+
+.heroCaption {
+  position: absolute;
+  left: 12%;
+  bottom: -6%;
+  width: 75%;
+  padding: clamp(20px, 2vw, 34px);
+  border-radius: 24px;
+  background: linear-gradient(110deg, #0081ff, #469fff);
+  color: #ffffff;
+  box-shadow: 0 16px 36px rgba(0, 110, 255, 0.3);
+  z-index: 2;
+}
+
+.heroCaption h2 {
+  font-size: clamp(18px, 1.5vw, 26px);
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.heroCaption p {
+  margin-top: 10px;
+  color: #e1eeff;
+  font-size: clamp(12px, 0.95vw, 16px);
+  line-height: 1.55;
+}
+
+.floatingHeroIcon {
+  position: absolute;
+  right: -8%;
+  bottom: -16%;
+  width: clamp(120px, 18vw, 220px);
+  height: auto;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ==========================================================================
+   Section 2: Reach More Relevant Customers
+   ========================================================================== */
+.reach {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: center;
+  margin-block: clamp(80px, 8vw, 150px);
+}
+
+.label {
+  display: block;
+  color: #2464ec;
+  text-transform: uppercase;
+  font-size: clamp(12px, 0.95vw, 15px);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: clamp(16px, 1.8vw, 24px);
+}
+
+.reach h2 {
+  margin-bottom: clamp(24px, 2.5vw, 36px);
+}
+
+.reach p + p {
+  margin-top: clamp(16px, 1.8vw, 24px);
+}
+
+.reachArt {
+  position: relative;
+}
+
+.reachPhoto {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 28px;
+  box-shadow: 0 18px 40px rgba(16, 41, 82, 0.08);
+}
+
+.reachBadge {
+  position: absolute;
+  left: 6%;
+  bottom: 6%;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 99px;
+  background: rgba(3, 10, 44, 0.88);
+  color: #ffffff;
+  font-size: clamp(13px, 1.05vw, 17px);
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.reachGrid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.reachCard {
+  border-radius: 24px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e1e8f5;
+  box-shadow: 0 12px 30px rgba(16, 41, 82, 0.06);
+}
+
+.reachCard img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.4;
+  object-fit: cover;
+}
+
+.reachCard h3 {
+  padding: 18px 20px;
+  font-size: clamp(16px, 1.25vw, 22px);
+  margin: 0;
+}
+
+/* ==========================================================================
+   Section 3: Metrics Bar
+   ========================================================================== */
+.metricsBar {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 2vw, 30px);
+  margin-block: clamp(70px, 7vw, 130px);
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #e1e7f4;
+  border-radius: 24px;
+  padding: clamp(24px, 2.4vw, 38px) clamp(20px, 2vw, 30px);
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(28, 63, 118, 0.04);
+}
+
+.metricItem strong {
+  color: #1859db;
+  font-size: clamp(34px, 3.2vw, 56px);
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.metricItem span {
+  font-size: clamp(13px, 1vw, 17px);
+  line-height: 1.55;
+  color: #687086;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Section 4: Cloud Solutions
+   ========================================================================== */
+.cloudSection {
+  position: relative;
+  min-height: clamp(480px, 40vw, 720px);
+  margin-block: clamp(80px, 8vw, 150px);
+  display: grid;
+  place-items: center;
+}
+
+.cloudCopy {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(60%, 720px);
+  z-index: 1;
+}
+
+.cloudCopy h2 {
+  font-size: clamp(32px, 3.2vw, 58px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.cloudCopy p {
+  margin-top: 14px;
+  color: #667085;
+  font-size: clamp(14px, 1.15vw, 20px);
+}
+
+.cloudPills {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cloudPills li {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 24px 14px 16px;
+  border-radius: 99px;
+  color: #ffffff;
+  font-size: clamp(14px, 1.25vw, 22px);
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.cloudPills li > span {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.cloudPills li:nth-child(1) {
+  left: 6%;
+  top: 16%;
+  transform: rotate(6deg);
+  background: linear-gradient(110deg, #08caa6, #00ad8c);
+}
+
+.cloudPills li:nth-child(2) {
+  right: 5%;
+  top: 15%;
+  transform: rotate(-5deg);
+  background: linear-gradient(110deg, #a372ff, #7935ff);
+}
+
+.cloudPills li:nth-child(3) {
+  left: 8%;
+  bottom: 16%;
+  transform: rotate(-6deg);
+  background: linear-gradient(110deg, #3d78f9, #103bb3);
+}
+
+.cloudPills li:nth-child(4) {
+  right: 6%;
+  bottom: 16%;
+  transform: rotate(4deg);
+  background: linear-gradient(110deg, #17c3ec, #0092bb);
+}
+
+.floatingCloudIcons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.floatingCloudIcons img {
+  position: absolute;
+  width: clamp(70px, 7.8vw, 140px);
+  height: auto;
+}
+
+.floatingCloudIcons img:nth-child(1) { left: 34%; top: 6%; }
+.floatingCloudIcons img:nth-child(2) { right: 30%; top: 6%; }
+.floatingCloudIcons img:nth-child(3) { left: 33%; bottom: 6%; }
+.floatingCloudIcons img:nth-child(4) { right: 32%; bottom: 6%; }
+
+/* ==========================================================================
+   Section 5: More Ways to Reach Your Customers
+   ========================================================================== */
+.channelsSection {
+  margin-block: clamp(80px, 8vw, 150px);
+}
+
+.channelsSection > h2 {
+  text-align: center;
+  margin-bottom: clamp(36px, 4vw, 64px);
+}
+
+.channelGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(24px, 2.5vw, 36px);
+}
+
+.channelCard {
+  padding: clamp(26px, 2.4vw, 40px);
+  border: 1px solid #e1e7f4;
+  border-radius: 32px;
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(16, 41, 82, 0.05);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.channelCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 44px rgba(16, 41, 82, 0.09);
+}
+
+.channelArt {
+  min-height: clamp(170px, 18vw, 240px);
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  background: #eef3ff;
+}
+
+.channelArt1 { background: #f3efff; }
+.channelArt2 { background: #eaf8f5; }
+
+.channelCard h3 {
+  margin-top: 26px;
+}
+
+.channelCard p {
+  margin-top: 14px;
+  font-size: clamp(14px, 1.05vw, 19px);
+  line-height: 1.65;
+}
+
+/* Internal Artwork Styles */
+.audiencePanel {
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 4px 16px rgba(16, 41, 82, 0.05);
+}
+
+.panelHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #080d2c;
+}
+
+.panelHeading img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.audienceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 11.5px;
+  color: #5e6a82;
+  font-weight: 500;
+}
+
+.audienceRow img:first-child {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.audienceRow span {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.audienceRow img:last-child {
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.targetPanel {
+  width: 100%;
+}
+
+.tags {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tags span {
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #687086;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.idealAudience {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.idealAudience strong {
+  display: block;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.idealAudience span {
+  font-size: 11px;
+  color: #748097;
+}
+
+.messages {
+  width: 100%;
+  max-width: 275px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.messages > div:first-child,
+.emailCard {
+  width: 68%;
+  max-width: 185px;
+  background: #ffffff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(16, 41, 82, 0.05);
+}
+
+.messages strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #080d2c;
+}
+
+.messages strong img {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+
+.messages i {
+  display: block;
+  width: 78%;
+  height: 4px;
+  border-radius: 4px;
+  margin-top: 8px;
+  background: #e2e8f0;
+}
+
+.messages i:last-child {
+  width: 48%;
+  margin-top: 5px;
+}
+
+.messages > div:last-child,
+.smsCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 72%;
+  max-width: 195px;
+  margin: -14px 0 0 auto;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: #ffffff;
+  background: #071936;
+  box-shadow: 0 8px 22px rgba(7, 25, 54, 0.22);
+  position: relative;
+  z-index: 1;
+}
+
+.messages small {
+  display: block;
+  font-size: 9.5px;
+  color: #94a3b8;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.messages svg {
+  color: #2dd4bf;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+/* ==========================================================================
+   Section 6: Quality You Can Count On
+   ========================================================================== */
+.qualitySection {
+  margin-block: clamp(80px, 8vw, 150px);
+}
+
+.qualitySection > h2 {
+  text-align: center;
+  margin-bottom: clamp(36px, 4vw, 64px);
+}
+
+.qualityGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 1.8vw, 24px);
+  max-width: 1200px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.qualityCard {
+  padding: clamp(22px, 2.2vw, 30px);
+  border-radius: 16px;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(16, 41, 82, 0.04);
+  cursor: pointer;
+  transform: translateY(0);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform, box-shadow;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.qualityCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(16, 41, 82, 0.16);
+}
+
+.qualityCard:nth-child(1),
+.qualityCard:nth-child(4) { background: #1c55dc; }
+.qualityCard:nth-child(2) { background: #7752dc; }
+.qualityCard:nth-child(3) { background: #009297; }
+
+.qualityCard img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.qualityCard h3 {
+  margin-top: 20px;
+  margin-bottom: 12px;
+  color: #ffffff;
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.qualityCard p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  text-align: left;
+}
+
+/* ==========================================================================
+   Section 7: Why Leading Brands Choose Leadsgarage
+   ========================================================================== */
+.whySection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 4.5vw, 64px);
+  align-items: center;
+  max-width: 1200px;
+  margin-inline: auto;
+  margin-block: clamp(60px, 6vw, 120px);
+}
+
+.whySection h2 {
+  font-size: clamp(28px, 2.7vw, 40px);
+  font-weight: 700;
+  color: #080d2c;
+  line-height: 1.25;
+  margin-bottom: clamp(18px, 2vw, 24px);
+  max-width: 500px;
+}
+
+.whySection p {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #5e6a82;
+  max-width: 520px;
+}
+
+.whySection p + p {
+  margin-top: 14px;
+}
+
+.benefitsList {
+  display: grid;
+  gap: 16px;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  border: 1px solid #eef2f8;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(16, 41, 82, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.benefitItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(16, 41, 82, 0.08);
+}
+
+.benefitItem img {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.benefitItem h3 {
+  font-size: clamp(16px, 1.2vw, 18px);
+  font-weight: 700;
+  color: #080d2c;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.benefitItem p {
+  font-size: 13.5px;
+  color: #5e6a82;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   Section 8: Built for Your Industry. Designed for Growth.
+   ========================================================================== */
+.industryRow {
+  margin-block: clamp(80px, 8vw, 150px);
+}
+
+.industryRow > h2 {
+  text-align: center;
+  font-size: clamp(30px, 3vw, 50px);
+}
+
+.industrySubtitle {
+  text-align: center;
+  max-width: 820px;
+  margin: 16px auto clamp(36px, 4vw, 64px) !important;
+}
+
+.industryGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(16px, 1.6vw, 26px);
+}
+
+.industryItem {
+  overflow: hidden;
+  border: 1px solid #e1e8f5;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(16, 41, 82, 0.04);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.industryItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(16, 41, 82, 0.09);
+}
+
+.industryItem > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.43;
+  object-fit: cover;
+}
+
+.industryItem > div {
+  padding: clamp(18px, 1.5vw, 24px);
+}
+
+.industryItem h3 {
+  font-size: clamp(17px, 1.25vw, 22px);
+}
+
+.industryItem p {
+  font-size: clamp(13px, 0.95vw, 16px);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   Section 9: Footer Shell & CTA
+   ========================================================================== */
+.footerShell {
+  isolation: isolate;
+  width: calc(100% - 4.4%);
+  max-width: 1836px;
+  margin: clamp(80px, 8vw, 160px) auto clamp(40px, 4vw, 60px);
+  padding: 0 clamp(16px, 2vw, 24px) clamp(16px, 2vw, 24px);
+  border-radius: clamp(36px, 4vw, 60px);
+  background: linear-gradient(160deg, #6894ff 0%, #2f60dd 78%, #1b44b8 100%);
+  box-shadow: 0 24px 60px rgba(27, 44, 136, 0.16);
+}
+
+.ctaContainer {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 48% 48%;
+  gap: 4%;
+  align-items: center;
+  padding: clamp(80px, 7.5vw, 130px) clamp(30px, 5vw, 80px) clamp(70px, 6.5vw, 110px);
+  color: #ffffff;
+}
+
+.ctaContainer h2 {
+  font-size: clamp(34px, 3.8vw, 68px);
+  line-height: 1.25;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.connectButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(110deg, #2e73ff, #103b9d);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 99px;
+  padding: 14px 28px 14px 32px;
+  margin-top: clamp(28px, 3vw, 42px);
+  font-size: clamp(16px, 1.25vw, 24px);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.connectButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.28);
+}
+
+.connectButton > span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #17335c;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+.growthArt {
+  position: relative;
+  width: 110%;
+  margin-left: -5%;
+}
+
+.growthArt > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.growthArt > span {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 14px;
+  background: rgba(120, 165, 255, 0.65);
+  backdrop-filter: blur(10px);
+  font-size: clamp(12px, 1vw, 17px);
+  font-weight: 600;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.badge1 { left: 10%; top: 40%; }
+.badge2 { right: 12%; top: 44%; }
+.badge3 { right: 2%; bottom: 12%; }
+
+.footerShell :global(footer) {
+  border-radius: clamp(24px, 3vw, 44px);
+  box-shadow: 0 18px 44px rgba(10, 30, 80, 0.08);
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .floatingHeroIcon,
+  .floatingCloudIcons img,
+  .growthArt > span {
+    animation: industryFloat 6s ease-in-out infinite;
+  }
+  .floatingCloudIcons img:nth-child(even),
+  .badge2 {
+    animation-delay: -3s;
+  }
+}
+
+@keyframes industryFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Reference layouts: natural section heights and one continuous scroll owner. */
+.page { --space:clamp(64px,7vw,120px); }
+.page h2 { font-size:clamp(28px,2.65vw,48px); }
+.page p { font-size:clamp(14px,1.05vw,18px); line-height:1.7; }
+.hero { min-height:0; margin:0 auto; padding:clamp(72px,7vw,124px) 5.4%; border-radius:30px; box-shadow:none; grid-template-columns:54% 40%; gap:6%; }
+.hero h1 { font-size:clamp(36px,3.85vw,70px); line-height:1.18; }
+.hero h1 span.highlight { color:#1dff96; }
+.heroCopy > p { font-size:clamp(15px,1.18vw,21px); margin-top:22px; color:#fff; }
+.eyebrow { font-size:12px; font-weight:500; text-transform:none; padding:5px 16px; margin-bottom:24px; }
+.actions { gap:14px; margin-top:26px; }
+.heroArt { width:100%; }
+.heroPhoto { border-radius:20px; box-shadow:none; aspect-ratio:1.25; object-fit:cover; }
+.heroCaption { left:-13%; bottom:-8%; width:78%; border-radius:16px; padding:22px 26px; box-shadow:none; }
+.heroCaption h2 { font-size:clamp(17px,1.45vw,25px); }
+.heroCaption p { font-size:clamp(11px,.85vw,15px); line-height:1.5; margin-top:10px; }
+.floatingHeroIcon { right:-11%; bottom:-17%; width:36%; }
+.insurance .heroCaption { background:#fff; color:#080d2c; left:-12%; }
+.insurance .heroCaption h2 { color:#080d2c; }
+.insurance .heroCaption p { color:#667085; }
+.reach { display:block; margin-block:var(--space); }
+.reachGrid { display:grid; grid-template-columns:1fr 1fr; gap:7%; align-items:center; }
+.reach h2 { margin-bottom:22px; }
+.reach p + p { margin-top:14px; }
+.label { font-size:10px; margin-bottom:14px; }
+.finance .label,.healthAndBeauty .label,.insurance .label { display:none; }
+.reachPhoto { border-radius:22px; box-shadow:none; }
+.reachBadge { left:5%; bottom:6%; background:#fff; color:#080d2c; border-radius:10px; font-size:13px; padding:12px 18px; box-shadow:0 8px 20px #10295210; }
+.insurance .reachBadge,.finance .reachBadge { background:#5483ff; color:#fff; }
+.reachGrid2 { position:relative; gap:22px; align-items:start; }
+.finance .reachGrid2 { grid-template-columns:1.4fr 1fr; }
+.finance .reachCard { border:0; border-radius:20px; box-shadow:none; }
+.finance .reachCard img { aspect-ratio:1.18; }
+.finance .reachCard:last-of-type img { aspect-ratio:1.2; }
+.finance .reachGrid2 .reachBadge { left:36%; bottom:6%; font-size:12px; }
+.healthAndBeauty .reachGrid2 { gap:0; padding-top:52px; }
+.healthAndBeauty .reachCard { background:#f0eaff; border:0; box-shadow:none; border-radius:20px; }
+.healthAndBeauty .reachCard:nth-child(2) { transform:translate(-15%,-52px); background:#eaf9f6; }
+.reachCard h3 { font-size:clamp(14px,1.2vw,20px); padding:18px 20px 0; }
+.reachCard p { font-size:12px; padding:10px 20px 22px; line-height:1.6; }
+.metricsBar { margin-block:40px 0; gap:24px; }
+.metricItem { padding:20px; border-radius:16px; }
+.metricItem strong { font-size:clamp(28px,2.6vw,44px); }
+.metricItem span { font-size:12px; }
+.insurance .metricsBar { background:#f6f9ff; padding:32px 24px; }
+.insurance .metricItem { border:0; border-right:1px solid #e5eaf5; border-radius:0; box-shadow:none; background:transparent; padding:8px 16px; }
+.insurance .metricItem:last-child { border:0; }
+.cloudSection { min-height:clamp(340px,28vw,500px); margin-block:clamp(48px,5vw,90px); }
+.cloudCopy { width:44%; }
+.cloudCopy h2 { font-size:clamp(28px,2.65vw,46px); line-height:1.3; }
+.cloudCopy p { font-size:14px; }
+.cloudPills li { font-size:clamp(12px,1.12vw,19px); padding:10px 20px 10px 12px; gap:10px; box-shadow:none; }
+.cloudPills li > span { width:28px; height:28px; }
+.cloudPills li:nth-child(1) { left:0; top:20%; background:linear-gradient(110deg,#1858e3,#618bff); }
+.cloudPills li:nth-child(2) { right:0; top:20%; }
+.cloudPills li:nth-child(3) { left:1%; bottom:20%; background:linear-gradient(110deg,#00b69b,#12ceaa); }
+.cloudPills li:nth-child(4) { right:0; bottom:20%; background:linear-gradient(110deg,#00b69b,#12ceaa); }
+.homeServices .cloudPills li { border-radius:14px; flex-direction:column; font-size:18px; max-width:210px; white-space:normal; text-align:center; }
+.homeServices .cloudPills li > span { display:none; }
+.floatingCloudIcons img { width:clamp(62px,7vw,116px); }
+.channelsSection { margin-block:var(--space); padding:clamp(40px,5vw,80px); background:#f6f9ff; border-radius:0; }
+.channelsSection > h2 { margin-bottom:36px; }
+.channelGrid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
+.finance .channelGrid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.channelCard { padding:24px; border-radius:24px; box-shadow:none; }
+.channelArt { min-height:180px; padding:22px; border-radius:16px; }
+.channelCard h3 { margin-top:22px; font-size:clamp(19px,1.6vw,28px); }
+.channelCard p { font-size:14px; margin-top:14px; }
+.qualitySection { margin-block:var(--space); }
+.qualitySection > h2 { margin-bottom:30px; }
+.qualityGrid { gap:20px; }
+.qualityCard { border-radius:16px; padding:clamp(22px, 2.2vw, 30px); box-shadow:none; }
+.qualityCard:nth-child(1),.qualityCard:nth-child(4) { background:#1c55dc; }
+.qualityCard:nth-child(2) { background:#7752dc; }.qualityCard:nth-child(3) { background:#009297; }
+.qualityCard img { width:42px; height:42px; object-fit:contain; }
+.qualityCard h3 { font-size:clamp(18px,1.5vw,22px); margin-top:20px; margin-bottom:12px; }
+.qualityCard p { font-size:14px; margin-top:0; line-height:1.55; }
+.homeServices .qualitySection .metricsBar { margin:0 auto 70px; }
+.homeServices .metricItem { flex-direction:row; align-items:center; gap:12px; }
+.homeServices .metricItem span { margin:0; font-size:11px; }
+.insurance .qualitySection { width:95.6%; padding:40px; border-radius:24px; background:#f4f7fd; }
+.insurance .qualitySection > h2 { text-align:left; }
+.whySection { margin-block:var(--space); }
+.whySection h2 { margin-bottom:24px; }.whySection p + p { margin-top:14px; }
+.benefitsList { gap:16px; }.benefitItem { padding:18px 22px; border-radius:16px; gap:18px; align-items:center; }
+.benefitItem img { width:40px; height:40px; }.benefitItem h3 { font-size:17px; }.benefitItem p { font-size:13.5px; }
+.industryRow { width:100%; max-width:none; margin-block:var(--space); }
+.industryRow > h2 { font-size:clamp(28px,2.8vw,48px); padding-inline:24px; }
+.industrySubtitle { max-width:950px; padding-inline:24px; margin:18px auto 36px !important; }
+.industryGrid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:20px; width:110%; margin-left:-5%; }
+.industryItem { border-radius:20px; box-shadow:none; }.industryItem > div { padding:20px; }
+.industryItem h3 { font-size:18px; }.industryItem p { font-size:13px; margin-top:12px; }
+.footerShell { margin:var(--space) auto 28px; width:94.2%; max-width:1808px; padding:0 2% 24px; border-radius:56px; box-shadow:none; overflow:hidden; background:radial-gradient(ellipse at 40% 50%,#35bcf3,transparent 65%),linear-gradient(#648eff,#0035d9); }
+.footerShell::before { content:'Leads Garage'; position:absolute; inset:20px 0 auto; font-size:clamp(120px,18vw,330px); line-height:.9; font-weight:800; letter-spacing:-.06em; opacity:.04; color:#fff; z-index:-1; pointer-events:none; }
+.footerShell { position:relative; }
+.ctaContainer { grid-template-columns:48% 48%; padding:clamp(64px,6vw,108px) 7% 0; min-height:420px; }
+.ctaContainer h2 { font-size:clamp(32px,3.6vw,62px); font-weight:500; }
+.ctaDescription { color:#fff !important; margin-top:20px !important; font-size:15px !important; }
+.connectButton { margin-top:24px; min-height:44px; padding:10px 18px 10px 24px; font-size:16px; font-weight:500; gap:12px; }
+.connectButton > span { width:26px; height:26px; }
+.growthArt { width:120%; margin-left:-10%; align-self:end; }
+.growthArt > span { font-size:11px; padding:8px 12px; border-radius:10px; max-width:150px; font-weight:400; }
+.growthArt > span svg { width:14px; flex-shrink:0; }
+.footerShell :global(footer) { border-radius:44px; padding:clamp(36px,4vw,68px) 9% 36px; box-shadow:none; }
+.footerShell :global(footer) > div:first-child { gap:24px; padding-bottom:32px; }
+.footerShell :global(footer) summary { font-size:14px; }.footerShell :global(footer) li { font-size:13px; }
+.footerShell :global(footer) address,.footerShell :global(footer) address p { font-size:13px; }
+@media(max-width:1100px) {
+ .hero { padding:64px 5%; grid-template-columns:1.15fr 1fr; }
+ .hero h1 { font-size:clamp(30px,3.85vw,44px); }.heroCopy > p { font-size:14px; }
+ .heroCaption { padding:16px; }.heroCaption h2 { font-size:16px; }
+ .heroCaption p { font-size:11px; }.floatingHeroIcon { width:34%; }
+ .reachGrid { gap:5%; }.cloudPills li { font-size:12px; }
+ .channelGrid { gap:16px; }.channelCard { padding:16px; }.channelArt { min-height:150px; padding:12px; }
+ .qualityGrid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .whySection { grid-template-columns:1fr 1fr; gap:32px; }
+ .industryGrid { width:140%; margin-left:-20%; }.ctaContainer { padding:48px 5% 0; min-height:320px; }
+ .footerShell :global(footer) { padding:32px; }
+}
+@media(max-width:767px) {
+ .hero { width:calc(100% - 24px); grid-template-columns:1fr; padding:40px 24px 52px; gap:42px; }
+ .hero h1 { font-size:clamp(32px,7.5vw,46px); }.heroArt { width:82%; margin:0 auto 32px; }
+ .heroCaption { position:relative; left:-8%; bottom:auto; margin-top:-20px; width:100%; }.floatingHeroIcon { right:-14%; bottom:-15%; }
+ .reachGrid { grid-template-columns:1fr; gap:30px; }.reachGrid2 { margin-top:12px; }
+ .healthAndBeauty .reachCard:nth-child(2) { transform:translate(-8%,-32px); }
+ .reachBadge { max-width:90%; font-size:12px; }.finance .reachGrid2 .reachBadge { left:14%; bottom:0; }
+ .metricsBar { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }.insurance .metricsBar { padding:16px; }
+ .cloudSection { padding:40px 0; min-height:0; }.cloudCopy { position:static; transform:none; width:100%; margin-bottom:28px; }
+ .cloudCopy h2 { font-size:28px; }.cloudPills { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+ .cloudPills li,.homeServices .cloudPills li { position:static; transform:none; white-space:normal; font-size:12px; padding:12px; max-width:none; }
+ .floatingCloudIcons { display:none; }.channelsSection { padding:32px 20px; }
+ .channelGrid,.finance .channelGrid { grid-template-columns:1fr; }.channelArt { min-height:170px; }
+ .qualityGrid { grid-template-columns:1fr; }.qualityCard { padding:26px; }
+ .whySection { grid-template-columns:1fr; gap:28px; }.industryGrid { display:flex; width:100%; margin:0; padding:0 20px 16px; overflow-x:auto; }
+ .industryItem { flex:0 0 240px; }.industryRow > h2 { font-size:28px; }
+ .footerShell { width:calc(100% - 24px); border-radius:32px; padding:0 10px 10px; }
+ .ctaContainer { grid-template-columns:1fr; gap:28px; padding:40px 18px 0; }.ctaContainer h2 { font-size:32px; }
+ .growthArt { width:100%; max-width:450px; margin:0 auto; }.growthArt > span { font-size:10px; }
+ .footerShell :global(footer) { border-radius:26px; padding:24px 20px; }
+}
+.cloudCopy h2 { font-weight:400; }.cloudCopy h2 strong { font-weight:750; }
+.homeServices .cloudCopy h2 { font-size:clamp(32px,3.2vw,48px); font-weight:700; color:#080d2c; line-height:1.25; }
+.homeServices .cloudPills li { min-width:170px; max-width:none; display:flex; flex-direction:column; align-items:flex-start; text-align:left; border-radius:clamp(14px,1.2vw,18px); padding:clamp(12px,1.2vw,18px) clamp(18px,1.6vw,26px); box-shadow:0 12px 24px rgba(0,0,0,.12); white-space:nowrap; }
+.homeServices .cloudPills li strong { display:block; font-size:clamp(26px,2.4vw,36px); font-weight:800; line-height:1.1; }
+.homeServices .cloudPills li small { display:block; font-size:clamp(12px,1vw,15px); font-weight:500; margin-top:4px; opacity:.95; }
+.homeServices .cloudPills li:nth-child(1) { background:linear-gradient(135deg,#00c988 0%,#00b074 100%); transform:rotate(-6deg); left:12%; top:18%; }
+.homeServices .cloudPills li:nth-child(2) { background:linear-gradient(135deg,#8a4bff 0%,#7028e4 100%); transform:rotate(-5deg); right:12%; top:16%; }
+.homeServices .cloudPills li:nth-child(3) { background:linear-gradient(135deg,#2f6bf6 0%,#1742d4 100%); transform:rotate(-3.5deg); left:13%; bottom:18%; top:auto; }
+.homeServices .cloudPills li:nth-child(4) { background:linear-gradient(135deg,#00b4d8 0%,#0096c7 100%); transform:rotate(0deg); right:12%; bottom:20%; top:auto; }
+.homeServices .floatingCloudIcons img { width:clamp(52px,5vw,76px); filter:drop-shadow(0 10px 20px rgba(16,41,82,.12)); }
+.homeServices .floatingCloudIcons img:nth-child(1) { left:36%; top:12%; bottom:auto; right:auto; transform:rotate(-12deg); }
+.homeServices .floatingCloudIcons img:nth-child(2) { right:36%; top:14%; bottom:auto; left:auto; transform:rotate(10deg); }
+.homeServices .floatingCloudIcons img:nth-child(3) { left:37%; bottom:14%; top:auto; right:auto; transform:rotate(-10deg); }
+.homeServices .floatingCloudIcons img:nth-child(4) { right:37%; bottom:12%; top:auto; left:auto; transform:rotate(8deg); }
+@media(max-width:767px) { .homeServices .cloudPills li { min-width:0; }.homeServices .cloudPills li strong { font-size:24px; }.homeServices .cloudPills li small { font-size:12px; } }
+
+/* A real horizontal track: all ten industries stay reachable. */
+.industryGrid {
+ display:flex;
+ width:88%;
+ max-width:1680px;
+ margin:0 auto;
+ gap:22px;
+ padding:6px 4px 20px;
+ overflow-x:auto;
+ overscroll-behavior-x:contain;
+ scroll-snap-type:x proximity;
+ scrollbar-width:thin;
+ scrollbar-color:#c4d5fb #f3f6fc;
+}
+.industryGrid:focus-visible { outline:3px solid #2563eb; outline-offset:5px; }
+.industryItem { flex:0 0 calc((100% - 66px) / 4); min-width:0; scroll-snap-align:start; }
+.industryItem > img { width:100%; aspect-ratio:1.43; object-fit:cover; }
+.industryControls { display:flex; justify-content:flex-end; gap:10px; width:88%; max-width:1680px; margin:0 auto 18px; }
+.industryControls button { display:grid; place-items:center; width:42px; height:42px; border:1px solid #dce5f5; border-radius:50%; color:#255ff3; background:#fff; transition:background .2s; }
+.industryControls button:hover { background:#edf3ff; }
+.industryControls button:focus-visible { outline:3px solid #2563eb; outline-offset:3px; }
+@media(max-width:1100px) { .industryItem { flex-basis:calc((100% - 44px) / 3); } }
+@media(max-width:767px) { .industryGrid { width:92%; padding:6px 2px 18px; gap:16px; }.industryItem { flex-basis:78%; }.industryControls { width:92%; } }
+
+/* Viewport compositions without snapping, forced navigation, or scrollend jumps. */
+.industryGrid { scrollbar-width:none; -ms-overflow-style:none; scroll-snap-type:none; padding-bottom:8px; }
+.industryGrid::-webkit-scrollbar { display:none; width:0; height:0; }
+.insurancePeople,.insuranceMegaphone { position:absolute; z-index:4; display:grid; place-items:center; color:#0578f8; filter:drop-shadow(0 8px 5px #083b9950); pointer-events:none; }
+.insurancePeople { top:-16%; left:-15%; width:32%; transform:rotate(-7deg); }
+.insurancePeople svg { width:100%; height:auto; stroke-width:2.7; fill:#19bbff; }
+.insuranceMegaphone { right:-12%; bottom:-17%; width:32%; aspect-ratio:.85; background:linear-gradient(140deg,#b9f4ff,#4abaff); border:7px solid #198df9; border-radius:20%; transform:rotate(15deg); box-shadow:inset 0 0 10px #fff9; }
+.insuranceMegaphone svg { width:85%; height:85%; stroke-width:2.5; fill:#19a7ff; }
+@media(prefers-reduced-motion:no-preference) {
+ .insurancePeople { animation:insurancePeopleFloat 6s ease-in-out infinite; }
+ .insuranceMegaphone { animation:insuranceMegaphoneFloat 6s ease-in-out infinite; animation-delay:-3s; }
+}
+@keyframes insurancePeopleFloat { 50% { transform:translateY(-8px) rotate(-7deg); } }
+@keyframes insuranceMegaphoneFloat { 50% { transform:translateY(-8px) rotate(15deg); } }
+@media(min-width:1101px) and (min-height:600px) {
+ .page main > section {
+   box-sizing:border-box;
+   min-height:100svh;
+   margin-block:0;
+   padding-block:calc(var(--section-nav,80px) + 24px) 24px;
+ }
+ .page .hero { min-height:calc(100svh - var(--section-nav,80px)); padding-block:42px; }
+ .hero h1 { font-size:clamp(34px,min(3.85vw,6.8dvh),66px); }
+ .heroCopy > p { font-size:clamp(14px,min(1.18vw,2.4dvh),20px); margin-top:20px; }
+ .heroPhoto { max-height:51svh; object-fit:cover; }
+ .heroCaption { padding:18px 22px; }
+ .heroCaption h2 { font-size:clamp(17px,min(1.45vw,2.7dvh),24px); }
+ .heroCaption p { font-size:clamp(11px,min(.85vw,1.9dvh),15px); }
+ .heroArt { width:min(100%,calc(51svh * 1.25)); }
+ .reach { display:flex; flex-direction:column; justify-content:center; }
+ .reachGrid { width:100%; }
+ .reachPhoto { max-height:44svh; object-fit:cover; }
+ .reachCard img { max-height:30svh; object-fit:cover; }
+ .reach .metricsBar { width:100%; margin-top:28px; }
+ .metricItem { padding:16px; }
+ .metricItem strong { font-size:clamp(28px,4dvh,42px); }
+ .insurance .metricsBar { padding:20px; }
+ .cloudSection { height:100svh; }
+ .cloudCopy { top:calc(50% + var(--section-nav,80px) / 2); }
+ .cloudPills li:nth-child(-n+2) { top:34%; }
+ .cloudPills li:nth-child(n+3) { bottom:22%; }
+ .channelsSection,.qualitySection,.industryRow { display:flex; flex-direction:column; justify-content:center; }
+ .channelsSection > h2,.qualitySection > h2 { margin-bottom:26px; }
+ .channelArt { min-height:140px; padding:16px; }
+ .channelCard { padding:20px; }
+ .channelCard h3 { font-size:clamp(18px,1.5vw,25px); margin-top:16px; }
+ .channelCard p,.qualityCard p { font-size:clamp(13px,min(1vw,2dvh),16px); line-height:1.6; }
+ .qualityCard { padding:24px; }
+ .qualityCard h3 { font-size:clamp(17px,1.4vw,24px); margin-top:16px; }
+ .homeServices .qualitySection .metricsBar { margin:0 auto 36px; }
+ .whySection { align-content:center; }
+ .benefitItem { padding:18px; }
+ .industrySubtitle { margin-bottom:28px !important; }
+ .industryItem > img { max-height:23svh; }
+ .industryItem > div { padding:18px; }
+ .industryItem p { font-size:13px; }
+}
+@media(max-width:767px) { .insuranceMegaphone { border-width:4px; } }
+
+/* Insurance reference assets and composition. */
+.insurancePeople,.insuranceMegaphone {
+ display:block;
+ height:auto;
+ object-fit:contain;
+ background:none;
+ border:0;
+ border-radius:0;
+ box-shadow:none;
+ filter:none;
+ aspect-ratio:auto;
+}
+.insurancePeople { width:35%; top:-19%; left:-18%; }
+.insuranceMegaphone { width:43%; right:-13%; bottom:-24%; }
+.insurance .heroCaption { width:76%; left:-12%; bottom:-11%; padding:22px 26px; border-radius:18px; }
+.insurance .heroCaption h2 { line-height:1.2; font-weight:700; }
+.insurance .reachGrid { grid-template-columns:1fr 1.06fr; gap:6%; }
+.insurance .reachPhoto { aspect-ratio:1.28; width:100%; height:auto; object-fit:cover; border-radius:26px; }
+.insurance .reach h2 { max-width:620px; line-height:1.2; }
+.insurance .reach p { line-height:1.8; }
+.insurance .reachBadge {
+ left:4.5%; bottom:5.5%; width:67%; max-width:480px;
+ padding:16px 18px; gap:14px; border-radius:15px;
+ background:linear-gradient(110deg,#2249cc,#608dff);
+ border:1px solid #a7bcff; box-shadow:none;
+ font-size:clamp(15px,1.4vw,23px); font-weight:650; line-height:1.3;
+}
+.reachBadgeIcon { width:36px; height:36px; padding:8px; box-sizing:border-box; object-fit:contain; border-radius:8px; background:#ffffff26; flex-shrink:0; }
+.insurance .reachBadgeIcon { width:42px; height:42px; padding:0; background:none; border-radius:0; flex-shrink:0; }
+.insuranceCallPanel { width:100%; }
+.insuranceCallPanel > div:first-child { display:flex; align-items:center; gap:10px; border-radius:12px; background:#fff; padding:16px; }
+.insuranceCallPanel > div:first-child img { width:32px; height:32px; object-fit:contain; }
+.insuranceCallPanel strong { display:block; font-size:13px; }
+.insuranceCallPanel small { display:block; font-size:10px; color:#748097; margin-top:4px; }
+.callControls { display:flex; justify-content:center; gap:12px; margin-top:16px; }
+.callControls img { width:32px; height:32px; object-fit:contain; }
+.insuranceMessages { width:100%; }
+.insuranceMessages img { display:block; width:85%; height:auto; object-fit:contain; }
+.insuranceMessages img:last-child { width:78%; margin:16px 0 0 auto; }
+.insurance .channelsSection > .label { display:block; margin-bottom:14px; }
+.insurance .channelsSection > h2 { text-align:left; }
+@media(min-width:1101px) and (min-height:600px) {
+ .insurance .reachPhoto { max-height:46svh; }
+ .insurance .heroCaption { padding:18px 22px; }
+ .insurance .metricsBar { margin-top:clamp(24px,4dvh,44px); }
+}
+@media(max-width:767px) {
+ .insurance .reachGrid { grid-template-columns:1fr; gap:30px; }
+ .insurance .heroCaption { width:100%; left:-8%; bottom:auto; padding:18px; }
+ .insurance .reachBadge { width:74%; padding:12px; font-size:14px; }
+ .insurancePeople { top:-16%; }.insuranceMegaphone { bottom:-13%; }
+}
+
+/* Reach copy, photograph, and the four metrics form one composition. */
+.insurance .reach { width:100%; max-width:none; }
+.insurance .reachGrid { width:80%; max-width:1440px; margin-inline:auto; }
+.insurance .reach > .metricsBar { width:100%; box-sizing:border-box; padding:clamp(24px,3vw,48px) 5%; border-radius:0; gap:0; }
+.insurance .reach .metricItem { padding:8px clamp(16px,2vw,32px); }
+.insurance .reach .metricItem span { font-size:clamp(11px,.9vw,15px); }
+@media(min-width:1101px) and (min-height:600px) {
+ .insurance main > .reach {
+   min-height:100svh;
+   padding:calc(var(--section-nav,80px) + 24px) 0 24px;
+   gap:clamp(24px,4dvh,44px);
+   justify-content:center;
+ }
+ .insurance .reachGrid { grid-template-columns:1fr 1.06fr; align-items:center; gap:6%; }
+ .insurance .reach h2 { font-size:clamp(26px,min(2.65vw,4.5dvh),44px); margin-bottom:18px; }
+ .insurance .reach p { font-size:clamp(13px,min(1.05vw,2dvh),18px); line-height:1.65; }
+ .insurance .reach p + p { margin-top:14px; }
+ .insurance .reachPhoto { height:clamp(260px,40svh,450px); max-height:calc(100svh - var(--section-nav,80px) - 190px); aspect-ratio:auto; object-fit:cover; }
+ .insurance .reach > .metricsBar { margin:0; padding-block:clamp(20px,3dvh,36px); }
+ .insurance .reach .metricItem strong { font-size:clamp(28px,4.6dvh,46px); }
+ .insurance .reachBadge { font-size:clamp(14px,min(1.4vw,2.5dvh),21px); padding:14px 16px; }
+}
+@media(max-width:767px) {
+ .insurance .reachGrid { width:88%; }
+ .insurance .reach > .metricsBar { padding:24px 5%; gap:20px 0; margin-top:32px; }
+ .insurance .reach .metricItem:nth-child(2) { border-right:0; }
+}
+
+/* Separate Insurance acquisition channels from service highlights. */
+.insurance .channelsSection {
+ margin-bottom:clamp(48px,5vw,80px);
+ background:#f7faff;
+ border:1px solid #edf2fa;
+ border-radius:24px;
+}
+.insurance .qualitySection {
+ margin-top:0;
+ margin-bottom:clamp(48px,5vw,80px);
+ background:#f1f4fb;
+ border:1px solid #e8edf7;
+ border-radius:24px;
+}
+.qualitySection .qualityCard,
+.finance .qualityCard,
+.homeServices .qualityCard,
+.insurance .qualityCard,
+.healthAndBeauty .qualityCard {
+  cursor: pointer;
+  transform: translateY(0);
+  box-shadow: 0 10px 24px rgba(16, 41, 82, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform, box-shadow;
+}
+.qualitySection .qualityCard:hover,
+.finance .qualityCard:hover,
+.homeServices .qualityCard:hover,
+.insurance .qualityCard:hover,
+.healthAndBeauty .qualityCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px -4px rgba(16, 41, 82, 0.24), 0 8px 16px -2px rgba(16, 41, 82, 0.12);
+}
+@media(min-width:1101px) and (min-height:600px) {
+ .insurance main > .channelsSection,
+ .insurance main > .qualitySection {
+   min-height:calc(100svh - var(--section-nav,80px) - 48px);
+   margin-block:24px;
+   padding-block:clamp(40px,5dvh,64px);
+ }
+ .insurance main > .channelsSection { margin-bottom:clamp(48px,5vw,80px); }
+ .insurance .channelsSection > h2 { margin-bottom:30px; }
+ .insurance .qualitySection > h2 { margin-bottom:28px; }
+}
+@media(max-width:767px) {
+ .insurance .channelsSection { margin-bottom:40px; border-radius:20px; }
+ .insurance .qualitySection { padding:32px 20px; margin-bottom:40px; border-radius:20px; }
+}
+
+/* A balanced central headline with clear lanes for the badges and icons. */
+.insurance .cloudPills li > span img { width:100%; height:100%; object-fit:contain; }
+.insurance .cloudPills li { gap:12px; }
+@media(min-width:768px) {
+ .insurance .cloudSection { --cloud-center:50%; }
+ .insurance .cloudCopy { width:42%; top:var(--cloud-center); }
+ .insurance .cloudCopy h2 { font-size:clamp(26px,2.65vw,44px); line-height:1.28; }
+ .insurance .cloudCopy p { font-size:clamp(12px,1.12vw,17px); line-height:1.5; margin-top:12px; }
+ .insurance .cloudPills li { max-width:27%; font-size:clamp(12px,1.12vw,18px); padding:10px 16px 10px 10px; }
+ .insurance .cloudPills li:nth-child(1) { top:calc(var(--cloud-center) - 70px); left:1%; }
+ .insurance .cloudPills li:nth-child(2) { top:calc(var(--cloud-center) - 70px); right:1%; }
+ .insurance .cloudPills li:nth-child(3) { top:calc(var(--cloud-center) + 48px); bottom:auto; left:0; }
+ .insurance .cloudPills li:nth-child(4) { top:calc(var(--cloud-center) + 48px); bottom:auto; right:0; }
+ .insurance .floatingCloudIcons { inset:0; }
+ .insurance .floatingCloudIcons img { width:clamp(64px,6.5vw,100px); }
+ .insurance .floatingCloudIcons img:nth-child(1) { top:calc(var(--cloud-center) - 170px); left:32%; }
+ .insurance .floatingCloudIcons img:nth-child(2) { top:calc(var(--cloud-center) - 170px); right:30%; }
+ .insurance .floatingCloudIcons img:nth-child(3) { top:calc(var(--cloud-center) + 110px); bottom:auto; left:32%; }
+ .insurance .floatingCloudIcons img:nth-child(4) { top:calc(var(--cloud-center) + 110px); bottom:auto; right:30%; }
+}
+@media(min-width:1101px) and (min-height:600px) {
+ .insurance .cloudSection { --cloud-center:calc(50% + var(--section-nav,80px) / 2); }
+ .insurance .floatingCloudIcons img:nth-child(-n+2) { top:calc(var(--cloud-center) - min(22svh,180px)); }
+ .insurance .floatingCloudIcons img:nth-child(n+3) { top:calc(var(--cloud-center) + min(14svh,110px)); }
+}
+@media(min-width:768px) and (max-width:1100px) {
+ .insurance .cloudSection { min-height:480px; }
+ .insurance .cloudPills li { padding:8px 12px; gap:6px; font-size:11px; }
+ .insurance .cloudPills li > span { width:24px; height:24px; }
+}
+
+/* Avoid an oversized blank lead-in above the Insurance solutions artwork. */
+@media(min-width:768px) {
+ .insurance main > .cloudSection {
+   min-height:clamp(400px,34vw,560px);
+   height:auto;
+   padding-block:0;
+   margin-block:clamp(24px,3vw,48px);
+   --cloud-center:50%;
+ }
+}
+
+/* Keep the solutions heading close to the preceding metrics strip. */
+@media(min-width:768px) {
+ .insurance main > .cloudSection {
+   min-height:clamp(350px,27vw,440px);
+   margin-top:12px;
+   margin-bottom:24px;
+   --cloud-center:46%;
+ }
+ .insurance .floatingCloudIcons img { width:clamp(60px,5.5vw,88px); }
+ .insurance .floatingCloudIcons img:nth-child(-n+2) { top:calc(var(--cloud-center) - 130px); }
+ .insurance .floatingCloudIcons img:nth-child(n+3) { top:calc(var(--cloud-center) + 90px); }
+}
+@media(min-width:1101px) and (min-height:600px) {
+ .insurance main > .reach { min-height:0; padding-bottom:12px; }
+}
+
+/* Home Services: compact sections and the reference photo collage. */
+.homeServices .homeReachCollage { display:grid; grid-template-columns:1.3fr 1fr; gap:18px; align-items:stretch; }
+.homeReachCollage > .reachPhoto { width:100%; height:100%; aspect-ratio:1.13; object-fit:cover; max-height:none; }
+.homeReachSide { display:block; width:100%; height:100%; object-fit:contain; }
+.homeReachCollage .reachBadge { left:3%; bottom:5%; width:auto; max-width:54%; padding:10px 18px; border-radius:14px; font-size:clamp(12px,0.95vw,15px); font-weight:700; white-space:nowrap; background:#ffffff; color:#080d2c; box-shadow:0 10px 24px rgba(16,41,82,.12); border:1px solid rgba(220,228,240,.7); display:inline-flex; align-items:center; gap:10px; }
+.homeServices .reachBadgeIcon { width:20px; height:20px; padding:0; background:none; border-radius:0; flex-shrink:0; object-fit:contain; }
+.homeServices .heroCaption { left:14%; bottom:-5%; width:76%; }
+.homeServices .floatingHeroIcon { width:36%; right:-10%; bottom:-15%; }
+@media(min-width:768px) {
+ .homeServices main > .reach,
+ .homeServices main > .channelsSection,
+ .homeServices main > .qualitySection,
+ .homeServices main > .whySection {
+   min-height:0;
+   height:auto;
+   padding-block:clamp(36px,4vw,64px);
+   margin-block:0;
+ }
+ .homeServices main > .reach { padding-top:clamp(48px,5vw,80px); }
+ .homeServices .reachGrid { grid-template-columns:1fr 1.2fr; gap:6%; }
+ .homeServices main > .cloudSection {
+   height:auto;
+   min-height:clamp(360px,30vw,480px);
+   padding-block:0;
+   margin-block:16px 32px;
+ }
+ .homeServices .cloudCopy { top:50%; }
+ .homeServices .cloudPills li:nth-child(1) { left:12%; top:18%; }
+ .homeServices .cloudPills li:nth-child(2) { right:12%; top:16%; }
+ .homeServices .cloudPills li:nth-child(3) { left:13%; bottom:18%; top:auto; }
+ .homeServices .cloudPills li:nth-child(4) { right:12%; bottom:20%; top:auto; }
+ .homeServices .floatingCloudIcons img:nth-child(1) { left:36%; top:12%; }
+ .homeServices .floatingCloudIcons img:nth-child(2) { right:36%; top:14%; }
+ .homeServices .floatingCloudIcons img:nth-child(3) { left:37%; bottom:14%; }
+ .homeServices .floatingCloudIcons img:nth-child(4) { right:37%; bottom:12%; }
+ .homeServices main > .channelsSection { padding-inline:clamp(28px,4vw,64px); margin-bottom:clamp(40px,4vw,64px); }
+ .homeServices main > .qualitySection { padding-top:0; padding-bottom:clamp(40px,4vw,64px); }
+ .homeServices .qualitySection .metricsBar { margin:0 auto clamp(32px,3vw,48px); }
+ .homeServices main > .whySection { padding-top:clamp(24px,3vw,48px); padding-bottom:clamp(40px,4vw,64px); }
+ .homeServices .footerShell { margin-top:clamp(24px,3vw,48px); }
+}
+@media(max-width:767px) {
+ .homeServices .homeReachCollage { gap:12px; }
+ .homeReachCollage .reachBadge { width:53%; left:2%; padding:8px; font-size:10px; gap:5px; }
+ .homeServices .heroCaption { left:-8%; width:100%; bottom:auto; }
+ .homeServices .qualitySection { margin-top:36px; margin-bottom:40px; }
+ .homeServices .qualitySection .metricsBar { margin-bottom:32px; }
+}
+
+/* Finance: content-led spacing and clean reference proportions. */
+.finance .heroCaption { left:10%; bottom:-8%; width:75%; }
+.finance .floatingHeroIcon { right:-5%; bottom:-12%; width:38%; }
+.finance .reachGrid { grid-template-columns:1fr 1.17fr; gap:6%; }
+.finance .reachGrid2 { gap:22px; }
+.finance .reachCard img { max-height:none; height:auto; aspect-ratio:1.18; }
+.finance .reachGrid2 .reachBadge { left:35%; bottom:6%; width:auto; max-width:none; white-space:nowrap; padding:12px 20px; border-radius:14px; background:linear-gradient(110deg,#2b61f5,#4b82fb); color:#fff; display:inline-flex; align-items:center; gap:10px; font-weight:600; font-size:clamp(13px,1.1vw,16px); box-shadow:0 10px 24px rgba(35,85,230,.25); border:1px solid rgba(255,255,255,.2); }
+.finance .reachBadgeIcon { width:20px; height:20px; padding:0; background:none; border-radius:0; flex-shrink:0; object-fit:contain; }
+@media(min-width:768px) {
+ .finance main > .reach,
+ .finance main > .channelsSection,
+ .finance main > .qualitySection,
+ .finance main > .whySection,
+ .finance main > .industryRow {
+   min-height:0;
+   height:auto;
+   margin-block:0;
+   padding-block:clamp(40px,4.5vw,72px);
+ }
+ .finance main > .reach { padding-top:clamp(48px,5vw,80px); padding-bottom:24px; }
+ .finance .reach h2 { max-width:530px; }
+ .finance main > .cloudSection {
+   min-height:clamp(360px,29vw,470px);
+   height:auto;
+   padding-block:0;
+   margin-block:16px 32px;
+ }
+ .finance .cloudCopy { top:49%; width:43%; }
+ .finance .cloudCopy h2 { font-size:clamp(27px,2.7vw,46px); }
+ .finance .cloudPills li { max-width:28%; font-size:clamp(12px,1.1vw,18px); }
+ .finance .cloudPills li:nth-child(-n+2) { top:calc(49% - 70px); }
+ .finance .cloudPills li:nth-child(n+3) { top:calc(49% + 42px); bottom:auto; }
+ .finance .floatingCloudIcons img { width:clamp(64px,6vw,98px); }
+ .finance .floatingCloudIcons img:nth-child(1) { left:32%; top:calc(49% - 140px); }
+ .finance .floatingCloudIcons img:nth-child(2) { right:31%; top:calc(49% - 140px); }
+ .finance .floatingCloudIcons img:nth-child(3) { left:34%; top:calc(49% + 100px); bottom:auto; }
+ .finance .floatingCloudIcons img:nth-child(4) { right:33%; top:calc(49% + 100px); bottom:auto; }
+ .finance main > .channelsSection {
+   background: #f7faff;
+   border-radius: 32px;
+   padding: clamp(48px, 4.5vw, 68px) clamp(24px, 3.5vw, 56px);
+   max-width: 1200px;
+   margin-inline: auto;
+   margin-bottom: clamp(40px, 4vw, 64px);
+ }
+ .finance .channelsSection > h2 {
+   font-size: clamp(26px, 2.6vw, 38px);
+   font-weight: 700;
+   color: #080d2c;
+   text-align: center;
+   margin-bottom: clamp(32px, 3.5vw, 48px);
+ }
+ .finance .channelGrid {
+   display: grid;
+   grid-template-columns: repeat(2, minmax(0, 1fr));
+   gap: clamp(20px, 2.2vw, 28px);
+   max-width: 1040px;
+   margin-inline: auto;
+   width: 100%;
+ }
+ .finance .channelCard {
+   background: #ffffff;
+   border: 1px solid #e8edf6;
+   border-radius: 24px;
+   padding: clamp(22px, 2.2vw, 28px);
+   box-shadow: none;
+   display: flex;
+   flex-direction: column;
+   text-align: left;
+   transition: transform 0.25s ease, box-shadow 0.25s ease;
+ }
+ .finance .channelCard:hover {
+   transform: translateY(-4px);
+   box-shadow: 0 10px 26px rgba(16, 41, 82, 0.06);
+ }
+ .finance .channelArt {
+   min-height: 165px;
+   height: 165px;
+   padding: 16px;
+   border-radius: 18px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+ }
+ .finance .channelArt0 {
+   background: #e4ebff;
+ }
+ .finance .channelArt2 {
+   background: #edfafa;
+ }
+ .finance .channelCard h3 {
+   margin-top: 22px;
+   margin-bottom: 10px;
+   font-size: clamp(20px, 1.8vw, 24px);
+   font-weight: 700;
+   color: #080d2c;
+   line-height: 1.3;
+ }
+ .finance .channelCard p {
+   margin: 0;
+   font-size: 14.5px;
+   line-height: 1.6;
+   color: #5e6a82;
+ }
+ .finance main > .qualitySection { padding-top:16px; padding-bottom:clamp(40px,4vw,64px); }
+ .finance .qualitySection > h2 { margin-bottom:28px; }
+ .finance .qualityCard { padding:clamp(22px, 2.2vw, 30px); border-radius:16px; }
+ .finance main > .whySection { padding-top:24px; }
+ .finance main > .industryRow { padding-top:32px; }
+ .finance .footerShell { margin-top:clamp(32px,4vw,64px); }
+}
+@media(max-width:767px) {
+ .finance .reachGrid { grid-template-columns:1fr; gap:28px; }
+ .finance .reachGrid2 .reachBadge { left:12%; max-width:85%; bottom:0; font-size:11px; }
+ .finance .heroCaption { left:-8%; bottom:auto; width:100%; }
+ .finance main > .channelsSection { padding:36px 18px; border-radius:20px; margin-bottom:36px; }
+ .finance .channelGrid { grid-template-columns:1fr; gap:18px; }
+ .finance .channelCard { padding:20px; border-radius:20px; }
+ .finance .channelArt { min-height:150px; height:150px; padding:12px; }
+ .finance .qualitySection { margin-top:40px; margin-bottom:40px; }
+}
+
+/* Consistent, compact quality sections across the industry pages. */
+.finance main > .qualitySection,
+.homeServices main > .qualitySection,
+.healthAndBeauty main > .qualitySection {
+ min-height:0;
+ height:auto;
+ padding-top:clamp(24px,2.5vw,40px);
+ padding-bottom:clamp(32px,3vw,48px);
+ margin-top:0;
+ margin-bottom:0;
+}
+.homeServices .channelsSection { margin-bottom:clamp(24px,3vw,48px); }
+.qualitySection > h2 { margin-bottom:clamp(22px,2.2vw,32px); }
+.qualityGrid { align-items:stretch; }
+.qualityCard { display:flex; flex-direction:column; padding:clamp(24px,2.2vw,32px); }
+.qualityCard h3 { line-height:1.3; }
+.qualityCard p { line-height:1.65; }
+@media(max-width:767px) {
+ .qualityGrid { gap:16px; }
+ .qualityCard { padding:24px; }
+}
+
+/* Health & Beauty: consistent rhythm and reference card proportions. */
+.healthAndBeauty .heroCaption { left:-13%; bottom:-8%; width:78%; }
+.healthAndBeauty .floatingHeroIcon { width:46%; right:-9%; bottom:-19%; }
+.healthAndBeauty .channelCard { border:0; border-radius:24px; padding:20px; }
+.healthAndBeauty .channelCard:nth-child(1) .channelArt { background:#e8eeff; }
+.healthAndBeauty .channelCard:nth-child(2) .channelArt { background:#f0ecff; }
+.healthAndBeauty .channelCard:nth-child(3) .channelArt { background:#eaf9f6; }
+.healthAndBeauty .benefitItem { align-items:center; border-radius:20px; padding:22px; }
+.healthAndBeauty .benefitItem img { width:34px; height:34px; }
+.healthAndBeauty .benefitItem h3 { font-size:clamp(17px,1.45vw,23px); }
+.healthAndBeauty .benefitItem p { margin-top:8px; font-size:clamp(12px,.95vw,15px); }
+@media(min-width:768px) {
+ .healthAndBeauty main > .reach,
+ .healthAndBeauty main > .channelsSection,
+ .healthAndBeauty main > .whySection,
+ .healthAndBeauty main > .industryRow {
+   min-height:0;
+   height:auto;
+   margin-block:0;
+   padding-block:clamp(40px,4.5vw,72px);
+ }
+ .healthAndBeauty main > .reach { padding-top:clamp(48px,5vw,80px); padding-bottom:24px; }
+ .healthAndBeauty main > .cloudSection { height:auto; min-height:clamp(360px,29vw,470px); margin-block:16px 32px; padding-block:0; }
+ .healthAndBeauty .cloudCopy { top:47%; width:43%; }
+ .healthAndBeauty .cloudCopy h2 { font-size:clamp(27px,2.65vw,44px); }
+ .healthAndBeauty .cloudPills li { font-size:clamp(12px,1.1vw,18px); max-width:29%; }
+ .healthAndBeauty .cloudPills li:nth-child(-n+2) { top:calc(47% - 70px); }
+ .healthAndBeauty .cloudPills li:nth-child(n+3) { top:calc(47% + 46px); bottom:auto; }
+ .healthAndBeauty .floatingCloudIcons img { width:clamp(64px,6vw,98px); }
+ .healthAndBeauty .floatingCloudIcons img:nth-child(1) { left:32%; top:calc(47% - 140px); }
+ .healthAndBeauty .floatingCloudIcons img:nth-child(2) { right:31%; top:calc(47% - 140px); }
+ .healthAndBeauty .floatingCloudIcons img:nth-child(3) { left:34%; top:calc(47% + 105px); bottom:auto; }
+ .healthAndBeauty .floatingCloudIcons img:nth-child(4) { right:33%; top:calc(47% + 105px); bottom:auto; }
+ .healthAndBeauty main > .channelsSection { padding-inline:clamp(28px,4vw,64px); margin-bottom:clamp(32px,4vw,64px); }
+ .healthAndBeauty .channelGrid { gap:22px; }
+ .healthAndBeauty .channelArt { min-height:clamp(140px,12vw,190px); padding:18px; }
+ .healthAndBeauty .channelCard h3 { font-size:clamp(18px,1.5vw,24px); margin-top:18px; }
+ .healthAndBeauty .channelCard p { font-size:clamp(13px,1vw,16px); line-height:1.7; }
+ .healthAndBeauty main > .whySection {
+   grid-template-columns: 1fr 1fr;
+   gap: clamp(32px, 4.5vw, 64px);
+   align-items: center;
+   max-width: 1200px;
+   margin-inline: auto;
+   padding-block: clamp(32px, 3.5vw, 56px);
+ }
+ .healthAndBeauty .whySection h2 {
+   font-size: clamp(28px, 2.7vw, 40px);
+   font-weight: 700;
+   color: #080d2c;
+   line-height: 1.25;
+   margin-bottom: 22px;
+   max-width: 480px;
+ }
+ .healthAndBeauty .whySection p {
+   font-size: 14.5px;
+   line-height: 1.65;
+   color: #5e6a82;
+   max-width: 480px;
+ }
+ .healthAndBeauty .whySection p + p { margin-top: 14px; }
+ .healthAndBeauty .benefitsList { gap: 16px; }
+ .healthAndBeauty .benefitItem {
+   padding: 16px 22px;
+   border-radius: 16px;
+   border: 1px solid #eef2f8;
+   background: #ffffff;
+   box-shadow: 0 4px 16px rgba(16, 41, 82, 0.04);
+   display: flex;
+   align-items: center;
+   gap: 18px;
+   transition: transform 0.25s ease, box-shadow 0.25s ease;
+ }
+ .healthAndBeauty .benefitItem:hover {
+   transform: translateY(-3px);
+   box-shadow: 0 10px 24px rgba(16, 41, 82, 0.08);
+ }
+ .healthAndBeauty .benefitItem img { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
+ .healthAndBeauty .benefitItem h3 { font-size: 17px; font-weight: 700; color: #080d2c; margin: 0; line-height: 1.3; }
+ .healthAndBeauty .benefitItem p { font-size: 13.5px; color: #5e6a82; margin-top: 4px; line-height: 1.5; }
+ .healthAndBeauty main > .industryRow { padding-top:32px; }
+ .healthAndBeauty .footerShell { margin-top:clamp(32px,4vw,64px); }
+}
+@media(max-width:767px) {
+ .healthAndBeauty .heroCaption { left:-8%; bottom:auto; width:100%; }
+ .healthAndBeauty .channelCard { padding:20px; }
+ .healthAndBeauty .benefitItem { padding:18px; }
+}
+
+/* Health hero copy follows the supplied four-line composition. */
+.healthAndBeauty .heroCopy { min-width:0; }
+.healthAndBeauty .eyebrow { text-transform:uppercase; font-size:11px; font-weight:600; margin-bottom:22px; }
+.healthAndBeauty .hero h1 { line-height:1.12; letter-spacing:-.025em; }
+.healthAndBeauty .heroCopy > p { max-width:560px; line-height:1.55; margin-top:24px; }
+.healthAndBeauty .actions { margin-top:26px; gap:16px; align-items:center; }
+@media(min-width:768px) { .healthAndBeauty .hero h1 { font-size:clamp(32px,min(3.7vw,6.8dvh),64px); } }
+@media(max-width:767px) { .healthAndBeauty .hero h1 { font-size:clamp(28px,7vw,42px); }.healthAndBeauty .heroCopy > p { font-size:14px; } }

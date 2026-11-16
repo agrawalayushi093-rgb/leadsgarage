@@ -130,7 +130,7 @@ function ServiceHeading({ service, index, phase, reducedMotion }) {
 
   const words = service.title.split(' ');
   return (
-    <h3 id={`heading-${service.id}`} aria-label={service.title} style={{ '--heading-ink': index === 0 ? '#092052' : '#ffffff', '--heading-muted': index === 0 ? '#09205233' : '#ffffff33' }}>
+    <h3 id={`heading-${service.id}`} aria-label={service.title} style={{ '--heading-ink': '#ffffff', '--heading-muted': '#ffffff33' }}>
       {words.map((word, wordIndex) => (
         <React.Fragment key={wordIndex}>
           <HighlightWord word={word} index={wordIndex} count={words.length} progress={reveal} reducedMotion={reducedMotion} />
@@ -153,7 +153,7 @@ function ServicePanel({ service, index, phase, active, reducedMotion }) {
   const imageY = useTransform(phase, range, [index === 0 ? 0 : 18, 0, 0, index === 5 ? 0 : -18]);
   const imageScale = useTransform(phase, range, [index === 0 ? 1 : 0.985, 1, 1, index === 5 ? 1 : 1.015]);
   return (
-    <motion.article id={`service-${service.id}`} className={styles.servicePanel} aria-labelledby={`heading-${service.id}`} aria-hidden={!active} inert={!active ? '' : undefined} style={{ color:index === 0 ? '#092052' : '#ffffff', opacity: reducedMotion ? (active ? 1 : 0) : opacity, pointerEvents: active ? 'auto' : 'none' }}>
+    <motion.article id={`service-${service.id}`} className={styles.servicePanel} aria-labelledby={`heading-${service.id}`} aria-hidden={!active} inert={!active ? '' : undefined} style={{ color:'#ffffff', opacity: reducedMotion ? (active ? 1 : 0) : opacity, pointerEvents: active ? 'auto' : 'none' }}>
       <motion.div className={styles.content} style={reducedMotion ? undefined : { y: contentY }}>
         <ServiceHeading service={service} index={index} phase={phase} reducedMotion={reducedMotion} />
         <p>{service.description}</p>

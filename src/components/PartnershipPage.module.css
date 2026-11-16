@@ -5,7 +5,7 @@
 .page p { margin:0; }
 .page a:focus-visible,.page button:focus-visible,.stepsTrack:focus-visible { outline:3px solid #31c9f6; outline-offset:5px; }
 .container { width:88%; max-width:1684px; margin-inline:auto; }
-.hero { position:relative; isolation:isolate; display:grid; grid-template-columns:58% 42%; align-items:center; width:calc(100% - 4.4%); max-width:1836px; min-height:clamp(580px,46.6vw,896px); margin:0 auto; padding:clamp(70px,5vw,96px) 4%; border-radius:clamp(28px,3vw,60px); color:#fff; background:linear-gradient(105deg,#1b2c88 0%,#2552df 59%,#608fff 100%); }
+.hero { position:relative; isolation:isolate; display:grid; grid-template-columns:58% 42%; align-items:center; width:calc(100% - 4.4%); max-width:1836px; min-height:clamp(580px,46.6vw,896px); margin:0 auto clamp(70px,7vw,130px); padding:clamp(70px,5vw,96px) 4%; border-radius:clamp(28px,3vw,60px); color:#fff; background:linear-gradient(105deg,#1b2c88 0%,#2552df 59%,#608fff 100%); }
 .specialist { position:absolute; top:0; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:8px; background:#030a2c; padding:16px 28px; border-radius:0 0 18px 18px; font-size:clamp(13px,1vw,19px); font-weight:700; white-space:nowrap; }
 .eyebrow { display:inline-block; padding:7px 23px; border:1px solid #ffffff60; border-radius:30px; font-size:clamp(12px,1vw,18px); font-weight:700; margin-bottom:32px; }
 .hero h1 { font-size:clamp(42px,4.4vw,84px); font-weight:800; line-height:1.17; }
@@ -21,14 +21,14 @@
 .orbits { position:absolute; inset:-18% -14%; pointer-events:none; }
 .orbits i { position:absolute; top:50%; left:50%; width:100%; aspect-ratio:1; transform:translate(-50%,-50%); border:1px solid #ffffff24; border-radius:50%; }
 .orbits i:nth-child(2) { width:87%; }.orbits i:nth-child(3) { width:74%; }.orbits i:nth-child(4) { width:61%; }
-.requirements { position:relative; isolation:isolate; padding:clamp(70px,7.5vw,145px) 0 clamp(70px,7vw,130px); }
+.requirements { position:relative; isolation:isolate; padding:clamp(70px,7.5vw,145px) 0 clamp(70px,7vw,130px); margin-bottom:clamp(70px,7vw,130px); }
 .requirements::before { content:''; position:absolute; z-index:-1; inset:20% 0 0; pointer-events:none; background:linear-gradient(transparent 60%,#fff 100%),radial-gradient(ellipse 60% 105% at 50% 0%,#fff 99.7%,transparent),radial-gradient(ellipse 67% 115% at 50% 0%,#f0f6ff 99.7%,#cbdffc); }
 .requirements h2,.industries > h2 { text-align:center; margin-bottom:clamp(35px,3.8vw,72px); }
 .requirementGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:30px; }
 .requirementCard { padding:clamp(25px,2.2vw,42px); background:#fff; border:1px solid #e1e8f5; border-radius:30px; box-shadow:0 18px 30px #10295208; }
 .requirementIcon { display:grid; place-items:center; width:clamp(52px,4.17vw,80px); height:clamp(52px,4.17vw,80px); color:#fff; border-radius:24px; margin-bottom:28px; }
 .requirementCard p,.stepCard p,.industryCard p { color:#596075; font-size:clamp(15px,1.05vw,20px); font-weight:500; line-height:1.65; margin-top:24px; }
-.benefitCloud { position:relative; min-height:clamp(440px,38vw,730px); margin-top:30px; margin-bottom:clamp(65px,7vw,130px); display:grid; place-items:center; }
+.benefitCloud { position:relative; min-height:clamp(480px,40vw,760px); margin-block:clamp(80px,8vw,150px); display:grid; place-items:center; }
 .benefitCloud h2 { text-align:center; font-weight:400; line-height:1.45; font-size:clamp(29px,3vw,58px); }
 .benefitCloud strong,.benefitSummary strong { font-weight:800; }
 .benefitCloud ul { list-style:none; padding:0; margin:0; }
@@ -77,19 +77,20 @@
 .assetArtwork img { display:block; width:100%; height:100%; object-fit:contain; }
 .customCurve::before,.customCurve::after { content:none; }
 .stepCurve { position:absolute; z-index:-1; left:0; bottom:0; width:85%; height:auto; pointer-events:none; }
-.benefitSummary { position:relative; isolation:isolate; overflow:hidden; border-radius:30px; padding:clamp(40px,7vw,135px); margin-block:clamp(80px,9vw,170px); background:linear-gradient(110deg,#f7f7f7,#fdfdfd); }
+.benefitSummary { position:relative; isolation:isolate; overflow:hidden; border-radius:36px; padding:clamp(60px,6.5vw,120px) clamp(36px,5vw,84px); margin-block:clamp(80px,8vw,160px); background:linear-gradient(110deg,#f8faff,#fcfdff); box-shadow:0 18px 40px rgba(16,41,82,0.03); border:1px solid #e9effa; }
 .benefitSummary h2 { font-weight:400; font-size:clamp(32px,3.7vw,70px); line-height:1.4; }
 .benefitSummary ul { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:55px 35px; list-style:none; padding:0; margin:65px 0 0; width:79%; }
 .benefitSummary li { display:flex; align-items:flex-start; gap:24px; font-size:clamp(16px,1.6vw,30px); line-height:1.35; color:#272b28; }
 .benefitSummary li > span { flex-shrink:0; display:grid; place-items:center; width:48px; height:48px; background:#95ffc3; border-radius:50%; }
 .benefitSummary .floatingIcons { left:79%; z-index:-1; }.benefitSummary .floatingIcons img { width:clamp(85px,10vw,190px); }.benefitSummary .floatingIcons img:nth-child(1) { left:0; top:10%; bottom:auto; }.benefitSummary .floatingIcons img:nth-child(2) { left:55%; right:auto; top:28%; }.benefitSummary .floatingIcons img:nth-child(3) { left:0; top:53%; }.benefitSummary .floatingIcons img:nth-child(4) { right:-30%; bottom:8%; }
-.industries { margin-bottom:clamp(70px,6vw,115px); }
+.industries { margin-block:clamp(80px,8vw,150px); }
 .industryGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:30px; }
 .industryCard { overflow:hidden; border:1px solid #e1e8f5; border-radius:30px; background:#fff; }
 .industryCard > img { display:block; width:100%; height:auto; aspect-ratio:540/237; object-fit:cover; }
 .industryCard > div { padding:30px; }.industryCard h3 { display:flex; align-items:center; gap:15px; font-size:clamp(22px,1.65vw,32px); }.industryCard h3 svg { color:#2562ff; flex-shrink:0; }.industryCard p { margin-top:22px; }
-.footerShell { font-family:'Plus Jakarta Sans',Inter,sans-serif; isolation:isolate; width:calc(100% - 4.4%); max-width:1836px; margin:0 auto 30px; padding:0 22px 22px; border-radius:60px; background:linear-gradient(160deg,#6894ff 0%,#2f60dd 100%); }
-.closingCta { position:relative; isolation:isolate; padding:clamp(65px,6vw,115px) 10% clamp(75px,7vw,135px); text-align:center; color:#fff; }
+.footerShell { font-family:'Plus Jakarta Sans',Inter,sans-serif; isolation:isolate; width:calc(100% - 4.4%); max-width:1836px; margin:clamp(80px,8vw,160px) auto clamp(40px,4vw,60px); padding:0 clamp(16px,2vw,24px) clamp(16px,2vw,24px); border-radius:clamp(36px,4vw,60px); background:linear-gradient(160deg,#6894ff 0%,#2f60dd 100%); box-shadow:0 24px 60px rgba(27,44,136,0.14); }
+.footerShell :global(footer) { border-radius:clamp(24px,3vw,44px); box-shadow:0 18px 44px rgba(10,30,80,0.08); }
+.closingCta { position:relative; isolation:isolate; padding:clamp(85px,8vw,145px) 10% clamp(75px,7vw,130px); text-align:center; color:#fff; }
 .closingCta::before { content:''; position:absolute; inset:0; z-index:-2; pointer-events:none; background:url('/image/Home/Ambient glow.png') center top / min(85%,1100px) auto no-repeat; opacity:.4; }
 .closingCta h2 { margin:0; line-height:1.25; letter-spacing:-.035em; font-size:clamp(35px,3.9vw,74px); font-weight:700; }.closingCta p { font-size:clamp(16px,1.35vw,26px); font-weight:600; line-height:1.65; margin:38px auto; max-width:920px; }.closingCta .floatingIcons { z-index:-1; }.closingCta .floatingIcons img:nth-child(1) { left:12%; top:10%; bottom:auto; }.closingCta .floatingIcons img:nth-child(2) { right:12%; top:12%; }.closingCta .floatingIcons img:nth-child(3) { left:12%; top:auto; bottom:20%; }.closingCta .floatingIcons img:nth-child(4) { right:12%; bottom:20%; }
 @media(min-width:768px) and (prefers-reduced-motion:no-preference) { .floatingIcons img { animation:buyerFloat 6s ease-in-out infinite; }.floatingIcons img:nth-child(even) { animation-delay:-3s; } }
@@ -118,8 +119,9 @@
 
 @media(prefers-reduced-motion:reduce) { .stepCard { transition:none; } }
 
-.howItWorks .sectionHeader { margin-bottom:24px; }
-.howItWorks .sectionHeader h2 { font-size:clamp(28px,3vw,44px); line-height:1.2; }
+.howItWorks { margin-block:clamp(80px,8vw,150px); }
+.howItWorks .sectionHeader { margin-bottom:clamp(28px,3vw,48px); }
+.howItWorks .sectionHeader h2 { font-size:clamp(28px,3vw,46px); line-height:1.2; }
 .stepArrow svg { width:24px; height:24px; stroke-width:1.8; }
 @media(max-height:700px) and (min-width:768px) {
  .stepsTrack { --process-icon:96px; padding-top:20px; padding-bottom:16px; }
@@ -129,4 +131,427 @@
  .stepCard p { font-size:16px; margin-top:12px; line-height:1.45; }
  .howItWorks .sectionHeader { margin-bottom:18px; }
  .howItWorks .sectionHeader h2 { font-size:30px; }
+}
+
+
+/* Desktop composition sizing with generous breathing space */
+@media(min-width:1101px) {
+ .hero { min-height:clamp(600px,46.6vw,860px); margin-bottom:clamp(70px,7vw,130px); padding-block:clamp(60px,5vw,90px); overflow:visible; }
+ .hero h1 { font-size:clamp(38px,4.2vw,80px); }
+ .heroCopy p { font-size:clamp(17px,1.35vw,26px); margin-block:clamp(24px,2.5vw,34px) clamp(22px,2vw,30px); }
+ .eyebrow { margin-bottom:clamp(20px,2vw,30px); }
+ .whiteButton,.darkButton { min-height:56px; padding:16px clamp(28px,2.2vw,38px); font-size:clamp(15px,1.15vw,21px); }
+ .requirements { padding-block:clamp(70px,7vw,130px); margin-bottom:clamp(70px,7vw,130px); }
+ .requirements h2,.industries > h2 { margin-bottom:clamp(36px,4vw,64px); }
+ .requirementGrid,.industryGrid { gap:clamp(24px,2.5vw,36px); }
+ .requirementCard { padding:clamp(28px,2.4vw,42px); border-radius:28px; }
+ .requirementIcon { width:clamp(56px,4.2vw,78px); height:clamp(56px,4.2vw,78px); margin-bottom:24px; }
+ .requirementCard p,.industryCard p { font-size:clamp(15px,1.05vw,19px); margin-top:18px; line-height:1.6; }
+ .benefitCloud { min-height:clamp(480px,38vw,720px); margin-block:clamp(80px,8vw,150px); }
+ .benefitCloud h2 { font-size:clamp(32px,3.2vw,58px); }
+ .floatingIcons img { width:clamp(70px,7.8vw,140px); }
+ .howItWorks { margin-block:clamp(80px,8vw,150px); }
+ .stepsTrack { --visible-steps:4; --step-gap:24px; --step-width:calc((100% - 3 * var(--step-gap)) / 4); --process-icon:clamp(100px,8vw,150px); }
+ .stepCard { padding:clamp(26px,2.4vw,38px) 22px calc(var(--process-icon) + 48px); border-radius:28px; }
+ .stepNumber { margin-bottom:20px; width:clamp(46px,3.6vw,60px); height:clamp(46px,3.6vw,60px); }
+ .benefitSummary { padding:clamp(64px,6.5vw,120px) clamp(44px,5vw,90px); margin-block:clamp(80px,8vw,160px); border-radius:36px; }
+ .benefitSummary h2 { font-size:clamp(34px,3.6vw,66px); }
+ .benefitSummary ul { margin-top:clamp(40px,4vw,60px); gap:clamp(36px,3.5vw,56px) clamp(24px,3vw,44px); }
+ .benefitSummary li { font-size:clamp(16px,1.4vw,24px); }
+ .industries { margin-block:clamp(80px,8vw,150px); }
+ .industryCard > div { padding:clamp(24px,2.2vw,36px); }
+ .industryCard > img { max-height:240px; object-fit:cover; }
+ .industryCard h3 { font-size:clamp(22px,1.6vw,30px); }
+ .sectionHeader { margin-bottom:clamp(32px,3.5vw,52px); }
+ .footerShell { margin:clamp(80px,8vw,160px) auto clamp(40px,4vw,60px); border-radius:clamp(36px,4vw,60px); }
+ .closingCta { padding-block:clamp(85px,8vw,145px) clamp(75px,7vw,130px); padding-inline:clamp(24px,6vw,100px); }
+ .closingCta h2 { font-size:clamp(36px,3.9vw,72px); }
+ .closingCta p { font-size:clamp(16px,1.3vw,24px); margin-block:clamp(26px,2.8vw,42px); }
+}
+
+.cloudLayout { display:contents; }
+.benefitCanvas { position:relative; width:min(100%,1500px); height:clamp(340px,min(32vw,48dvh),600px); }
+.benefitCanvas .floatingIcons img { width:clamp(64px,6.4vw,120px); }
+.benefitCanvas .cloudCopy { width:58%; }
+.benefitCanvas li { font-size:clamp(13px,1.2vw,23px); gap:12px; padding:10px 16px 10px 12px; }
+.benefitCanvas .pill0 { left:3%; top:12%; }.benefitCanvas .pill1 { right:3%; top:14%; }
+.benefitCanvas .pill2 { left:1%; top:44%; }.benefitCanvas .pill3 { right:2%; top:44%; }
+.benefitCanvas .pill4 { left:6%; bottom:12%; }.benefitCanvas .pill5 { right:3%; bottom:11%; }
+@media(max-width:767px) { .benefitCanvas { height:auto; display:flex; flex-direction:column; align-items:center; gap:35px; }.benefitCanvas .cloudCopy { width:100%; }.benefitCanvas li { font-size:clamp(10px,2.6vw,14px); gap:8px; padding:9px; } }
+
+@media(min-width:1101px) {
+ .compactClosing .closingCta { padding-block:clamp(20px,2.5dvh,32px); }
+ .compactClosing .closingCta h2 { font-size:clamp(30px,min(3vw,4.8dvh),54px); }
+ .compactClosing .closingCta p { font-size:clamp(14px,min(1.1vw,1.9dvh),20px); line-height:1.5; margin-block:clamp(16px,2dvh,24px); }
+ .compactClosing .darkButton { min-height:44px; padding-block:12px; font-size:clamp(14px,1vw,19px); }
+ .compactClosing .floatingIcons img { width:clamp(56px,min(6vw,9dvh),100px); }
+ .compactClosing footer { padding:clamp(20px,2.5dvh,32px) clamp(28px,4.5vw,84px); }
+ .compactClosing footer > div:first-child { grid-template-columns:1fr 1.45fr 1fr 1.1fr 1.4fr; gap:20px; padding-bottom:clamp(16px,2dvh,24px); }
+ .compactClosing footer nav summary { margin-bottom:12px; font-size:clamp(14px,1.1vw,20px); }
+ .compactClosing footer li { font-size:clamp(13px,min(.95vw,1.8dvh),17px); line-height:1.5; }
+ .compactClosing footer li+li { margin-top:clamp(5px,.8dvh,9px); }
+ .compactClosing footer address { font-size:clamp(12px,min(.9vw,1.8dvh),17px); gap:16px; }
+ .compactClosing footer > div:last-child { padding-top:clamp(16px,2dvh,24px); }
+ .compactClosing footer > div:last-child img { width:clamp(170px,13vw,250px); }
+ .compactClosing footer small { font-size:clamp(10px,.75vw,14px); }
+}
+
+/* Buyers and Advertisers share viewport compositions with continuous scrolling. */
+@media(min-width:1101px) and (min-height:600px) {
+ :global(#buyers-main) > section,
+ :global(#advertisers-main) > section,
+ :global(#advertisers-main) > div {
+   box-sizing:border-box;
+   min-height:100svh;
+   margin-block:0 !important;
+   padding-block:calc(var(--section-nav,80px) + 24px) 24px !important;
+   display:flex;
+   flex-direction:column;
+   justify-content:center;
+ }
+ :global(#buyers-main) > .hero,
+ :global(#advertisers-main) > .hero {
+   display:grid;
+   min-height:calc(100svh - var(--section-nav,80px));
+   padding-block:48px 36px !important;
+ }
+ :global(#buyers-main) .heroCopy h1,
+ :global(#advertisers-main) .heroCopy h1 { font-size:clamp(34px,min(4.2vw,7dvh),72px); white-space:normal; }
+ :global(#buyers-main) .heroCopy p,
+ :global(#advertisers-main) .heroCopy p { font-size:clamp(15px,min(1.3vw,2.5dvh),22px); margin:24px 0; }
+ :global(#buyers-main) .heroArt { max-width:calc(52svh * .85); }
+ :global(#buyers-main) .heroArt > img { max-height:52svh; object-fit:contain; }
+ :global(#buyers-main) .whiteButton,
+ :global(#advertisers-main) .whiteButton { min-height:46px; padding:12px 24px; font-size:16px; }
+ :global(#buyers-main) h2,
+ :global(#advertisers-main) h2 { font-size:clamp(28px,min(2.8vw,4.8dvh),48px); }
+ :global(#buyers-main) .requirements h2,
+ :global(#advertisers-main) .requirements h2 { margin-bottom:28px; }
+ :global(#buyers-main) .requirementGrid,
+ :global(#advertisers-main) .requirementGrid { gap:20px; }
+ :global(#buyers-main) .requirementCard,
+ :global(#advertisers-main) .requirementCard { padding:22px 24px; border-radius:22px; }
+ :global(#buyers-main) .requirementIcon,
+ :global(#advertisers-main) .requirementIcon { width:42px; height:42px; border-radius:14px; margin-bottom:16px; }
+ :global(#buyers-main) .requirementCard h3,
+ :global(#advertisers-main) .requirementCard h3 { font-size:clamp(17px,1.4vw,23px); }
+ :global(#buyers-main) .requirementCard p,
+ :global(#advertisers-main) .requirementCard p { font-size:clamp(13px,min(1vw,2dvh),17px); line-height:1.55; margin-top:12px; }
+ :global(#buyers-main) .benefitCloud,
+ :global(#advertisers-main) .benefitCloud { position:relative; }
+ :global(#buyers-main) .benefitCloud > div,
+ :global(#advertisers-main) .benefitCloud > div { position:relative; width:100%; min-height:clamp(340px,52svh,560px); }
+ :global(#buyers-main) .benefitSummary { padding-inline:5%; }
+ :global(#buyers-main) .benefitSummary ul { margin-top:32px; gap:28px; }
+ :global(#buyers-main) .benefitSummary li { font-size:clamp(15px,1.4vw,23px); gap:14px; }
+ :global(#buyers-main) .benefitSummary li > span { width:34px; height:34px; }
+ :global(#buyers-main) .sectionHeader,
+ :global(#advertisers-main) .sectionHeader { margin-bottom:24px; }
+ :global(#advertisers-main) > div > .howItWorks { min-height:0; margin-block:0; padding-block:0; }
+ :global(#buyers-main) .stepsTrack,
+ :global(#advertisers-main) .stepsTrack { --process-icon:clamp(90px,14svh,135px); --step-width:28%; padding-top:20px; }
+ :global(#buyers-main) .stepCard,
+ :global(#advertisers-main) .stepCard { padding:24px 24px calc(var(--process-icon) + 36px); }
+ :global(#buyers-main) .stepCard h3,
+ :global(#advertisers-main) .stepCard h3 { font-size:clamp(18px,1.5vw,25px); }
+ :global(#buyers-main) .stepCard p,
+ :global(#advertisers-main) .stepCard p { font-size:clamp(13px,min(1vw,2dvh),17px); line-height:1.5; }
+ :global(#buyers-main) .stepNumber,
+ :global(#advertisers-main) .stepNumber { width:44px; height:44px; font-size:18px; margin-bottom:18px; }
+ :global(#buyers-main) .industryCard > img,
+ :global(#advertisers-main) .industryCard > img { max-height:24svh; object-fit:cover; }
+ :global(#buyers-main) .industryCard > div,
+ :global(#advertisers-main) .industryCard > div { padding:22px; }
+ :global(#buyers-main) .industryCard h3,
+ :global(#advertisers-main) .industryCard h3 { font-size:clamp(18px,1.5vw,25px); }
+ :global(#buyers-main) .industryCard p,
+ :global(#advertisers-main) .industryCard p { font-size:14px; margin-top:12px; }
+}
+
+/* Advertiser process cards match the reference, with a partially visible next step. */
+:global(#advertisers-main) .howItWorks .stepsTrack {
+ --step-width:28%;
+ --process-icon:clamp(90px,9vw,128px);
+ gap:24px;
+ scroll-snap-type:none;
+ padding:24px 0 20px;
+}
+:global(#advertisers-main) .howItWorks .stepCard { border-radius:22px; padding:26px 26px calc(var(--process-icon) + 34px); box-shadow:0 8px 20px #10295208; }
+:global(#advertisers-main) .howItWorks .stepNumber { width:44px; height:44px; font-size:18px; margin-bottom:22px; }
+:global(#advertisers-main) .howItWorks .stepCard h3 { font-size:clamp(18px,1.55vw,24px); line-height:1.3; }
+:global(#advertisers-main) .howItWorks .stepCard p { font-size:clamp(13px,1.1vw,17px); line-height:1.55; margin-top:12px; }
+:global(#advertisers-main) .howItWorks .stepArtwork { bottom:30px; }
+:global(#advertisers-main) .howItWorks .stepArrow { bottom:28px; width:54px; height:54px; right:-39px; border-width:7px; }
+@media(prefers-reduced-motion:no-preference) {
+ :global(#advertisers-main) [data-process-reveal] .stepCard { opacity:0; translate:0 24px; transition:opacity .5s ease,translate .5s ease,transform .35s ease; }
+ :global(#advertisers-main) [data-process-visible] .stepCard { opacity:1; translate:0 0; }
+ :global(#advertisers-main) [data-process-visible] .stepCard:nth-child(2) { transition-delay:.08s; }
+ :global(#advertisers-main) [data-process-visible] .stepCard:nth-child(3) { transition-delay:.16s; }
+ :global(#advertisers-main) [data-process-visible] .stepCard:nth-child(4) { transition-delay:.24s; }
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+ :global(#advertisers-main) .requirementGrid { perspective:1200px; }
+ :global(#advertisers-main) .requirementCard { transform-style:preserve-3d; transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease; }
+ :global(#advertisers-main) .requirementCard:hover { transform:translateY(-7px) rotateX(5deg) rotateY(-5deg); box-shadow:14px 20px 36px #2046a321; border-color:#b5cbff; }
+ :global(#advertisers-main) .requirementCard:hover .requirementIcon { transform:translateZ(28px); }
+ :global(#advertisers-main) .requirementCard h3,:global(#advertisers-main) .requirementCard p { transform:translateZ(12px); }
+ :global(#advertisers-main) .requirementIcon { transition:transform .3s ease; }
+}
+@media(max-width:767px) { :global(#advertisers-main) .howItWorks .stepsTrack { --step-width:82%; --process-icon:100px; } }
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+ :global(#advertisers-main) .requirementGrid { perspective:none; }
+ :global(#advertisers-main) .requirementCard { transform-style:flat; }
+ :global(#advertisers-main) .requirementCard:hover { transform:translateY(-5px); }
+ :global(#advertisers-main) .requirementCard:hover .requirementIcon,
+ :global(#advertisers-main) .requirementCard h3,
+ :global(#advertisers-main) .requirementCard p { transform:none; }
+}
+
+/* Compact advertiser solutions composition, without viewport filler space. */
+@media(min-width:768px) {
+ :global(#advertisers-main) > .benefitCloud {
+   min-height:0;
+   height:auto;
+   margin-block:16px !important;
+   padding-block:24px !important;
+ }
+ :global(#advertisers-main) > .benefitCloud > .benefitCanvas {
+   min-height:clamp(340px,32vw,460px);
+   height:clamp(340px,32vw,460px);
+ }
+ :global(#advertisers-main) .benefitCanvas .cloudCopy { width:48%; }
+ :global(#advertisers-main) .benefitCanvas .cloudCopy h2 { font-size:clamp(27px,2.7vw,44px); }
+ :global(#advertisers-main) .benefitCanvas .cloudCopy > p { font-size:clamp(12px,1vw,16px); }
+ :global(#advertisers-main) .benefitCanvas .floatingIcons img { width:clamp(60px,6vw,96px); }
+}
+@media(max-width:767px) {
+ :global(#advertisers-main) > .benefitCloud { margin-block:24px !important; padding-block:16px !important; }
+}
+
+/* Refined process cards: steady alignment, clear hierarchy, quieter decoration. */
+:global(#advertisers-main) .howItWorks .sectionHeader { margin-bottom:24px; }
+:global(#advertisers-main) .howItWorks .stepsTrack {
+ --step-width:30%;
+ --process-icon:76px;
+ gap:24px;
+ align-items:stretch;
+ padding:8px 2px 20px;
+}
+:global(#advertisers-main) .howItWorks .stepCard {
+ min-height:320px;
+ padding:26px 26px 116px;
+ background:#fff;
+ border:1px solid #e2e9f5;
+ border-radius:20px;
+ box-shadow:0 5px 16px rgba(20,44,90,.04);
+ transform:none;
+}
+:global(#advertisers-main) .howItWorks .activeStep {
+ transform:none;
+ border-color:#9dbbff;
+ box-shadow:0 8px 24px rgba(37,95,243,.09);
+}
+:global(#advertisers-main) .howItWorks .stepNumber {
+ width:40px;
+ height:40px;
+ margin-bottom:20px;
+ background:#f0f4fb;
+ color:#667085;
+ font-size:15px;
+}
+:global(#advertisers-main) .howItWorks .activeStep .stepNumber { background:#255ff3; color:#fff; }
+:global(#advertisers-main) .howItWorks .stepCard h3 { font-size:clamp(18px,1.45vw,23px); font-weight:700; line-height:1.35; }
+:global(#advertisers-main) .howItWorks .stepCard p { font-size:clamp(14px,1vw,16px); line-height:1.7; color:#647089; margin-top:12px; }
+:global(#advertisers-main) .howItWorks .stepArtwork { bottom:24px; left:26px; transform:none; width:76px; height:76px; }
+:global(#advertisers-main) .howItWorks .stepCurve { width:72%; opacity:.3; }
+:global(#advertisers-main) .howItWorks .stepArrow { bottom:32px; right:-34px; width:44px; height:44px; border:6px solid #fff; background:#f0f5ff; color:#255ff3; }
+:global(#advertisers-main) .howItWorks .stepArrow svg { width:18px; height:18px; }
+@media(max-width:767px) {
+ :global(#advertisers-main) .howItWorks .stepsTrack { --step-width:85%; gap:18px; }
+ :global(#advertisers-main) .howItWorks .stepCard { min-height:310px; padding:24px 24px 112px; }
+}
+
+/* Buyers: complete, stable viewport compositions. */
+@media(min-width:1101px) and (min-height:600px) {
+ :global(#buyers-main) > section { min-height:100svh; padding-block:calc(var(--section-nav,80px) + 24px) 32px !important; }
+ :global(#buyers-main) > .hero { min-height:calc(100svh - var(--section-nav,80px)); padding-block:48px 40px !important; }
+ :global(#buyers-main) .requirementGrid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+ :global(#buyers-main) .requirementCard { padding:22px; box-shadow:0 8px 18px #10295209; }
+ :global(#buyers-main) .requirementCard p { line-height:1.6; }
+ :global(#buyers-main) .benefitCloud > .cloudLayout {
+   display:block;
+   position:relative;
+   min-height:clamp(340px,52svh,500px);
+   height:clamp(340px,52svh,500px);
+ }
+ :global(#buyers-main) .cloudLayout .cloudCopy { width:48%; }
+ :global(#buyers-main) .cloudLayout .cloudCopy h2 { font-size:clamp(28px,min(2.7vw,4.7dvh),44px); line-height:1.3; }
+ :global(#buyers-main) .cloudLayout li { font-size:clamp(12px,1vw,17px); padding:10px 15px; gap:10px; }
+ :global(#buyers-main) .cloudLayout li > span { width:26px; height:26px; }
+ :global(#buyers-main) .cloudLayout .floatingIcons img { width:clamp(64px,6vw,100px); }
+ :global(#buyers-main) .cloudLayout .pill0 { left:5%; top:12%; }
+ :global(#buyers-main) .cloudLayout .pill1 { right:5%; top:12%; }
+ :global(#buyers-main) .cloudLayout .pill2 { left:0; top:44%; }
+ :global(#buyers-main) .cloudLayout .pill3 { right:2%; top:44%; }
+ :global(#buyers-main) .cloudLayout .pill4 { left:5%; bottom:10%; }
+ :global(#buyers-main) .cloudLayout .pill5 { right:0; bottom:10%; }
+ :global(#buyers-main) .stepsTrack { --step-width:28%; --process-icon:clamp(90px,13svh,125px); gap:24px; scroll-snap-type:none; }
+ :global(#buyers-main) .stepCard { min-height:310px; border-radius:20px; padding:24px 24px calc(var(--process-icon) + 32px); }
+ :global(#buyers-main) .stepCard h3 { font-size:clamp(18px,1.45vw,24px); }
+ :global(#buyers-main) .stepCard p { font-size:clamp(13px,1vw,16px); line-height:1.6; }
+ :global(#buyers-main) .stepArtwork { bottom:24px; }
+ :global(#buyers-main) .stepArrow { width:48px; height:48px; bottom:28px; border-width:6px; right:-36px; }
+ :global(#buyers-main) > .benefitSummary { border:0; box-shadow:none; background:linear-gradient(110deg,#f7f8fb,#fff); padding-inline:6%; }
+ :global(#buyers-main) .benefitSummary h2 { font-size:clamp(30px,min(3.2vw,5.5dvh),54px); line-height:1.3; }
+ :global(#buyers-main) .benefitSummary ul { width:78%; gap:26px 24px; margin-top:36px; }
+ :global(#buyers-main) .benefitSummary li { align-items:center; font-size:clamp(14px,1.25vw,21px); }
+ :global(#buyers-main) .benefitSummary .floatingIcons img { width:clamp(72px,7vw,125px); }
+ :global(#buyers-main) .industries > h2 { margin-bottom:30px; }
+ :global(#buyers-main) .industryGrid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; }
+ :global(#buyers-main) .industryCard { border-radius:20px; }
+}
+@media(max-width:767px) {
+ :global(#buyers-main) .stepsTrack { --step-width:84%; }
+ :global(#buyers-main) .stepCard { border-radius:20px; }
+ :global(#buyers-main) .benefitSummary li { font-size:15px; }
+}
+@media(min-width:1101px) and (min-height:600px) {
+ :global(#affiliate-marketing-main) .requirements h2 { font-size:clamp(28px,min(2.8vw,4.8dvh),46px); margin-bottom:28px; }
+ :global(#affiliate-marketing-main) .requirementGrid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+ :global(#affiliate-marketing-main) .requirementCard { padding:22px; border-radius:22px; }
+ :global(#affiliate-marketing-main) .requirementIcon { width:42px; height:42px; margin-bottom:16px; border-radius:14px; }
+ :global(#affiliate-marketing-main) .requirementCard h3 { font-size:clamp(17px,1.4vw,23px); }
+ :global(#affiliate-marketing-main) .requirementCard p { font-size:clamp(13px,min(1vw,2dvh),17px); line-height:1.6; margin-top:12px; }
+}
+
+/* Buyer reference refinements. */
+:global(#buyers-main) .requirementCard { border-color:#e2e9f5; border-radius:20px; }
+:global(#buyers-main) .requirementCard h3 { font-weight:750; }
+:global(#buyers-main) .requirementCard p { color:#59637b; font-weight:550; }
+:global(#buyers-main) .industryCard { border-radius:18px; box-shadow:none; }
+:global(#buyers-main) .industryCard p { color:#59637b; font-weight:550; line-height:1.6; }
+:global(#buyers-main) .benefitSummary .floatingIcons { left:80%; }
+:global(#buyers-main) .benefitSummary ul { column-gap:24px; }
+:global(#buyers-main) .benefitSummary li { line-height:1.4; }
+@media(min-width:768px) {
+ :global(#buyers-main) .cloudLayout .cloudCopy { width:46%; }
+ :global(#buyers-main) .cloudLayout .cloudCopy h2 { line-height:1.3; }
+}
+
+/* Partner benefit cards respond to hover without tilt or text movement. */
+:global(#affiliate-marketing-main) .requirementCard { border:1px solid #e3eaf5; box-shadow:0 6px 16px #10295208; }
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+ :global(#affiliate-marketing-main) .requirementCard { transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease; }
+ :global(#affiliate-marketing-main) .requirementCard:hover { transform:translateY(-5px); border-color:#a8c2ff; box-shadow:0 14px 28px #2046a31a; }
+}
+
+/* Buyers hero reference: balanced copy and artwork, with contained floating labels. */
+:global(#buyers-main) > .hero {
+ grid-template-columns:56% 38%;
+ gap:6%;
+ padding-inline:4%;
+ overflow:hidden;
+ border-radius:clamp(26px,3vw,48px);
+}
+:global(#buyers-main) .heroCopy { min-width:0; }
+:global(#buyers-main) .heroCopy h1 { letter-spacing:-.025em; line-height:1.12; }
+:global(#buyers-main) .heroCopy p { max-width:560px; line-height:1.5; }
+:global(#buyers-main) .orbits { inset:-16% -13%; }
+:global(#buyers-main) .specialist { padding:12px 22px; border-radius:0 0 12px 12px; font-size:12px; }
+@media(min-width:768px) {
+ :global(#buyers-main) > .hero { display:grid; align-items:center; }
+ :global(#buyers-main) .heroCopy h1 { font-size:clamp(32px,min(4.2vw,7dvh),72px); }
+ :global(#buyers-main) .heroCopy p { margin:22px 0 0; font-size:clamp(14px,1.2vw,20px); }
+}
+@media(max-width:767px) {
+ :global(#buyers-main) > .hero { grid-template-columns:1fr; gap:44px; padding:76px 24px 46px; }
+ :global(#buyers-main) .heroCopy h1 { font-size:clamp(30px,7.2vw,44px); }
+ :global(#buyers-main) .heroCopy p { margin-top:20px; font-size:14px; }
+}
+:global(#web-development-main) .howItWorks { width:100%; margin-block:0; }
+:global(#web-development-main) .stepsTrack { --step-width:28%; --process-icon:100px; scroll-snap-type:none; }
+:global(#web-development-main) .stepCard { min-height:320px; padding:24px 24px 140px; border-radius:20px; }
+:global(#web-development-main) .stepCard h3 { font-size:22px; }
+:global(#web-development-main) .stepCard p { font-size:14px; line-height:1.6; }
+@media(max-width:767px) { :global(#web-development-main) .stepsTrack { --step-width:84%; } }
+/* Match the advertiser requirement-card hover exactly. */
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+ :global(#buyers-main) .requirementCard { transform-style:flat; transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease; }
+ :global(#buyers-main) .requirementCard:hover { transform:translateY(-5px); box-shadow:14px 20px 36px #2046a321; border-color:#b5cbff; }
+ :global(#buyers-main) .requirementCard:hover .requirementIcon { transform:none; filter:none; }
+}
+/* Compact spacing around the buyer benefits sections. */
+:global(#buyers-main) > .benefitCloud { min-height:0; margin-block:20px; padding-block:24px !important; }
+:global(#buyers-main) > .benefitSummary { min-height:0; margin-block:24px; padding-block:clamp(32px,4vw,56px) !important; }
+@media(min-width:1101px) {
+ :global(#buyers-main) .benefitCloud > .cloudLayout { height:clamp(300px,42svh,400px); min-height:300px; width:100%; }
+}
+/* Buyer checklist panel matches the supplied reference. */
+:global(#buyers-main) > .benefitSummary { position:relative; isolation:isolate; width:88%; overflow:hidden; border-radius:24px; background:linear-gradient(110deg,#f7f7f7 35%,#fff 100%); padding:clamp(44px,7vw,105px) 7% !important; margin-block:28px; min-height:0; }
+:global(#buyers-main) .benefitSummary h2 { color:#262626; font-size:clamp(32px,3.8vw,60px); font-weight:400; line-height:1.25; letter-spacing:-.025em; }
+:global(#buyers-main) .benefitSummary h2 strong { font-weight:800; }
+:global(#buyers-main) .benefitSummary ul { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); width:78%; gap:40px 28px; margin-top:clamp(30px,4vw,60px); }
+:global(#buyers-main) .benefitSummary li { display:flex; align-items:center; gap:18px; font-size:clamp(16px,1.6vw,25px); line-height:1.25; color:#292929; }
+:global(#buyers-main) .benefitSummary li > span { width:36px; height:36px; flex-shrink:0; }
+:global(#buyers-main) .benefitSummary li > span img { display:block; width:100%; height:100%; object-fit:contain; }
+:global(#buyers-main) .benefitSummary .floatingIcons { position:absolute; inset:0 0 0 79%; z-index:-1; pointer-events:none; }
+:global(#buyers-main) .benefitSummary .floatingIcons img { width:clamp(85px,9vw,145px); }
+:global(#buyers-main) .benefitSummary .floatingIcons img:nth-child(1) { left:0; top:12%; bottom:auto; }
+:global(#buyers-main) .benefitSummary .floatingIcons img:nth-child(2) { left:62%; right:auto; top:29%; }
+:global(#buyers-main) .benefitSummary .floatingIcons img:nth-child(3) { left:-6%; top:49%; bottom:auto; }
+:global(#buyers-main) .benefitSummary .floatingIcons img:nth-child(4) { left:68%; right:auto; top:68%; bottom:auto; }
+@media(max-width:767px) {
+ :global(#buyers-main) > .benefitSummary { padding:36px 24px !important; }
+ :global(#buyers-main) .benefitSummary h2 { font-size:30px; }
+ :global(#buyers-main) .benefitSummary ul { width:100%; grid-template-columns:1fr 1fr; gap:24px 18px; }
+ :global(#buyers-main) .benefitSummary li { font-size:15px; gap:10px; }
+ :global(#buyers-main) .benefitSummary li > span { width:28px; height:28px; }
+}
+:global(#buyers-main) > .benefitSummary { margin-top:48px; }
+/* Balanced buyer benefits cloud with consistent label sizing. */
+@media(min-width:768px) {
+ :global(#buyers-main) > .benefitCloud { width:86%; min-height:0; margin-block:36px; padding-block:24px !important; }
+ :global(#buyers-main) .benefitCloud > .cloudLayout { display:block; position:relative; width:100%; height:clamp(320px,29vw,440px); min-height:320px; }
+ :global(#buyers-main) .cloudLayout .cloudCopy { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:38%; text-align:center; }
+ :global(#buyers-main) .cloudLayout .cloudCopy h2 { font-size:clamp(27px,2.5vw,43px); line-height:1.3; letter-spacing:-.025em; }
+ :global(#buyers-main) .cloudLayout li { justify-content:center; font-size:clamp(12px,1.05vw,18px); padding:11px 16px; gap:10px; box-shadow:0 6px 14px #214a9910; }
+ :global(#buyers-main) .cloudLayout li > span { width:26px; height:26px; }
+ :global(#buyers-main) .cloudLayout .pill0 { left:4%; top:12%; transform:rotate(5deg); }
+ :global(#buyers-main) .cloudLayout .pill1 { right:4%; top:12%; transform:rotate(-5deg); }
+ :global(#buyers-main) .cloudLayout .pill2 { left:0; top:45%; transform:rotate(-3deg); }
+ :global(#buyers-main) .cloudLayout .pill3 { right:0; top:45%; transform:rotate(2deg); }
+ :global(#buyers-main) .cloudLayout .pill4 { left:4%; bottom:10%; transform:rotate(-5deg); }
+ :global(#buyers-main) .cloudLayout .pill5 { right:0; bottom:10%; transform:rotate(5deg); }
+ :global(#buyers-main) .cloudLayout .floatingIcons img { width:clamp(60px,5.5vw,90px); }
+ :global(#buyers-main) .cloudLayout .floatingIcons img:nth-child(1) { left:34%; bottom:8%; top:auto; }
+ :global(#buyers-main) .cloudLayout .floatingIcons img:nth-child(2) { right:30%; top:5%; }
+ :global(#buyers-main) .cloudLayout .floatingIcons img:nth-child(3) { left:34%; top:3%; }
+ :global(#buyers-main) .cloudLayout .floatingIcons img:nth-child(4) { right:32%; bottom:6%; top:auto; }
+}
+/* Buyer process: original icons and orbit assets retain their reference styling. */
+:global(#buyers-main) > .howItWorks { min-height:0; margin-block:24px; padding-block:40px !important; }
+:global(#buyers-main) .howItWorks .sectionHeader { margin-bottom:28px; }
+:global(#buyers-main) .stepsTrack { --step-width:28%; --step-gap:20px; --process-icon:clamp(82px,7vw,100px); gap:var(--step-gap); padding:16px 2px 24px; scroll-padding-inline:2px; }
+:global(#buyers-main) .stepCard { min-height:clamp(270px,28vw,330px); border-radius:16px; padding:20px 20px calc(var(--process-icon) + 34px); }
+:global(#buyers-main) .stepCard h3 { font-size:clamp(16px,1.45vw,23px); font-weight:800; line-height:1.25; }
+:global(#buyers-main) .stepCard p { font-size:clamp(11px,.92vw,16px); font-weight:600; line-height:1.5; margin-top:8px; }
+:global(#buyers-main) .stepNumber { width:36px; height:36px; font-size:14px; margin-bottom:16px; }
+:global(#buyers-main) .stepArtwork.assetArtwork { bottom:24px; background:transparent; border:0; }
+:global(#buyers-main) .stepCard .assetArtwork > img { visibility:visible; filter:none; width:100%; height:100%; object-fit:contain; transition:filter .35s ease, transform .35s ease; }
+:global(#buyers-main) .stepCard.activeStep { z-index:5; transform:none; border-color:#e1e8f5; background:#fff; box-shadow:0 14px 24px #10295208; }
+:global(#buyers-main) .stepCard.activeStep .stepNumber { color:#fff; background:#1b56d9; }
+:global(#buyers-main) .stepCard.activeStep .stepArtwork.assetArtwork { width:clamp(112px,9.8vw,142px); height:clamp(112px,9.8vw,142px); bottom:24px; z-index:1; }
+:global(#buyers-main) .stepCard:first-child:not(.activeStep) .assetArtwork { background:#f8f8fa; border:1px solid #f1f2f5; }
+:global(#buyers-main) .stepCard:first-child:not(.activeStep) .assetArtwork > img { visibility:hidden; }
+:global(#buyers-main) .stepCard:first-child:not(.activeStep) .activeGlyph { display:block; position:absolute; width:48%; height:48%; color:#a1a3af; }
+:global(#buyers-main) .stepCard:not(:first-child).activeStep .assetArtwork { background:#245ff0; border-radius:50%; }
+:global(#buyers-main) .stepCard:not(:first-child).activeStep .assetArtwork > img { visibility:hidden; }
+:global(#buyers-main) .stepCard:not(:first-child).activeStep .activeGlyph { display:block; position:absolute; width:58%; height:58%; color:#fff; }
+:global(#buyers-main) .stepCard .activeGlyph { display:none; }
+:global(#buyers-main) .stepCurve { width:68%; height:auto; left:16%; bottom:0; opacity:.75; }
+:global(#buyers-main) .stepArrow { width:44px; height:44px; border:6px solid white; bottom:26px; right:calc(-22px - var(--step-gap) / 2); }
+:global(#buyers-main) .stepArrow svg { width:18px; height:18px; }
+@media(max-width:767px) {
+ :global(#buyers-main) .stepsTrack { --step-width:84%; --process-icon:92px; }
+ :global(#buyers-main) .stepCard { min-height:290px; padding:22px 20px 126px; }
 }

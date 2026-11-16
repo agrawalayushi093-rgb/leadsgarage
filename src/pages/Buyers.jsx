@@ -1,5 +1,6 @@
 import TypingHighlight from '../components/TypingHighlight';
 import React, { useEffect } from 'react';
+import usePageScroll from '../hooks/usePageScroll';
 import heroStyles from './BuyersHero.module.css';
 import { ArrowRight, BadgeCheck, ChartNoAxesCombined, ChartNoAxesColumnIncreasing, Headphones, House, Landmark, Layers, ShieldCheck, SlidersHorizontal, Target, Users, Zap } from 'lucide-react';
 import { BenefitsCloud, FloatingIcons, HowItWorks, IndustriesSection, SiteFooter, RequirementsSection } from '../components/PartnershipSections';
@@ -31,6 +32,7 @@ const industries = [
   [House, 'Home Services', 'Reach homeowners looking for trusted home improvement services.', 'home-services'],
 ];
 export default function Buyers() {
+  usePageScroll();
   useEffect(() => {
     const previous = document.title;
     document.title = 'Buy Quality Leads | Leads Garage';
@@ -38,24 +40,21 @@ export default function Buyers() {
   }, []);
   return <div className={styles.page}>
     <main id="buyers-main">
-      <section className={styles.hero} data-page-hero aria-labelledby="buyers-title">
+      <section className={`${styles.hero} ${heroStyles.hero}`} data-page-hero aria-labelledby="buyers-title">
         <a className={styles.specialist} href="#contact">Connect with our Specialist <ArrowRight size={18} /></a>
         <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>BUYERS</span>
           <h1 id="buyers-title">Quality Leads. Built<br className={styles.desktopBreak} /> for <span><TypingHighlight>Your Business.</TypingHighlight></span></h1>
           <p>Connect with customers who are actively looking for the products and services you offer.</p>
-          <a className={styles.whiteButton} href="#contact">Let's Work Together <ArrowRight size={22} /></a>
+          <div className={heroStyles.actions}><a className={heroStyles.primaryButton} href="#contact">Let’s Grow Together</a><a className={heroStyles.secondaryButton} href="#contact">Get Expert Guidance</a></div>
         </div>
-        <div data-hero-art className={`${styles.heroArt} ${heroStyles.art}`}>
-          <div className={styles.orbits} aria-hidden="true">{[0, 1, 2, 3].map(index => <i key={index} />)}</div>
-          <img className={heroStyles.team} src={publicAsset('/image/Buyers/Customer acquisition team.png')} width="582" height="698" alt="A customer acquisition team reviewing opportunities together." fetchPriority="high" />
-          <img className={heroStyles.targeting} src={publicAsset('/image/Buyers/Targeting card.png')} width="368" height="168" alt="Targeting: Geography, Audience, Vertical." />
-          <img className={heroStyles.quality} src={publicAsset('/image/Buyers/Quality card.png')} width="494" height="182" alt="Quality-Focused Leads. Built around your requirements." />
+        <div data-hero-art className={heroStyles.dashboardArt}>
+          <img src={publicAsset('/image/Buyers/image 148.png')} alt="Buyers dashboard showing targeting, acquisition performance and quality-focused leads" width="901" height="817" fetchPriority="high" />
         </div>
       </section>
       <RequirementsSection title="Built Around Your Requirements" items={requirements} iconAssets={requirementIcons} />
       <BenefitsCloud title="Why Buy Leads From" emphasis="Leadsgarage?" items={benefits} assetFolder="Buyers" />
-      <HowItWorks steps={steps} artworkAssets={processIcons} curveAssets={processCurves} />
+      <HowItWorks scrollOnWheel steps={steps} artworkAssets={processIcons} curveAssets={processCurves} />
       <section className={`${styles.container} ${styles.benefitSummary}`} aria-labelledby="summary-title">
         <h2 id="summary-title">Why Buy Leads From<br /><strong>Leadsgarage?</strong></h2>
         <ul>{['Quality-Focused Leads', 'Targeted Geography', 'Custom Qualification Criteria', 'Fresh Lead Delivery', 'Quality Monitoring', 'Transparent Communication'].map(benefit => <li key={benefit}><span className={styles.assetPill}><img src={publicAsset(asset('Check symbol'))} alt="" width="50" height="50" /></span>{benefit}</li>)}</ul>

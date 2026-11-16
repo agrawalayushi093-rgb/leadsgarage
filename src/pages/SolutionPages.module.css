@@ -14,7 +14,32 @@
 .criteria { display:flex; align-items:center; flex-wrap:wrap; gap:24px; margin:30px 0 0; padding:0; list-style:none; }.criteria li { display:flex; align-items:center; gap:18px; color:#303732; font-size:clamp(16px,1.4vw,27px); }.criteria li > span,.conversations li > span { display:grid; place-items:center; width:48px; height:48px; flex-shrink:0; border-radius:50%; color:#13553b; background:#95ffc3; }
 .callFlow { margin:0; display:flex; align-items:center; justify-content:space-between; gap:12px; background:#f6f9fe; border-radius:50px; padding:65px 35px; box-shadow:0 22px 17px -16px #0004; }.callFlow > div { text-align:center; flex:1; min-width:0; }.callFlow > svg { width:24px; height:24px; color:#1b5bff; flex-shrink:0; }.callFlow div > span { display:grid; place-items:center; width:clamp(62px,6vw,114px); aspect-ratio:1; margin:0 auto 18px; color:#2159ee; background:white; border-radius:30%; }.callFlow div:nth-of-type(2) > span { background:#1b55d8; color:#fff; }.callFlow p,.callFlow figcaption { color:#0a102b; font-size:clamp(12px,1vw,19px); line-height:1.4; font-weight:600; }
 .models { display:grid; grid-template-columns:1fr .85fr 1fr; gap:50px 30px; align-items:center; padding-top:clamp(80px,8vw,150px); padding-bottom:50px; }.models > h2 { grid-column:2; grid-row:1/3; text-align:center; font-weight:400; font-size:clamp(34px,3.4vw,65px); line-height:1.4; }.models > h2 strong { font-weight:800; }
-.modelCard { position:relative; padding:30px; color:white; border-radius:30px; }.modelCard h3 { display:flex; align-items:center; gap:20px; font-size:clamp(24px,1.8vw,34px); letter-spacing:-.02em; font-weight:700; }.modelCard h3 > span { display:grid; place-items:center; flex-shrink:0; width:60px; height:60px; background:#0002; border-radius:22px; }.modelCard > p { font-size:clamp(16px,1.2vw,23px); line-height:1.65; margin:24px 0 28px; min-height:3.3em; }.model0 { grid-column:1; grid-row:1; transform:rotate(4deg); background:linear-gradient(160deg,#329fff,#1444cc); }.model1 { grid-column:3; grid-row:1; transform:rotate(-4deg); background:linear-gradient(160deg,#00c8c6,#009ba9); }.model2 { grid-column:1; grid-row:2; transform:rotate(-4deg) translateX(8%); background:linear-gradient(160deg,#05c9a6,#00a980); }.model3 { grid-column:3; grid-row:2; transform:rotate(4deg) translateX(-8%); background:linear-gradient(160deg,#9b65ff,#6330e8); }
+.modelCard {
+  --model-lift: 0px;
+  position: relative;
+  padding: 30px;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(10, 25, 70, 0.12);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform, box-shadow;
+}
+.modelCard:hover {
+  --model-lift: -4px;
+  box-shadow: 0 20px 40px -4px rgba(10, 25, 70, 0.28), 0 8px 18px -2px rgba(10, 25, 70, 0.16);
+}
+.modelCard h3 { display:flex; align-items:center; gap:20px; font-size:clamp(24px,1.8vw,34px); letter-spacing:-.02em; font-weight:700; }
+.modelCard h3 > span { display:grid; place-items:center; flex-shrink:0; width:60px; height:60px; background:#0002; border-radius:22px; }
+.modelCard > p { font-size:clamp(16px,1.2vw,23px); line-height:1.65; margin:24px 0 28px; min-height:3.3em; }
+.model0 { grid-column:1; grid-row:1; transform:rotate(4deg) translateY(var(--model-lift, 0px)); background:linear-gradient(160deg,#329fff,#1444cc); }
+.model1 { grid-column:3; grid-row:1; transform:rotate(-4deg) translateY(var(--model-lift, 0px)); background:linear-gradient(160deg,#00c8c6,#009ba9); }
+.model2 { grid-column:1; grid-row:2; transform:rotate(-4deg) translateX(8%) translateY(var(--model-lift, 0px)); background:linear-gradient(160deg,#05c9a6,#00a980); }
+.model3 { grid-column:3; grid-row:2; transform:rotate(4deg) translateX(-8%) translateY(var(--model-lift, 0px)); background:linear-gradient(160deg,#9b65ff,#6330e8); }
+.model0:hover { transform:rotate(4deg) translateY(-4px); }
+.model1:hover { transform:rotate(-4deg) translateY(-4px); }
+.model2:hover { transform:rotate(-4deg) translateX(8%) translateY(-4px); }
+.model3:hover { transform:rotate(4deg) translateX(-8%) translateY(-4px); }
 .modelFlow { display:flex; align-items:center; gap:14px; background:#0002; border-radius:0 0 7px 7px; padding:12px; font-size:clamp(12px,1vw,18px); white-space:nowrap; }.modelFlow i { flex:1; min-width:10px; height:1px; background:#ffffff50; }.modelFlow svg { flex-shrink:0; }.modelFlow strong { font-weight:700; }
 .callProcess { padding-top:clamp(75px,8vw,150px); }.callProcess > h2 { text-align:center; margin-bottom:60px; }.callProcessGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:45px; }.callProcessGrid article { position:relative; isolation:isolate; overflow:hidden; border:1px solid #d7d7d7; border-radius:25px; box-shadow:0 20px 24px -24px #0006; padding:45px 45px 35px; min-height:440px; }.callProcessGrid h3 { font-size:clamp(24px,2.15vw,40px); }.callProcessGrid article > p { font-size:clamp(17px,1.4vw,27px); color:#687086; line-height:1.6; margin:22px 0; min-height:3.2em; }.processNumber { position:absolute; bottom:0; right:8%; font-size:clamp(110px,10vw,190px); line-height:1.1; font-weight:800; letter-spacing:-.08em; color:#f1f2f5; z-index:-1; }
 .trafficArtwork { display:grid; grid-template-columns:repeat(3,60px); align-items:center; gap:12px 20px; height:175px; padding-top:10px; }.trafficArtwork img { display:block; width:60px; height:60px; object-fit:contain; }.trafficArtwork img:nth-child(4) { width:80px; height:80px; }.trafficArtwork > span { display:grid; place-items:center; width:60px; height:60px; color:#fff; border-radius:50%; background:linear-gradient(#249fff,#0050ff); }.trafficArtwork > span:last-child { background:#00c6b5; grid-column:3; }
@@ -48,3 +73,339 @@
 .inboundProcessArtwork { display:flex; align-items:center; height:175px; max-width:283px; }
 .inboundProcessArtwork img { display:block; width:auto; height:auto; max-width:100%; max-height:175px; object-fit:contain; }
 
+
+
+@media(min-width:1101px) {
+ .solutionHero { min-height:min(45vw,var(--section-space)); }
+ .solutionHero h1 { font-size:clamp(36px,min(4.4vw,7.5dvh),84px); }
+ .callHero h1 { font-size:clamp(36px,min(3.95vw,7dvh),76px); }
+ .squareButton,.outlineButton { min-height:48px; padding-block:clamp(12px,1.7dvh,17px); font-size:clamp(16px,min(1.25vw,2.2dvh),24px); }
+ .payPerCall,.models,.callProcess { padding-top:var(--section-pad); }
+ .payPerCall p,.conversations > p,.channelCopy > p { font-size:var(--section-copy); line-height:1.6; }
+ .payPerCall h2 { margin-bottom:var(--section-gap); }
+ .callFlow { padding-block:clamp(30px,5dvh,65px); }
+ .models { gap:clamp(24px,4dvh,50px) 30px; padding-bottom:var(--section-pad); }
+ .modelCard { padding:clamp(20px,2.6dvh,30px); }
+ .modelCard h3 { gap:14px; font-size:clamp(22px,min(1.8vw,3dvh),34px); }
+ .modelCard h3 > span { width:clamp(42px,5.5dvh,60px); height:clamp(42px,5.5dvh,60px); }
+ .modelCard > p { font-size:clamp(16px,min(1.2vw,2dvh),23px); margin-block:clamp(14px,2dvh,24px); }
+ .modelFlow { gap:10px; font-size:clamp(12px,min(1vw,1.7dvh),18px); }
+ .callProcess > h2 { margin-bottom:var(--section-gap); }
+ .callProcessGrid { gap:var(--section-gap); }
+ .callProcessGrid article { min-height:0; padding:clamp(24px,3dvh,45px); }
+ .callProcessGrid h3 { font-size:clamp(24px,min(2.15vw,3.8dvh),40px); }
+ .callProcessGrid article > p { font-size:clamp(16px,min(1.4vw,2.4dvh),27px); margin-block:var(--section-gap); }
+ .inboundProcessArtwork { height:clamp(120px,19dvh,175px); }
+ .inboundProcessArtwork img { max-height:100%; }
+ .conversations { padding-block:var(--section-pad); }
+ .conversations h2 { font-size:clamp(34px,min(4vw,6dvh),76px); }
+ .conversationsGrid { margin-top:var(--section-gap); }
+ .conversationsGrid ul { gap:clamp(22px,4dvh,55px) 25px; }
+ .conversationsGrid li { font-size:clamp(17px,min(1.55vw,2.6dvh),30px); gap:16px; }
+ .channels { margin-block:var(--section-pad); }
+ .channelCopy { padding-top:0; }
+ .channelCopy h2 { font-size:clamp(32px,min(3.65vw,5.8dvh),70px); }
+ .channelViewport { --channel-height:clamp(320px,45dvh,420px); height:calc(var(--channel-height) + 85px); }
+ .channelCard { padding:clamp(24px,3dvh,35px); }
+ .channelCard h3 { font-size:clamp(24px,min(2vw,3.8dvh),38px); }
+ .channelCard > p { font-size:var(--section-copy); }
+ .whyPartner { padding-block:var(--section-pad); }
+ .whyPartner > h2 { margin-bottom:var(--section-gap); }
+ .whyPartner > div { gap:var(--section-gap); }
+}
+
+@media(min-width:1101px) { .conversationsGrid > img { width:auto; max-width:100%; max-height:calc(var(--section-space) * .6); justify-self:end; } }
+
+/* Affiliate reference: a native vertical stack of six channel cards. */
+:global(#affiliate-marketing-main) .channels { display:grid; grid-template-columns:1.15fr .8fr; gap:10%; align-items:center; }
+:global(#affiliate-marketing-main) .channelViewport { height:clamp(320px,52svh,480px); max-height:none; overflow-y:auto; overflow-x:hidden; overscroll-behavior-y:auto; scrollbar-width:none; border-radius:24px; padding:0 4px; }
+:global(#affiliate-marketing-main) .channelViewport::-webkit-scrollbar { display:none; }
+:global(#affiliate-marketing-main) .channelViewport:focus-visible { outline:3px solid #2563eb; outline-offset:6px; }
+:global(#affiliate-marketing-main) .channelTrack { display:flex; flex-direction:column; gap:16px; transform:none; transition:none; height:auto; }
+:global(#affiliate-marketing-main) .channelCard { flex:0 0 auto; min-height:240px; height:auto; padding:28px; border-radius:22px; box-sizing:border-box; }
+:global(#affiliate-marketing-main) .channelIcon { width:48px; height:48px; margin-bottom:18px; }
+:global(#affiliate-marketing-main) .channelCard h3 { font-size:clamp(21px,1.8vw,28px); color:#fff; margin:0; }
+:global(#affiliate-marketing-main) .channelCard p { font-size:clamp(14px,1.05vw,17px); color:#fff; line-height:1.65; margin-top:12px; }
+:global(#affiliate-marketing-main) .channel0,:global(#affiliate-marketing-main) .channel4 { background:linear-gradient(150deg,#348ff8,#163bcc); }
+:global(#affiliate-marketing-main) .channel1,:global(#affiliate-marketing-main) .channel5 { background:linear-gradient(150deg,#9352fb,#602bdc); }
+:global(#affiliate-marketing-main) .channel2 { background:linear-gradient(150deg,#4ab9ff,#0079db); }
+:global(#affiliate-marketing-main) .channel3 { background:linear-gradient(150deg,#00a9ab,#007b9a); }
+@media(min-width:1101px) and (min-height:600px) {
+ :global(#affiliate-marketing-main) > section {
+   box-sizing:border-box; min-height:100svh; margin-block:0 !important;
+   padding-block:calc(var(--section-nav,80px) + 24px) 32px !important;
+   display:flex; flex-direction:column; justify-content:center;
+ }
+ :global(#affiliate-marketing-main) > .solutionHero {
+   display:grid; min-height:calc(100svh - var(--section-nav,80px)); padding-block:40px !important;
+ }
+ :global(#affiliate-marketing-main) .solutionHero h1 { font-size:clamp(34px,min(4vw,7dvh),72px); white-space:normal; }
+ :global(#affiliate-marketing-main) > .channels { display:grid; }
+ :global(#affiliate-marketing-main) .channelCopy h2 { font-size:clamp(30px,min(3vw,5dvh),50px); line-height:1.25; }
+ :global(#affiliate-marketing-main) .channelCopy p { font-size:clamp(14px,1.1vw,18px); line-height:1.75; }
+ :global(#affiliate-marketing-main) .whyPartner { padding-inline:5%; border-radius:32px; }
+ :global(#affiliate-marketing-main) .whyPartner > h2 { font-size:clamp(28px,min(2.8vw,4.8dvh),46px); margin-bottom:40px; }
+ :global(#affiliate-marketing-main) .whyPartner > div { gap:32px; }
+ :global(#affiliate-marketing-main) .whyPartner article h3 { font-size:clamp(16px,1.3vw,22px); }
+ :global(#affiliate-marketing-main) .whyPartner article p { font-size:clamp(13px,1vw,16px); line-height:1.65; }
+}
+@media(max-width:767px) {
+ :global(#affiliate-marketing-main) .channels { grid-template-columns:1fr; gap:28px; }
+ :global(#affiliate-marketing-main) .channelViewport { height:380px; width:100%; max-width:420px; margin:auto; }
+ :global(#affiliate-marketing-main) .channelCard { padding:24px; }
+}
+
+/* Inbound calls reference layout. */
+:global(#inbound-calls-main) .callHero { margin-bottom:0; grid-template-columns:58% 38%; gap:4%; padding-inline:4%; border-radius:32px; }
+:global(#inbound-calls-main) .callHero h1 { line-height:1.15; }
+:global(#inbound-calls-main) .heroActions { gap:16px; }
+:global(#inbound-calls-main) .squareButton,:global(#inbound-calls-main) .outlineButton { min-height:46px; padding:12px 22px; border-radius:12px; font-size:15px; }
+:global(#inbound-calls-main) .payPerCall { grid-template-columns:57% 40%; gap:3%; }
+:global(#inbound-calls-main) .payPerCall h2 { font-size:clamp(30px,3vw,50px); margin-bottom:24px; }
+:global(#inbound-calls-main) .payPerCall p { font-size:clamp(14px,1.1vw,19px); line-height:1.7; }
+:global(#inbound-calls-main) .criteria { gap:24px; margin-top:24px; }
+:global(#inbound-calls-main) .criteria li { gap:12px; font-size:clamp(14px,1.15vw,19px); }
+:global(#inbound-calls-main) .criteria li > span { width:32px; height:32px; }
+:global(#inbound-calls-main) .callFlow { padding:42px 24px; border-radius:30px; }
+:global(#inbound-calls-main) .callFlow div > span { width:clamp(60px,5.5vw,96px); }
+:global(#inbound-calls-main) .models { gap:42px 36px; }
+:global(#inbound-calls-main) .modelCard { padding:26px; border-radius:22px; }
+:global(#inbound-calls-main) .modelCard h3 { font-size:clamp(20px,1.65vw,28px); gap:14px; }
+:global(#inbound-calls-main) .modelCard h3 > span { width:42px; height:42px; border-radius:12px; }
+:global(#inbound-calls-main) .modelCard > p { font-size:clamp(13px,1.05vw,18px); line-height:1.65; margin:20px 0; }
+:global(#inbound-calls-main) .modelFlow { padding:10px; gap:10px; font-size:clamp(10px,.9vw,15px); }
+:global(#inbound-calls-main) .callProcess > h2 { font-size:clamp(30px,3vw,50px); margin-bottom:32px; }
+:global(#inbound-calls-main) .callProcessGrid { gap:28px; }
+:global(#inbound-calls-main) .callProcessGrid article { min-height:340px; padding:30px; border-radius:20px; border:1px solid #e1e7f2; }
+:global(#inbound-calls-main) .callProcessGrid h3 { font-size:clamp(22px,1.8vw,30px); }
+:global(#inbound-calls-main) .callProcessGrid article > p { font-size:clamp(14px,1.1vw,18px); line-height:1.65; }
+:global(#inbound-calls-main) .processNumber { font-size:clamp(100px,10vw,170px); color:#f2f3f6; }
+:global(#inbound-calls-main) .conversations h2 { font-size:clamp(30px,3.6vw,60px); font-weight:400; }
+:global(#inbound-calls-main) .conversations > p { font-size:clamp(14px,1.1vw,18px); margin-top:14px; }
+:global(#inbound-calls-main) .conversationsGrid { gap:7%; margin-top:36px; }
+:global(#inbound-calls-main) .conversationsGrid li { font-size:clamp(14px,1.2vw,20px); gap:14px; }
+:global(#inbound-calls-main) .conversations li > span { width:32px; height:32px; }
+@media(min-width:1101px) and (min-height:600px) {
+ :global(#inbound-calls-main) > .callHero { min-height:calc(100svh - var(--section-nav,80px)); padding-block:40px; }
+ :global(#inbound-calls-main) .callHero h1 { font-size:clamp(34px,min(3.95vw,7dvh),68px); }
+ :global(#inbound-calls-main) .callHero p { font-size:clamp(15px,min(1.3vw,2.4dvh),22px); margin:24px 0; }
+ :global(#inbound-calls-main) .payPerCall,
+ :global(#inbound-calls-main) .models,
+ :global(#inbound-calls-main) .callProcess,
+ :global(#inbound-calls-main) .conversations { box-sizing:border-box; min-height:0; height:auto; margin-block:0; align-content:start; }
+ :global(#inbound-calls-main) .models { grid-template-columns:1fr .85fr 1fr; }
+ :global(#inbound-calls-main) .models > h2 { font-size:clamp(30px,min(3vw,5dvh),48px); }
+ :global(#inbound-calls-main) .modelCard { padding:22px; }
+ :global(#inbound-calls-main) .modelCard > p { font-size:clamp(13px,min(1.05vw,2dvh),17px); margin:16px 0; }
+ :global(#inbound-calls-main) .modelFlow { font-size:12px; }
+ :global(#inbound-calls-main) .callProcessGrid article { min-height:clamp(300px,48svh,420px); }
+ :global(#inbound-calls-main) .conversationsGrid > img { max-height:38svh; width:100%; object-fit:contain; }
+}
+@media(max-width:767px) {
+ :global(#inbound-calls-main) .callHero { grid-template-columns:1fr; padding:76px 24px 40px; gap:32px; }
+ :global(#inbound-calls-main) .payPerCall { grid-template-columns:1fr; gap:32px; }
+ :global(#inbound-calls-main) .criteria { gap:14px; }
+ :global(#inbound-calls-main) .criteria li { font-size:13px; gap:8px; }
+ :global(#inbound-calls-main) .modelCard { padding:24px; }
+ :global(#inbound-calls-main) .callProcessGrid article { min-height:320px; }
+}
+
+/* Keep the partner benefits close to the channels section. */
+:global(#affiliate-marketing-main) > .whyPartner {
+ min-height:0;
+ margin-top:24px !important;
+ padding-top:clamp(36px,4vw,60px) !important;
+ padding-bottom:clamp(40px,4vw,64px) !important;
+}
+:global(#affiliate-marketing-main) > .channels { padding-bottom:24px !important; }
+:global(#affiliate-marketing-main) .whyPartner > h2 { margin-bottom:clamp(28px,3vw,40px); }
+
+/* Inbound spacing follows the content rather than forcing blank viewport space. */
+:global(#inbound-calls-main) .payPerCall,
+:global(#inbound-calls-main) .models,
+:global(#inbound-calls-main) .callProcess,
+:global(#inbound-calls-main) .conversations {
+ min-height:0;
+ height:auto;
+ margin-block:0;
+ padding-top:clamp(40px,4.5vw,72px);
+ padding-bottom:clamp(40px,4.5vw,72px);
+}
+:global(#inbound-calls-main) .payPerCall { padding-top:28px; padding-bottom:16px; align-content:start; }
+:global(#inbound-calls-main) .models { padding-top:clamp(32px,3.5vw,56px); gap:42px 36px; }
+:global(#inbound-calls-main) .squareButton { background:linear-gradient(110deg,#b6ffda,#4eff9a); border-radius:99px; box-shadow:0 7px 14px #10295235; }
+:global(#inbound-calls-main) .outlineButton { border-radius:99px; background:#ffffff16; border-color:#ffffff35; }
+:global(#inbound-calls-main) .callProcessGrid article { position:relative; min-height:320px; padding:30px; overflow:hidden; }
+:global(#inbound-calls-main) .callProcessGrid article > p { margin-top:18px; }
+:global(#inbound-calls-main) .trafficArtwork { position:relative; z-index:1; margin-top:24px; }
+:global(#inbound-calls-main) .inboundProcessArtwork { position:relative; z-index:1; height:150px; margin-top:24px; }
+:global(#inbound-calls-main) .inboundProcessArtwork img { max-width:100%; max-height:150px; width:auto; height:auto; object-fit:contain; }
+:global(#inbound-calls-main) .processNumber { right:18px; bottom:8px; font-size:clamp(110px,10vw,160px); line-height:1; }
+:global(#inbound-calls-main) .conversationsGrid { grid-template-columns:1.35fr 1fr; gap:6%; }
+:global(#inbound-calls-main) .conversationsGrid > img { max-height:none; width:100%; height:auto; }
+:global(#inbound-calls-main) .conversationsGrid ul { gap:32px 28px; }
+@media(max-width:767px) {
+ :global(#inbound-calls-main) .payPerCall { padding-top:28px; }
+ :global(#inbound-calls-main) .models { padding-block:36px; }
+ :global(#inbound-calls-main) .conversationsGrid { grid-template-columns:1fr; gap:32px; }
+ :global(#inbound-calls-main) .conversationsGrid ul { gap:24px 18px; }
+}
+
+/* Original audience assets from InboundCalls. */
+:global(#inbound-calls-main) .trafficArtwork { display:block; width:min(100%,230px); height:150px; padding:0; }
+:global(#inbound-calls-main) .trafficArtwork > img { position:absolute; object-fit:contain; height:auto; }
+:global(#inbound-calls-main) .trafficSend { width:42px; left:0; top:0; }
+:global(#inbound-calls-main) .trafficPerson { width:48px; left:48%; top:8px; }
+:global(#inbound-calls-main) .trafficCustomer { width:66px; left:6%; top:65px; }
+:global(#inbound-calls-main) .trafficArtwork > .trafficChart { width:48px; left:54%; top:72px; }
+:global(#inbound-calls-main) .modelCard h3 > span > img { object-fit:contain; max-width:100%; max-height:100%; }
+:global(#inbound-calls-main) .callProcessGrid { gap:clamp(18px,2.5vw,36px); }
+:global(#inbound-calls-main) .callProcessGrid article { display:flex; flex-direction:column; }
+:global(#inbound-calls-main) .callProcessGrid article > p { min-height:3.2em; }
+:global(#inbound-calls-main) .inboundProcessArtwork { margin-top:auto; padding-top:12px; }
+
+/* Keep the introduction close to the hero without viewport-sized blank space. */
+:global(#inbound-calls-main) > .callHero { margin-bottom:0; }
+:global(#inbound-calls-main) > .curveArea { margin-top:0; padding-top:0; }
+:global(#inbound-calls-main) .payPerCall { min-height:0; height:auto; margin-top:0; }
+:global(#inbound-calls-main) .models { padding-top:24px; }
+
+/* Inbound hero button depth. */
+:global(#inbound-calls-main) .heroActions .squareButton { box-shadow:0 10px 18px -4px #03154880, inset 0 1px 0 #ffffff85; }
+:global(#inbound-calls-main) .heroActions .outlineButton { box-shadow:0 9px 18px -6px #03154865, inset 0 1px 0 #ffffff20; }
+
+:global(#inbound-calls-main) .payPerCall > div { min-width:0; }
+:global(#inbound-calls-main) .payPerCall h2 { margin-top:0; margin-bottom:20px; }
+:global(#inbound-calls-main) .payPerCall .criteria { margin-top:20px; }
+:global(#inbound-calls-main) .models { padding-top:20px; }
+
+/* Four model cards frame the central title, as in the supplied reference. */
+@media(min-width:901px) {
+ :global(#inbound-calls-main) .models { width:80%; max-width:1440px; grid-template-columns:minmax(0,1fr) minmax(180px,.9fr) minmax(0,1fr); align-items:center; gap:48px 28px; padding-block:40px 48px; }
+ :global(#inbound-calls-main) .models > h2 { grid-column:2; grid-row:1 / 3; font-size:clamp(28px,2.65vw,46px); line-height:1.25; margin:0; }
+ :global(#inbound-calls-main) .modelCard { display:flex; flex-direction:column; min-width:0; min-height:235px; padding:24px; border-radius:22px; }
+ :global(#inbound-calls-main) .modelCard h3 { font-size:clamp(19px,1.65vw,28px); line-height:1.25; gap:14px; white-space:nowrap; }
+ :global(#inbound-calls-main) .modelCard h3 > span { width:44px; height:44px; }
+ :global(#inbound-calls-main) .modelCard > p { font-size:clamp(13px,1.05vw,18px); line-height:1.55; margin:20px 0; min-height:4.65em; }
+ :global(#inbound-calls-main) .modelFlow { margin-top:auto; padding:10px 8px; gap:8px; font-size:clamp(10px,.85vw,14px); }
+ :global(#inbound-calls-main) .model0 { transform:rotate(4deg); }
+ :global(#inbound-calls-main) .model1 { transform:rotate(-4deg); }
+ :global(#inbound-calls-main) .model2 { transform:rotate(-4deg) translateX(10%); }
+ :global(#inbound-calls-main) .model3 { transform:rotate(4deg) translateX(-8%); }
+}
+@media(min-width:901px) and (max-width:1150px) {
+ :global(#inbound-calls-main) .models { width:88%; grid-template-columns:minmax(0,1fr) 180px minmax(0,1fr); gap:36px 20px; }
+ :global(#inbound-calls-main) .modelCard { padding:20px; }
+ :global(#inbound-calls-main) .modelCard h3 { font-size:18px; gap:10px; white-space:normal; }
+}
+
+/* Full-page Inbound reference styling, scoped away from other pages. */
+:global(#inbound-calls-main) > .callHero { min-height:clamp(460px,45.3vw,850px); padding-block:64px; border-radius:clamp(24px,2.8vw,48px); }
+:global(#inbound-calls-main) .heroActions .squareButton { background:#fff; color:#080e2b; border-radius:12px; box-shadow:0 7px 15px -8px #06174480; }
+:global(#inbound-calls-main) .heroActions .outlineButton { border-radius:12px; background:transparent; border-color:#ffffff60; box-shadow:none; }
+:global(#inbound-calls-main) .payPerCall { width:78%; max-width:1500px; padding-block:clamp(36px,5vw,80px) 28px; }
+:global(#inbound-calls-main) .callFlow { padding:36px 24px; border-radius:28px; box-shadow:0 17px 16px -16px #0006; }
+:global(#inbound-calls-main) .callProcess { width:78%; max-width:1500px; padding-block:clamp(48px,7vw,110px) clamp(40px,5vw,80px); }
+:global(#inbound-calls-main) .callProcessGrid { gap:24px; }
+:global(#inbound-calls-main) .callProcessGrid article { min-height:clamp(290px,26vw,400px); padding:30px; border-radius:16px; border-color:#dedee2; box-shadow:0 18px 22px -24px #0008; }
+:global(#inbound-calls-main) .callProcessGrid h3 { font-size:clamp(20px,1.9vw,30px); }
+:global(#inbound-calls-main) .callProcessGrid article > p { margin-block:14px 20px; font-size:clamp(14px,1.2vw,19px); }
+:global(#inbound-calls-main) .processNumber { font-size:clamp(110px,12vw,190px); right:18px; bottom:8px; }
+:global(#inbound-calls-main) .conversations { width:78%; max-width:1500px; padding-block:clamp(40px,5vw,80px); }
+:global(#inbound-calls-main) .conversations h2 { font-size:clamp(30px,3.7vw,60px); letter-spacing:-.025em; }
+:global(#inbound-calls-main) .conversationsGrid { margin-top:36px; grid-template-columns:1.35fr 1fr; gap:5%; }
+:global(#inbound-calls-main) .conversationsGrid ul { gap:36px 24px; }
+.inboundClosing > div { margin:clamp(28px,3.5vw,56px) auto 20px; width:calc(100% - 4.4%); padding:0 12px 12px; border-radius:clamp(28px,3vw,52px); }
+.inboundClosing section[aria-labelledby="partnership-cta-title"] { padding:clamp(56px,6vw,100px) 12% clamp(48px,5vw,80px); }
+.inboundClosing section[aria-labelledby="partnership-cta-title"] h2 { font-size:clamp(30px,3.5vw,58px); max-width:850px; margin:auto; }
+.inboundClosing section[aria-labelledby="partnership-cta-title"] p { font-size:clamp(13px,1.15vw,18px); margin:24px auto; max-width:780px; }
+.inboundClosing section[aria-labelledby="partnership-cta-title"] a { min-height:44px; padding:12px 22px; font-size:14px; }
+.inboundClosing footer { width:100%; margin:0; border-radius:clamp(24px,3vw,48px); }
+@media(max-width:900px) {
+ :global(#inbound-calls-main) .payPerCall,:global(#inbound-calls-main) .callProcess,:global(#inbound-calls-main) .conversations { width:88%; }
+}
+@media(max-width:767px) {
+ :global(#inbound-calls-main) > .callHero { min-height:0; padding:76px 24px 32px; }
+ :global(#inbound-calls-main) .callProcessGrid { grid-template-columns:1fr; }
+ :global(#inbound-calls-main) .callProcessGrid article { min-height:300px; }
+ :global(#inbound-calls-main) .conversationsGrid { grid-template-columns:1fr; }
+ .inboundClosing > div { padding:0 10px 10px; }
+ .inboundClosing section[aria-labelledby="partnership-cta-title"] { padding:64px 20px; }
+}
+
+/* Model cards share the same proportions and icon treatment. */
+:global(#inbound-calls-main) .modelCard h3 > .inboundModelSymbol { background:#0002; }
+:global(#inbound-calls-main) .modelCard h3 > span > img { width:62%; height:62%; object-fit:contain; }
+:global(#inbound-calls-main) .modelCard h3 > .inboundModelSymbol > img { width:100%; height:100%; }
+@media(min-width:901px) {
+ :global(#inbound-calls-main) .models { grid-template-columns:minmax(0,1fr) minmax(190px,.94fr) minmax(0,1fr); grid-template-rows:1fr 1fr; gap:48px 28px; padding-block:36px 56px; }
+ :global(#inbound-calls-main) .models > h2 { align-self:center; justify-self:center; width:100%; font-weight:400; line-height:1.28; letter-spacing:-.025em; }
+ :global(#inbound-calls-main) .models > h2 strong { font-weight:800; }
+ :global(#inbound-calls-main) .modelCard {
+   height:100%;
+   min-height:0;
+   padding:24px;
+   cursor:pointer;
+   box-shadow:0 10px 24px rgba(10, 25, 70, 0.12);
+   transition:transform 0.25s ease, box-shadow 0.25s ease;
+   will-change:transform, box-shadow;
+ }
+ :global(#inbound-calls-main) .modelCard:hover {
+   box-shadow:0 20px 40px -4px rgba(10, 25, 70, 0.28), 0 8px 18px -2px rgba(10, 25, 70, 0.16);
+ }
+ :global(#inbound-calls-main) .modelCard h3 { font-size:clamp(18px,1.7vw,29px); }
+ :global(#inbound-calls-main) .modelCard h3 > span { width:46px; height:46px; border-radius:14px; }
+ :global(#inbound-calls-main) .modelCard > p { min-height:4.65em; margin:20px 0; line-height:1.55; }
+ :global(#inbound-calls-main) .modelFlow { min-height:34px; border-radius:0 0 6px 6px; }
+}
+@media(max-width:600px) {
+ :global(#inbound-calls-main) .models { grid-template-columns:1fr; gap:24px; width:84%; }
+ :global(#inbound-calls-main) .models > h2 { grid-column:1; grid-row:1; margin-bottom:8px; }
+ :global(#inbound-calls-main) .modelCard { grid-column:1; grid-row:auto; transform:none; transition:transform 0.25s ease, box-shadow 0.25s ease; }
+ :global(#inbound-calls-main) .modelCard:hover { transform:translateY(-4px); }
+}
+
+/* Use the supplied left and right curve artwork behind the call sections. */
+:global(#inbound-calls-main) .curveArea::before {
+ inset:0;
+ background-image:url('/image/InboundCalls/Group 40215.png'),url('/image/InboundCalls/Group 40214.png');
+ background-position:left top,right top;
+ background-size:50.1% auto,50.1% auto;
+ background-repeat:no-repeat;
+}
+@media(max-width:767px) {
+ :global(#inbound-calls-main) .curveArea::before { background-size:70% auto,70% auto; background-position:left 140px,right 140px; }
+}
+
+/* Compact transition from the introduction into the model cards. */
+:global(#inbound-calls-main) .models { margin-top:0; padding-top:12px; }
+:global(#inbound-calls-main) .payPerCall { padding-bottom:clamp(48px,5vw,80px); }
+
+/* Inbound hero matches the latest mint-button reference. */
+:global(#inbound-calls-main) > .callHero { background:linear-gradient(105deg,#1b2b87 0%,#2552df 59%,#608fff 100%); border-radius:clamp(28px,3vw,48px); }
+:global(#inbound-calls-main) .callHero h1 { font-weight:800; font-size:clamp(34px,4.45vw,76px); line-height:1.15; letter-spacing:-.035em; }
+:global(#inbound-calls-main) .callHero h1 > span { color:#87ffce; }
+:global(#inbound-calls-main) .callHero p { max-width:94%; font-size:clamp(15px,1.4vw,22px); font-weight:500; line-height:1.5; margin:26px 0 34px; }
+:global(#inbound-calls-main) .heroActions { gap:12px; }
+:global(#inbound-calls-main) .heroActions a { min-height:46px; padding:12px 25px; border-radius:999px; font-size:clamp(14px,1.2vw,19px); line-height:1.4; font-weight:700; }
+:global(#inbound-calls-main) .heroActions .squareButton { color:#07152b; background:linear-gradient(110deg,#b6ffda 0%,#4eff9a 100%); border:1px solid #baffd7; box-shadow:0 11px 14px -4px #020c4d85,inset 0 1px 0 #ffffff65; }
+:global(#inbound-calls-main) .heroActions .outlineButton { color:#fff; background:#ffffff16; border:1px solid #ffffff38; box-shadow:0 7px 12px -6px #07165365,inset 0 1px 0 #ffffff12; }
+@media(max-width:767px) {
+ :global(#inbound-calls-main) .callHero h1 { font-size:clamp(30px,7.1vw,48px); }
+ :global(#inbound-calls-main) .callHero p { max-width:100%; font-size:15px; margin:22px 0 28px; }
+ :global(#inbound-calls-main) .heroActions a { font-size:13px; padding:12px 19px; }
+}
+
+/* PPC hero fits within the visible desktop viewport. */
+@media(min-width:768px) and (min-height:600px) {
+ :global(#inbound-calls-main) > .callHero { box-sizing:border-box; height:calc(100svh - var(--section-nav,80px) - 16px); min-height:0; padding-block:36px; }
+ :global(#inbound-calls-main) .callHero h1 { font-size:clamp(30px,min(4.3vw,6.8svh),72px); }
+ :global(#inbound-calls-main) .callHero p { font-size:clamp(14px,min(1.35vw,2.3svh),21px); margin-block:clamp(16px,3svh,28px); }
+ :global(#inbound-calls-main) .heroActions a { min-height:44px; padding:11px 22px; }
+}
+@media(min-width:768px) and (max-height:599px) {
+ :global(#inbound-calls-main) > .callHero { box-sizing:border-box; height:calc(100svh - var(--section-nav,70px) - 12px); min-height:0; padding-block:28px 20px; }
+ :global(#inbound-calls-main) .callHero h1 { font-size:clamp(25px,6svh,38px); }
+ :global(#inbound-calls-main) .callHero p { font-size:12px; margin:12px 0; }
+ :global(#inbound-calls-main) .heroActions a { min-height:36px; padding:8px 16px; font-size:12px; }
+}

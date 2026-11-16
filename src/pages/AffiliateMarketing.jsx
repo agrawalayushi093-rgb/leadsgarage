@@ -1,6 +1,7 @@
 import TypingHighlight from '../components/TypingHighlight';
 import heroStyles from './AffiliateHero.module.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
+import usePageScroll from '../hooks/usePageScroll';
 import { ArrowLeft, ArrowRight, ChartNoAxesCombined, Expand, Gauge, Handshake, Headphones, Link, Mail, MessageSquare, PhoneCall, ShieldCheck, SlidersHorizontal, Target, UsersRound, Zap } from 'lucide-react';
 import { RequirementsSection } from '../components/PartnershipSections';
 import DashboardCTA from '../components/DashboardCTA';
@@ -42,26 +43,13 @@ const channelIcons = ['Channel symbol.png', ...Array.from({ length: 5 }, (_, i) 
 const reasonIcons = ['shield-check.png', 'target.png', 'gauge.png', 'chart-line.png', 'expand.png', 'users.png'];
 
 function ChannelShowcase() {
-  const [active, setActive] = useState(0);
-  const buttons = useRef([]);
-  const onKeyDown = (event, index) => {
-    let next;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % channels.length;
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index + channels.length - 1) % channels.length;
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = channels.length - 1;
-    if (next === undefined) return;
-    event.preventDefault(); setActive(next); buttons.current[next]?.focus({ preventScroll: true });
-  };
   return <section className={`${shared.container} ${styles.channels}`} aria-labelledby="channels-title">
     <div className={styles.channelCopy}>
       <h2 id="channels-title">Multiple Channels.<br />One Performance Goal.</h2>
       <p>Different audiences respond to different channels. Leadsgarage brings multiple performance channels together so you can reach the right audience, generate quality actions, and scale what works.</p>
-      <div className={styles.channelTabs} role="tablist" aria-label="Performance channels">{channels.map(([, title, , label], index) => <button key={title} type="button" ref={element => { buttons.current[index] = element; }} role="tab" aria-selected={active === index} aria-controls={`channel-${index}`} id={`channel-tab-${index}`} tabIndex={active === index ? 0 : -1} onClick={() => setActive(index)} onKeyDown={event => onKeyDown(event, index)}>{label}</button>)}</div>
-      <div className={styles.channelControls}><button type="button" aria-label="Previous channel" disabled={active === 0} onClick={() => setActive(current => current - 1)}><ArrowLeft size={21} /></button><button type="button" aria-label="Next channel" disabled={active === channels.length - 1} onClick={() => setActive(current => current + 1)}><ArrowRight size={21} /></button></div>
     </div>
-    <div className={styles.channelViewport}>
-      <div data-channel-track className={styles.channelTrack} style={{ '--channel-index': active }}>{channels.map(([Icon, title, description], index) => <article key={title} className={`${styles.channelCard} ${styles[`channel${index}`]}`} role="tabpanel" id={`channel-${index}`} aria-labelledby={`channel-tab-${index}`} aria-hidden={active !== index}>
+    <div className={styles.channelViewport} data-native-scroll tabIndex={0} role="region" aria-label="Performance channels, scroll to explore all six">
+      <div className={styles.channelTrack}>{channels.map(([, title, description], index) => <article key={title} className={`${styles.channelCard} ${styles[`channel${index}`]}`}>
         <img className={styles.channelIcon} src={affiliateIcon(channelIcons[index])} width="72" height="72" alt="" /><h3>{title}</h3><p>{description}</p>
       </article>)}</div>
     </div>
@@ -69,6 +57,7 @@ function ChannelShowcase() {
 }
 
 export default function AffiliateMarketing() {
+  usePageScroll();
   useEffect(() => {
     const previous = document.title;
     document.title = 'Affiliate Marketing | Leads Garage';
@@ -76,21 +65,28 @@ export default function AffiliateMarketing() {
   }, []);
   return <div className={`${shared.page} ${styles.page}`}>
     <main id="affiliate-marketing-main">
-      <section className={`${shared.hero} ${styles.solutionHero} ${styles.affiliateHero}`} data-page-hero aria-labelledby="affiliate-marketing-title">
+      <section className={`${shared.hero} ${styles.solutionHero} ${styles.affiliateHero} ${heroStyles.hero}`} data-page-hero aria-labelledby="affiliate-marketing-title">
         <a className={shared.specialist} href="#contact">Connect with our Specialist <ArrowRight size={18} /></a>
         <div className={shared.heroCopy}>
           <span className={shared.eyebrow}>Affiliate Marketing</span>
           <h1 id="affiliate-marketing-title">Performance<br />Partnerships.<br /><span><TypingHighlight>Meaningful Results.</TypingHighlight></span></h1>
           <p>Connect with customers who are actively looking for the products and services you offer.</p>
-          <a className={shared.whiteButton} href="#contact">Let's Work Together <ArrowRight size={22} /></a>
+          <div className={heroStyles.actions}><a className={heroStyles.primaryButton} href="#contact">Let’s Grow Together</a><a className={heroStyles.secondaryButton} href="#contact">Get Expert Guidance</a></div>
         </div>
         <div data-hero-art className={`${styles.affiliateHeroArt} ${heroStyles.visual}`}>
           <img className={heroStyles.team} src={affiliateIcon('Group 40229.png')} width="642" height="474" alt="Performance marketing partners collaborating to grow customer acquisition." fetchPriority="high" />
-          <img className={`${heroStyles.channel} ${heroStyles.link}`} src={affiliateIcon('Acquisition channel.png')} width="224" height="120" alt="Link-Out Traffic" />
-          <img className={`${heroStyles.channel} ${heroStyles.partners}`} src={affiliateIcon('Acquisition channel (1).png')} width="188" height="107" alt="Affiliate Partnerships" />
-          <img className={`${heroStyles.channel} ${heroStyles.email}`} src={affiliateIcon('Acquisition channel (2).png')} width="199" height="107" alt="Email Marketing" />
-          <img className={`${heroStyles.channel} ${heroStyles.ppc}`} src={affiliateIcon('Acquisition channel (3).png')} width="224" height="120" alt="PPC Advertising" />
-          <img className={`${heroStyles.channel} ${heroStyles.calls}`} src={affiliateIcon('Acquisition channel (4).png')} width="165" height="89" alt="Call Transfers" />
+          {[
+            ['sms', 'SMS', 'Marketing', 'Channel icon.png'],
+            ['link', 'Link-Out', 'Traffic', 'Channel icon (1).png'],
+            ['partners', 'Affiliate', 'Partnerships', 'Channel icon (2).png'],
+            ['email', 'Email', 'Marketing', 'Channel icon (3).png'],
+            ['ppc', 'PPC', 'Advertising', 'Channel icon (4).png'],
+            ['calls', 'Call Transfers', '', 'Channel icon (5).png'],
+          ].map(([position, first, second, icon]) => <div className={`${heroStyles.channel} ${heroStyles[position]}`} key={position}>
+            <img src={affiliateIcon(icon)} alt="" width="32" height="32" />
+            <span>{first}{second && <><br />{second}</>}</span>
+          </div>)}
+
         </div>
       </section>
       <RequirementsSection title="How Leadsgarage Helps Our Partners" items={benefits} iconColor="#1755f8" iconAssets={benefitIcons.map(affiliateIcon)} />
@@ -101,7 +97,7 @@ export default function AffiliateMarketing() {
       </section>
     </main>
     <div className={`${shared.footerShell} ${footerStyles.shell}`}>
-      <DashboardCTA contactHref="#contact" />
+      <DashboardCTA contactHref="#contact" assetFolder="AffiliateMarketing" />
       <Footer page="affiliateMarketing" />
     </div>
     

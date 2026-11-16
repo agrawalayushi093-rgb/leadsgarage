@@ -1,6 +1,18 @@
-.visual { position:relative; aspect-ratio:.9; }
-.phone { position:absolute; top:0; right:0; width:100%; height:auto; }
-.callCard { position:absolute; bottom:0; left:0; width:100%; height:auto; }
-@keyframes callFloat { 0%,100% { transform:translate3d(0,0,0); } 50% { transform:translate3d(0,-8px,0); } }
-@media(prefers-reduced-motion:no-preference) { .callCard { animation:callFloat 6.4s ease-in-out infinite; } }
-@media(max-width:767px) { .visual { width:100%; max-width:440px; } }
+/* Original artwork composed on the reference's square canvas. */
+.visual { position:relative; width:100%; aspect-ratio:1; isolation:isolate; }
+.orbit,.orbitInner { position:absolute; height:auto; pointer-events:none; z-index:0; }
+.orbit { width:88%; left:2%; top:8%; opacity:.62; }
+.orbitInner { width:72%; left:10%; top:16%; opacity:.5; }
+.phone { position:absolute; z-index:2; width:86%; max-width:none; height:auto; top:0; right:0; pointer-events:none; }
+.callCard { position:absolute; z-index:1; width:104%; max-width:none; height:auto; left:-8%; top:42%; animation:none; }
+:global(#inbound-calls-main) .visual.visual { width:100%; max-width:590px; aspect-ratio:1; justify-self:center; align-self:center; }
+@media(min-width:1101px) and (min-height:600px) {
+ :global(#inbound-calls-main) .visual.visual { width:min(112%,66svh); max-width:590px; }
+}
+@media(max-width:767px) {
+ :global(#inbound-calls-main) .visual.visual { width:90%; max-width:440px; }
+}
+
+@media(min-width:768px) {
+ :global(#inbound-calls-main) .visual.visual { width:min(108%,calc(100svh - var(--section-nav,80px) - 100px)); max-width:590px; }
+}

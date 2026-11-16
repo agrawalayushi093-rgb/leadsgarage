@@ -1,0 +1,79 @@
+/* Every selector requires an inner-page mount; Home never gets these attributes. */
+@media (min-width:1101px) and (min-height:600px) {
+  html[data-inner-page-snap] {
+    scroll-snap-type:none;
+    scroll-padding-block-start:0;
+    scroll-behavior:auto;
+  }
+  /* Gently settle to the section without jarring snaps or scroll jerks. */
+  html[data-inner-page-snap][data-inner-scroll-settled] {
+    scroll-snap-type:y proximity;
+    scroll-behavior:smooth;
+  }
+  [data-reference-pages][data-inner-screens] {
+    --section-space:calc(100dvh - var(--section-nav));
+  }
+  [data-reference-pages][data-inner-screens] [data-inner-section-host] {
+    margin-block:0 !important;
+    padding-block:0 !important;
+    min-block-size:0 !important;
+  }
+  [data-reference-pages][data-inner-screens] [data-inner-snap-ancestor] {
+    overflow:clip !important;
+  }
+  [data-reference-pages][data-inner-screens] [data-inner-section] {
+    box-sizing:border-box;
+    min-block-size:100dvh !important;
+    block-size:auto !important;
+    margin-block:0 !important;
+    padding-block-start:calc(var(--inner-section-base-top,0px) + var(--section-nav)) !important;
+    align-content:center;
+    scroll-margin-block:0;
+    scroll-snap-align:start;
+    scroll-snap-stop:normal;
+  }
+  [data-reference-pages][data-inner-screens] [data-inner-section][data-inner-first] {
+    min-block-size:var(--section-space) !important;
+    padding-block-start:var(--inner-section-base-top,0px) !important;
+    scroll-margin-block-start:var(--section-nav);
+  }
+  [data-reference-pages][data-inner-screens] [data-inner-snap-skip] { scroll-snap-align:none; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-inner-page-snap] { scroll-behavior:auto; }
+}
+/* Industry screens have one native scroll owner and stable section boundaries. */
+html[data-industry-screens] { scroll-behavior:smooth; }
+@media (min-width:1101px) and (min-height:600px) {
+  html[data-industry-screens] { scroll-snap-type:y mandatory; scroll-padding-top:var(--industry-nav, 0px); }
+  [data-inner-screens][data-industry-screens] main > section,
+  [data-inner-screens][data-industry-screens] [data-inner-section-group] {
+    scroll-snap-align:start;
+    scroll-snap-stop:normal;
+    scroll-margin-top:0;
+    min-height:100dvh;
+    margin-block:0;
+    box-sizing:border-box;
+    padding-top:calc(var(--section-nav) + clamp(20px, 3dvh, 40px));
+    padding-bottom:clamp(20px, 3dvh, 40px);
+  }
+  [data-inner-screens][data-industry-screens] main > section:first-child {
+    min-height:calc(100dvh - var(--section-nav));
+    max-height:none;
+    padding-top:clamp(24px, 4dvh, 48px);
+  }
+  [data-inner-screens][data-industry-screens] [data-inner-section-group] {
+    padding-top:var(--section-nav);
+    padding-bottom:16px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-industry-screens] { scroll-behavior:auto; scroll-snap-type:none; }
+}
+
+html[data-about-scroll] { scroll-behavior:smooth; scroll-snap-type:none; }
+@media(prefers-reduced-motion:reduce) { html[data-about-scroll] { scroll-behavior:auto; } }
+html[data-industry-flow] { scroll-snap-type:none; scroll-behavior:smooth; }
+@media(prefers-reduced-motion:reduce) { html[data-industry-flow] { scroll-behavior:auto; } }
+html[data-partnership-flow] { scroll-snap-type:none; scroll-behavior:smooth; }
+@media(prefers-reduced-motion:reduce) { html[data-partnership-flow] { scroll-behavior:auto; } }

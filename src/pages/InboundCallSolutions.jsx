@@ -1,7 +1,9 @@
 import TypingHighlight from '../components/TypingHighlight';
 import heroStyles from './InboundHero.module.css';
+import processStyles from './InboundProcess.module.css';
 import React, { useEffect } from 'react';
-import { ArrowLeftRight, ArrowRight, Check, ChartNoAxesColumn, Headphones, PhoneIncoming, Send, UsersRound } from 'lucide-react';
+import usePageScroll from '../hooks/usePageScroll';
+import { ArrowLeftRight, ArrowRight, Check, Headphones, PhoneIncoming, UsersRound } from 'lucide-react';
 import { SiteFooter } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
 import shared from '../components/PartnershipPage.module.css';
@@ -16,23 +18,23 @@ const models = [
 const benefits = ['Reach high-intent audiences', 'Improve the customer journey', 'Scale call-based campaigns', 'Track call & campaign performance', 'Custom Qualification Criteria', 'Generate opportunities with real conversations'];
 const inboundAsset = file => publicAsset(`/image/InboundCalls/${file}`);
 const modelIcons = ['phone-incoming.png', 'headset (1).png', 'Model symbol.png', 'Model symbol (1).png'];
-const avatar = file => publicAsset(`/image/Home/section6/${file}`);
 
 function CallProcessArtwork({ step }) {
-  if (step === 0) return <div className={styles.trafficArtwork} aria-hidden="true">
-    <span><Send size={23} /></span>
-    <img src={avatar('Group 40073.png')} alt="" width="64" height="64" />
-    <img src={avatar('Group 40079.png')} alt="" width="64" height="64" />
-    <img src={avatar('Group 40067.png')} alt="" width="80" height="80" />
-    <span><ChartNoAxesColumn size={27} /></span>
+  if (step === 0) return <div className={processStyles.trafficArtwork} aria-hidden="true">
+    <img className={processStyles.trafficSend} src={inboundAsset('Group 40068 (1).png')} alt="" width="60" height="60" />
+    <span className={processStyles.trafficExpert}><img src={inboundAsset('image 24.png')} alt="" /></span>
+    <img className={processStyles.trafficPerson} src={inboundAsset('Group 40079 (1).png')} alt="" width="60" height="60" />
+    <img className={processStyles.trafficCustomer} src={inboundAsset('Group 40067 (1).png')} alt="" width="86" height="86" />
+    <img className={processStyles.trafficChart} src={inboundAsset('Group 40074.png')} alt="" width="66" height="66" />
   </div>;
-  return <div className={styles.inboundProcessArtwork} aria-hidden="true"><img src={inboundAsset(step === 1 ? 'image 24.png' : 'Container.png')} width={step === 1 ? 283 : 272} height={step === 1 ? 116 : 282} alt="" /></div>;
+  return <div className={`${processStyles.inboundProcessArtwork} ${step === 2 ? processStyles.resultsArtwork : ''}`} aria-hidden="true"><img src={inboundAsset(step === 1 ? 'image 24.png' : 'image 29.png')} width={step === 1 ? 283 : 272} height={step === 1 ? 116 : 282} alt="" /></div>;
 }
 
 export default function InboundCallSolutions() {
+  usePageScroll();
   useEffect(() => {
     const previous = document.title;
-    document.title = 'Inbound Call Solutions | Leads Garage';
+    document.title = 'Pay Per Call (PPC) | Leads Garage';
     return () => { document.title = previous; };
   }, []);
   return <div className={`${shared.page} ${styles.page}`}>
@@ -43,9 +45,11 @@ export default function InboundCallSolutions() {
           <span className={shared.eyebrow}>INBOUND CALL SOLUTIONS</span>
           <h1 id="inbound-calls-title">Turn Inbound Calls Into<br /><span><TypingHighlight>Real Opportunities.</TypingHighlight></span></h1>
           <p>Connect your business with high-intent customers through quality inbound calls and performance-driven call solutions.</p>
-          <div className={styles.heroActions}><a className={styles.squareButton} href="#contact">Get Started <ArrowRight size={22} /></a><a className={styles.outlineButton} href="#contact">Talk to Our Team <ArrowRight size={22} /></a></div>
+          <div className={styles.heroActions}><a className={styles.squareButton} href="#contact">Get Started</a><a className={styles.outlineButton} href="#contact">Get Expert Guidance</a></div>
         </div>
         <div data-hero-art className={`${styles.callHeroArt} ${heroStyles.visual}`}>
+          <img className={heroStyles.orbit} src={inboundAsset('Orbit.png')} alt="" aria-hidden="true" />
+          <img className={heroStyles.orbitInner} src={inboundAsset('Orbit (1).png')} alt="" aria-hidden="true" />
           <img className={heroStyles.phone} src={inboundAsset('Phone sculpture.png')} width="587" height="401" alt="A blue telephone surrounded by conversation bubbles." fetchPriority="high" />
           <img className={heroStyles.callCard} src={inboundAsset('Inbound call card.png')} width="707" height="359" alt="Inbound Call: Customer. Live Call with audio waveform." />
         </div>
@@ -75,13 +79,13 @@ export default function InboundCallSolutions() {
         </section>
       </div>
 
-      <section className={`${shared.container} ${styles.callProcess}`} aria-labelledby="call-process-title">
+      <section className={`${shared.container} ${processStyles.callProcess}`} aria-labelledby="call-process-title">
         <h2 id="call-process-title">How It Works</h2>
-        <div className={styles.callProcessGrid}>{[
+        <div className={processStyles.callProcessGrid}>{[
           ['Quality Traffic', 'We target and attract high-intent customers.'],
           ['Connect', 'We connect callers with the right solution experts.'],
           ['Better Results', 'We connect callers with the right solution experts.'],
-        ].map(([title, description], index) => <article key={title}><h3>{title}</h3><p>{description}</p><span className={styles.processNumber} aria-hidden="true">0{index + 1}</span><CallProcessArtwork step={index} /></article>)}</div>
+        ].map(([title, description], index) => <article key={title}><h3>{title}</h3><p>{description}</p><span className={processStyles.processNumber} aria-hidden="true">0{index + 1}</span><CallProcessArtwork step={index} /></article>)}</div>
       </section>
 
       <section className={`${shared.container} ${styles.conversations}`} aria-labelledby="conversations-title">
@@ -93,6 +97,6 @@ export default function InboundCallSolutions() {
         </div>
       </section>
     </main>
-    <SiteFooter page="inboundCalls" />
+    <div className={styles.inboundClosing}><SiteFooter page="inboundCalls" /></div>
   </div>;
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styles from './TypingHighlight.module.css';
 
 // Reserve the complete text layout; animate only character visibility.
-export default function TypingHighlight({ children }) {
+export default function TypingHighlight({ children, preserveLineBreaks = false }) {
   const text = String(children);
   const root = useRef(null);
   useEffect(() => {
@@ -37,5 +37,5 @@ export default function TypingHighlight({ children }) {
     document.addEventListener('visibilitychange', visibility);
     return () => { stop(); motion.removeEventListener('change', start); document.removeEventListener('visibilitychange', visibility); };
   }, [text]);
-  return <span ref={root} className={styles.root}><span className={styles.accessible}>{text}</span><span aria-hidden="true">{text.split(/(\s+)/).map((word, index) => /\s/.test(word) ? word : <span className={styles.word} key={index}>{Array.from(word).map((letter, i) => <span key={i} data-typing-letter>{letter}</span>)}</span>)}</span></span>;
+  return <span ref={root} className={styles.root}><span className={styles.accessible}>{text}</span><span aria-hidden="true">{text.split(/(\s+)/).map((word, index) => /\s/.test(word) ? (preserveLineBreaks && word.includes('\n') ? <br key={index} /> : word) : <span className={styles.word} key={index}>{Array.from(word).map((letter, i) => <span key={i} data-typing-letter>{letter}</span>)}</span>)}</span></span>;
 }

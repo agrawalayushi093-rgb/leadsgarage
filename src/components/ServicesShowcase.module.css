@@ -11,7 +11,7 @@
 .cards { display: flex; flex-direction: column; gap: 28px; }
 .card { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: 30% 1fr; gap: 6%; min-height: 450px; padding: 22px; border-radius: 32px; color: #fff; scroll-margin-top: 110px; }
 .colorLayer { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: var(--service-background); }
-.affiliate { --service-background: #e2f4ff; color: #092052; }
+.affiliate { --service-background: #1F5CDB; color: #fff; }
 .smm { --service-background: linear-gradient(145deg, #35a9fc, #0089e8); }
 .email-sms { --service-background: linear-gradient(145deg, #204acd, #1b42b9); }
 .list-management { --service-background: linear-gradient(145deg, #a47aff, #7643db); }
@@ -66,7 +66,7 @@
 @media (prefers-reduced-motion: reduce) { .menuItem, .learnMore { transition: none; } }
 
 /* One pinned card, with six service panels driven by the page scroll. */
-.card { background:#e2f4ff; }
+.card { background:#1F5CDB; }
 :global(#services).section { --sticky-top: clamp(90px, 8vw, 150px); height: 500svh; padding: 0; }
 :global(#services).section > .frame { position: sticky; top: var(--sticky-top); height: calc(100svh - var(--sticky-top)); display: flex; flex-direction: column; justify-content: center; padding: 16px 0 28px; }
 .heading { flex-shrink: 0; margin-bottom: 24px; }

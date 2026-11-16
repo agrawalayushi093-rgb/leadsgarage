@@ -1,8 +1,9 @@
 import TypingHighlight from '../components/TypingHighlight';
+import usePageScroll from '../hooks/usePageScroll';
 import React, { useEffect, useRef } from 'react';
-import { ArrowRight, Search, FileText, PenTool, Code, Rocket, Calculator, Smartphone, Workflow, Database, CheckCheck } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Calculator, Smartphone, Workflow, Database } from 'lucide-react';
 import Footer from '../components/Footer';
-import { FloatingIcons, HowItWorks } from '../components/PartnershipSections';
+import { FloatingIcons } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
 import shared from '../components/PartnershipPage.module.css';
 import styles from './WebDevelopment.module.css';
@@ -17,16 +18,15 @@ const capabilities = [
   ['Icon Container (2).png', 'API Development'],
   ['Icon Container (3).png', 'E-Commerce Platforms'],
 ];
-const steps = [
-  ['Group 40217 (2).png', 'Discover', 'We understand your business, goals, and challenges.'],
-  ['Group 40217 (1).png', 'Plan', 'We define the strategy, features, and roadmap for success.'],
-  ['Group 40217.png', 'Design', 'We create intuitive UI/UX designs focused on user experience.'],
-  ['Group 40217 (3).png', 'Develop', 'We build clean, scalable, and secure solutions using modern technologies.'],
-  ['Group 40217 (4).png', 'Test', 'We test thoroughly to ensure quality, security, and performance.'],
-  ['Group 40217 (5).png', 'Deploy & Support', 'We deploy your solution and provide continuous support and updates.'],
+const processSteps = [
+  ['01', 'Discover', 'We understand your business, goals, and challenges.', 'Group 40316.png'],
+  ['02', 'Plan', 'We define the strategy, features, and roadmap for success.', 'Group 40317.png'],
+  ['03', 'Design', 'We create intuitive UI/UX designs focused on user experience.', 'Group 40318.png'],
+  ['04', 'Develop', 'We build clean, scalable, and secure solutions using modern technologies.', 'Group 40319.png'],
+  ['05', 'Test', 'We test thoroughly to ensure quality, security, and performance.', 'Group 40320.png'],
+  ['06', 'Deploy & Support', 'We deploy your solution and provide continuous support and updates.', 'Group 40321.png'],
 ];
 const webAsset = file => publicAsset(`/image/WebDevelopment/${file}`);
-const processCurves = ['Frame 1000004767 (2).png', 'Frame 1000004767 (1).png', 'Frame 1000004767.png', 'Frame 1000004767 (3).png', 'Frame 1000004767 (4).png', 'Frame 1000004767 (5).png'];
 const strengths = [
   ['Engineering Business Impact', 'We develop custom solutions tailored to your workflows and business goals, delivering efficiency, simplicity, and measurable results.', 'Channel image.png', 'A team reviewing business workflows and digital solutions.'],
   ['End-to-End Digital Excellence', 'From strategy and UI/UX design to development, testing, and deployment, we manage the complete product lifecycle.', 'digital-excellence.webp', 'A team planning a digital product together.'],
@@ -35,7 +35,24 @@ const strengths = [
 ];
 
 export default function WebDevelopment() {
+  usePageScroll();
   const strengthsSection = useRef(null);
+  const processTrackRef = useRef(null);
+  useEffect(() => {
+    const el = processTrackRef.current;
+    if (!el) return;
+    const onWheel = e => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if ((e.deltaY > 0 && el.scrollLeft < maxScroll - 1) || (e.deltaY < 0 && el.scrollLeft > 1)) {
+          e.preventDefault();
+          el.scrollBy({ left: e.deltaY, behavior: 'auto' });
+        }
+      }
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
   useEffect(() => {
     const section = strengthsSection.current;
     if (!section || !window.IntersectionObserver || !section.animate) return;
@@ -75,22 +92,43 @@ export default function WebDevelopment() {
     return () => { document.title = previous; };
   }, []);
   return <div className={`${shared.page} ${styles.page}`}>
-    <main>
+    <main id="web-development-main">
       <section className={`${shared.hero} ${styles.hero}`} data-page-hero aria-labelledby="web-title">
-        <a className={shared.specialist} href="#contact">Connect with our Specialist <ArrowRight size={18} /></a>
+        <a className={`${shared.specialist} ${styles.specialist}`} href="#contact">Connect with our Specialist <ArrowRight size={14} /></a>
         <div className={shared.heroCopy}>
           <span className={shared.eyebrow}>Web Development</span>
           <h1 id="web-title">Transforming Ideas In<br /><span><TypingHighlight>Digital Solutions</TypingHighlight></span></h1>
           <p>At Leadsgarage, we help organizations turn ideas into scalable digital products that improve efficiency, enhance customer experiences, and accelerate business growth.</p>
-          <a className={shared.whiteButton} href="#contact">Start Your Project</a>
+          <div className={styles.heroButtons}>
+            <a className={styles.button} href="#contact">Start Your Project</a>
+            <a className={styles.secondaryButton} href="#contact">Get Expert Guidance</a>
+          </div>
         </div>
         <div data-hero-art className={styles.heroVisual}>
+          <div className={styles.floorGrid} aria-hidden="true" />
+          <div className={styles.visualInner}>
           <img className={styles.developmentArt} src={webAsset('Group 40244.png')} width="979" height="736" alt="A development team building modern web and mobile experiences." fetchPriority="high" />
-          <img className={`${styles.heroBadge} ${styles.technology}`} src={webAsset('Frame.png')} width="234" height="73" alt="Modern Technology Stack" />
-          <img className={`${styles.heroBadge} ${styles.delivery}`} src={webAsset('Frame (1).png')} width="246" height="56" alt="On-Time Delivery" />
-          <img className={`${styles.heroBadge} ${styles.security}`} src={webAsset('Frame (2).png')} width="225" height="56" alt="Secure & Reliable" />
-          <img className={`${styles.heroBadge} ${styles.conversion}`} src={webAsset('Frame (3).png')} width="319" height="56" alt="Conversion Focused UI/UX" />
-          <img className={`${styles.heroBadge} ${styles.scalable}`} src={webAsset('Frame (4).png')} width="269" height="56" alt="Scalable & Future-Ready" />
+            <div className={`${styles.heroBadge} ${styles.scalable}`}>
+              <img src={webAsset('Frame3.png')} alt="" className={styles.badgeIcon} width="21" height="21" />
+              <span>Scalable & Future-Ready</span>
+            </div>
+            <div className={`${styles.heroBadge} ${styles.security}`}>
+              <img src={webAsset('Frame (1).png')} alt="" className={styles.badgeIcon} width="21" height="21" />
+              <span>Secure & Reliable</span>
+            </div>
+            <div className={`${styles.heroBadge} ${styles.delivery}`}>
+              <img src={webAsset('Frame.png')} alt="" className={styles.badgeIcon} width="21" height="21" />
+              <span>On-Time Delivery</span>
+            </div>
+            <div className={`${styles.heroBadge} ${styles.technology}`}>
+              <img src={webAsset('Frame3.png')} alt="" className={styles.badgeIcon} width="21" height="21" />
+              <span>Modern Technology Stack</span>
+            </div>
+            <div className={`${styles.heroBadge} ${styles.conversion}`}>
+              <img src={webAsset('Frame (2).png')} alt="" className={styles.badgeIcon} width="21" height="21" />
+              <span>Conversion Focused UI/UX</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -98,21 +136,60 @@ export default function WebDevelopment() {
         <section ref={strengthsSection} className={styles.strengths} aria-labelledby="strengths-title">
           <h2 id="strengths-title" data-strength-reveal>Our Core Strengths</h2>
           <p data-strength-reveal>Everything you need to fill your sales pipeline with ready-to-buy prospects.</p>
-          <div className={styles.strengthList} role="region" aria-label="Core strengths" tabIndex={0}>{strengths.map(([title, description, image, alt], index) => <article key={title} data-strength-reveal className={`${styles.strengthCard} ${styles[`strength${index}`]}`}>
+          <div className={styles.strengthList} role="region" data-native-scroll aria-label="Core strengths" tabIndex={0}>{strengths.map(([title, description, image, alt], index) => <article key={title} data-strength-reveal className={`${styles.strengthCard} ${styles[`strength${index}`]}`}>
             <div><h3>{title}</h3><p>{description}</p></div>
             <img src={webAsset(image)} width="410" height="302" alt={alt} loading="lazy" />
           </article>)}</div>
         </section>
 
-        <section tabIndex={0} className={styles.capabilities} aria-labelledby="capabilities-title">
+        <section data-native-scroll tabIndex={0} className={styles.capabilities} aria-labelledby="capabilities-title">
           <div className={styles.capabilityHeading}><h2 id="capabilities-title">What We <br />Can Develop</h2><p>Flexible solutions tailored to<br />your goals and KPIs.</p></div>
           {capabilities.map(([icon, title, color], i) => <article key={title} className={styles[`capability${i}`]}><span style={color ? { background: color } : undefined}>{typeof icon === 'string' ? <img src={webAsset(icon)} width="126" height="126" alt="" /> : React.createElement(icon, { size: 34, strokeWidth: 1.8, 'aria-hidden': true })}</span><h3>{title}</h3><p>High-impact strategies designed to deliver consistent results for your specific business goals.</p></article>)}
         </section>
       </div>
 
-      <div className={styles.process}>
-        <HowItWorks showConnectors={false} title="Our Development Process" label="Development process steps" steps={steps.map(([, title, description], index) => [[Search, FileText, PenTool, Code, CheckCheck, Rocket][index], title, description])} artworkAssets={steps.map(([icon]) => webAsset(icon))} curveAssets={processCurves.map(webAsset)} />
-      </div>
+      <section className={styles.processSection} aria-labelledby="process-title">
+        <div className={styles.processHeader}>
+          <h2 id="process-title">Our Development Process</h2>
+          <div className={styles.processArrows}>
+            <button
+              type="button"
+              aria-label="Previous step"
+              onClick={() => processTrackRef.current?.scrollBy({ left: -340, behavior: 'smooth' })}
+            >
+              <ArrowLeft size={18} />
+            </button>
+            <button
+              type="button"
+              aria-label="Next step"
+              onClick={() => processTrackRef.current?.scrollBy({ left: 340, behavior: 'smooth' })}
+            >
+              <ArrowRight size={18} />
+            </button>
+          </div>
+        </div>
+        <div
+          ref={processTrackRef}
+          className={styles.processTrack}
+          tabIndex={0}
+          aria-label="Development process steps"
+          data-native-scroll
+        >
+          {processSteps.map(([num, title, copy, image]) => (
+            <article key={title} className={styles.processCard}>
+              <span className={styles.processStepNumber}>{num}</span>
+              <h3>{title}</h3>
+              <p>{copy}</p>
+              <img
+                className={styles.processStepArt}
+                src={webAsset(image)}
+                alt=""
+                loading="lazy"
+              />
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
 
     <div className={`${shared.footerShell} ${styles.footer}`}>

@@ -4,11 +4,11 @@ import { publicAsset } from '../utils/publicAsset';
 import styles from './QualityControl.module.css';
 
 const slides = [
-  { title: 'Quality Control', label: 'Protected impressions', description: 'Premium placements with every impression protected from bots, unsafe content, and domain-arbitrage traffic.', icon: CheckCheck, image: 'Group 39999.png' },
-  { title: 'Real-Time Optimisation', label: 'Always improving', description: 'We continuously fine-tune targeting and campaigns to reach the right customers and improve every conversion.', icon: SlidersHorizontal, image: 'Group 39999.png' },
-  { title: 'Data-Driven Insights', label: 'Clearer decisions', description: 'Turn campaign data into actionable insights, understand your audience, and discover new opportunities for growth.', icon: ChartLine, image: 'Group 39995.png' },
-  { title: 'Omnichannel Acquisition', label: 'Connected channels', description: 'Connect with customers across the channels they use, with a consistent strategy built around your business.', icon: Blocks, image: 'Group 39996.png' },
-  { title: 'Measurable Growth', label: 'Results that matter', description: 'Track performance from the first interaction to conversion, with clear reporting focused on your business goals.', icon: ChartPie, image: 'Group 39995.png' },
+  { title: 'Quality Control', label: 'Protected impressions', description: 'Premium placements with every impression protected from bots, unsafe content, and domain-arbitrage traffic.', icon: CheckCheck, image: 'image 113.png' },
+  { title: 'Real-Time Optimisation', label: 'Always improving', description: 'We continuously fine-tune targeting and campaigns to reach the right customers and improve every conversion.', icon: SlidersHorizontal, image: 'real-time-speedometer 1.png' },
+  { title: 'Data-Driven Insights', label: 'Clearer decisions', description: 'Turn campaign data into actionable insights, understand your audience, and discover new opportunities for growth.', icon: ChartLine, image: 'data-driven-insights 1.png' },
+  { title: 'Omnichannel Acquisition', label: 'Connected channels', description: 'Connect with customers across the channels they use, with a consistent strategy built around your business.', icon: Blocks, image: 'omnichannel-layers 1.png' },
+  { title: 'Performance-First Strategy', label: 'Results that matter', description: 'Track performance from the first interaction to conversion, with clear reporting focused on your business goals.', icon: ChartPie, image: 'performance-first-arrow 1.png' },
 ];
 
 export default function QualityControl() {
@@ -254,7 +254,7 @@ export default function QualityControl() {
         }}>
         <div ref={rail} className={styles.rail}>
           {slides.map((slide, index) => <article key={slide.title} ref={el => cards.current[index] = el} className={`${styles.card} ${index === active ? styles.active : ''}`} aria-current={index === active ? 'step' : undefined}>
-            <img className={styles.phone} src={publicAsset(`/image/Home/${slide.image}`)} decoding="async" aria-hidden={index !== active} alt={index === active ? "Campaign verification and performance dashboard" : ""} />
+            <img className={styles.phone} src={publicAsset(`/image/Home/${slide.image}`)} decoding="async" aria-hidden={index !== active} alt={index === active ? `${slide.title} illustration` : ""} />
             <button type="button" className={styles.cardCopy} tabIndex={index === active ? 0 : -1} onClick={() => select(index)} aria-label={`Show ${slide.title}`}>
               <span hidden={index !== active} className={styles.label}>{slide.label}</span>
               <h3>{slide.title}</h3><p>{slide.description}</p>

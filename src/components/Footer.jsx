@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Footer.module.css';
 import { ArrowRight, MapPin, Mail, Facebook, Twitter, Linkedin, Instagram, ChevronDown } from 'lucide-react';
 
-export default function Footer({ page = 'home', compactQuery = page === 'home' ? '(max-width:639px)' : '(max-width:639px), (max-height:500px)' }) {
+export default function Footer({ page = 'home', columns: propColumns, compactQuery = page === 'home' ? '(max-width:639px)' : '(max-width:639px), (max-height:500px)' }) {
   const pageLink = href => navigationUrl(href, page);
   const [compact, setCompact] = useState(() => matchMedia(compactQuery).matches);
   useEffect(() => {
@@ -13,35 +13,36 @@ export default function Footer({ page = 'home', compactQuery = page === 'home' ?
     query.addEventListener('change', update);
     return () => query.removeEventListener('change', update);
   }, [compactQuery]);
-  const columns = [
+  const defaultColumns = [
     {
       title: 'Partnership',
       links: [
-        { name: 'Advertisers', href: '/advertisers' },
-        { name: 'Publishers', href: '#audience' },
-        { name: 'Buyer', href: '/buyers' },
+        { name: 'Brands', href: '/advertisers' },
+        { name: 'Publisher', href: '#audience' },
+        { name: 'Lead Buyer', href: '/buyers' },
       ],
     },
     {
       title: 'Solutions',
       links: [
         { name: 'Affiliate Marketing', href: '/affiliate-marketing' },
-        { name: 'PPC', href: '#services' },
-        { name: 'Email & SMS', href: '#services' },
-        { name: 'List Management', href: '#services' },
-        { name: 'CRM Consultation', href: '#services' },
-        { name: 'Web Development', href: '/web-development' },
-        { name: 'SMM (Social Media Marketing)', href: '/social-media-marketing' },
+        { name: 'Email & SMS', href: '/email-sms' },
+        { name: 'List management', href: '#services' },
+        { name: 'CRM Consultation', href: '/crm-consultation' },
+        { name: 'Web Dev.', href: '/web-development' },
+        { name: 'SMM', href: '/social-media-marketing' },
       ],
     },
     {
-      title: 'Industries',
+      title: 'Industry',
       links: [
+        { name: 'Finance', href: '/finance-solutions' },
         { name: 'Insurance', href: '/insurance-solutions' },
-        { name: 'Home Services', href: '#solutions' },
-        { name: 'Finance', href: '#solutions' },
-        { name: 'Health & Beauty', href: '#solutions' },
-        { name: 'E-Commerce', href: '#solutions' },
+        { name: 'Dating', href: '#solutions' },
+        { name: 'Home Service', href: '/home-services' },
+        { name: 'Nutra', href: '#solutions' },
+        { name: 'E-Comm', href: '#solutions' },
+        { name: 'I-Game', href: '#solutions' },
       ],
     },
     {
@@ -50,11 +51,13 @@ export default function Footer({ page = 'home', compactQuery = page === 'home' ?
         { name: 'About Us', href: '/about-us' },
         { name: 'Contact Us', href: '#contact' },
         { name: 'Career', href: '#team' },
-        { name: 'Terms & Condition', href: '#contact' },
-        { name: 'Policy', href: '#contact' },
+        { name: 'Term & Condition', href: '#contact' },
+        { name: 'Privacy Policy', href: '#contact' },
+        { name: 'CA Privacy Right', href: '#contact' },
       ],
     },
   ];
+  const columns = propColumns || defaultColumns;
 
   return <footer className={styles.footer}>
    <div className={styles.columns}>

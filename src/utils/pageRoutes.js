@@ -3,11 +3,16 @@ export const pageRoutes = {
   home: '',
   buyers: 'partnerships/buyers',
   advertisers: 'partnerships/advertisers',
-  inboundCalls: 'solutions/inbound-call-solutions',
+  inboundCalls: 'solutions/ppc',
   affiliateMarketing: 'solutions/affiliate-marketing',
+  crmConsultation: 'solutions/crm-consultation',
+  emailSms: 'solutions/email-sms',
   webDevelopment: 'solutions/web-development',
   socialMediaMarketing: 'solutions/social-media-marketing',
   insurance: 'industries/insurance-solutions',
+  homeServices: 'industries/home-services',
+  finance: 'industries/finance-solutions',
+  healthAndBeauty: 'industries/health-and-beauty',
   about: 'company/about-us',
 };
 
@@ -16,12 +21,17 @@ export function pageUrl(page) {
 }
 
 export function navigationUrl(href, page) {
+  if (href === '/crm-consultation') return pageUrl('crmConsultation');
+  if (href === '/email-sms') return pageUrl('emailSms');
+  if (href === '/home-services') return page === 'home' ? '#solutions' : pageUrl('homeServices');
+  if (href === '/finance-solutions' || href === '/finance') return pageUrl('finance');
+  if (href === '/health-and-beauty' || href === '/health-beauty') return pageUrl('healthAndBeauty');
   if (href === '/social-media-marketing') return pageUrl('socialMediaMarketing');
   if (href === '/insurance-solutions') return pageUrl('insurance');
   if (href === '/about-us') return pageUrl('about');
   if (href === '/buyers') return pageUrl('buyers');
   if (href === '/advertisers') return pageUrl('advertisers');
-  if (href === '/inbound-call-solutions') return pageUrl('inboundCalls');
+  if (href === '/ppc' || href === '/inbound-call-solutions') return pageUrl('inboundCalls');
   if (href === '/web-development') return pageUrl('webDevelopment');
   if (href === '/affiliate-marketing') return pageUrl('affiliateMarketing');
   if (href === '#hero' || href === '/') return pageUrl('home');
