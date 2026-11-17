@@ -434,6 +434,7 @@
  .closing footer nav[aria-label="Social media"] a { width:34px; height:34px; border-radius:11px; }
 }
 @media(max-width:639px) { .closing.closing { width:96%; padding:0 10px 12px; border-radius:30px; }.closing .cta { padding:78px 15px 64px; }.closing .cta > div img { width:46px; }.closing .cta > div img:nth-child(odd) { left:3%; }.closing .cta > div img:nth-child(even) { right:3%; }.closing footer { padding:30px 22px; border-radius:26px; } }
+@media(max-width:480px) { :global(#crm-main) .serviceGrid { grid-template-columns:1fr; gap:16px; } :global(#crm-main) .serviceGrid article { padding:20px; } }
 :global(#crm-main) > .insights { width:84%; grid-template-columns:35% 60%; gap:5%; padding-block:30px 48px; overflow:visible; }
 :global(#crm-main) .insights h2 { font-size:clamp(26px,2.7vw,43px); line-height:1.2; }
 :global(#crm-main) .insights p { font-size:clamp(13px,1.1vw,18px); line-height:1.75; }

@@ -38,7 +38,7 @@ export default function Preloader({ onComplete }) {
     >
       <video src={publicAsset("/image/load.mp4")} autoPlay muted playsInline preload="auto"
         aria-label="Leads Garage introduction"
-        className="absolute inset-0 block w-full h-full object-cover"
+        className="absolute inset-0 block w-full h-full object-contain md:object-cover"
         onEnded={finish} onError={finish}
         onLoadedMetadata={event => { event.currentTarget.playbackRate = 2; }}
         onCanPlay={event => {

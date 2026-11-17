@@ -436,7 +436,7 @@
  .process { margin:60px auto; }.processHeading { align-items:flex-start; margin-bottom:28px; }.processHeading h2 { font-size:27px; }.arrows { gap:6px; }.arrows button { width:38px; height:38px; }.processGrid { grid-template-columns:1fr 1fr; gap:15px; }.step { padding:22px 18px 125px; min-height:330px; border-radius:22px; }.step h3 { font-size:21px; }.step p { font-size:14px; }.stepIcon { width:70px; height:70px; }
  .footer { background-size:auto 650px,auto; background-position:center -25px,center; }.cta { padding-inline:22px; }.cta p { font-size:14px; }.connect { font-size:16px; }
 }
-@media(max-width:380px) { .capabilities { grid-template-columns:1fr; gap:45px; }.capabilities article { min-height:180px; }.processGrid { grid-template-columns:1fr; }.step { min-height:310px; } }
+@media(max-width:480px) { .capabilities { grid-template-columns:1fr; gap:34px; }.capabilities article { min-height:180px; }.processGrid { grid-template-columns:1fr; }.step { min-height:280px; } }
 @media(prefers-reduced-motion:reduce) { .stepIcon { transition:none; } }
 @media(prefers-reduced-motion:no-preference) and (hover:hover) and (pointer:fine) {
  .strengthCard { transition:transform 350ms cubic-bezier(.22,1,.36,1); }

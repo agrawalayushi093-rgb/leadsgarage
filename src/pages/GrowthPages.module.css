@@ -62,7 +62,7 @@
  .split { grid-template-columns:1fr; gap:30px; }.split > div > p { font-size:14px; }.metrics { grid-template-columns:1fr 1fr; gap:25px; padding:25px 22px; }.metrics > div:nth-child(2) { border:0; }.metrics strong { font-size:30px; }.metrics span { font-size:12px; }.platforms { gap:12px; margin-top:25px; }.platforms a { font-size:14px; padding:15px 12px; border-radius:15px; }.banner { margin-block:45px; padding:35px 25px; }.banner > p,.banner > div > p { font-size:14px; }.footer { padding-inline:0; }.footer footer { padding-inline:22px; }
  .breadcrumb { margin:0; font-size:11px; }.compliance { gap:16px; padding-top:10px; font-size:11px; }.compliance span { width:45%; }.reachImage > p { font-size:17px; padding:17px; margin-top:-45px; }.insurance .cards { grid-template-columns:1fr; }.channelArt { height:150px; }.difference h3 { font-size:20px; }.difference p { font-size:14px; }.highlights { gap:14px; }.highlights .card { padding:20px 17px; }.industryLinks { gap:10px; }.industryLinks a { font-size:12px; padding:12px 13px; }.growthArt { width:220px; height:220px; }.checks { font-size:11px; gap:13px; }
 }
-@media(max-width:380px) { .cards,.orbit,.journeyGrid,.highlights { grid-template-columns:1fr; }.orbitHeading { grid-column:1; }.journeyCard { min-height:230px; }.hero h1 { font-size:30px; }.metrics { padding:22px 16px; }.platforms { grid-template-columns:1fr; } }
+@media(max-width:480px) { .cards,.orbit,.journeyGrid,.highlights { grid-template-columns:1fr; }.orbitHeading { grid-column:1; }.journeyCard { min-height:230px; }.hero h1 { font-size:30px; }.metrics { padding:22px 16px; }.platforms { grid-template-columns:1fr; } }
 
 
 @media(min-width:1101px) {
