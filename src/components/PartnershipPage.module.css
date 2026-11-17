@@ -62,8 +62,8 @@
 .stepNumber { display:grid; place-items:center; width:clamp(48px,3.7vw,68px); height:clamp(48px,3.7vw,68px); background:#f6f6f7; color:#222; border-radius:50%; font-size:clamp(20px,1.45vw,27px); font-weight:800; margin-bottom:24px; }
 .activeStep .stepNumber { color:#fff; background:#1b56d9; }
 .stepCard p { margin-top:14px; font-size:clamp(16px,min(1.25vw,2.6svh),23px); line-height:1.5; }.stepCard h3 { font-size:clamp(22px,min(1.75vw,3.6svh),32px); line-height:1.25; }
-.stepCard::before,.stepCard::after { content:''; position:absolute; left:-18%; bottom:-160px; width:88%; aspect-ratio:1; border:1px solid #b5ceff; border-radius:50%; z-index:-1; pointer-events:none; clip-path:inset(0 0 160px 18%); }
-.stepCard::after { bottom:-190px; width:103%; clip-path:inset(0 0 190px 18%); }
+.stepCard::before,.stepCard::after { content:''; position:absolute; left:50%; transform:translateX(-50%); bottom:-140px; width:78%; aspect-ratio:1; border:1px solid #b5ceff; border-radius:50%; z-index:-1; pointer-events:none; }
+.stepCard::after { bottom:-170px; width:92%; }
 .stepCard:nth-child(2)::before,.stepCard:nth-child(2)::after { border-color:#abe7ea; }
 .stepCard:nth-child(n+3)::before,.stepCard:nth-child(n+3)::after { border-color:#e0d8ff; }
 .stepArtwork { position:absolute; bottom:32px; left:50%; transform:translateX(-50%); display:grid; place-items:center; width:var(--process-icon); height:var(--process-icon); border-radius:50%; border:1px solid #f3f4f7; background:#fcfcfd; color:#a1a3af; }
@@ -76,7 +76,7 @@
 .stepArtwork.assetArtwork { background:transparent; border:0; }
 .assetArtwork img { display:block; width:100%; height:100%; object-fit:contain; }
 .customCurve::before,.customCurve::after { content:none; }
-.stepCurve { position:absolute; z-index:-1; left:0; bottom:0; width:85%; height:auto; pointer-events:none; }
+.stepCurve { position:absolute; z-index:-1; width:clamp(190px,17vw,240px); height:auto; left:calc(50% - clamp(190px,17vw,240px) * 0.3616); bottom:0; pointer-events:none; opacity:0.65; }
 .benefitSummary { position:relative; isolation:isolate; overflow:hidden; border-radius:36px; padding:clamp(60px,6.5vw,120px) clamp(36px,5vw,84px); margin-block:clamp(80px,8vw,160px); background:linear-gradient(110deg,#f8faff,#fcfdff); box-shadow:0 18px 40px rgba(16,41,82,0.03); border:1px solid #e9effa; }
 .benefitSummary h2 { font-weight:400; font-size:clamp(32px,3.7vw,70px); line-height:1.4; }
 .benefitSummary ul { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:55px 35px; list-style:none; padding:0; margin:65px 0 0; width:79%; }
@@ -362,8 +362,9 @@
 :global(#advertisers-main) .howItWorks .activeStep .stepNumber { background:#255ff3; color:#fff; }
 :global(#advertisers-main) .howItWorks .stepCard h3 { font-size:clamp(18px,1.45vw,23px); font-weight:700; line-height:1.35; }
 :global(#advertisers-main) .howItWorks .stepCard p { font-size:clamp(14px,1vw,16px); line-height:1.7; color:#647089; margin-top:12px; }
-:global(#advertisers-main) .howItWorks .stepArtwork { bottom:24px; left:26px; transform:none; width:76px; height:76px; }
-:global(#advertisers-main) .howItWorks .stepCurve { width:72%; opacity:.3; }
+:global(#advertisers-main) .howItWorks .stepArtwork { bottom:24px; left:50%; transform:translateX(-50%); width:clamp(62px,5vw,70px); height:clamp(62px,5vw,70px); }
+:global(#advertisers-main) .howItWorks .activeStep .stepArtwork { box-shadow:0 8px 20px rgba(37,95,243,.22); }
+:global(#advertisers-main) .howItWorks .stepCurve { width:clamp(190px,17vw,240px); height:auto; left:calc(50% - clamp(190px,17vw,240px) * 0.3616); bottom:0; opacity:0.65; }
 :global(#advertisers-main) .howItWorks .stepArrow { bottom:32px; right:-34px; width:44px; height:44px; border:6px solid #fff; background:#f0f5ff; color:#255ff3; }
 :global(#advertisers-main) .howItWorks .stepArrow svg { width:18px; height:18px; }
 @media(max-width:767px) {
@@ -395,11 +396,12 @@
  :global(#buyers-main) .cloudLayout .pill3 { right:2%; top:44%; }
  :global(#buyers-main) .cloudLayout .pill4 { left:5%; bottom:10%; }
  :global(#buyers-main) .cloudLayout .pill5 { right:0; bottom:10%; }
- :global(#buyers-main) .stepsTrack { --step-width:28%; --process-icon:clamp(90px,13svh,125px); gap:24px; scroll-snap-type:none; }
+ :global(#buyers-main) .stepsTrack { --step-width:28%; --process-icon:clamp(60px,5vw,70px); gap:24px; scroll-snap-type:none; }
  :global(#buyers-main) .stepCard { min-height:310px; border-radius:20px; padding:24px 24px calc(var(--process-icon) + 32px); }
  :global(#buyers-main) .stepCard h3 { font-size:clamp(18px,1.45vw,24px); }
  :global(#buyers-main) .stepCard p { font-size:clamp(13px,1vw,16px); line-height:1.6; }
- :global(#buyers-main) .stepArtwork { bottom:24px; }
+ :global(#buyers-main) .stepArtwork { bottom:24px; left:50%; transform:translateX(-50%); }
+ :global(#buyers-main) .stepCurve { width:clamp(190px,17vw,240px); height:auto; left:calc(50% - clamp(190px,17vw,240px) * 0.3616); bottom:0; opacity:0.65; }
  :global(#buyers-main) .stepArrow { width:48px; height:48px; bottom:28px; border-width:6px; right:-36px; }
  :global(#buyers-main) > .benefitSummary { border:0; box-shadow:none; background:linear-gradient(110deg,#f7f8fb,#fff); padding-inline:6%; }
  :global(#buyers-main) .benefitSummary h2 { font-size:clamp(30px,min(3.2vw,5.5dvh),54px); line-height:1.3; }
@@ -531,27 +533,88 @@
 /* Buyer process: original icons and orbit assets retain their reference styling. */
 :global(#buyers-main) > .howItWorks { min-height:0; margin-block:24px; padding-block:40px !important; }
 :global(#buyers-main) .howItWorks .sectionHeader { margin-bottom:28px; }
-:global(#buyers-main) .stepsTrack { --step-width:28%; --step-gap:20px; --process-icon:clamp(82px,7vw,100px); gap:var(--step-gap); padding:16px 2px 24px; scroll-padding-inline:2px; }
-:global(#buyers-main) .stepCard { min-height:clamp(270px,28vw,330px); border-radius:16px; padding:20px 20px calc(var(--process-icon) + 34px); }
+:global(#buyers-main) .stepsTrack { --step-width:28%; --step-gap:20px; --process-icon:clamp(58px,4.8vw,68px); gap:var(--step-gap); padding:16px 2px 24px; scroll-padding-inline:2px; }
+:global(#buyers-main) .stepCard { min-height:clamp(270px,27vw,320px); border-radius:18px; padding:22px 22px calc(var(--process-icon) + 36px); }
 :global(#buyers-main) .stepCard h3 { font-size:clamp(16px,1.45vw,23px); font-weight:800; line-height:1.25; }
 :global(#buyers-main) .stepCard p { font-size:clamp(11px,.92vw,16px); font-weight:600; line-height:1.5; margin-top:8px; }
 :global(#buyers-main) .stepNumber { width:36px; height:36px; font-size:14px; margin-bottom:16px; }
-:global(#buyers-main) .stepArtwork.assetArtwork { bottom:24px; background:transparent; border:0; }
+:global(#buyers-main) .stepArtwork { bottom:24px; left:50% !important; transform:translateX(-50%) !important; }
+:global(#buyers-main) .stepArtwork.assetArtwork { width:clamp(58px,4.8vw,68px); height:clamp(58px,4.8vw,68px); bottom:24px; left:50% !important; transform:translateX(-50%) !important; background:transparent; border:0; }
 :global(#buyers-main) .stepCard .assetArtwork > img { visibility:visible; filter:none; width:100%; height:100%; object-fit:contain; transition:filter .35s ease, transform .35s ease; }
 :global(#buyers-main) .stepCard.activeStep { z-index:5; transform:none; border-color:#e1e8f5; background:#fff; box-shadow:0 14px 24px #10295208; }
 :global(#buyers-main) .stepCard.activeStep .stepNumber { color:#fff; background:#1b56d9; }
-:global(#buyers-main) .stepCard.activeStep .stepArtwork.assetArtwork { width:clamp(112px,9.8vw,142px); height:clamp(112px,9.8vw,142px); bottom:24px; z-index:1; }
-:global(#buyers-main) .stepCard:first-child:not(.activeStep) .assetArtwork { background:#f8f8fa; border:1px solid #f1f2f5; }
+:global(#buyers-main) .stepCard.activeStep .stepArtwork.assetArtwork { width:clamp(64px,5.2vw,74px); height:clamp(64px,5.2vw,74px); bottom:24px; left:50% !important; transform:translateX(-50%) !important; z-index:1; }
+:global(#buyers-main) .stepCard:first-child:not(.activeStep) .assetArtwork { background:#f8f8fa; border:1px solid #f1f2f5; border-radius:50%; }
 :global(#buyers-main) .stepCard:first-child:not(.activeStep) .assetArtwork > img { visibility:hidden; }
 :global(#buyers-main) .stepCard:first-child:not(.activeStep) .activeGlyph { display:block; position:absolute; width:48%; height:48%; color:#a1a3af; }
-:global(#buyers-main) .stepCard:not(:first-child).activeStep .assetArtwork { background:#245ff0; border-radius:50%; }
+:global(#buyers-main) .stepCard:not(:first-child).activeStep .assetArtwork { background:#245ff0; border-radius:50%; box-shadow:0 8px 20px rgba(37,95,243,.22); }
 :global(#buyers-main) .stepCard:not(:first-child).activeStep .assetArtwork > img { visibility:hidden; }
-:global(#buyers-main) .stepCard:not(:first-child).activeStep .activeGlyph { display:block; position:absolute; width:58%; height:58%; color:#fff; }
+:global(#buyers-main) .stepCard:not(:first-child).activeStep .activeGlyph { display:block; position:absolute; width:52%; height:52%; color:#fff; }
 :global(#buyers-main) .stepCard .activeGlyph { display:none; }
-:global(#buyers-main) .stepCurve { width:68%; height:auto; left:16%; bottom:0; opacity:.75; }
+:global(#buyers-main) .stepCurve { width:clamp(190px,17vw,240px); height:auto; left:calc(50% - clamp(190px,17vw,240px) * 0.3616); bottom:0; opacity:0.65; }
 :global(#buyers-main) .stepArrow { width:44px; height:44px; border:6px solid white; bottom:26px; right:calc(-22px - var(--step-gap) / 2); }
 :global(#buyers-main) .stepArrow svg { width:18px; height:18px; }
 @media(max-width:767px) {
- :global(#buyers-main) .stepsTrack { --step-width:84%; --process-icon:92px; }
- :global(#buyers-main) .stepCard { min-height:290px; padding:22px 20px 126px; }
+ :global(#buyers-main) .stepsTrack { --step-width:84%; --process-icon:64px; }
+ :global(#buyers-main) .stepCard { min-height:280px; padding:22px 20px 110px; }
+}
+/* Compact, corner-aligned icon and orbit artwork for both partner process cards. */
+:global(#buyers-main) .howItWorks .stepArtwork.assetArtwork,
+:global(#advertisers-main) .howItWorks .stepArtwork.assetArtwork {
+ width:58px;
+ height:58px;
+ left:calc(34% - 29px) !important;
+ bottom:24px;
+ transform:none !important;
+}
+:global(#buyers-main) .howItWorks .activeStep .stepArtwork.assetArtwork,
+:global(#advertisers-main) .howItWorks .activeStep .stepArtwork.assetArtwork {
+ width:58px;
+ height:58px;
+ left:calc(34% - 29px) !important;
+ bottom:24px;
+}
+:global(#buyers-main) .howItWorks .stepCurve,
+:global(#advertisers-main) .howItWorks .stepCurve {
+ width:min(60%,180px);
+ left:3%;
+ bottom:0;
+ opacity:.58;
+}
+:global(#buyers-main) .howItWorks .stepsTrack,
+:global(#advertisers-main) .howItWorks .stepsTrack {
+ --step-width:26%;
+ --step-gap:clamp(18px,1.5vw,24px);
+ gap:var(--step-gap);
+ padding-inline:14px;
+ scroll-padding-inline:14px;
+ scroll-snap-type:none;
+ scroll-behavior:auto;
+}
+@media(max-width:767px) {
+ :global(#buyers-main) .howItWorks .stepsTrack,
+ :global(#advertisers-main) .howItWorks .stepsTrack { --step-width:78%; }
+}
+/* Step four: match card 3 corner alignment and orbit scaling exactly. */
+:global(#buyers-main) .howItWorks .stepCard:nth-child(4) .stepArtwork.assetArtwork,
+:global(#advertisers-main) .howItWorks .stepCard:nth-child(4) .stepArtwork.assetArtwork {
+ width:58px;
+ height:58px;
+ left:calc(34% - 29px) !important;
+ bottom:24px;
+ transform:none !important;
+}
+:global(#buyers-main) .howItWorks .stepCard:nth-child(4).activeStep .stepArtwork.assetArtwork,
+:global(#advertisers-main) .howItWorks .stepCard:nth-child(4).activeStep .stepArtwork.assetArtwork {
+ width:58px;
+ height:58px;
+ left:calc(34% - 29px) !important;
+ bottom:24px;
+}
+:global(#buyers-main) .howItWorks .stepCard:nth-child(4) .stepCurve,
+:global(#advertisers-main) .howItWorks .stepCard:nth-child(4) .stepCurve {
+ width:calc(min(60%,180px) * 251 / 335);
+ left:3%;
+ bottom:0;
+ opacity:.58;
 }

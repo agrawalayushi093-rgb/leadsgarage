@@ -1,0 +1,74 @@
+/* Shared layout guardrails for laptop, tablet, and phone viewports. */
+html,
+body,
+#root {
+  min-width: 320px;
+  max-width: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body,
+#root {
+  overflow-x: clip;
+}
+
+#root :where(main, section, article, footer) {
+  min-width: 0;
+}
+
+/* MacBook and other compact laptop widths: keep page gutters and section
+   spacing proportional to the available viewport instead of the 1920px frame. */
+@media (min-width: 1101px) and (max-width: 1600px) {
+  :root {
+    --page-gutter: clamp(28px, 5vw, 80px);
+  }
+
+  [data-reference-pages] {
+    --section-pad: clamp(22px, min(3vw, 3.8dvh), 52px);
+    --section-gap: clamp(14px, min(1.8vw, 2.4dvh), 28px);
+    --section-title: clamp(28px, min(2.65vw, 4.6dvh), 48px);
+    --section-copy: clamp(14px, min(1.12vw, 2.1dvh), 20px);
+  }
+}
+
+/* Keep content readable on shorter laptop displays without forcing sections
+   to crop when their text or cards need more vertical room. */
+@media (min-width: 768px) and (max-height: 780px) {
+  [data-reference-pages] {
+    --section-pad: clamp(18px, 2.4dvh, 32px);
+    --section-gap: clamp(12px, 1.8dvh, 20px);
+  }
+
+}
+
+/* Mobile and tablet spacing follows the compact navigation height and lets
+   long sections grow naturally with their content. */
+@media (max-width: 1100px) {
+  [data-reference-pages] section,
+  [data-reference-pages] footer {
+    scroll-margin-top: 92px;
+  }
+}
+
+@media (max-width: 767px) {
+  [data-reference-pages] {
+    --section-pad: clamp(18px, 5vw, 28px);
+    --section-gap: clamp(14px, 4vw, 22px);
+    --section-title: clamp(26px, 7vw, 36px);
+    --section-copy: clamp(14px, 3.8vw, 16px);
+  }
+
+  [data-reference-pages] [data-inner-section] {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

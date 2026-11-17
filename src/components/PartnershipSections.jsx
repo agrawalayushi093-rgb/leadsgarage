@@ -42,24 +42,26 @@ export function HowItWorks({ steps, artworkAssets, curveAssets, title = 'How It 
   useEffect(() => {
     if (!scrollOnWheel || !track.current) return;
     const element = track.current;
+    element.scrollLeft = 0;
     const section = element.closest('section');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0, target = element.scrollLeft;
     const stop = () => { cancelAnimationFrame(frame); frame = 0; };
     const animate = () => {
       const distance = target - element.scrollLeft;
-      element.scrollLeft += Math.abs(distance) < 1 ? distance : distance * .1;
+      element.scrollLeft += Math.abs(distance) < 1 ? distance : distance * .09;
       if (Math.abs(target - element.scrollLeft) > 1) frame = requestAnimationFrame(animate);
       else frame = 0;
     };
     const wheel = event => {
-      if (event.ctrlKey || event.metaKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? element.clientWidth : 1);
+      if (event.ctrlKey || event.metaKey) return;
+      const rawDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      const delta = rawDelta * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? element.clientWidth : 1);
       const max = element.scrollWidth - element.clientWidth;
-      if (!delta || (delta < 0 && element.scrollLeft <= 1) || (delta > 0 && element.scrollLeft >= max - 1)) return;
+      const currentTarget = frame ? target : element.scrollLeft;
+      if (!delta || max <= 1 || (delta < 0 && currentTarget <= 1) || (delta > 0 && currentTarget >= max - 1)) return;
       event.preventDefault(); event.stopPropagation();
-      if (!frame) target = element.scrollLeft;
-      target = Math.max(0, Math.min(max, target + delta * .5));
+      target = Math.max(0, Math.min(max, currentTarget + delta * .32));
       if (reduced.matches) { stop(); element.scrollLeft = target; }
       else if (!frame) frame = requestAnimationFrame(animate);
     };

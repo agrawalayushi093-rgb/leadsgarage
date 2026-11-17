@@ -29,8 +29,8 @@
   padding: clamp(48px, 6vw, 115px) 0 0;
   background-color: #ffffff;
   background-image:
-    url('/image/About/Rectangle 2396 (2).png'),
-    url('/image/About/Rectangle 2396 (1).png');
+    url('/image/About/Rectangle 2396 3 (1).png'),
+    url('/image/About/Rectangle 2396  4.png');
   background-position: left bottom, right bottom;
   background-size: 50.1% 100%, 50.1% 100%;
   background-repeat: no-repeat;
@@ -55,8 +55,14 @@
   isolation: isolate;
   overflow-x: clip;
   width: 100%;
-  padding: clamp(56px, 6vw, 96px) clamp(24px, 4vw, 56px) clamp(64px, 7vw, 112px);
-  background: radial-gradient(ellipse 70% 90% at 50% 0%, #ffffff 35%, #f1f6ff 65%, #e1edff 100%);
+  padding: clamp(48px, 5vw, 84px) clamp(24px, 4vw, 56px) clamp(56px, 6vw, 96px);
+  background-color: #ffffff;
+  background-image:
+    url('/image/About/Rectangle 2396 (2).png'),
+    url('/image/About/Rectangle 2396 (1).png');
+  background-position: left 0 bottom -13.2vw, right 0 bottom -13.2vw;
+  background-size: 60vw auto, 60vw auto;
+  background-repeat: no-repeat;
   text-align: center;
   box-sizing: border-box;
 }
@@ -228,7 +234,7 @@
  .bubble4 { left:30%; top:51%; }
  .bubble5 { right:32%; top:35%; }
  .bubble6 { right:15%; top:59%; }
- .models { padding:6.2vw 19% 6.8vw; background:radial-gradient(ellipse 75% 100% at 50% 0%,#fff 30%,#f2f7ff 65%,#e2edff 100%); }
+ .models { padding:6.2vw clamp(24px, 4vw, 56px) 6.8vw; }
  .models::before { display:none !important; }
  .page .models > h2 { font-size:clamp(22px,2.55vw,49px); }
  .models > p { font-size:clamp(10px,1vw,19px); margin-top:.65vw; }
@@ -334,10 +340,14 @@
 
 /* Content-led spacing keeps these sections connected during continuous scrolling. */
 .page main > .values,
-.page main > .purpose,
+.page main > .purpose {
+ min-height:0;
+ height:auto;
+}
 .page main > .models {
  min-height:0;
  height:auto;
+ padding-block:clamp(48px,5vw,84px) clamp(56px,6vw,96px);
 }
 .page main > .values {
  padding-block:clamp(48px,5vw,80px) clamp(48px,4.5vw,72px);
@@ -350,15 +360,7 @@
 .page .footer { margin-top:0; }
 @media(min-width:768px) {
  .models::after {
-   content:'';
-   position:absolute;
-   top:100%;
-   left:0;
-   width:100%;
-   height:clamp(40px,5vw,90px);
-   background:#e1edff;
-   pointer-events:none;
-   z-index:-1;
+   display: none !important;
  }
 }
 @media(max-width:900px) {
@@ -367,7 +369,11 @@
 @media(max-width:767px) {
  .page main > .values { padding-block:40px; }
  .page main > .purpose { padding-top:48px; }
- .models { padding-block:44px 56px; }
+ .models {
+   padding-block:44px 56px;
+   background-size: 85vw auto, 85vw auto;
+   background-position: left 0 bottom -18vw, right 0 bottom -18vw;
+ }
  .models ol { grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px 18px; margin-top:32px; }
  .models ol::before { display:none; }
 }

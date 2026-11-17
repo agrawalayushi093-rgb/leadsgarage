@@ -1,7 +1,7 @@
 import TypingHighlight from '../components/TypingHighlight';
 import usePageScroll from '../hooks/usePageScroll';
 import React, { useEffect, useRef } from 'react';
-import { ArrowRight, ArrowLeft, Calculator, Smartphone, Workflow, Database } from 'lucide-react';
+import { ArrowRight, Calculator, Smartphone, Workflow, Database } from 'lucide-react';
 import Footer from '../components/Footer';
 import { FloatingIcons } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
@@ -37,21 +37,48 @@ const strengths = [
 export default function WebDevelopment() {
   usePageScroll();
   const strengthsSection = useRef(null);
+  const capabilitiesSection = useRef(null);
   const processTrackRef = useRef(null);
   useEffect(() => {
     const el = processTrackRef.current;
     if (!el) return;
-    const onWheel = e => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        const maxScroll = el.scrollWidth - el.clientWidth;
-        if ((e.deltaY > 0 && el.scrollLeft < maxScroll - 1) || (e.deltaY < 0 && el.scrollLeft > 1)) {
-          e.preventDefault();
-          el.scrollBy({ left: e.deltaY, behavior: 'auto' });
-        }
+    let frame = 0;
+    let target = el.scrollLeft;
+    const stop = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      target = el.scrollLeft;
+    };
+    const animate = () => {
+      const distance = target - el.scrollLeft;
+      if (Math.abs(distance) < 0.75) {
+        el.scrollLeft = target;
+        frame = 0;
+        return;
       }
+      el.scrollLeft += distance * 0.12;
+      frame = requestAnimationFrame(animate);
+    };
+    const onWheel = e => {
+      if (e.ctrlKey || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? el.clientWidth : 1;
+      const delta = e.deltaY * unit * 0.45;
+      const max = el.scrollWidth - el.clientWidth;
+      const next = Math.max(0, Math.min(max, (frame ? target : el.scrollLeft) + delta));
+      if (next === (frame ? target : el.scrollLeft)) return;
+      e.preventDefault();
+      target = next;
+      if (!frame) frame = requestAnimationFrame(animate);
     };
     el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
+    el.addEventListener('pointerdown', stop);
+    el.addEventListener('touchstart', stop, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      el.removeEventListener('wheel', onWheel);
+      el.removeEventListener('pointerdown', stop);
+      el.removeEventListener('touchstart', stop);
+    };
   }, []);
   useEffect(() => {
     const section = strengthsSection.current;
@@ -85,6 +112,25 @@ export default function WebDevelopment() {
       animations.forEach(animation => animation.cancel());
       motion.removeEventListener('change', stopMotion);
     };
+  }, []);
+  useEffect(() => {
+    const section = capabilitiesSection.current;
+    if (!section || !window.IntersectionObserver) return;
+    const motion = matchMedia('(prefers-reduced-motion: reduce)');
+    const cards = section.querySelectorAll('[data-capability-card]');
+    if (motion.matches) {
+      cards.forEach(card => { card.dataset.capabilityVisible = 'true'; });
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.dataset.capabilityVisible = 'true';
+        observer.unobserve(entry.target);
+      });
+    }, { root: section, threshold: 0.16 });
+    cards.forEach(card => observer.observe(card));
+    return () => observer.disconnect();
   }, []);
   useEffect(() => {
     const previous = document.title;
@@ -142,31 +188,15 @@ export default function WebDevelopment() {
           </article>)}</div>
         </section>
 
-        <section data-native-scroll tabIndex={0} className={styles.capabilities} aria-labelledby="capabilities-title">
+        <section ref={capabilitiesSection} data-native-scroll tabIndex={0} className={styles.capabilities} aria-labelledby="capabilities-title">
           <div className={styles.capabilityHeading}><h2 id="capabilities-title">What We <br />Can Develop</h2><p>Flexible solutions tailored to<br />your goals and KPIs.</p></div>
-          {capabilities.map(([icon, title, color], i) => <article key={title} className={styles[`capability${i}`]}><span style={color ? { background: color } : undefined}>{typeof icon === 'string' ? <img src={webAsset(icon)} width="126" height="126" alt="" /> : React.createElement(icon, { size: 34, strokeWidth: 1.8, 'aria-hidden': true })}</span><h3>{title}</h3><p>High-impact strategies designed to deliver consistent results for your specific business goals.</p></article>)}
+          {capabilities.map(([icon, title, color], i) => <article data-capability-card key={title} className={styles[`capability${i}`]}><span style={color ? { background: color } : undefined}>{typeof icon === 'string' ? <img src={webAsset(icon)} width="126" height="126" alt="" /> : React.createElement(icon, { size: 34, strokeWidth: 1.8, 'aria-hidden': true })}</span><h3>{title}</h3><p>High-impact strategies designed to deliver consistent results for your specific business goals.</p></article>)}
         </section>
       </div>
 
       <section className={styles.processSection} aria-labelledby="process-title">
         <div className={styles.processHeader}>
           <h2 id="process-title">Our Development Process</h2>
-          <div className={styles.processArrows}>
-            <button
-              type="button"
-              aria-label="Previous step"
-              onClick={() => processTrackRef.current?.scrollBy({ left: -340, behavior: 'smooth' })}
-            >
-              <ArrowLeft size={18} />
-            </button>
-            <button
-              type="button"
-              aria-label="Next step"
-              onClick={() => processTrackRef.current?.scrollBy({ left: 340, behavior: 'smooth' })}
-            >
-              <ArrowRight size={18} />
-            </button>
-          </div>
         </div>
         <div
           ref={processTrackRef}
