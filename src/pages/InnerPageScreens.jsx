@@ -41,7 +41,7 @@ export default function InnerPageScreens({ children, page }) {
 
     // For content-heavy and multi-card pages like Buyers and Advertisers, allow
     // natural, fluid, and continuous smooth scrolling without snap-locking or section forcing.
-    if (page === 'buyers' || page === 'advertisers' || page === 'affiliateMarketing' || page === 'inboundCalls' || page === 'webDevelopment' || page === 'socialMediaMarketing' || page === 'crmConsultation' || page === 'emailSms') {
+    if (page === 'buyers' || page === 'advertisers' || page === 'affiliateMarketing' || page === 'inboundCalls' || page === 'webDevelopment' || page === 'socialMediaMarketing' || page === 'crmConsultation' || page === 'emailSms' || page === 'listManagement') {
       const content = contentRef.current;
       const root = document.documentElement;
       const spacer = document.querySelector('.site-header-spacer');

@@ -15,7 +15,7 @@ const menus = {
     ['Affiliate Marketing', 'Performance programs that help you acquire customers.', Users, '/affiliate-marketing'],
     ['PPC', 'Connect with high-intent customers through Pay Per Call.', PhoneIncoming, '/ppc'],
     ['Email & SMS', 'Reach your audience with targeted campaigns.', Mail, '/email-sms'],
-    ['List Management', 'Clean, verified data for better reach.', Database],
+    ['List Management', 'Clean, verified data for better reach.', Database, '/list-management'],
     ['CRM Consultation', 'Connect your customer journey from lead to conversion.', Target, '/crm-consultation'],
     ['Web Development', 'Build digital experiences that drive growth.', Code, '/web-development'],
     ['SMM (Social Media Marketing)', 'Connect with your audience across social channels.', BarChart3, '/social-media-marketing']
@@ -55,7 +55,7 @@ export default function Navbar({ page = 'home' }) {
   }, [activeDropdown]);
   const close = () => { setActiveDropdown(null); setMobileMenuOpen(false); };
   const links = name => menus[name].items.map(([label, description, Icon, href]) => (
-    <a key={label} href={pageLink(href || menus[name].href)} className={styles.megaLink} aria-current={((page === 'buyers' && href === '/buyers') || (page === 'advertisers' && href === '/advertisers') || (page === 'affiliateMarketing' && href === '/affiliate-marketing') || (page === 'inboundCalls' && href === '/ppc')) ? 'page' : undefined} onClick={close}>
+    <a key={label} href={pageLink(href || menus[name].href)} className={styles.megaLink} aria-current={((page === 'buyers' && href === '/buyers') || (page === 'advertisers' && href === '/advertisers') || (page === 'affiliateMarketing' && href === '/affiliate-marketing') || (page === 'inboundCalls' && href === '/ppc') || (page === 'listManagement' && href === '/list-management')) ? 'page' : undefined} onClick={close}>
       <Icon aria-hidden="true" /><span><strong>{label}</strong><small>{description}</small></span>
     </a>
   ));
@@ -72,7 +72,7 @@ export default function Navbar({ page = 'home' }) {
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             <div><a href={pageLink('#hero')} onMouseEnter={() => setActiveDropdown(null)} className="flex items-center text-xs xl:text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors py-1">Home</a></div>
             {Object.keys(menus).map(name => <div key={name} onMouseEnter={() => setActiveDropdown(name)}>
-              <button ref={el => { triggerRefs.current[name] = el; }} type="button" className={`${styles.trigger} ${activeDropdown === name || (['buyers', 'advertisers'].includes(page) && name === 'Partnerships') || (['inboundCalls', 'affiliateMarketing'].includes(page) && name === 'Solutions') ? styles.active : ''}`}
+              <button ref={el => { triggerRefs.current[name] = el; }} type="button" className={`${styles.trigger} ${activeDropdown === name || (['buyers', 'advertisers'].includes(page) && name === 'Partnerships') || (['inboundCalls', 'affiliateMarketing', 'listManagement'].includes(page) && name === 'Solutions') ? styles.active : ''}`}
                 aria-expanded={activeDropdown === name} aria-controls={`mega-${name}`} onClick={() => setActiveDropdown(name)}
                 onKeyDown={e => { if (e.key === 'ArrowDown') { e.preventDefault(); setActiveDropdown(name); requestAnimationFrame(() => headerRef.current?.querySelector(`#mega-${name} a`)?.focus()); } }}>
                 {name}

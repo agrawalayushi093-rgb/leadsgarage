@@ -7,6 +7,7 @@ import Buyers from './pages/Buyers';
 import Advertisers from './pages/Advertisers';
 import InboundCallSolutions from './pages/InboundCallSolutions';
 import AffiliateMarketing from './pages/AffiliateMarketing';
+import ListManagement from './pages/ListManagement';
 import WebDevelopment from './pages/WebDevelopment';
 import { CRMConsultation, EmailSms } from './pages/CustomerSolutions';
 import SocialMediaMarketing from './pages/SocialMediaMarketing';
@@ -20,7 +21,7 @@ import Navbar from './components/Navbar';
 import { pageRoutes, pageUrl } from './utils/pageRoutes';
 import { MotionConfig } from 'framer-motion';
 
-const pages = { crmConsultation: CRMConsultation, emailSms: EmailSms, home: Home, buyers: Buyers, advertisers: Advertisers, inboundCalls: InboundCallSolutions, affiliateMarketing: AffiliateMarketing, webDevelopment: WebDevelopment, socialMediaMarketing: SocialMediaMarketing, insurance: InsuranceSolutions, homeServices: HomeServices, finance: FinanceSolutions, healthAndBeauty: HealthAndBeauty, about: AboutUs };
+const pages = { crmConsultation: CRMConsultation, emailSms: EmailSms, home: Home, buyers: Buyers, advertisers: Advertisers, inboundCalls: InboundCallSolutions, affiliateMarketing: AffiliateMarketing, listManagement: ListManagement, webDevelopment: WebDevelopment, socialMediaMarketing: SocialMediaMarketing, insurance: InsuranceSolutions, homeServices: HomeServices, finance: FinanceSolutions, healthAndBeauty: HealthAndBeauty, about: AboutUs };
 
 export default function App() {
   const [introComplete, setIntroComplete] = useState(hasSeenIntro);
@@ -31,6 +32,8 @@ export default function App() {
     [`${import.meta.env.BASE_URL}buyers`]: 'buyers',
     [`${import.meta.env.BASE_URL}advertisers`]: 'advertisers',
     [`${import.meta.env.BASE_URL}solutions/inbound-call-solutions`]: 'inboundCalls',
+    [`${import.meta.env.BASE_URL}list-management`]: 'listManagement',
+    [`${import.meta.env.BASE_URL}solutions/list-management`]: 'listManagement',
     [`${import.meta.env.BASE_URL}finance-solutions`]: 'finance',
     [`${import.meta.env.BASE_URL}health-and-beauty`]: 'healthAndBeauty',
     [`${import.meta.env.BASE_URL}insurance-solutions`]: 'insurance',

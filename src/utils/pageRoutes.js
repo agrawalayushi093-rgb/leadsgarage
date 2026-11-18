@@ -5,6 +5,7 @@ export const pageRoutes = {
   advertisers: 'partnerships/advertisers',
   inboundCalls: 'solutions/ppc',
   affiliateMarketing: 'solutions/affiliate-marketing',
+  listManagement: 'solutions/list-management',
   crmConsultation: 'solutions/crm-consultation',
   emailSms: 'solutions/email-sms',
   webDevelopment: 'solutions/web-development',
@@ -21,6 +22,7 @@ export function pageUrl(page) {
 }
 
 export function navigationUrl(href, page) {
+  if (href === '/list-management' || href === '/listmanagement') return pageUrl('listManagement');
   if (href === '/crm-consultation') return pageUrl('crmConsultation');
   if (href === '/email-sms') return pageUrl('emailSms');
   if (href === '/home-services') return page === 'home' ? '#solutions' : pageUrl('homeServices');
