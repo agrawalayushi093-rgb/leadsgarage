@@ -68,8 +68,8 @@ export default function Footer({ page = 'home', columns: propColumns, compactQue
      </details>
     </nav>)}
     <address id="contact" className={styles.contact}>
-     <div><span className={styles.contactIcon}><MapPin size={19} /></span><p>123 Digital Ave, Tech City, TC 12345</p></div>
-     <div><span className={styles.contactIcon}><Mail size={19} /></span><a href="mailto:support@leadsgarage">support@leadsgarage</a></div>
+     <div><span className={styles.contactIcon}><MapPin size={19} /></span><p>H No 65 Shiv Kasturi Vatika<br />Gram Barrai Bag Mungalia Huzur, Madhya Pradesh, 462043<br />India</p></div>
+     <div><span className={styles.contactIcon}><Mail size={19} /></span><a href="mailto:support@leadsgarage.com">support@leadsgarage.com</a></div>
     </address>
    </div>
    <div className={styles.bottom}>

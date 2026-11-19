@@ -1,7 +1,7 @@
 import TypingHighlight from '../components/TypingHighlight';
 import usePageScroll from '../hooks/usePageScroll';
-import React, { useEffect, useRef } from 'react';
-import { ArrowRight, Calculator, Smartphone, Workflow, Database } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ArrowLeft, ArrowRight, Calculator, Smartphone, Workflow, Database } from 'lucide-react';
 import Footer from '../components/Footer';
 import { FloatingIcons } from '../components/PartnershipSections';
 import { publicAsset } from '../utils/publicAsset';
@@ -39,6 +39,18 @@ export default function WebDevelopment() {
   const strengthsSection = useRef(null);
   const capabilitiesSection = useRef(null);
   const processTrackRef = useRef(null);
+  const [processIndex, setProcessIndex] = useState(0);
+  const processSwipe = useRef(null);
+  const scrollProcess = direction => {
+    if (matchMedia('(max-width:767px)').matches) {
+      setProcessIndex(index => Math.max(0, Math.min(processSteps.length - 1, index + direction)));
+      return;
+    }
+    const track = processTrackRef.current;
+    if (!track?.firstElementChild) return;
+    const step = track.firstElementChild.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap);
+    track.scrollBy({ left:direction * step, behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+  };
   useEffect(() => {
     const el = processTrackRef.current;
     if (!el) return;
@@ -128,7 +140,7 @@ export default function WebDevelopment() {
         entry.target.dataset.capabilityVisible = 'true';
         observer.unobserve(entry.target);
       });
-    }, { root: section, threshold: 0.16 });
+    }, { threshold: 0.16 });
     cards.forEach(card => observer.observe(card));
     return () => observer.disconnect();
   }, []);
@@ -204,9 +216,18 @@ export default function WebDevelopment() {
           tabIndex={0}
           aria-label="Development process steps"
           data-native-scroll
+          onPointerDown={event => { if (event.pointerType === 'touch') processSwipe.current = { x:event.clientX, y:event.clientY }; }}
+          onPointerCancel={() => { processSwipe.current = null; }}
+          onPointerUp={event => {
+            const start = processSwipe.current;
+            processSwipe.current = null;
+            if (!start || !matchMedia('(max-width:767px)').matches) return;
+            const dx = event.clientX - start.x, dy = event.clientY - start.y;
+            if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy)) scrollProcess(dx < 0 ? 1 : -1);
+          }}
         >
-          {processSteps.map(([num, title, copy, image]) => (
-            <article key={title} className={styles.processCard}>
+          {processSteps.map(([num, title, copy, image], index) => (
+            <article key={title} className={styles.processCard} data-selected={index === processIndex}>
               <span className={styles.processStepNumber}>{num}</span>
               <h3>{title}</h3>
               <p>{copy}</p>
@@ -219,6 +240,11 @@ export default function WebDevelopment() {
             </article>
           ))}
         </div>
+        <nav className={styles.processArrows} aria-label="Development process navigation">
+          <button type="button" aria-label="Previous development step" disabled={processIndex === 0} onClick={() => scrollProcess(-1)}><ArrowLeft size={20} /></button>
+          <span aria-live="polite">{String(processIndex + 1).padStart(2,'0')} / 06</span>
+          <button type="button" aria-label="Next development step" disabled={processIndex === processSteps.length - 1} onClick={() => scrollProcess(1)}><ArrowRight size={20} /></button>
+        </nav>
       </section>
     </main>
 

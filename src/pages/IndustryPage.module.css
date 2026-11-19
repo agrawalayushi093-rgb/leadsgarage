@@ -1208,6 +1208,14 @@
 /* Viewport compositions without snapping, forced navigation, or scrollend jumps. */
 .industryGrid { scrollbar-width:none; -ms-overflow-style:none; scroll-snap-type:none; padding-bottom:8px; }
 .industryGrid::-webkit-scrollbar { display:none; width:0; height:0; }
+@media(max-width:767px) {
+ .industryRow .industryGrid { display:grid; grid-template-columns:minmax(0,1fr); width:90%; max-height:none; margin:0 auto; padding:4px 0 16px; gap:24px; overflow:visible; }
+ .industryGrid .industryItem { width:100%; min-width:0; flex:none; }
+ .industryGrid .industryItem > img { max-height:none; }
+ .industryGrid .industryItem > div { padding:22px; }
+ .industryGrid .industryItem h3 { font-size:22px; }
+ .industryGrid .industryItem p { font-size:15px; }
+}
 .insurancePeople,.insuranceMegaphone { position:absolute; z-index:4; display:grid; place-items:center; color:#0578f8; filter:drop-shadow(0 8px 5px #083b9950); pointer-events:none; }
 .insurancePeople { top:-16%; left:-15%; width:32%; transform:rotate(-7deg); }
 .insurancePeople svg { width:100%; height:auto; stroke-width:2.7; fill:#19bbff; }
