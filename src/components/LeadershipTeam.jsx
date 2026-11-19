@@ -1,10 +1,12 @@
 import { publicAsset } from '../utils/publicAsset';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './LeadershipTeam.module.css';
 
 export default function LeadershipTeam() {
   const [hoveredLeader, setHoveredLeader] = useState(null);
+  const [selectedLeader, setSelectedLeader] = useState(null);
+  const lastPointerType = useRef(null);
   useEffect(() => {
     [publicAsset("/image/Home/harshit_s.png"), publicAsset("/image/Home/kunal_s.png")].forEach(src => {
       const image = new Image();
@@ -55,17 +57,24 @@ export default function LeadershipTeam() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.15 }}
               tabIndex={0}
-              onMouseEnter={() => { if (window.matchMedia('(hover: hover)').matches) setHoveredLeader(leader.name); }}
-              onMouseLeave={() => setHoveredLeader(null)}
+              onPointerDown={(event) => { lastPointerType.current = event.pointerType; }}
+              onPointerEnter={(event) => { if (event.pointerType === 'mouse' && window.matchMedia('(hover: hover)').matches) setHoveredLeader(leader.name); }}
+              onPointerLeave={(event) => { if (event.pointerType === 'mouse') setHoveredLeader(null); }}
               onFocus={() => { if (window.matchMedia('(hover: hover)').matches) setHoveredLeader(leader.name); }}
-              onClick={(event) => { if (event.target.closest('a')) return; if (!window.matchMedia('(hover: hover)').matches) setHoveredLeader(hoveredLeader === leader.name ? null : leader.name); }}
+              onClick={(event) => {
+                if (event.target.closest('a')) return;
+                if (lastPointerType.current === 'touch' || lastPointerType.current === 'pen' || !window.matchMedia('(hover: hover)').matches) {
+                  setHoveredLeader(null);
+                  setSelectedLeader(current => current === leader.name ? null : leader.name);
+                }
+              }}
               onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHoveredLeader(null); }}
-              data-active={hoveredLeader === leader.name} className={`leader-card ${styles.card}`}
+              data-active={selectedLeader === leader.name || hoveredLeader === leader.name} className={`leader-card ${styles.card}`}
             >
               {/* Photo Container */}
               <div className={`portrait-container ${styles.portrait}`}>
                 <img
-                  src={hoveredLeader === leader.name ? leader.hoverImage : leader.image}
+                  src={selectedLeader === leader.name || hoveredLeader === leader.name ? leader.hoverImage : leader.image}
                   alt={leader.name}
                   className="w-full h-auto block object-contain"
                 />
@@ -79,7 +88,7 @@ export default function LeadershipTeam() {
               <p className="leader-role">{leader.role}</p>
 
               {/* Hidden initially, smooth reveal when hovered */}
-              <div data-expanded={hoveredLeader === leader.name} className="leader-details overflow-hidden transition-all duration-300 ease-in-out">
+              <div data-expanded={selectedLeader === leader.name || hoveredLeader === leader.name} className="leader-details overflow-hidden transition-all duration-300 ease-in-out">
 
                 {/* Divider Line */}
                 <div className="w-24 h-[1px] bg-slate-200/80 mx-auto mb-3" />

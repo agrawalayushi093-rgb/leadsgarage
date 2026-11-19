@@ -65,6 +65,9 @@
 .socials a { width:40px; height:40px; border-radius:12px; }
 .contactButton { min-height:46px; font-size:15px; padding:8px 10px 8px 22px; }
 .contactButton span { width:28px; height:28px; }
+@media(max-width:767px) {
+ .footer .bottom .contactButton { display:none; }
+}
 @media(max-width:639px) {
  .footer { padding:20px; border-radius:24px; }
  .columns { grid-template-columns:1fr; gap:0; padding-bottom:20px; }

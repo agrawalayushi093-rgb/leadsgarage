@@ -245,3 +245,13 @@
 @media(min-width:1024px) { .cardCopy,.active .cardCopy { padding:calc(32 * var(--figma-unit)); }.phone { left:auto; right:-3%; bottom:-5%; width:53%; height:auto; max-height:82%; } }
 @media(max-width:767px) { .cardCopy,.active .cardCopy { padding:22px; }.phone { left:auto; right:-5%; bottom:-4%; width:52%; height:auto; max-height:75%; }:global(#quality) .active p { max-width:60%; } }
 @media(max-height:500px) { .cardCopy,.active .cardCopy { padding:14px; }:global(#quality) .active p { margin-top:8px; } }
+
+/* Keep mobile navigation below the timeline, at the panel's right edge. */
+@media(max-width:767px) {
+ :global(#quality).section > .panel { padding-bottom:76px; }
+ .controls { position:absolute; right:5.5%; bottom:16px; }
+ .controls button { display:grid; place-items:center; min-width:40px; min-height:40px; padding:10px; }
+}
+@media(max-width:767px) and (prefers-reduced-motion:reduce) {
+ :global(#quality).section > .panel { position:relative; }
+}

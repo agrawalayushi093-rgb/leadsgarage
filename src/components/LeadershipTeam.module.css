@@ -24,12 +24,12 @@
 :global(#team).section .portrait img { display:block; width:100%; height:100%; object-fit:cover; }
 :global(#team).section .card h3 { font-size:calc(40 * var(--figma-unit)); line-height:1.2; font-weight:600; white-space:normal; color:#444; margin:0; }
 :global(#team).section .card :global(.leader-role) { font-size:calc(20 * var(--figma-unit)); line-height:1.4; margin-top:calc(16 * var(--figma-unit)); }
-:global(#team).section .card :global(.leader-details),
-:global(#team).section .card:focus-within > div:last-child {
+:global(#team).section .card :global(.leader-details) {
  height:calc(132 * var(--figma-unit)); max-height:calc(132 * var(--figma-unit)); opacity:0; margin:calc(16 * var(--figma-unit)) 0 0;
  transition:opacity .35s ease;
 }
 :global(#team).section .card :global(.leader-details)[data-expanded="true"] { opacity:1; }
+:global(#team).section .card[data-active="false"] :global(.leader-details)[data-expanded="false"] { opacity:0; pointer-events:none; }
 :global(#team).section .card :global(.leader-details) p { font-size:calc(16 * var(--figma-unit)); }
 :global(#team).section .card a { display:grid; place-items:center; width:calc(64 * var(--figma-unit)); height:calc(64 * var(--figma-unit)); min-width:0; min-height:0; border-radius:50%; }
 .card:focus-visible { outline:3px solid #2870ef; outline-offset:4px; }
@@ -40,9 +40,10 @@
  :global(#team).section .card .portrait { margin-bottom:14px; border-radius:14px; max-height:none; }
  :global(#team).section .card h3 { font-size:clamp(15px,3.5vw,24px); }
  :global(#team).section .card :global(.leader-role) { font-size:11px; margin-top:6px; }
- :global(#team).section .card :global(.leader-details) { height:104px; max-height:104px; margin-top:10px; }
+ :global(#team).section .card :global(.leader-details) { height:104px; max-height:104px; margin-top:10px; opacity:0; pointer-events:none; }
+ :global(#team).section .card[data-active="true"] :global(.leader-details)[data-expanded="true"] { opacity:1; pointer-events:auto; }
  :global(#team).section .card :global(.leader-details) p { font-size:10px; }
- :global(#team).section .card a { width:36px; height:36px; }
+ :global(#team).section .card a { width:44px; height:44px; }
 }
 @media (prefers-reduced-motion: reduce) { :global(#team).section .card, :global(#team).section .card :global(.leader-details) { transition:none; } }
 

@@ -150,3 +150,13 @@
 }
 @media (max-width:639px) { .connect { height:36px; } }
 @media (max-width:639px) and (max-height:650px) { .connect { height:32px; } }
+
+/* Touch layouts show both complete card treatments without requiring hover. */
+@media (max-width:767px) {
+ .card { color:white; }
+ .card::before { opacity:1; }
+ .card .illustration { opacity:1; transform:translateY(0); }
+ .card .connect { box-shadow:0 7px 12px -8px #fff; }
+ :global(#audience).section:has(.card[data-active="true"]) > .curvesFront { z-index:0; }
+ :global(#audience).section:has(.card[data-active="true"]) > .curveCutout { display:none; }
+}

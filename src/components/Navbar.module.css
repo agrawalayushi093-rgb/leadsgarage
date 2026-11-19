@@ -85,6 +85,10 @@
 @media (max-width:1100px) { .megaPosition { display: none; } }
 .resources { grid-template-columns: 44% 56%; }
 .resources .intro { display: none; }
+@media(max-width:767px) {
+ .header.header > nav > div { height:64px; padding-inline:18px; }
+ .header.header > nav > div > div:first-child > a > img { width:clamp(130px,38vw,160px); height:auto; }
+}
 .resources .linkGrid { padding: 22px 26px; }
 .resourceTitle { font-size: 26px; font-weight: 500; margin-bottom: 10px; }
 .resourceCards { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; border-left: 1px solid #e7eef0; padding: 22px; }

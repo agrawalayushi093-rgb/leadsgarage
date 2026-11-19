@@ -69,7 +69,7 @@ export default function Footer({ page = 'home', columns: propColumns, compactQue
     </nav>)}
     <address id="contact" className={styles.contact}>
      <div><span className={styles.contactIcon}><MapPin size={19} /></span><p>123 Digital Ave, Tech City, TC 12345</p></div>
-     <div><span className={styles.contactIcon}><Mail size={19} /></span><a href="mailto:Support@Leadsgarage">Support@Leadsgarage</a></div>
+     <div><span className={styles.contactIcon}><Mail size={19} /></span><a href="mailto:support@leadsgarage">support@leadsgarage</a></div>
     </address>
    </div>
    <div className={styles.bottom}>

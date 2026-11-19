@@ -59,7 +59,8 @@ export default function QualityControl() {
       const panelWidth = viewport.current.clientWidth;
       const referenceHeight = panelWidth >= 900 ? panelWidth * .575 : height - top - 20;
       element.style.setProperty('--quality-height', `${Math.max(220, Math.min(height - top - 20, referenceHeight))}px`);
-      element.style.setProperty('--quality-travel', `${Math.max(160, height * .36) * (slides.length - 1)}px`);
+      const travelPerCard = matchMedia('(max-width: 767px)').matches ? .45 : .36;
+      element.style.setProperty('--quality-travel', `${Math.max(160, height * travelPerCard) * (slides.length - 1)}px`);
       element.style.setProperty('--active-card-width', `${Math.min(panelWidth >= 900 ? panelWidth * .336 : 460, panelWidth - 32)}px`);
       distance = Math.max(1, element.offsetHeight - height + top);
       scroll();
