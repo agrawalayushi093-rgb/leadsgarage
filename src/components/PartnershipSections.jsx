@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import Footer from './Footer';
 import { publicAsset } from '../utils/publicAsset';
 import styles from './PartnershipPage.module.css';
@@ -38,6 +38,7 @@ export function HowItWorks({ steps, artworkAssets, curveAssets, title = 'How It 
   const track = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
   const active = useRef(0);
+  const swipe = useRef(null);
   const programmaticUntil = useRef(0);
   useEffect(() => {
     if (!scrollOnWheel || !track.current) return;
@@ -76,6 +77,11 @@ export function HowItWorks({ steps, artworkAssets, curveAssets, title = 'How It 
   }, [scrollOnWheel]);
   const goToStep = useCallback(index => {
     const next = Math.max(0, Math.min(steps.length - 1, index));
+    if (matchMedia('(max-width:767px)').matches) {
+      active.current = next;
+      setActiveStep(next);
+      return;
+    }
     const element = track.current;
     if (!element) return;
     const visible = parseInt(getComputedStyle(element).getPropertyValue('--visible-steps'), 10) || 1;
@@ -93,6 +99,7 @@ export function HowItWorks({ steps, artworkAssets, curveAssets, title = 'How It 
   // Allow natural vertical page scrolling; horizontal carousel navigation is handled via
   // native touch/trackpad swipe, arrow buttons, and keyboard controls.
   const syncStep = () => {
+    if (matchMedia('(max-width:767px)').matches) return;
     if (performance.now() < programmaticUntil.current) return;
     const container = track.current;
     const maxScroll = container.scrollWidth - container.clientWidth;
@@ -103,18 +110,30 @@ export function HowItWorks({ steps, artworkAssets, curveAssets, title = 'How It 
   };
   return <section className={`${styles.container} ${styles.howItWorks} ${className}`} aria-labelledby="steps-title" data-process-reveal={scrollOnWheel ? '' : undefined}>
     <div className={styles.sectionHeader}><h2 id="steps-title">{title}</h2></div>
-    <div ref={track} className={`${styles.stepsTrack} ${styles.hiddenScrollbars}`} onScroll={syncStep} role="region" aria-label={label} tabIndex={0} onKeyDown={event => {
+    <div ref={track} className={`${styles.stepsTrack} ${styles.hiddenScrollbars}`} onScroll={syncStep} role="region" aria-label={label} tabIndex={0}
+    onPointerDown={event => { if (event.pointerType === 'touch') swipe.current = {x:event.clientX,y:event.clientY}; }}
+    onPointerCancel={() => { swipe.current = null; }}
+    onPointerUp={event => {
+      const start = swipe.current; swipe.current = null;
+      if (!start || !matchMedia('(max-width:767px)').matches) return;
+      const dx = event.clientX - start.x, dy = event.clientY - start.y;
+      if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy)) goToStep(active.current + (dx < 0 ? 1 : -1));
+    }} onKeyDown={event => {
       const next = event.key === 'ArrowRight' ? active.current + 1 : event.key === 'ArrowLeft' ? active.current - 1 : event.key === 'Home' ? 0 : event.key === 'End' ? steps.length - 1 : undefined;
       if (next !== undefined) { event.preventDefault(); goToStep(next); }
     }}>
-      {steps.map(([Icon, title, description], index) => <article className={`${styles.stepCard} ${activeStep === index ? styles.activeStep : ''} ${curveAssets?.[index] ? styles.customCurve : ''}`} key={title} style={{ '--step-layer': steps.length - index }} aria-current={activeStep === index ? 'step' : undefined}>
+      {steps.map(([Icon, title, description], index) => <article data-mobile-selected={activeStep === index} className={`${styles.stepCard} ${activeStep === index ? styles.activeStep : ''} ${curveAssets?.[index] ? styles.customCurve : ''}`} key={title} style={{ '--step-layer': steps.length - index }} aria-current={activeStep === index ? 'step' : undefined}>
         <span className={styles.stepNumber}>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{description}</p>
         {curveAssets?.[index] && <img className={styles.stepCurve} src={publicAsset(curveAssets[index])} alt="" width="354" height="171" />}
         <div className={`${styles.stepArtwork} ${artworkAssets?.[index] ? styles.assetArtwork : ''}`} aria-hidden="true">{artworkAssets?.[index] ? <><img src={publicAsset(artworkAssets[index])} alt="" width="170" height="170" /><Icon className={styles.activeGlyph} size={58} strokeWidth={1.6} /></> : <Icon size={58} strokeWidth={1.6} />}</div>
         {showConnectors && index < steps.length - 1 && <button className={styles.stepArrow} type="button" aria-label={`Go to step ${index + 2}`} onClick={() => goToStep(index + 1)}><ArrowRight size={24} /></button>}
       </article>)}
     </div>
-
+    <nav className={styles.mobileProcessControls} aria-label={`${title} navigation`}>
+      <button type="button" aria-label="Previous process step" disabled={activeStep === 0} onClick={() => goToStep(active.current - 1)}><ArrowLeft size={20}/></button>
+      <span aria-live="polite">{String(activeStep + 1).padStart(2,'0')} / {String(steps.length).padStart(2,'0')}</span>
+      <button type="button" aria-label="Next process step" disabled={activeStep === steps.length - 1} onClick={() => goToStep(active.current + 1)}><ArrowRight size={20}/></button>
+    </nav>
   </section>;
 }
 

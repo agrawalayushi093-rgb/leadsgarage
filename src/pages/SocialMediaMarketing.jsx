@@ -3,7 +3,7 @@ import usePageScroll from '../hooks/usePageScroll';
 import React, { useEffect } from 'react';
 import { Megaphone, UsersRound, ShieldCheck, MessagesSquare, Sparkles, ScanFace, Compass, PenTool, CalendarDays, Target, Search, MousePointerClick, TrendingUp, ArrowUpRight, ArrowRight } from 'lucide-react';
 import Footer from '../components/Footer';
-import MobileCardCarousel from '../components/MobileCardCarousel';
+
 import { publicAsset } from '../utils/publicAsset';
 import styles from './GrowthPages.module.css';
 import assets from './SocialMediaAssets.module.css';
@@ -93,7 +93,7 @@ export default function SocialMediaMarketing() {
       <section className={`${styles.panel} ${styles.center} ${assets.benefits} ${screen.benefitSection}`} aria-labelledby="social-benefits-title">
         <h2 id="social-benefits-title">What Can Social Media Do for Your Business?</h2>
         <p className={`${styles.intro} ${screen.benefitSubtitle}`}>When used strategically, social media can create powerful opportunities for growth and long-term success.</p>
-        <MobileCardCarousel className={`${styles.cards} ${screen.benefitGrid}`} role="region" aria-label="Social media benefits" tabIndex={0}>
+        <div className={`${styles.cards} ${screen.benefitGrid}`} role="region" aria-label="Social media benefits" tabIndex={0}>
           {benefits.map(([, title, description], index) => (
             <article className={`${styles.card} ${screen.benefitCard}`} key={title}>
               <img className={`${assets.benefitIcon} ${screen.benefitIcon}`} src={socialAsset(benefitIcons[index])} width="66" height="66" alt="" />
@@ -101,7 +101,7 @@ export default function SocialMediaMarketing() {
               <p className={screen.benefitDescription}>{description}</p>
             </article>
           ))}
-        </MobileCardCarousel>
+        </div>
         <p className={screen.railHint}>Swipe to explore the benefits</p>
       </section>
       <section className={`${screen.servicesSection} ${screen.services}`} aria-labelledby="social-services-title">
@@ -114,7 +114,7 @@ export default function SocialMediaMarketing() {
             We manage your social media from strategy to execution and continuous growth.
           </p>
         </div>
-        <MobileCardCarousel className={screen.serviceGrid} role="region" aria-label="Social media services" tabIndex={0}>
+        <div className={screen.serviceGrid} role="region" aria-label="Social media services" tabIndex={0}>
           {services.map(([Icon, title, description, color], index) => (
             <article key={title} className={screen.serviceCard} style={{ '--accent': color }}>
               {serviceIcons[index] ? (
@@ -126,12 +126,12 @@ export default function SocialMediaMarketing() {
               <p className={screen.serviceDescription}>{description}</p>
             </article>
           ))}
-        </MobileCardCarousel>
+        </div>
         <p className={screen.railHint}>Swipe to explore our services</p>
       </section>
       <section className={`${screen.journeySection} ${screen.journeyFrame}`} aria-labelledby="social-journey-title">
         <h2 id="social-journey-title" className={screen.journeyHeading}>From Attention to Action</h2>
-        <MobileCardCarousel className={screen.journeyGrid} role="region" aria-label="Social media journey" tabIndex={0}>
+        <div className={screen.journeyGrid} role="region" aria-label="Social media journey" tabIndex={0}>
           {journey.map(([, title, description], index) => (
             <article key={title} className={screen.journeyCard}>
               <div className={screen.journeyHeader}>
@@ -153,7 +153,7 @@ export default function SocialMediaMarketing() {
               </div>
             </article>
           ))}
-        </MobileCardCarousel>
+        </div>
         <p className={screen.railHint}>Swipe to explore the journey</p>
       </section>
       <section className={`${styles.container} ${styles.section}`} aria-labelledby="social-partner-title"><div className={styles.split}><h2 id="social-partner-title">Why Partner With<br />Leadsgarage?</h2><p className={styles.intro}>We combine creativity, strategy, and data to deliver social media marketing that creates real business impact. Our focus is on building meaningful connections and driving measurable growth for your brand.</p></div><div className={styles.metrics}>{[['200+', 'Successful Campaigns'], ['150+', 'Happy Clients'], ['50M+', 'People Reached'], ['250%', 'Average Growth in Engagement']].map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></section>

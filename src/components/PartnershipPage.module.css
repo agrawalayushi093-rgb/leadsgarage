@@ -618,3 +618,14 @@
  bottom:0;
  opacity:.58;
 }
+
+.mobileProcessControls { display:none; }
+@media(max-width:767px) {
+ :global(#root) .howItWorks .stepsTrack { display:block; overflow:visible; width:100%; height:auto; scroll-snap-type:none; touch-action:pan-y; padding:8px 0 16px; }
+ :global(#root) .howItWorks .stepsTrack > .stepCard { width:100%; max-width:none; margin:0; position:relative; inset:auto; transform:none; }
+ :global(#root) .howItWorks .stepsTrack > [data-mobile-selected="false"] { display:none; }
+ :global(#root) .howItWorks .stepArrow { display:none; }
+ .mobileProcessControls { display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-top:12px; color:#64748b; font-size:14px; }
+ .mobileProcessControls button { display:grid; place-items:center; width:44px; height:44px; background:white; color:#255ff3; border:1px solid #dce5f5; border-radius:50%; }
+ .mobileProcessControls button:disabled { opacity:.35; }
+}

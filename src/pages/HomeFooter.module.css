@@ -4,6 +4,7 @@
  overflow:hidden;
  background:url('/image/Home/Ellipse 568.png') center clamp(-200px,-12vw,-70px) / min(85%,1250px) auto no-repeat,linear-gradient(160deg,#6894ff 0%,#2f60dd 78%);
 }
+.shell.shell { margin-top:0; margin-bottom:0; box-shadow:none; }
 .shell::before {
  content:'';
  position:absolute;

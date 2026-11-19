@@ -29,9 +29,11 @@ export default function Home({ introComplete = true }) {
         <LeadershipTeam />
       </main>
 
+      <div className={styles.footerTransition}>
       <div className={`${shared.footerShell} ${footerStyles.shell}`}>
         <DashboardCTA contactHref="#contact" />
         <Footer page="home" />
+      </div>
       </div>
     </div>
   );
